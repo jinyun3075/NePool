@@ -1,4 +1,4 @@
-package com.NePool.demo;
+package com.NePool.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.NePool.demo;
+package com.NePool.app;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
