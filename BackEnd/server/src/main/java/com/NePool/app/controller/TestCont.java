@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 @Log4j2
 public class TestCont {
     @GetMapping({"/","list"})
-    public TestDto list(TestDto dto) {
+    public String list(TestDto dto) {
         log.info(dto);
-        return dto;
+        return "dto";
     }
     @GetMapping("/{one}/{title}")
     public TestDto list2(TestDto dto) {
