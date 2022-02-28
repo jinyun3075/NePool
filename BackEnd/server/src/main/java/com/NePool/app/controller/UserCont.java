@@ -1,13 +1,23 @@
 package com.NePool.app.controller;
 
 import com.NePool.app.TestDto;
+import com.NePool.app.dto.UserDTO;
+import com.NePool.app.entity.User;
+import com.NePool.app.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/user")
 @Log4j2
-public class TestCont {
+@RequiredArgsConstructor // 자동주입
+public class UserCont {
+    private final UserService service;
+    @PostMapping("/")
+    public UserDTO register(@RequestBody UserDTO req) {
+        return service.register(req);
+    }
     @GetMapping({"/","list"})
     public String list(TestDto dto) {
         log.info(dto);
