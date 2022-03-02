@@ -2,10 +2,11 @@ package com.NePool.app.controller;
 
 import com.NePool.app.TestDto;
 import com.NePool.app.dto.UserDTO;
-import com.NePool.app.entity.User;
 import com.NePool.app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserCont {
     private final UserService service;
     @PostMapping("/")
-    public UserDTO register(@RequestBody UserDTO req) {
-        return service.register(req);
+    public ResponseEntity<UserDTO> register(@RequestBody UserDTO req) throws Exception {
+        return new ResponseEntity<>(service.register(req), HttpStatus.OK);
     }
     @GetMapping({"/","list"})
     public String list(TestDto dto) {

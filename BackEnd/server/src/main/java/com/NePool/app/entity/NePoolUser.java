@@ -1,10 +1,9 @@
 package com.NePool.app.entity;
 
 import lombok.*;
+import org.hibernate.annotations.GeneratorType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -12,9 +11,13 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class User extends BaseEntity {
+public class NePoolUser extends BaseEntity {
     @Id
-    private String user_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long uno;
+
+    @Column(length = 50, nullable = false)
+    private String username;
 
     @Column(length = 50, nullable = false)
     private String email;

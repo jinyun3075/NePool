@@ -1,7 +1,7 @@
 package com.NePool.app.repository;
 
-import com.NePool.app.entity.User;
+import com.NePool.app.entity.NePoolUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<NePoolUser, Long> {
 }
