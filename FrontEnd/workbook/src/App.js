@@ -1,13 +1,11 @@
-import header_signin from './components/header_signin';
-import Main from './pages/Main';
-import './style/App.scss';
+import Login from './pages/Login';
+import "./style/globals.css";
 
 
 function App() {
   return (
     <>
-    <header_signin />
-    <Main /> 
+      <Login /> 
     </>
     )
 }
