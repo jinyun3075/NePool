@@ -5,79 +5,70 @@ export default function HeaderSignin() {
   return (
     <>
       <header>
-        <div className='headerWrap'>
-          <div className="searchBox">
-            <button className="search">
+        <HeaderWrap>
+          <SearchBox>
+            <button>
               <img src="/img/search.svg" alt="돋보기" />
             </button>
-          </div>
-          <h1 className="logo"><a href="#"><img src="/img/logo.svg" alt="로고" /></a></h1>
-          <div className="btnBox">
-            <a href="#" className='loginBtn'>로그인</a>
-            <a href="#" className='joinBtn'>회원가입</a>
-          </div>
-          {/* <div className="profileBox">
+          </SearchBox>
+          <h1><a href="#"><img src="/img/logo.svg" alt="로고" /></a></h1>
+          {/* <BtnBox>
+            <Btn color='#2f80ed' font='white'>로그인</Btn>
+            <Btn>회원가입</Btn>
+          </BtnBox> */}
+          <ProfileBox>
             <button className="notice">
               <img src="/img/notice.svg" alt="알림" />
             </button>
             <button className="profile">
-              <img className="profileImg" src="/img/mango.jpg" alt="프로필 사진" />
+              <ProfileImg src="/img/mango.jpg" alt="프로필 사진" />
             </button>
-          </div> */}
-        </div>
+          </ProfileBox>
+        </HeaderWrap>
       </header>
     </>
   );
 }
 
-// const headerWrap = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   margin: 0 20px;
-// `;
+const HeaderWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 0 20px;
+`
 
-// .headerWrap {
-//   display: flex;
-//   justify-content: space-between;
-//   margin: 0 20px;
-//   .searchBox {
-//     width: 220px;
-//     .search {
-//       width: 40px;
-//       height: 40px;
-//       border: 0.5px solid #b6b6b6;
-//       border-radius: 6px;
-//     }
-//   }
-//   .btnBox {
-//     display: flex;
-//     justify-content: space-between;
-//     width: 220px;
-//     .loginBtn,
-//     .joinBtn {
-//       width: 100px;
-//       height: 45px;
-//       border: 0.5px solid #b6b6b6;
-//       border-radius: 6px;
-//       text-align: center;
-//       line-height: 45px;
-//     }
-//     .loginBtn {
-//       color: white;
-//       background-color: #2f80ed;
-//     }
-//   }
-//  .profileBox {
-//      display: flex;
-//      justify-content:right;
-//      width: 220px;
-//      .profile {
-         
-//         .profileImg {
-//             width: 40px;
-//             height: 40px;
-//             border-radius: 6px;
-//         }
-//      }
-//  }
-// }
+const SearchBox = styled.div`
+   width: 220px;
+   button {
+    width: 40px;
+    height: 40px;
+    border: 0.5px solid #b6b6b6;
+    border-radius: 6px;
+   }
+`
+const BtnBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 220px;
+`
+
+const Btn = styled.a`
+  width: 100px;
+  height: 45px;
+  border: 0.5px solid #b6b6b6;
+  border-radius: 6px;
+  text-align: center;
+  line-height: 45px;
+  background-color: ${props => props.color};
+  color: ${props => props.font};
+`
+
+const ProfileBox = styled.div`
+  display: flex;
+  justify-content:right;
+  width: 220px;
+`
+const ProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+`

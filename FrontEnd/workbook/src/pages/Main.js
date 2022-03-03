@@ -1,4 +1,4 @@
-import HeaderSignin from '../components/header_signin';
+import HeaderSignin from '../components/header/header_signin';
 
 export default function Main() {
     return (
