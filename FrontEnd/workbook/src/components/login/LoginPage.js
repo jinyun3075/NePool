@@ -1,21 +1,52 @@
 import styled from 'styled-components';
 import { COLORS } from '../../constants'
+import { useForm } from 'react-hook-form'
+import { useState } from 'react';
 
 export default function LoginPage() {
+  const [loginErr, setLoginErr] = useState("아이디 또는 비밀번호가 일치하지 않습니다.")
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+  })
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+  }
+
   return (
     <>
       <main className="container">
         <h1 className="blind">로그인 또는 회원가입</h1>
         <LoginBox>
           <img src="/img/logo.svg" alt="logo" />
-          <Form>
-            <label htmlFor="id">
-              <Input id="id" placeholder="아이디"/>
-            </label>
-            <label htmlFor="password">
-              <Input type="password" id="password" placeholder="비밀번호"/>
-            </label>
-            <Err>아이디 또는 비밀번호가 일치하지 않습니다.</Err>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <label htmlFor="id"></label>
+              <Input
+                id="id"
+                name="id"
+                placeholder="아이디"
+                {...register("id", {
+                  required: true,
+                  pattern: /^[a-zA-Z0-9]*$/
+                })}
+                />
+            <label htmlFor="password"></label>
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="비밀번호"
+                {...register("password", {
+                  required: true,
+                  pattern: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9])$/
+                })}
+                />
+                {errors.id && errors.id.type === 'pattern' && (<Err>아이디 또는 비밀번호가 일치하지 않습니다.</Err>)}
+                {errors.password && errors.password.type === 'pattern' && (<Err>아이디 또는 비밀번호가 일치하지 않습니다.</Err>)}
             <Btn className="loginBtn" type="submit">로그인</Btn>
           </Form>
           <OrLine>또는</OrLine>
@@ -75,7 +106,7 @@ const Input = styled.input`
 `
 
 const Err = styled.span`
-  display: none;
+  /* display: none; */
   color: ${COLORS.error};
   width: 400px;
 `
