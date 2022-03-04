@@ -2,7 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.5.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	id 'war'
+    id 'com.palantir.docker' version '0.22.1'
 }
 
 group = 'com.NePool'

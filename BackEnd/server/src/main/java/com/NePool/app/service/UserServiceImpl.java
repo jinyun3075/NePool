@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
         if(dto.getName().equals("")||dto.getUsername().equals("")||dto.getEmail().equals("")||dto.getPassword().equals("")){
             throw new Exception("모든 요구사항을 입력해주세요.");
         }
-        if(!(dto.getPassword().length()>6&dto.getPassword().length()<15)) {
+        if(!(dto.getPassword().length()>5&dto.getPassword().length()<15)) {
             throw new Exception("비밀번호는 6자 이상 15자 이하로 입력해주세요.");
         }
         String passwordPattern = "[a-z0-9ㄱ-ㅎ가-힣\\\\!\\\\@\\\\#]*";
