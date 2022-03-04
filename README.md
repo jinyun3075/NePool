@@ -11,17 +11,16 @@
 
 - req
     - user
-        - id: String
+        - username: String
         - email: String
         - password: String
         - name: String
-        - group: String
 - res
     - user
-        - id: String
+        - username: String
         - name: String
         - email: String
-        - group: String
+        - password: String
 - fail
     - id, email, password, name 중 하나라도 작성하지 않을 경우
     - password가 6-16자의 영문 숫자가 아닐 경우 
