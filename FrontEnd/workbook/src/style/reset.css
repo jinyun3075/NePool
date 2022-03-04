@@ -109,6 +109,8 @@ input:-webkit-autofill:active {
 
 button {
   cursor: pointer;
+  border: none;
+  background: none;
 }
 
 /* caption {
