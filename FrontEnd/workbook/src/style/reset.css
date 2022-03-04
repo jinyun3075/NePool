@@ -106,6 +106,8 @@ input[type="text"]:focus {
 
 button {
   cursor: pointer;
+  border: none;
+  background: none;
 }
 
 /* caption {
