@@ -3,6 +3,7 @@ package com.NePool.app.service;
 import com.NePool.app.dto.PageRequestDTO;
 import com.NePool.app.dto.PageResultDTO;
 import com.NePool.app.dto.UserDTO;
+import com.NePool.app.dto.UserLoginDTO;
 import com.NePool.app.entity.NePoolUser;
 import com.NePool.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,12 @@ public class UserServiceImpl implements UserService{
         NePoolUser res = repository.save(dtoToEntity(dto));
         return entityToDto(res);
     }
+
+    @Override
+    public UserDTO Login(UserLoginDTO dto) throws Exception {
+        return null;
+    }
+
     @Override
     public PageResultDTO<UserDTO, NePoolUser> getList(PageRequestDTO dto) {
         return null;
