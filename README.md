@@ -9,6 +9,9 @@
 - api
     - /user (post)
 
+- header
+    - Content-type : "application/json"
+
 - req
     - user
         - username: String
@@ -33,6 +36,10 @@
 ### 로그인
 - api
     - /user/login (post)
+
+- header
+    - Content-type : "application/json"
+    
 - req
     - user
         - id: String
@@ -52,6 +59,7 @@
     - /user/:user_id (get)
     
 - header
+    - Content-type : "application/json"
     - Authorization : “Bearer key”
     
 - res
