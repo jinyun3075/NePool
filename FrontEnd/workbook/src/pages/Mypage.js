@@ -26,19 +26,19 @@ export default function Mypage() {
             <Workbook>
                 <ul>
                     <li>
-                        <img src = "/img/vector.svg" alt = "문제집"></img>
+                        <img className="vector" src = "/img/vector.svg" alt = "문제집"></img>
                         <p>나의 문제집</p>
                     </li>
                     <li>
-                        <img src = "/img/vector.svg" alt = "문제집"></img>
+                        <img className="vector" src = "/img/vector.svg" alt = "문제집"></img>
                         <p>문제집 만들기</p>
                     </li>
                     <li>
-                        <img src = "/img/vector.svg" alt = "문제집"></img>
+                        <img className="vector" src = "/img/vector.svg" alt = "문제집"></img>
                         <p>공유 문제집</p>
                     </li>
                     <li>
-                        <img src = "/img/vector.svg" alt = "문제집"></img>
+                        <img className="vector" src = "/img/vector.svg" alt = "문제집"></img>
                         <p>공유 문제집</p>
                     </li>
                 </ul>
@@ -46,8 +46,9 @@ export default function Mypage() {
         </Left>
 
         <Right>
-            <div>나의 문제집</div>
             <div>
+                <p>나의 문제집</p>
+            </div>
                 <ul>
                     <li>
                         <p>예시 문제집</p>
@@ -68,23 +69,7 @@ export default function Mypage() {
                         <p>예시 문제집</p>
                         <p>마지막 수정 일시 : 2022-02-28</p>
                     </li>
-
-                    <li>
-                        <p>예시 문제집</p>
-                        <p>마지막 수정 일시 : 2022-02-28</p>
-                    </li>
-
-                    <li>
-                        <p>예시 문제집</p>
-                        <p>마지막 수정 일시 : 2022-02-28</p>
-                    </li>
-                    
-                    <li>
-                        <p>예시 문제집</p>
-                        <p>마지막 수정 일시 : 2022-02-28</p>
-                    </li>
                 </ul>
-            </div>
         </Right>
 
       </Section>
@@ -130,6 +115,7 @@ const Info = styled.div`
         height:1.1rem;
         margin-left:0.7em;
         line-height:1rem;
+        cursor:pointer;
     }
 `;
 
@@ -147,9 +133,7 @@ const Workbook = styled.div`
     margin-top:30px;
 
     li{
-        img{
-            color:gray;
-        }
+        cursor:pointer;
         margin-top:1.5em;
         padding: 0.5em 3em;
         border-top-right-radius:15px;
@@ -158,17 +142,7 @@ const Workbook = styled.div`
         display:flex;
         align-items:center;
 
-        &:first-child{
-            background-color: ${COLORS.blue};
-            img{
-                color:white;
-                color:${COLORS.gray};
-            }
-            p{
-                color: white;
-            }
-        }
-
+        
         &:nth-child(4){
             margin-top:4em;
             position:relative;
@@ -181,47 +155,79 @@ const Workbook = styled.div`
                 background-color:${COLORS.gray};
             }
         }
+
         img{
-            color:${COLORS.gray};
             width:1.1rem;
             height:1.1rem;
+            color:gray;
         }
         p{
             color:${COLORS.gray};
             margin-left:1em;
         }
+
+        &:hover{
+            background-color: ${COLORS.blue};
+            .vector path{
+                fill:white;
+            }
+            p{
+                color: white;
+            }
+        }
+        
     }
 `
 
 const Right = styled.article`
-    padding:1em;
     margin:0 auto;
-    border:1px solid ${COLORS.light_gray};
-    border-radius:10px;
+    border:3px solid ${COLORS.light_gray};
+    border-radius:15px;
     flex-basis:70%;
     div:first-child{
-        border-bottom: 1px solid black;
+        border-bottom: 3px solid ${COLORS.light_gray};
+        height:6%;
+        p{
+            font-size:1.1rem;
+            font-weight: 700;
+            line-height:3rem;
+            margin-left:20px;
+        }
     }
 
     ul{
+        padding:1em;
         display:grid;
         grid-template-columns: repeat(4, 1fr);
-        column-gap: 20px;
+        column-gap: 25px;
         li{
             margin-top:20px;
-            border-radius:5px;
             display:flex;
             flex-direction:column;
             justify-content:center;
-            border: 1px solid ${COLORS.gray};
-            height:18rem;
+            height:20rem;
+            position:relative;
+            cursor:pointer;
+            &:after{
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    content:"";
+                    width:100%;
+                    height:100%;
+                    background:url(/img/mango.jpg) no-repeat center center/cover;
+                    border-radius:20px;
+                    opacity:0.4;
+                    height:100%;
+                }
 
             p:first-child{
                 font-size:1.6rem;
+                font-weight: 600;
                 text-align:center;
             }
             p:last-child{
-                font-size:1rem;
+                font-size:0.9rem;
                 text-align:center;
             }
         }
