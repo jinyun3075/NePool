@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import axios from "axios";
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { COLORS } from '../../constants'
+import { API, COLORS } from '../../constants'
 
 export default function JoinPage() {
 
@@ -13,14 +14,30 @@ export default function JoinPage() {
   const password = useRef();
   password.current = watch("password")
 
-  useEffect(() => {
-    console.log(password.current);
-  }, [])
-  
+  // useEffect(() => {
+  //   console.log(password.current);
+  // }, [])
 
-  const onSubmit = (e) => {
-    e.preventDefault()
+  const onSubmit = async (data) => {
+    try {
+      const userData = {
+        username: data.id,
+        email: data.email,
+        password: data.password,
+        name: data.nickname
+      }
+    console.log(data);
+    const res = await axios.post(`${API}/user/`, userData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    console.log(res);
+    } catch(err) {
+      console.log(err);
+    }
   }
+  
 
   return (
     <>
