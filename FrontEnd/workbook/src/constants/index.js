@@ -1,3 +1,5 @@
+export const API = "http://3.34.215.124:80";
+
 export const COLORS = {
   blue: '#2f80ed',
   error: '#eb5757',
