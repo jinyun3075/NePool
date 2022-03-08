@@ -58,7 +58,7 @@ export default function HeaderSignin() {
 const HeaderWrap = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 30px 200px;
+  margin: 10px 200px;
 `
 
 const SearchBox = styled.div`
@@ -112,7 +112,7 @@ const NoticeBox = styled.div`
   border: 1px solid #b6b6b6;
   border-radius: 6px;
   color: #767676;
-  top: 100px;
+  top: 80px;
   right: 258px;
 `
 const Notice = styled.li`
@@ -139,8 +139,8 @@ const ProfileStatus = styled.div`
   height: 220px;
   border: 1px solid #b6b6b6;
   border-radius: 6px;
-  top: 100px;
-  right: 90px;
+  top: 80px;
+  right: 206px;
 `
 const StatusBox = styled.div`
   display: flex;
