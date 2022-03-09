@@ -3,11 +3,13 @@ package com.NePool.app.controller;
 import com.NePool.app.TestDto;
 import com.NePool.app.dto.UserDTO;
 import com.NePool.app.dto.UserLoginDTO;
+import com.NePool.app.security.dto.NePoolAuthDTO;
 import com.NePool.app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,10 +23,11 @@ public class UserCont {
     public ResponseEntity<UserDTO> register(@RequestBody UserDTO req) throws Exception {
         return new ResponseEntity<>(service.register(req), HttpStatus.OK);
     }
-    @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody UserLoginDTO req) throws Exception {
-        return new ResponseEntity<>(service.Login(req), HttpStatus.OK);
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<NePoolAuthDTO> login(@AuthenticationPrincipal NePoolAuthDTO req) throws Exception {
+//        log.info(req.getUsername());
+//        return new ResponseEntity<>(req, HttpStatus.OK);
+//    }
     @GetMapping({"/","list"})
     public String list(TestDto dto) {
         log.info(dto);

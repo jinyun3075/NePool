@@ -3,6 +3,7 @@ package com.NePool.app.security;
 import com.NePool.app.security.filter.ApiCheckFilter;
 import com.NePool.app.security.filter.ApiLoginFilter;
 import com.NePool.app.security.handler.ApiLoginFailHandler;
+import com.NePool.app.security.util.JWTUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,12 +21,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
     @Bean
+    public JWTUtil jwtUtil(){
+        return new JWTUtil();
+    }
+    @Bean
     public ApiCheckFilter apiCheckFilter() {
-        return new ApiCheckFilter("/user");
+        return new ApiCheckFilter(jwtUtil());
     }
     @Bean
     public ApiLoginFilter apiLoginFilter() throws Exception {
-        ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/user/login");
+        ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/user/login",jwtUtil());
         apiLoginFilter.setAuthenticationManager(authenticationManager());
         apiLoginFilter.setAuthenticationFailureHandler(new ApiLoginFailHandler());
         return apiLoginFilter;
@@ -35,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.rememberMe().tokenValiditySeconds(60*60*7).userDetailsService(userDetailsService());
         http.authorizeRequests()
-                .antMatchers("/user").permitAll();
+                .antMatchers("/user","/user/login").permitAll();
         http.addFilterBefore(apiCheckFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(apiLoginFilter(), UsernamePasswordAuthenticationFilter.class);
     }

@@ -8,6 +8,8 @@ import com.NePool.app.entity.NePoolUser;
 import com.NePool.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Pattern;
@@ -17,6 +19,8 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     public final UserRepository repository;
+    @Autowired
+    private PasswordEncoder pw;
     @Override
     public UserDTO register(UserDTO dto) throws Exception {
         if(dto.getName().equals("")||dto.getUsername().equals("")||dto.getEmail().equals("")||dto.getPassword().equals("")){
@@ -33,6 +37,7 @@ public class UserServiceImpl implements UserService{
         if(!Pattern.matches(emailPattern,dto.getEmail())) {
             throw new Exception("이메일 형식이 아닙니다.");
         }
+        dto.setPassword(pw.encode(dto.getPassword()));
         NePoolUser res = repository.save(dtoToEntity(dto));
         return entityToDto(res);
     }

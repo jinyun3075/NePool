@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<NePoolUser, Long> {
-    List<NePoolUser> findByName(String name);
+    List<NePoolUser> findByUsername(String name);
 
 }

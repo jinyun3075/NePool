@@ -18,13 +18,12 @@ public class ApiLoginFailHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.info("login fail handler ..........");
-        log.info(exception.getMessage());
 
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json;charset=utf-8");
         ArrayList<String> data = new ArrayList<>();
         data.add("code:401");
-        data.add(exception.getMessage());
+        data.add("아이디 혹은 비밀번호가 일치하지 않습니다.");
         ObjectMapper mapper = new ObjectMapper();
         JSONPObject json = new JSONPObject("Error",data);
         PrintWriter out = response.getWriter();
