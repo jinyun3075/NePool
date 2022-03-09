@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import HeaderSignin from '../components/header/header_signin';
+import HeaderSignin from '../components/header/header';
 import { COLORS } from '../constants';
 
 export default function Mypage() {

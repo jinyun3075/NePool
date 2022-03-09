@@ -7,9 +7,13 @@ export default function HeaderSignin() {
       <header>
         <HeaderWrap>
           <SearchBox>
-            <button>
+            <SearchBtn>
               <img src="/img/search.svg" alt="돋보기" />
-            </button>
+            </SearchBtn>
+            <SearchInp type="text" autoFocus placeholder='문제집을 검색해 보세요!'/>
+            <CloseBtn>
+              <img src="/img/close.svg" alt="닫기" />
+            </CloseBtn>
           </SearchBox>
           <h1><a href="#"><Logo src="/img/logo.svg" alt="로고" /></a></h1>
           {/* <BtnBox>
@@ -18,7 +22,7 @@ export default function HeaderSignin() {
           </BtnBox> */}
           <ProfileBox>
             <button>
-              <img src="/img/notice.svg" alt="알림" />
+              <NoticeImg src="/img/notice.svg" alt="알림" />
             </button>
             <NoticeBox>
               <ul>
@@ -32,7 +36,7 @@ export default function HeaderSignin() {
                 </Notice>
               </ul>
             </NoticeBox>
-            <button className="profile">
+            <button>
               <ProfileImg src="/img/mango.jpg" alt="프로필 사진" />
             </button>
           </ProfileBox>
@@ -57,24 +61,52 @@ export default function HeaderSignin() {
 
 const HeaderWrap = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin: 30px 200px;
+  justify-content: space-around;
+  margin: 18px 0;
+  align-items: center;
+`
+// 검색창 
+const SearchBox = styled.form`
+  display: flex;
+  align-items: center;
+  width: 360px;
+`
+const SearchBtn = styled.button`
+  position: relative;
+  z-index: 99;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+`
+const CloseBtn = styled.button`
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  margin-left: 321px;
+`
+const SearchInp = styled.input`
+  position: absolute;
+  width: 280px;
+  height: 40px;
+  border: 0.5px solid #b6b6b6;
+  border-radius: 6px;
+  padding: 0 40px 0 40px;
+  font-size: 15px;
+  transition: 500ms width ease-in-out;
+  ::placeholder {
+    font-size: 15px;
+    line-height: 40px;
+    color: #b6b6b6;
+  }
+  :focus {
+    outline: none;
+    border: 2px solid #2f80ed;
+  }
 `
 
-const SearchBox = styled.div`
-   display: flex;
-   align-items: center;
-   width: 220px;
-   button {
-    width: 40px;
-    height: 40px;
-    border: 0.5px solid #b6b6b6;
-    border-radius: 6px;
-   }
-`
 const Logo = styled.img`
-  width: 224px;
-  height: 77.5px;
+  width: 180px;
 `
 const BtnBox = styled.div`
   display: flex;
@@ -96,7 +128,11 @@ const Btn = styled.a`
 const ProfileBox = styled.div`
   display: flex;
   justify-content:right;
-  width: 220px;
+  width: 360px;
+`
+const NoticeImg = styled.img`
+  width: 40px;
+  height: 40px;
 `
 const ProfileImg = styled.img`
   width: 40px;
@@ -112,7 +148,7 @@ const NoticeBox = styled.div`
   border: 1px solid #b6b6b6;
   border-radius: 6px;
   color: #767676;
-  top: 100px;
+  top: 80px;
   right: 258px;
 `
 const Notice = styled.li`
@@ -139,8 +175,8 @@ const ProfileStatus = styled.div`
   height: 220px;
   border: 1px solid #b6b6b6;
   border-radius: 6px;
-  top: 100px;
-  right: 90px;
+  top: 80px;
+  right: 206px;
 `
 const StatusBox = styled.div`
   display: flex;
