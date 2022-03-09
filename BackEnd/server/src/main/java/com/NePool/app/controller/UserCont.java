@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 @Log4j2
-@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor // 자동주입
 public class UserCont {
     private final UserService service;

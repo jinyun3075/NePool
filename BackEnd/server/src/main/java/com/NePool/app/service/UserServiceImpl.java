@@ -43,11 +43,6 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDTO Login(UserLoginDTO dto) throws Exception {
-        return null;
-    }
-
-    @Override
     public PageResultDTO<UserDTO, NePoolUser> getList(PageRequestDTO dto) {
         return null;
     }
