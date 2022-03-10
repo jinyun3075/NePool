@@ -62,8 +62,10 @@ export default function HeaderSignin() {
 const HeaderWrap = styled.div`
   display: flex;
   justify-content: space-around;
-  margin: 18px 0;
+  margin-top: 18px;
+  padding-bottom: 18px;
   align-items: center;
+  border-bottom: 3px solid #C1C1C1;
 `
 // 검색창 
 const SearchBox = styled.form`
