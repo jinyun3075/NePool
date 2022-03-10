@@ -1,6 +1,8 @@
 package com.NePool.app.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 
@@ -10,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @ToString
-public class WorkBookEntity extends BaseEntity{
+public class WorkBook extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +21,7 @@ public class WorkBookEntity extends BaseEntity{
     private String title;
     private String content;
 
+    private Boolean share;
     @ManyToOne
     private NePoolUser writer;
 }

@@ -8,13 +8,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.sql.SQLDataException;
 import java.sql.SQLException;
 
 @Log4j2
 @RestControllerAdvice
 public class ErrorHandle {
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler
     public ErrorResult Handle(Exception e) {
         return new ErrorResult("500", e.getMessage());

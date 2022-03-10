@@ -1,11 +1,11 @@
-package com.NePool.app.service;
+package com.NePool.app.service.impl;
 
 import com.NePool.app.dto.PageRequestDTO;
 import com.NePool.app.dto.PageResultDTO;
 import com.NePool.app.dto.UserDTO;
-import com.NePool.app.dto.UserLoginDTO;
 import com.NePool.app.entity.NePoolUser;
 import com.NePool.app.repository.UserRepository;
+import com.NePool.app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +15,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     public final UserRepository repository;
     @Autowired
     private PasswordEncoder pw;
@@ -48,9 +49,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO getUser(String username) {
-        List<NePoolUser> entity = repository.findByUsername(username);
+        Optional<NePoolUser> entity = repository.findByUsername(username);
 //        UserDTO res = entityToDto(entity.get(0));
-        return entityToDto(entity.get(0));
+        return entityToDto(entity.get());
     }
 
     @Override

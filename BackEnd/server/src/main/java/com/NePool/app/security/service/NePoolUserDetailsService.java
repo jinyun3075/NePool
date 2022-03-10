@@ -27,12 +27,12 @@ public class NePoolUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        List<NePoolUser> result = repository.findByUsername(username);
+        Optional<NePoolUser> result = repository.findByUsername(username);
 
-        if(result.size()==0) {
+        if(!result.isPresent()) {
             throw new UsernameNotFoundException("Check username");
         }
-        NePoolUser nePoolUser = result.get(0);
+        NePoolUser nePoolUser = result.get();
 
         HashSet<UserRole> set = new HashSet<>();
         set.add(UserRole.USER);
