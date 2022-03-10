@@ -1,6 +1,9 @@
 package com.NePool.app.controller;
 
+import com.NePool.app.dto.PageRequestDTO;
+import com.NePool.app.dto.PageResultDTO;
 import com.NePool.app.dto.WorkBookRequestDTO;
+import com.NePool.app.entity.WorkBook;
 import com.NePool.app.service.WorkBookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -8,14 +11,48 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/workbook")
 @Log4j2
 @RequiredArgsConstructor
 public class WorkBookCont {
     private final WorkBookService service;
+
     @PostMapping("")
-    public ResponseEntity<WorkBookRequestDTO> register(@RequestBody WorkBookRequestDTO dto){
+    public ResponseEntity<WorkBookRequestDTO> register(@RequestBody WorkBookRequestDTO dto) throws Exception {
         return new ResponseEntity<>(service.register(dto), HttpStatus.OK);
+    }
+
+    @GetMapping("/{username}/{work_book_id}")
+    public ResponseEntity<WorkBookRequestDTO> getWorkBook(@PathVariable("username") String username, @PathVariable("work_book_id") Long work_book_id) throws Exception {
+        return new ResponseEntity<>(service.getWorkBook(username, work_book_id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<PageResultDTO<WorkBookRequestDTO, WorkBook>> getList(@PathVariable String username, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) throws Exception {
+        PageRequestDTO req = new PageRequestDTO();
+        if (page != null && size != null) {
+            req.setSize(size);
+            req.setPage(page);
+        }
+        return new ResponseEntity<>(service.getList(username, req), HttpStatus.OK);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<PageResultDTO<WorkBookRequestDTO, WorkBook>> allList(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) throws Exception{
+        PageRequestDTO req = new PageRequestDTO();
+        if (page != null && size != null) {
+            req.setSize(size);
+            req.setPage(page);
+        }
+        return new ResponseEntity<>(service.allList(req),HttpStatus.OK);
+    }
+
+    @DeleteMapping("{username}/{work_book_id}")
+    public String delete(@PathVariable String username, @PathVariable Long work_book_id) throws Exception{
+        service.delete(username,work_book_id);
+        return "삭제완료";
     }
 }

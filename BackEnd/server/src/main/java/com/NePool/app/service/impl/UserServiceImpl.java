@@ -50,7 +50,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUser(String username) {
         Optional<NePoolUser> entity = repository.findByUsername(username);
-//        UserDTO res = entityToDto(entity.get(0));
         return entityToDto(entity.get());
     }
 

@@ -15,10 +15,12 @@ import java.sql.SQLException;
 public class ErrorHandle {
     @ExceptionHandler
     public ErrorResult Handle(Exception e) {
+        log.info(e);
         return new ErrorResult("500", e.getMessage());
     }
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ErrorResult Handle(SQLException  e) {
+        log.info(e);
         if(e.getErrorCode()==1062){
             if(e.getMessage().split(" ")[5].equals("'ne_pool_user.UK_khet4mrw3dpu8caytuwi3ibtj'")){
                return new ErrorResult("505", "중복 이름입니다.");
