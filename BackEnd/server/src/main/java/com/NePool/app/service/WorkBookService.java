@@ -17,6 +17,8 @@ public interface WorkBookService {
 
     void delete(String username, Long work_book_id) throws Exception;
 
+    boolean share(String username, Long work_book_id) throws Exception;
+
     default WorkBook dtoToEntity(WorkBookRequestDTO dto, NePoolUser user) {
         return WorkBook.builder()
                 .writer(user)

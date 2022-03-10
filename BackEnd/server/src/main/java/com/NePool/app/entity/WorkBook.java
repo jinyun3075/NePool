@@ -24,4 +24,8 @@ public class WorkBook extends BaseEntity{
     private Boolean share;
     @ManyToOne
     private NePoolUser writer;
+
+    public void setShare(Boolean share) {
+        this.share = share;
+    }
 }

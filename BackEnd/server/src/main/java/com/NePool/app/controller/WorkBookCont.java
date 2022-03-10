@@ -7,6 +7,7 @@ import com.NePool.app.entity.WorkBook;
 import com.NePool.app.service.WorkBookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,5 +55,16 @@ public class WorkBookCont {
     public String delete(@PathVariable String username, @PathVariable Long work_book_id) throws Exception{
         service.delete(username,work_book_id);
         return "삭제완료";
+    }
+
+    @PutMapping("/share/{username}/{work_book_id}")
+    public ResponseEntity<String> share(@PathVariable String username, @PathVariable Long work_book_id) throws Exception{
+        String res = "";
+        if(service.share(username,work_book_id)) {
+            res = "공유 성공";
+        }else {
+            res = "공유 해제";
+        }
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
 }

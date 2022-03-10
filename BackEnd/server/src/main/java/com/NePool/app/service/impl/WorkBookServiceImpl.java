@@ -75,9 +75,28 @@ public class WorkBookServiceImpl implements WorkBookService {
             throw new Exception("존재하지 않는 아이디입니다.");
         }
         Long res = repository.deleteByWnoAndWriterUno(work_book_id,user.get().getUno());
-
         if (res==0) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
+    }
+
+    @Override
+    public boolean share(String username, Long work_book_id) throws Exception {
+        Optional<NePoolUser> user = userRepository.findByUsername(username);
+        if (!user.isPresent()) {
+            throw new Exception("존재하지 않는 아이디입니다.");
+        }
+        Optional<WorkBook> res = repository.findByWnoAndWriterUno(work_book_id,user.get().getUno());
+        if (!res.isPresent()) {
+            throw new Exception("존재하지 않는 문제집입니다.");
+        }
+        if(res.get().getShare()==false) {
+            res.get().setShare(true);
+            repository.save(res.get());
+            return true;
+        }
+        res.get().setShare(false);
+        repository.save(res.get());
+        return false;
     }
 }
