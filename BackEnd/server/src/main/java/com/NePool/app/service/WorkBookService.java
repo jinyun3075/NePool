@@ -19,6 +19,8 @@ public interface WorkBookService {
 
     boolean share(String username, Long work_book_id) throws Exception;
 
+    WorkBookRequestDTO update(String username, Long work_book_id, WorkBookRequestDTO dto) throws Exception;
+
     default WorkBook dtoToEntity(WorkBookRequestDTO dto, NePoolUser user) {
         return WorkBook.builder()
                 .writer(user)

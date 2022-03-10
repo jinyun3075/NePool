@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @ToString
-public class WorkBook extends BaseEntity{
+public class WorkBook extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +27,10 @@ public class WorkBook extends BaseEntity{
 
     public void setShare(Boolean share) {
         this.share = share;
+    }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }

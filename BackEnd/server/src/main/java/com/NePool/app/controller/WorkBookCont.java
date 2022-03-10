@@ -67,4 +67,8 @@ public class WorkBookCont {
         }
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
+    @PutMapping("/{username}/{work_book_id}")
+    public ResponseEntity<WorkBookRequestDTO> update(@PathVariable String username, @PathVariable Long work_book_id, @RequestBody WorkBookRequestDTO req) throws Exception{
+        return new ResponseEntity<>(service.update(username,work_book_id,req),HttpStatus.OK);
+    }
 }

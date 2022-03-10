@@ -29,6 +29,9 @@ public class WorkBookServiceImpl implements WorkBookService {
 
     @Override
     public WorkBookRequestDTO register(WorkBookRequestDTO dto) throws Exception {
+        if(dto.getTitle().equals("")||dto.getContent().equals("")){
+            throw new Exception("제목과 설명을 입력해주세요.");
+        }
         Optional<NePoolUser> user = userRepository.findByUsername(dto.getUsername());
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
@@ -98,5 +101,23 @@ public class WorkBookServiceImpl implements WorkBookService {
         res.get().setShare(false);
         repository.save(res.get());
         return false;
+    }
+
+    @Override
+    public WorkBookRequestDTO update(String username, Long work_book_id, WorkBookRequestDTO dto) throws Exception {
+        if(dto.getTitle().equals("")||dto.getContent().equals("")){
+            throw new Exception("제목과 설명을 입력해주세요.");
+        }
+        Optional<NePoolUser> user = userRepository.findByUsername(username);
+        if (!user.isPresent()) {
+            throw new Exception("존재하지 않는 아이디입니다.");
+        }
+        Optional<WorkBook> res = repository.findByWnoAndWriterUno(work_book_id,user.get().getUno());
+        if (!res.isPresent()) {
+            throw new Exception("존재하지 않는 문제집입니다.");
+        }
+
+        res.get().update(dto.getTitle(), dto.getContent());
+        return entityToDto(repository.save(res.get()));
     }
 }
