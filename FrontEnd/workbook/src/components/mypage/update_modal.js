@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { COLORS } from '../../constants';
 
 export default function UpdateModal(props){
+
     return(
         <> 
-            <Ximg onClick ={()=>{ props.setXimg(props.ximg===false); props.setUpdate(props.update===false); console.log(Boolean(props.update)); console.log(Boolean(props.ximg));}} src = "/img/x.svg" alt = "x" />
+            <Ximg onClick ={()=>{props.setDeletemodal(true)}} src = "/img/x.svg" alt = "x" />
             <Modal>
                 <Try>풀기</Try>
                 <Share>공유</Share>
@@ -21,20 +22,20 @@ const Ximg = styled.img`
     right:5%;
     width:15px;
     height:15px;
-    z-index:2;
+    cursor:pointer;
 `;
 
 const Modal = styled.div`
+    margin:0 auto;
     display:flex;
     flex-direction:column;
     justify-content: center;
     align-items: center;
-    z-index:5;
-    background-color: white;
+    margin-top:15px;
+    background-color: rgba(255,255,255,0.5);
     width:60%;
-    height:50%;
-    border-radius:5px;
-    margin:0 auto;
+    height:55%;
+    border-radius:10px;
 `;
 
 const Try = styled.button`
