@@ -55,7 +55,7 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
             req.setEmail(principal.getEmail());
             req.setToken( jwtUtil.generateToken("123"));
             req.setUsername(principal.getUsername());
-            response.setContentType("application/json");
+            response.setContentType("application/json;charset=utf-8");
             response.getWriter().write(new ObjectMapper().writeValueAsString(req));
 
         } catch(Exception e) {

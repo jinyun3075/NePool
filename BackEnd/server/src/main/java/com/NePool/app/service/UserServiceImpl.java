@@ -9,9 +9,13 @@ import com.NePool.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 @Service
@@ -43,7 +47,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public UserDTO getUser(String username) {
+        List<NePoolUser> entity = repository.findByUsername(username);
+//        UserDTO res = entityToDto(entity.get(0));
+        return entityToDto(entity.get(0));
+    }
+
+    @Override
     public PageResultDTO<UserDTO, NePoolUser> getList(PageRequestDTO dto) {
-        return null;
+        Page<NePoolUser> entity = repository.findAll(dto.getPageable(Sort.by("uno").ascending()));
+        Function<NePoolUser,UserDTO> fn = (data -> entityToDto(data));
+        return new PageResultDTO<>(entity, fn);
     }
 }

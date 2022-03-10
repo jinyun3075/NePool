@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b141dd79-5efc-4a75-bd77-9a13654106b1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackEnd/server/src/main/java/com/NePool/app/security/ApiCheckFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackEnd/server/src/main/java/com/NePool/app/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/server/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/server/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/server/src/main/java/com/NePool/app/config/JwtAuthenticationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/server/src/main/java/com/NePool/app/config/JwtTokenProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/server/src/main/java/com/NePool/app/config/SecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackEnd/server/src/main/java/com/NePool/app/controller/UserCont.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackEnd/server/src/main/java/com/NePool/app/controller/UserCont.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

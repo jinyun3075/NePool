@@ -7,6 +7,7 @@ import com.NePool.app.entity.NePoolUser;
 
 public interface UserService {
     UserDTO register(UserDTO dto) throws Exception;
+    UserDTO getUser(String dto);
     PageResultDTO<UserDTO, NePoolUser> getList(PageRequestDTO dto);
     default NePoolUser dtoToEntity(UserDTO dto) {
         return NePoolUser.builder()
