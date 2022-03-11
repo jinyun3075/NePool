@@ -14,10 +14,6 @@ export default function JoinPage() {
   const password = useRef();
   password.current = watch("password")
 
-  // useEffect(() => {
-  //   console.log(password.current);
-  // }, [])
-
   const onSubmit = async (data) => {
     try {
       const userData = {
@@ -27,7 +23,7 @@ export default function JoinPage() {
         name: data.nickname
       }
     console.log(data);
-    const res = await axios.post(`${API}/user/`, userData, {
+    const res = await axios.post(`${API}/user`, userData, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -37,7 +33,6 @@ export default function JoinPage() {
       console.log(err);
     }
   }
-  
 
   return (
     <>
