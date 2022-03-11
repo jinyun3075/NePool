@@ -41,7 +41,7 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-    public WorkBookRequestDTO getWorkBook(String username, Long work_book_id) throws Exception {
+    public WorkBookRequestDTO getWorkBook(String username, Long work_book_id, Boolean check) throws Exception {
         Optional<NePoolUser> user = userRepository.findByUsername(username);
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
@@ -49,6 +49,11 @@ public class WorkBookServiceImpl implements WorkBookService {
         Optional<WorkBook> res = repository.findByWnoAndWriterUno(work_book_id,user.get().getUno());
         if (!res.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");
+        }
+
+        if(check) {
+            res.get().upCount();
+            repository.save(res.get());
         }
         return entityToDto(res.get());
     }

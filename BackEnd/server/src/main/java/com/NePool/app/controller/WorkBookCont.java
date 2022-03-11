@@ -27,8 +27,11 @@ public class WorkBookCont {
     }
 
     @GetMapping("/{username}/{work_book_id}")
-    public ResponseEntity<WorkBookRequestDTO> getWorkBook(@PathVariable("username") String username, @PathVariable("work_book_id") Long work_book_id) throws Exception {
-        return new ResponseEntity<>(service.getWorkBook(username, work_book_id), HttpStatus.OK);
+    public ResponseEntity<WorkBookRequestDTO> getWorkBook(@PathVariable("username") String username, @PathVariable("work_book_id") Long work_book_id, @RequestParam(value = "check", required = false) Boolean check) throws Exception {
+        if(check==null) {
+            check=false;
+        }
+        return new ResponseEntity<>(service.getWorkBook(username, work_book_id, check), HttpStatus.OK);
     }
 
     @GetMapping("/{username}")

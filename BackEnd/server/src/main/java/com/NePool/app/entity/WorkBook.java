@@ -18,12 +18,22 @@ public class WorkBook extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long wno;
 
+    @Column(length = 200, nullable = false)
     private String title;
+
+    @Column(length = 1000, nullable = false)
     private String content;
 
     private Boolean share;
+
     @ManyToOne
     private NePoolUser writer;
+
+    private Long count;
+
+    public void upCount() {
+        count++;
+    }
 
     public void setShare(Boolean share) {
         this.share = share;

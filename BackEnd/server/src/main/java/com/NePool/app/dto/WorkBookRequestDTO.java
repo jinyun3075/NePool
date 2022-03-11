@@ -11,4 +11,5 @@ public class WorkBookRequestDTO {
     private String content;
     private Boolean share;
     private String username;
+    private Long count;
 }

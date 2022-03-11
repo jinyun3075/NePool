@@ -9,7 +9,7 @@ import com.NePool.app.entity.WorkBook;
 public interface WorkBookService {
     WorkBookRequestDTO register(WorkBookRequestDTO dto) throws Exception;
 
-    WorkBookRequestDTO getWorkBook(String username, Long work_book_id) throws Exception;
+    WorkBookRequestDTO getWorkBook(String username, Long work_book_id, Boolean check) throws Exception;
 
     PageResultDTO<WorkBookRequestDTO, WorkBook> getList(String username, PageRequestDTO page) throws Exception;
 
@@ -26,6 +26,7 @@ public interface WorkBookService {
                 .writer(user)
                 .title(dto.getTitle())
                 .share(false)
+                .count(0L)
                 .content(dto.getContent()).build();
     }
 
@@ -35,6 +36,7 @@ public interface WorkBookService {
                 .content(entity.getContent())
                 .username(entity.getWriter().getUsername())
                 .id(entity.getWno())
+                .count(entity.getCount())
                 .share(entity.getShare()).build();
     }
 }
