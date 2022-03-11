@@ -6,4 +6,5 @@ export const COLORS = {
   gray: '#767676',
   light_gray: '#c4c4c4',
   black: '#051619',
+  wrong: '#e1180b'
 };
