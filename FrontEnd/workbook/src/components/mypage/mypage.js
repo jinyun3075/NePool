@@ -5,12 +5,14 @@ import { COLORS } from '../../constants/index';
 import DeleteModal from '../mypage/delete_modal';
 import CreateModal from './create_modal';
 import UpdateModal from './update_modal';
+import ModeModal from './mode_modal';
 
 export default function My_page() {
 
   let [create, setCreate] = useState(false);
   let [update, setUpdate] = useState(false);
-  let [deletemodal,setDeletemodal] = useState(false);
+  let [deletemodal, setDeletemodal] = useState(false);
+  let [modemodal, setModemodal] = useState(false);
 
 
   return (
@@ -72,11 +74,20 @@ export default function My_page() {
                             <DeleteModal deletemodal = {deletemodal} setDeletemodal ={setDeletemodal}/> 
                             :null   
                         }
+
+                        {    
+                            modemodal === true ?
+                            <ModeModal />
+                            :null
+                        }
+
                     <ExampleLi> 
                         <ExampleP1 onClick ={() => { setUpdate(!update) } }>예시 문제집</ExampleP1>
                         <ExampleP2 onClick ={() => { setUpdate(!update) } }>마지막 수정 일시 : 2022-02-28</ExampleP2>
                         {
-                            update === true ? <UpdateModal setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} /> : null    
+                            update === true ? 
+                            <UpdateModal setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
+                            : null    
                         }
                     </ExampleLi>
                     
