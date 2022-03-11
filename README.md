@@ -40,28 +40,220 @@
     - Content-type : "application/json"
     
 - req
-    - user
-        - username: String
-        - password: String
+    - username: String
+    - password: String
 - res
-    - user
-        - username: String
-        - name: String
-        - email: String
-        - token: String
+    - username: String
+    - name: String
+    - email: String
+    - token: String
 - fail
     - ID 또는 PW 일치하지 않을 경우
     
 ### 유저 정보
 - api
-    - /user/:user_id (get)
+    - /user/:username (get)
     
 - header
     - Content-type : "application/json"
     - Authorization : “Bearer key”
     
 - res
-    - user
-        - id: String
+    - id: String
+    - name: String
+    - email: String
+    - password: String
+    
+- fail
+    - username 존재하지 않을 때
+### 모든 유저
+- api
+    - /user (get)
+    - /user?page=Number&size=Number
+    - (설명) size : 불러올 데이터 개수, page : size 로 나눈 페이지 수
+
+- header
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- res
+    - dtoList:Array
+        - username: String
         - name: String
-        - workbooks: Array
+        - email: String
+        - password: String
+        
+    - totalPage: Number
+    - page: Number
+    - size: Number
+    - prev: boolean
+    - next: boolean
+    - start: Number
+    - end: Number
+    - pageList: Array
+    
+## 문제집
+### 문제집 만들기
+- api
+    - /workbook (post)
+
+- header
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- req
+    - username: String
+    - title: String
+    - content: String
+    
+- res
+    - id: Number
+    - title: String
+    - content: String
+    - share: boolean
+    - username: String
+    - count: Number
+    
+- fail
+    - 제목 및 내용이 입력되지 않았을 때
+    - username 존재하지 않을 때
+    
+### 문제집 정보
+
+- api
+    - /workbook/:username/:work_book_id (get)
+    - /workbook/:username/:work_book_id?check=boolean (get)
+    - (설명) check 값의 true를 줄 경우 조회수 + 1, null 혹은 false 일 경우 변화 없음
+
+- header
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+    
+- res
+    - id: Number
+    - title: String
+    - content: String
+    - share: boolean
+    - username: String
+    - count: Number
+
+- fail
+    - username 존재하지 않을 때
+    - 해당 계정의 문제집이 아니거나 혹은 없는 work_book_id 일 경우
+    
+### 내 문제집 리스트
+
+- api
+    - /workbook/:username (get)
+    - /workbook/:username?page=Number&size=Number(get)
+    
+
+- header
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- res
+    - dtoList:Array
+        - id: Number
+        - title: String
+        - content: String
+        - share: boolean
+        - username: String
+        - count: Number
+        
+    - totalPage: Number
+    - page: Number
+    - size: Number
+    - prev: boolean
+    - next: boolean
+    - start: Number
+    - end: Number
+    - pageList: Array
+
+- fail
+    - username 존재하지 않을 때
+    
+### 모든 문제집
+- api
+    - /workbook/ (get)
+    - /workbook?page=Number&size=Number (get)
+
+
+- header
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- res
+    - dtoList:Array
+        - id: Number
+        - title: String
+        - content: String
+        - share: boolean
+        - username: String
+        - count: Number
+
+    - totalPage: Number
+    - page: Number
+    - size: Number
+    - prev: boolean
+    - next: boolean
+    - start: Number
+    - end: Number
+    - pageList: Array
+    
+### 문제집 삭제
+- api
+    - /workbook/:username/:work_book_id (delete)
+
+- header
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- res
+    - " 삭제완료 "
+
+- fail
+    - username 존재하지 않을 때
+  - 해당 계정의 문제집이 아니거나 혹은 없는 work_book_id 일 경우
+    
+### 문제집 공유
+- api
+    - /workbook/share/:username/:work_book_id (put)
+
+- header
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- res
+    - " 공유 성공 " : 공유 안돼있을 때 
+    - " 공유 해제 " : 공유 돼있을 때
+
+- fail
+    - username 존재하지 않을 때
+    - 해당 계정의 문제집이 아니거나 혹은 없는 work_book_id 일 경우
+    
+### 문제집 수정
+
+- api
+    - /workbook/:username/:work_book_id (put)
+
+- header
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- req
+    - title: String
+    - content: String
+    
+- res
+    - id: Number
+    - title: String
+    - content: String
+    - share: boolean
+    - username: String
+    - count: Number
+
+- fail
+    - 제목 및 내용이 입력되지 않았을 때
+    - username 존재하지 않을 때
+    - 해당 계정의 문제집이 아니거나 혹은 없는 work_book_id 일 경우
