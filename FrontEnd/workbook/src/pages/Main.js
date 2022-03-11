@@ -1,9 +1,9 @@
-import HeaderSignin from '../components/header/header';
+import Home from "../components/home/home"
 
 export default function Main() {
     return (
       <>
-      <HeaderSignin />
+      <Home />
       </>
     )
   }
