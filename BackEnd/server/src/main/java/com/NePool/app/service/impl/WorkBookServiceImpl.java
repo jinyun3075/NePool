@@ -2,7 +2,6 @@ package com.NePool.app.service.impl;
 
 import com.NePool.app.dto.PageRequestDTO;
 import com.NePool.app.dto.PageResultDTO;
-import com.NePool.app.dto.UserDTO;
 import com.NePool.app.dto.WorkBookRequestDTO;
 import com.NePool.app.entity.NePoolUser;
 import com.NePool.app.entity.WorkBook;
@@ -13,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
