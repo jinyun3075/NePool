@@ -1,13 +1,22 @@
 package com.NePool.app.service;
 
 import com.NePool.app.dto.WorkDTO;
+import com.NePool.app.dto.WorkResultRequestDTO;
+import com.NePool.app.dto.WorkResultResponseDTO;
 import com.NePool.app.entity.Work;
 import com.NePool.app.entity.WorkBook;
+
+import java.util.List;
 
 public interface WorkService {
     WorkDTO register(WorkDTO dto, String username, String work_book_id) throws Exception;
 
-    default Work dtoToEntity(WorkDTO dto, WorkBook workBook,String id) {
+    WorkDTO getWork(String username, String work_book_id, String work_id) throws Exception;
+
+    List<WorkDTO> getList(String username, String work_book_id) throws Exception;
+
+    List<WorkResultResponseDTO> checkResult(List<WorkResultRequestDTO> result, String work_id) throws Exception;
+    default Work dtoToEntity(WorkDTO dto, WorkBook workBook, String id) {
         return Work.builder()
                 .qno(id)
                 .question(dto.getQuestion())

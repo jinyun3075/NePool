@@ -3,12 +3,9 @@ package com.NePool.app.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.Column;
-
 @Data
 @Builder
-public class WorkDTO {
-    private String id;
+public class WorkResultResponseDTO {
     private String question;
     private String answer_a;
     private String answer_b;
@@ -16,5 +13,5 @@ public class WorkDTO {
     private String answer_d;
     private String answer_e;
     private String correct;
-
+    private boolean result;
 }

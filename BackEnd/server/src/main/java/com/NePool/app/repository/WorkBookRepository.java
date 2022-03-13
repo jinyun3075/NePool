@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-public interface WorkBookRepository extends JpaRepository<WorkBook,Long> {
-    Optional<WorkBook> findByWnoAndWriterUno(String id, String String);
+public interface WorkBookRepository extends JpaRepository<WorkBook,String> {
+    Optional<WorkBook> findByWnoAndWriterUno(String id, String user);
     Page<WorkBook> findByWriterUno(String uno, Pageable page);
 
     @Transactional

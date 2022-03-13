@@ -28,7 +28,7 @@ public class Work {
     @Column(length = 500, nullable = false)
     private String answer_e;
     @Column(length = 10, nullable = false)
-    private int correct;
+    private String correct;
 
     @ManyToOne
     WorkBook workBook;

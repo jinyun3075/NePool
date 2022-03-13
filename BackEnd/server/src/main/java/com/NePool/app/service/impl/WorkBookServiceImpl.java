@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Function;
@@ -23,7 +24,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 @Log4j2
 public class WorkBookServiceImpl implements WorkBookService {
-    public final WorkBookRepository repository;
+    public final WorkBookRepository workRepository;
     public final UserRepository userRepository;
     @Autowired
     private Random random;
@@ -32,7 +33,7 @@ public class WorkBookServiceImpl implements WorkBookService {
 
     @Override
     public WorkBookRequestDTO register(WorkBookRequestDTO dto) throws Exception {
-        if(dto.getTitle().equals("")||dto.getContent().equals("")){
+        if (dto.getTitle().equals("") || dto.getContent().equals("")) {
             throw new Exception("제목과 설명을 입력해주세요.");
         }
         Optional<NePoolUser> user = userRepository.findByUsername(dto.getUsername());
@@ -40,26 +41,19 @@ public class WorkBookServiceImpl implements WorkBookService {
             throw new Exception("존재하지 않는 아이디입니다.");
         }
         log.info(random.nextInt(600));
-        WorkBook res = repository.save(dtoToEntity(dto, user.get(),pw.encode(random.nextInt(600)+"").replace("/","")));
+        WorkBook res = workRepository.save(dtoToEntity(dto, user.get(), pw.encode(random.nextInt(600) + "").replace("/", "")));
         return entityToDto(res);
     }
 
     @Override
     public WorkBookRequestDTO getWorkBook(String username, String work_book_id, Boolean check) throws Exception {
-        Optional<NePoolUser> user = userRepository.findByUsername(username);
-        if (!user.isPresent()) {
-            throw new Exception("존재하지 않는 아이디입니다.");
-        }
-        Optional<WorkBook> res = repository.findByWnoAndWriterUno(work_book_id,user.get().getUno());
-        if (!res.isPresent()) {
-            throw new Exception("존재하지 않는 문제집입니다.");
-        }
+        WorkBook workBook = check(username, work_book_id);
 
-        if(check) {
-            res.get().upCount();
-            repository.save(res.get());
+        if (check) {
+            workBook.upCount();
+            workRepository.save(workBook);
         }
-        return entityToDto(res.get());
+        return entityToDto(workBook);
     }
 
     @Override
@@ -68,14 +62,14 @@ public class WorkBookServiceImpl implements WorkBookService {
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
         }
-        Page<WorkBook> entity = repository.findByWriterUno(user.get().getUno(), page.getPageable(Sort.by("wno").ascending()));
+        Page<WorkBook> entity = workRepository.findByWriterUno(user.get().getUno(), page.getPageable(Sort.by("wno").ascending()));
         Function<WorkBook, WorkBookRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
     }
 
     @Override
     public PageResultDTO<WorkBookRequestDTO, WorkBook> allList(PageRequestDTO page) throws Exception {
-        Page<WorkBook> entity = repository.findAll(page.getPageable(Sort.by("wno").descending()));
+        Page<WorkBook> entity = workRepository.findAll(page.getPageable(Sort.by("wno").descending()));
         Function<WorkBook, WorkBookRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
     }
@@ -86,47 +80,45 @@ public class WorkBookServiceImpl implements WorkBookService {
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
         }
-        Long res = repository.deleteByWnoAndWriterUno(work_book_id,user.get().getUno());
-        if (res==0) {
+        Long res = workRepository.deleteByWnoAndWriterUno(work_book_id, user.get().getUno());
+        if (res == 0) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
     }
 
     @Override
     public boolean share(String username, String work_book_id) throws Exception {
-        Optional<NePoolUser> user = userRepository.findByUsername(username);
-        if (!user.isPresent()) {
-            throw new Exception("존재하지 않는 아이디입니다.");
-        }
-        Optional<WorkBook> res = repository.findByWnoAndWriterUno(work_book_id,user.get().getUno());
-        if (!res.isPresent()) {
-            throw new Exception("존재하지 않는 문제집입니다.");
-        }
-        if(res.get().getShare()==false) {
-            res.get().setShare(true);
-            repository.save(res.get());
+        WorkBook workBook = check(username, work_book_id);
+        if (workBook.getShare() == false) {
+            workBook.setShare(true);
+            workRepository.save(workBook);
             return true;
         }
-        res.get().setShare(false);
-        repository.save(res.get());
+        workBook.setShare(false);
+        workRepository.save(workBook);
         return false;
     }
 
     @Override
     public WorkBookRequestDTO update(String username, String work_book_id, WorkBookRequestDTO dto) throws Exception {
-        if(dto.getTitle().equals("")||dto.getContent().equals("")){
+        if (dto.getTitle().equals("") || dto.getContent().equals("")) {
             throw new Exception("제목과 설명을 입력해주세요.");
         }
+        WorkBook workBook = check(username, work_book_id);
+
+        workBook.update(dto.getTitle(), dto.getContent());
+        return entityToDto(workRepository.save(workBook));
+    }
+
+    private WorkBook check(String username, String work_book_id) throws Exception {
         Optional<NePoolUser> user = userRepository.findByUsername(username);
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
         }
-        Optional<WorkBook> res = repository.findByWnoAndWriterUno(work_book_id,user.get().getUno());
-        if (!res.isPresent()) {
+        Optional<WorkBook> workBook = workRepository.findByWnoAndWriterUno(work_book_id, user.get().getUno());
+        if (!workBook.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
-
-        res.get().update(dto.getTitle(), dto.getContent());
-        return entityToDto(repository.save(res.get()));
+        return workBook.get();
     }
 }
