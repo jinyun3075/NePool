@@ -22,10 +22,10 @@ export default function Carousel() {
                         </CarouselItem>
                     <BtnBox>
                         <button type="button">
-                            <img src="/img/<.svg" alt="이전버튼" />
+                            <img src="/img/prev.svg" alt="이전버튼" />
                         </button>
                         <button type="button">
-                            <img src="/img/>.svg" alt="다음버튼" />
+                            <img src="/img/next.svg" alt="다음버튼" />
                         </button>
                     </BtnBox>
                     </CarouselList>
