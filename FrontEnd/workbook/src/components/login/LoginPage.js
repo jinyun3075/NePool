@@ -1,20 +1,38 @@
 import styled from 'styled-components';
-import { COLORS } from '../../constants'
+import { API, COLORS } from '../../constants'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react';
+import axios from 'axios';
 
 export default function LoginPage() {
   const [loginErr, setLoginErr] = useState("아이디 또는 비밀번호가 일치하지 않습니다.")
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
   })
 
-  const onSubmit = (e) => {
-    e.preventDefault()
+  const onSubmit = async (data) => {
+    try {
+      const userData = {
+        username: data.id,
+        password: data.password
+      }
+    const res = await axios.post(`${API}/user/login`, userData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    // console.log(res);
+    // console.log(res.data.username);
+    window.localStorage.setItem('token', res.data.token)
+    window.localStorage.setItem('user', res.data.username)
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -42,12 +60,12 @@ export default function LoginPage() {
                 placeholder="비밀번호"
                 {...register("password", {
                   required: true,
-                  pattern: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9])$/
+                  // pattern: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9])$/
                 })}
                 />
                 {errors.id && errors.id.type === 'pattern' && (<Err>아이디 또는 비밀번호가 일치하지 않습니다.</Err>)}
                 {errors.password && errors.password.type === 'pattern' && (<Err>아이디 또는 비밀번호가 일치하지 않습니다.</Err>)}
-            <Btn className="loginBtn" type="submit">로그인</Btn>
+            <Btn className="loginBtn" disabled={!isValid} type="submit">로그인</Btn>
           </Form>
           <OrLine>또는</OrLine>
           <SocialLogin>
