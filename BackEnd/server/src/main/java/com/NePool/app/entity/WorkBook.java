@@ -15,8 +15,7 @@ import javax.persistence.*;
 public class WorkBook extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long wno;
+    private String wno;
 
     @Column(length = 200, nullable = false)
     private String title;

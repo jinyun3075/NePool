@@ -9,8 +9,9 @@ public interface UserService {
     UserDTO register(UserDTO dto) throws Exception;
     UserDTO getUser(String dto);
     PageResultDTO<UserDTO, NePoolUser> getList(PageRequestDTO dto);
-    default NePoolUser dtoToEntity(UserDTO dto) {
+    default NePoolUser dtoToEntity(UserDTO dto,String id) {
         return NePoolUser.builder()
+                .uno(id)
                 .name(dto.getName())
                 .password(dto.getPassword())
                 .email(dto.getEmail())

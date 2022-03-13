@@ -13,8 +13,7 @@ import javax.persistence.*;
 public class Work {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long qno;
+    private String qno;
 
     @Column(length = 500, nullable = false)
     private String question;

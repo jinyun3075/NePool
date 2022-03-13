@@ -25,7 +25,7 @@ public class WorkBookCont {
     }
 
     @GetMapping("/{username}/{work_book_id}")
-    public ResponseEntity<WorkBookRequestDTO> getWorkBook(@PathVariable("username") String username, @PathVariable("work_book_id") Long work_book_id, @RequestParam(value = "check", required = false) Boolean check) throws Exception {
+    public ResponseEntity<WorkBookRequestDTO> getWorkBook(@PathVariable("username") String username, @PathVariable("work_book_id") String work_book_id, @RequestParam(value = "check", required = false) Boolean check) throws Exception {
         if(check==null) {
             check=false;
         }
@@ -53,13 +53,13 @@ public class WorkBookCont {
     }
 
     @DeleteMapping("{username}/{work_book_id}")
-    public String delete(@PathVariable String username, @PathVariable Long work_book_id) throws Exception{
+    public String delete(@PathVariable String username, @PathVariable String work_book_id) throws Exception{
         service.delete(username,work_book_id);
         return "삭제완료";
     }
 
     @PutMapping("/share/{username}/{work_book_id}")
-    public ResponseEntity<String> share(@PathVariable String username, @PathVariable Long work_book_id) throws Exception{
+    public ResponseEntity<String> share(@PathVariable String username, @PathVariable String work_book_id) throws Exception{
         String res = "";
         if(service.share(username,work_book_id)) {
             res = "공유 성공";
@@ -69,7 +69,7 @@ public class WorkBookCont {
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
     @PutMapping("/{username}/{work_book_id}")
-    public ResponseEntity<WorkBookRequestDTO> update(@PathVariable String username, @PathVariable Long work_book_id, @RequestBody WorkBookRequestDTO req) throws Exception{
+    public ResponseEntity<WorkBookRequestDTO> update(@PathVariable String username, @PathVariable String work_book_id, @RequestBody WorkBookRequestDTO req) throws Exception{
         return new ResponseEntity<>(service.update(username,work_book_id,req),HttpStatus.OK);
     }
 }

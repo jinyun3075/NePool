@@ -17,7 +17,7 @@ public class WorkCont {
     private final WorkService service;
 
     @PostMapping("/{username}/{work_book_id}")
-    public ResponseEntity<WorkDTO> register (@RequestBody WorkDTO dto, @PathVariable String username, @PathVariable Long work_book_id) throws Exception {
+    public ResponseEntity<WorkDTO> register (@RequestBody WorkDTO dto, @PathVariable String username, @PathVariable String work_book_id) throws Exception {
         return new ResponseEntity<>(service.register(dto,username,work_book_id), HttpStatus.OK);
     }
 }

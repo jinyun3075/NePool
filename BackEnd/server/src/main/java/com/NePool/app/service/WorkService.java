@@ -5,10 +5,11 @@ import com.NePool.app.entity.Work;
 import com.NePool.app.entity.WorkBook;
 
 public interface WorkService {
-    WorkDTO register(WorkDTO dto, String username, Long work_book_id) throws Exception;
+    WorkDTO register(WorkDTO dto, String username, String work_book_id) throws Exception;
 
-    default Work dtoToEntity(WorkDTO dto, WorkBook workBook) {
+    default Work dtoToEntity(WorkDTO dto, WorkBook workBook,String id) {
         return Work.builder()
+                .qno(id)
                 .question(dto.getQuestion())
                 .answer_a(dto.getAnswer_a())
                 .answer_b(dto.getAnswer_b())

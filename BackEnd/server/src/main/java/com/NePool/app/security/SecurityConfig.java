@@ -19,11 +19,18 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
+import java.util.Random;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Log4j2
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Bean
+    Random random(){
+        Random random = new Random();
+        random.setSeed(System.currentTimeMillis());
+        return random;
+    }
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

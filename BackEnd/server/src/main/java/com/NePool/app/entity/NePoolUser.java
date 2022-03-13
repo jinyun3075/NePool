@@ -13,8 +13,7 @@ import javax.persistence.*;
 @ToString
 public class NePoolUser extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long uno;
+    private String uno;
 
     @Column(length = 100, nullable = false, unique = true)
     private String username;

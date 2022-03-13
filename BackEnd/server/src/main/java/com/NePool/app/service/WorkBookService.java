@@ -9,20 +9,21 @@ import com.NePool.app.entity.WorkBook;
 public interface WorkBookService {
     WorkBookRequestDTO register(WorkBookRequestDTO dto) throws Exception;
 
-    WorkBookRequestDTO getWorkBook(String username, Long work_book_id, Boolean check) throws Exception;
+    WorkBookRequestDTO getWorkBook(String username, String work_book_id, Boolean check) throws Exception;
 
     PageResultDTO<WorkBookRequestDTO, WorkBook> getList(String username, PageRequestDTO page) throws Exception;
 
     PageResultDTO<WorkBookRequestDTO, WorkBook> allList(PageRequestDTO page) throws Exception;
 
-    void delete(String username, Long work_book_id) throws Exception;
+    void delete(String username, String work_book_id) throws Exception;
 
-    boolean share(String username, Long work_book_id) throws Exception;
+    boolean share(String username, String work_book_id) throws Exception;
 
-    WorkBookRequestDTO update(String username, Long work_book_id, WorkBookRequestDTO dto) throws Exception;
+    WorkBookRequestDTO update(String username, String work_book_id, WorkBookRequestDTO dto) throws Exception;
 
-    default WorkBook dtoToEntity(WorkBookRequestDTO dto, NePoolUser user) {
+    default WorkBook dtoToEntity(WorkBookRequestDTO dto, NePoolUser user, String id) {
         return WorkBook.builder()
+                .wno(id)
                 .writer(user)
                 .title(dto.getTitle())
                 .share(false)

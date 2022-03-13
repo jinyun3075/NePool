@@ -14,8 +14,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
@@ -24,6 +24,8 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     public final UserRepository repository;
+    @Autowired
+    private Random random;
     @Autowired
     private PasswordEncoder pw;
     @Override
@@ -43,7 +45,7 @@ public class UserServiceImpl implements UserService {
             throw new Exception("이메일 형식이 아닙니다.");
         }
         dto.setPassword(pw.encode(dto.getPassword()));
-        NePoolUser res = repository.save(dtoToEntity(dto));
+        NePoolUser res = repository.save(dtoToEntity(dto,(pw.encode(random.nextInt(600)+"").replace("/",""))));
         return entityToDto(res);
     }
 

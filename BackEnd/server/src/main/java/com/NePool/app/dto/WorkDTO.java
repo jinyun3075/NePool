@@ -8,7 +8,7 @@ import javax.persistence.Column;
 @Data
 @Builder
 public class WorkDTO {
-    private Long id;
+    private String id;
     private String question;
     private String answer_a;
     private String answer_b;

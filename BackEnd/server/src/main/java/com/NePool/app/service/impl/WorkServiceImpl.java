@@ -9,9 +9,12 @@ import com.NePool.app.repository.WorkRepository;
 import com.NePool.app.service.WorkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +23,12 @@ public class WorkServiceImpl implements WorkService {
     private final WorkBookRepository workBookRepository;
     private final UserRepository userRepository;
     private final WorkRepository repository;
+    @Autowired
+    private Random random;
+    @Autowired
+    private PasswordEncoder pw;
     @Override
-    public WorkDTO register(WorkDTO dto,String username,Long work_book_id) throws Exception {
+    public WorkDTO register(WorkDTO dto,String username,String work_book_id) throws Exception {
         if(dto.getAnswer_a().equals("")||dto.getAnswer_b().equals("")||dto.getAnswer_c().equals("")||dto.getAnswer_d().equals("")||dto.getAnswer_e().equals("")||dto.getQuestion().equals("")||dto.getCorrect()==0){
             throw new Exception("모든 요구사항을 입력해주세요.");
         }
@@ -33,6 +40,6 @@ public class WorkServiceImpl implements WorkService {
         if (!res.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
-        return entityToDto(repository.save(dtoToEntity(dto,res.get())));
+        return entityToDto(repository.save(dtoToEntity(dto,res.get(),pw.encode(random.nextInt(600)+"").replace("/",""))));
     }
 }
