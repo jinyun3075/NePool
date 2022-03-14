@@ -4,6 +4,7 @@ import com.NePool.app.dto.WorkDTO;
 import com.NePool.app.dto.WorkResultRealResponseDTO;
 import com.NePool.app.dto.WorkResultRequestDTO;
 import com.NePool.app.dto.WorkResultResponseDTO;
+import com.NePool.app.entity.NePoolUser;
 import com.NePool.app.entity.Work;
 import com.NePool.app.entity.WorkBook;
 
@@ -17,6 +18,11 @@ public interface WorkService {
     List<WorkDTO> getList(String username, String work_book_id) throws Exception;
 
     WorkResultRealResponseDTO checkResult(List<WorkResultRequestDTO> result, String work_id) throws Exception;
+
+    void delete(String username, String work_book_id, String work_id) throws Exception;
+
+    WorkDTO update(String username, String work_book_id, String work_id, WorkDTO dto) throws Exception;
+
     default Work dtoToEntity(WorkDTO dto, WorkBook workBook, String id) {
         return Work.builder()
                 .qno(id)

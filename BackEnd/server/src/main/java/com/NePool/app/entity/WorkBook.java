@@ -40,8 +40,9 @@ public class WorkBook extends BaseEntity {
         this.share = share;
     }
 
-    public void update(String title, String content) {
+    public void update(String title, String content, String type) {
         this.title = title;
         this.content = content;
+        this.type = type;
     }
 }

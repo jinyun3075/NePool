@@ -36,9 +36,4 @@ public class UserCont {
         }
         return new ResponseEntity<>(service.getList(req),HttpStatus.OK);
     }
-
-    @DeleteMapping("/{user_id}/{work_book_id}/{work_id}")
-    public ResponseEntity<String> delete(@PathVariable String user_id, @PathVariable String work_book_id, @PathVariable String work_id) {
-        return null;
-    }
 }

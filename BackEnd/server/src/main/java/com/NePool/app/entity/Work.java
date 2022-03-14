@@ -1,5 +1,6 @@
 package com.NePool.app.entity;
 
+import com.NePool.app.dto.WorkDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,4 +33,14 @@ public class Work {
 
     @ManyToOne
     WorkBook workBook;
+
+    public void updateWork(WorkDTO dto) {
+        this.question=dto.getQuestion();
+        this.answer_a=dto.getAnswer_a();
+        this.answer_b=dto.getAnswer_b();
+        this.answer_c=dto.getAnswer_c();
+        this.answer_d=dto.getAnswer_d();
+        this.answer_e=dto.getAnswer_e();
+        this.correct=dto.getCorrect();
+    }
 }

@@ -94,6 +94,26 @@ public class WorkServiceImpl implements WorkService {
         return realRes;
     }
 
+    @Override
+    public void delete(String username, String work_book_id, String work_id) throws Exception {
+        check(username,work_book_id);
+        Long res = workRepository.deleteByQnoAndWorkBookWno(work_id,work_book_id);
+        if (res == 0) {
+            throw new Exception("존재하지 않는 문제입니다.");
+        }
+    }
+
+    @Override
+    public WorkDTO update(String username, String work_book_id, String work_id, WorkDTO dto) throws Exception {
+        check(username,work_book_id);
+        Optional<Work> work = workRepository.findByQnoAndWorkBookWno(work_id,work_book_id);
+        if(!work.isPresent()){
+            throw new Exception("존재하지 않는 문제입니다.");
+        }
+        work.get().updateWork(dto);
+        return entityToDto(workRepository.save(work.get()));
+    }
+
     private WorkBook check(String username, String work_book_id) throws Exception{
         Optional<NePoolUser> user = userRepository.findByUsername(username);
         if (!user.isPresent()) {
