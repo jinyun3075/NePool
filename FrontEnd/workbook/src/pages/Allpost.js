@@ -1,10 +1,9 @@
-import MorePost from "../components/home/morePost";
+import AllPost from "../components/post/allPost";
 
-
-export default function AllPost() {
+export default function PostPage() {
   return (
     <>
-      <MorePost /> 
+      <AllPost /> 
     </>
     )
 }
