@@ -5,6 +5,7 @@ import "./style/globals.css";
 import {Route, Routes} from 'react-router-dom';
 import Join from './pages/Join';
 import Study from './pages/Study';
+import AllPost from './pages/Allpost';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/join" element={<Join />} />
         <Route path="/studymode" element={<Study />} />
+        <Route path="/allpost" element={<AllPost />} />
       </Routes>
     </>
     )
