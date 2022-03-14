@@ -1,7 +1,24 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { API } from '../../constants'
+import NoticeModal from './notice';
+import StatusModal from './status';
 
 export default function HeaderSignin() {
+
+  //알림창 모달
+  const [noticeOn, setNoticeOn] = useState(false);
+  const openNotice = () => {
+    setNoticeOn(!noticeOn);
+  };
+
+  //프로필 창 모달
+  const [statusON, setStatusON] = useState(false);
+  const openStatus = () => {
+    setStatusON(!statusON);
+  };
+
   return (
     <>
       <header>
@@ -10,9 +27,9 @@ export default function HeaderSignin() {
             <SearchBtn>
               <img src="/img/search.svg" alt="돋보기" />
             </SearchBtn>
-            <SearchInp type="text" autoFocus placeholder='문제집을 검색해 보세요!'/>
+            <SearchInp type="text" autoFocus placeholder='문제집을 검색해 보세요!' />
             <CloseBtn>
-              <img src="/img/close.svg" alt="닫기" />
+              <img src="/img/close.svg" alt="지우기" />
             </CloseBtn>
           </SearchBox>
           <h1><a href="#"><Logo src="/img/logo.svg" alt="로고" /></a></h1>
@@ -21,38 +38,19 @@ export default function HeaderSignin() {
             <Btn>회원가입</Btn>
           </BtnBox> */}
           <ProfileBox>
-            <button>
+            <button onClick={openNotice}>
               <NoticeImg src="/img/notice.svg" alt="알림" />
             </button>
-            <NoticeBox>
-              <ul>
-                <Notice>
-                  <p>2022년 2월 28일 03:53</p>
-                  <p>sung2 님이 '정처기 문제집 1'을 스크랩했습니다.</p>
-                </Notice>
-                <Notice>
-                  <p>2022년 2월 28일 03:53</p>
-                  <p>sung2 님이 '정처기 문제집 1'을 스크랩했습니다.</p>
-                </Notice>
-              </ul>
-            </NoticeBox>
-            <button>
+            {noticeOn && (
+              <NoticeModal />
+            )}
+            <button onClick={openStatus}>
               <ProfileImg src="/img/mango.jpg" alt="프로필 사진" />
             </button>
+            {statusON && (
+            <StatusModal />
+            )}
           </ProfileBox>
-          <ProfileStatus>
-            <StatusBox>
-              <StatusImg><img src="/img/mango.jpg" alt="프로필 사진" /></StatusImg>
-              <StatusProfile>
-                <p>망고님</p>
-                <button>프로필 변경하기</button>
-              </StatusProfile>
-            </StatusBox>
-             <StatusMenu>
-                <a href="#">마이페이지</a>
-                <a href="#">로그아웃</a>
-             </StatusMenu>
-          </ProfileStatus>
         </HeaderWrap>
       </header>
     </>
@@ -140,86 +138,4 @@ const ProfileImg = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 6px;
-`
-//알림창 
-const NoticeBox = styled.div`
-  display: none;
-  position: absolute;
-  width:  500px;
-  height: 200px;
-  border: 1px solid #b6b6b6;
-  border-radius: 6px;
-  color: #767676;
-  top: 80px;
-  right: 258px;
-`
-const Notice = styled.li`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: flex-start;
-  height: 100px;
-  margin-left: 20px;
-  &::after {
-    position: absolute;
-    content:"";
-    width: 500px;
-    border-top: 1px solid #f5f5f5;
-    top: 100px;
-    right: 0px;
-  }
-`
-//프로필 상태창
-const ProfileStatus = styled.div`
-  display: none;
-  position: absolute;
-  width:  280px;
-  height: 220px;
-  border: 1px solid #b6b6b6;
-  border-radius: 6px;
-  top: 80px;
-  right: 206px;
-`
-const StatusBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  height: 110px;
-  padding: 0 25px;
-  border-bottom: 1px solid #f5f5f5;
-`
-const StatusImg = styled.div`
-  img {
-    width: 73px;
-    height: 73px;
-    border-radius: 6px;
-  }
-`
-const StatusProfile = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 110px;
-  p {
-    margin-bottom: 7px;
-    font-size: 16px;
-    font-weight: 400;
-    color: #767676;
-  }
-  button {
-    padding: 0;
-    font-size: 14px;
-    font-weight: 400;
-    color: #2f80ed;
-  }
-`
-const StatusMenu = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  height: 110px;
-  a {
-    color: #767676;
-  }
 `
