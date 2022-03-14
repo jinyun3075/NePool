@@ -12,6 +12,7 @@ import java.util.Collection;
 @Setter
 @ToString
 public class NePoolAuthDTO extends User {
+    private String id;
     private String username;
     private String name;
     private String email;

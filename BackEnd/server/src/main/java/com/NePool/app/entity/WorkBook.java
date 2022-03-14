@@ -1,8 +1,6 @@
 package com.NePool.app.entity;
 
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 
@@ -23,12 +21,16 @@ public class WorkBook extends BaseEntity {
     @Column(length = 1000, nullable = false)
     private String content;
 
+    @Column(length = 30, nullable = false)
+    private String type;
+
     private Boolean share;
 
     @ManyToOne
     private NePoolUser writer;
 
     private Long count;
+
 
     public void upCount() {
         count++;

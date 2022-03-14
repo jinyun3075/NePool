@@ -45,6 +45,7 @@ public class NePoolUserDetailsService implements UserDetailsService {
 
         nePoolAuthDTO.setName(nePoolUser.getName());
         nePoolAuthDTO.setEmail(nePoolUser.getEmail());
+        nePoolAuthDTO.setId(nePoolUser.getUno());
 
         return nePoolAuthDTO;
     }

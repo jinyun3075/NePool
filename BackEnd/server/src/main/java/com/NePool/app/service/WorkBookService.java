@@ -28,6 +28,7 @@ public interface WorkBookService {
                 .title(dto.getTitle())
                 .share(false)
                 .count(0L)
+                .type(dto.getType())
                 .content(dto.getContent()).build();
     }
 
@@ -38,6 +39,7 @@ public interface WorkBookService {
                 .username(entity.getWriter().getUsername())
                 .id(entity.getWno())
                 .count(entity.getCount())
+                .type(entity.getType())
                 .share(entity.getShare()).build();
     }
 }

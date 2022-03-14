@@ -51,6 +51,7 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
 
         try {
             UserLoginDTO req = new UserLoginDTO();
+            req.setId(principal.getId());
             req.setName(principal.getName());
             req.setEmail(principal.getEmail());
             req.setToken( jwtUtil.generateToken("123"));
