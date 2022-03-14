@@ -1,7 +1,29 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { API } from "../../constants";
 
 export default function StatusModal() {
+  const [userName, setUserName] = useState("");
+
+  const getUser = async () => {
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
+    console.log(token);
+    console.log(user);
+    const res = await axios.get(`${API}/user/${user}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-type": "application/json",
+      },
+    });
+    setUserName(res.data.name);
+    console.log(res);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
   return (
     <>
       <ProfileStatus>
@@ -10,7 +32,7 @@ export default function StatusModal() {
             <img src="/img/mango.jpg" alt="프로필 사진" />
           </StatusImg>
           <StatusProfile>
-            <p>망고</p>
+            <p>{userName}</p>
             <button>프로필 변경하기</button>
           </StatusProfile>
         </StatusBox>
@@ -34,7 +56,7 @@ const ProfileStatus = styled.div`
   margin-top: 46px;
   margin-right: 5px;
 }
-`
+`;
 const StatusBox = styled.div`
   display: flex;
   align-items: center;
