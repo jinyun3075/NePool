@@ -28,7 +28,7 @@ public class Work {
     private String answer_d;
     @Column(length = 500, nullable = false)
     private String answer_e;
-    @Column(length = 10, nullable = false)
+    @Column(length = 500, nullable = false)
     private String correct;
 
     @ManyToOne

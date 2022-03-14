@@ -64,6 +64,10 @@ public class WorkServiceImpl implements WorkService {
         if(work.size()==0) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
+        if(result.size() != work.size()){
+            throw new Exception("존재하는 문제 수에 맞게 데이터를 보내주세요.");
+        }
+
         Map<String,Work> map = new HashMap<>();
         for(Work w : work) {
             map.put(w.getQno(),w);
