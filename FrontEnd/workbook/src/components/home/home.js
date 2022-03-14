@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HeaderSignin from '../header/header';
 import Carousel from './carousel';
-import MainPost from './mainPost';
+import PostNav from './postNav';
 import Banner from './banner';
 import Footer from './footer';
+import Post from './post';
 
 export default function Home() {
     const [scrollY, setScrollY] = useState(0);
@@ -41,7 +42,8 @@ export default function Home() {
         <>
           <HeaderSignin />
           <Carousel />
-          <MainPost />
+          <PostNav />
+          <Post />
           <Banner />
           <Footer />
           <TopBtn><button className={BtnOFF ? "topOn" : "active"} onClick={scrollTop}></button></TopBtn>
