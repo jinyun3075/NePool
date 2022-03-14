@@ -2,6 +2,7 @@ package com.NePool.app.controller;
 
 import com.NePool.app.dto.WorkDTO;
 
+import com.NePool.app.dto.WorkResultRealResponseDTO;
 import com.NePool.app.dto.WorkResultRequestDTO;
 import com.NePool.app.dto.WorkResultResponseDTO;
 import com.NePool.app.service.WorkService;
@@ -36,8 +37,7 @@ public class WorkCont {
     }
 
     @PostMapping("/{work_book_id}")
-    public ResponseEntity<List<WorkResultResponseDTO>> checkResult(@RequestBody List<WorkResultRequestDTO> result, @PathVariable String work_book_id) throws Exception{
-        log.info(result);
+    public ResponseEntity<WorkResultRealResponseDTO> checkResult(@RequestBody List<WorkResultRequestDTO> result, @PathVariable String work_book_id) throws Exception{
         return new ResponseEntity<>(service.checkResult(result,work_book_id),HttpStatus.OK);
     }
 

@@ -1,6 +1,7 @@
 package com.NePool.app.service.impl;
 
 import com.NePool.app.dto.WorkDTO;
+import com.NePool.app.dto.WorkResultRealResponseDTO;
 import com.NePool.app.dto.WorkResultRequestDTO;
 import com.NePool.app.dto.WorkResultResponseDTO;
 import com.NePool.app.entity.NePoolUser;
@@ -58,7 +59,7 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public List<WorkResultResponseDTO> checkResult(List<WorkResultRequestDTO> result, String work_book_id) throws Exception {
+    public WorkResultRealResponseDTO checkResult(List<WorkResultRequestDTO> result, String work_book_id) throws Exception {
         List<Work> work = workRepository.findByWorkBookWno(work_book_id);
         if(work.size()==0) {
             throw new Exception("존재하지 않는 문제집입니다.");
@@ -67,11 +68,13 @@ public class WorkServiceImpl implements WorkService {
         for(Work w : work) {
             map.put(w.getQno(),w);
         }
+        int score=0;
         List<WorkResultResponseDTO> res = new ArrayList<>();
         for(WorkResultRequestDTO check: result) {
             Work value = map.get(check.getId());
             boolean bool = false;
             if(value.getCorrect().equals(check.getCorrect())){
+                score++;
                 bool=true;
             }
             res.add(WorkResultResponseDTO.builder()
@@ -84,7 +87,11 @@ public class WorkServiceImpl implements WorkService {
                     .correct(value.getCorrect())
                     .result(bool).build());
         }
-        return res;
+        WorkResultRealResponseDTO realRes = new WorkResultRealResponseDTO();
+        realRes.setVal(res);
+        realRes.setScore(score);
+        realRes.setTotalScore(res.size());
+        return realRes;
     }
 
     private WorkBook check(String username, String work_book_id) throws Exception{
