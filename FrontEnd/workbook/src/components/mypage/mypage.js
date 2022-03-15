@@ -1,20 +1,52 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HeaderSignin from '../header/header';
-import { COLORS } from '../../constants/index';
+import { COLORS, API } from '../../constants/index';
 import DeleteModal from '../mypage/delete_modal';
 import CreateModal from './create_modal';
 import UpdateModal from './update_modal';
+import ModeModal from './mode_modal';
+import axios from 'axios';
+
 
 export default function My_page() {
 
   let [create, setCreate] = useState(false);
   let [update, setUpdate] = useState(false);
-  let [deletemodal,setDeletemodal] = useState(false);
+  let [deletemodal, setDeletemodal] = useState(false);
+  let [modemodal, setModemodal] = useState(false);
 
+  const [workbook,setWorkbook] = useState([
+      {
+          content:"",
+          count:"",
+          id:"",
+          share:"",
+          title:"",
+          username:"",
+      },
+  ]);
+  
+  const ReadWorkbook = async () => {
+    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDcxODQzMjEsImV4cCI6MTY0NzM1NzEyMSwic3ViIjoiMTIzIn0.nsrTCyz6MDl1qdNPGW-kN3y0V2e-OXisghvCuqSryok';
+    const res = await axios.get(`${API}/workbook/123?page=1&size=10`,{
+        headers:{
+            'Content-type' : "application/json",
+            Authorization : `Bearer ${token}`
+        }}
+    );
+    
+    setWorkbook(res.data.dtoList);
+
+}
+
+useEffect(() => {
+    ReadWorkbook();
+}, []);
 
   return (
     <>
+
       <HeaderSignin />
 
       {
@@ -72,13 +104,28 @@ export default function My_page() {
                             <DeleteModal deletemodal = {deletemodal} setDeletemodal ={setDeletemodal}/> 
                             :null   
                         }
-                    <ExampleLi> 
-                        <ExampleP1 onClick ={() => { setUpdate(!update) } }>예시 문제집</ExampleP1>
-                        <ExampleP2 onClick ={() => { setUpdate(!update) } }>마지막 수정 일시 : 2022-02-28</ExampleP2>
-                        {
-                            update === true ? <UpdateModal setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} /> : null    
+
+                        {    
+                            modemodal === true ?
+                            <ModeModal />
+                            :null
                         }
-                    </ExampleLi>
+
+                    {
+                        workbook.map((workbookdata)=>{
+                            return(
+                                <ExampleLi> 
+                                    <ExampleP1 onClick ={() => { setUpdate(!update) } }>{workbookdata.title}</ExampleP1>
+                                    <ExampleP2 onClick ={() => { setUpdate(!update) } }>마지막 수정 일시 : 2022-02-28</ExampleP2>
+                                    {
+                                        update === true ? 
+                                        <UpdateModal setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
+                                        : null    
+                                    }
+                                </ExampleLi>
+                            )
+                        })
+                    }
                     
                     <ExampleLi>
                         <ExampleP1>예시 문제집</ExampleP1>
@@ -97,7 +144,8 @@ export default function My_page() {
 
                 </Example>
 
-                <CreateBtn onClick ={ ()=>{setCreate(create=true)}}>+</CreateBtn>
+                <CreateBtn onClick ={ ()=>{setCreate(create=true);}}>+</CreateBtn>
+
 
         </Right>
 
@@ -120,7 +168,7 @@ const Left = styled.article`
     flex-basis:25%;
 `;
 
-const Profile = styled.div`
+const Profile = styled.div` 
     display:flex;
     div{
         width:100%;

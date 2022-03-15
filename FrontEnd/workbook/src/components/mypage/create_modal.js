@@ -1,12 +1,31 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../../constants/index';
+import { COLORS, API } from '../../constants/index';
+import axios from 'axios';
 
 export default function CreateModal(props){
+    const Workbook  = async() =>{
+        const token = 'authorization : Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDcxODQzMjEsImV4cCI6MTY0NzM1NzEyMSwic3ViIjoiMTIzIn0.nsrTCyz6MDl1qdNPGW-kN3y0V2e-OXisghvCuqSryok';
+        const res = await axios.post(`${API}/workbook`,{
+            username:"",
+            title:"",
+            content:""
+        },{
+            headers: {
+                'Content-type' : 'application/json',
+                Authorization : `Bearer ${token}`,
+            },
+        })
+
+        console.log(res);
+    }
+
 
     return(
         <>
-            <Modal>
+            <Modal action ="http://3.34.215.124:80/workbook" method = "POST" onSubmit={function(e){
+                e.preventDefault();
+            }.bind(this)}>
                 <ImgDiv>
                     <img onClick = { ()=>{props.setCreate(props.create === false)} } src ="./img/x.svg" alt = "x"></img>
                 </ImgDiv>
@@ -17,16 +36,20 @@ export default function CreateModal(props){
                 </InputLabel>
 
                 <TextSelect>
-                    <TextInput placeholder ="문제집 이름" type="text"></TextInput>
+                    <TextInput name = "title" placeholder ="문제집 이름" type="text"></TextInput>
                     <Select name="workbooks">
-                        <option value="volvo">Volvo</option>
-                        <option value="saab">Saab</option>
-                        <option value="mercedes">Mercedes</option>
-                        <option value="audi">Audi</option>
+                        <option value="정보처리기사">정보처리기사</option>
+                        <option value="YBMCOS">YBM COS</option>
+                        <option value="웹디자인 기능사">웹디자인 기능사</option>
+                        <option value="리눅스 마스터">리눅스 마스터</option>
+                        <option value="TOPCIT">TOPCIT</option>
+                        <option value="CCTS">CCTS</option>
+                        <option value="CLA">CLA</option>
                     </Select>
+                    <Explain name="content" rows="5" placeholder='문제집 설명'></Explain>
                 </TextSelect>
 
-                <Create>문제집 생성</Create>
+                <Create onClick = {Workbook()}>문제집 생성</Create>
  
             </Modal>
         </>
@@ -34,6 +57,7 @@ export default function CreateModal(props){
 } 
 
 const Modal = styled.form`
+    box-sizing:border-box;
     padding:1em;
     position:absolute;
     top:50%;
@@ -63,7 +87,7 @@ const InputLabel = styled.div`
     justify-content: center;
     align-items:center;
     width:50%;
-    height:50%;
+    height:40%;
     margin-top:20px auto;
     border:1px solid ${COLORS.light_gray};
     border-radius:15px;
@@ -97,7 +121,9 @@ const Label = styled.label`
 `;
 
 const TextSelect = styled.div`
-    height:30%;
+    height:40%;
+    margin: 0 auto;
+    width:75%;
     display:flex;
     flex-direction: column;
     justify-content: center;
@@ -106,26 +132,39 @@ const TextSelect = styled.div`
 
 const TextInput = styled.input`
     margin-top:36px;
-    width:70%;
-    height:45px;
+    width:96%;
+    height:20%;
     border-radius:5px;
     border-color: ${COLORS.light_gray};
+    &:focus{
+        border-color: ${COLORS.blue};
+    }
 `;
 
 const Select = styled.select`
     margin-top:20px;
-    width:73%;
-    height:45px;
+    width:100%;
+    height:20%;
+    color: ${COLORS.light_gray};
     border-color: ${COLORS.light_gray};
     border-radius:5px;
 `;
 
-const Create = styled.p`
+const Explain = styled.textarea`
+    padding:3%;
+    width:93%;
+    border-color: ${COLORS.light_gray};
+    border-radius:5px;
+    margin-top:20px;
+`;
+
+const Create = styled.button`
+    display: block;
     cursor:pointer;
     color:white;
     line-height:2.5rem;
     margin: 0 auto;
-    margin-top:30px;
+    margin-top:20px;
     text-align:center;
     border-radius:5px;
     width:90%;

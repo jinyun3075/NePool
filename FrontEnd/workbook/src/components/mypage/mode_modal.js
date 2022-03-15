@@ -2,26 +2,17 @@ import React from 'react';
 import { COLORS } from '../../constants/index';
 import styled from 'styled-components';
 
-export default function DeleteModal(props){
-    // function closeModal(){
-    //     modal.style.display = 'none';
-    // }
-    
-    // window.onclick = function(event){
-    //     if(event.target == modal){
-    //         closeModal();
-    //     }
-    // }
+export default function ModeModal(props){
     return(
         <>
             <Modal>
                 <ImgDiv>
-                    <Img onClick = { ()=>{ props.setDeletemodal(false) } } src="/img/x.svg" alt="x" />
+                    <Img onClick = { ()=>{props.setDeletemodal(false)} } src="./img/x.svg" alt="x" />
                 </ImgDiv>
-                <Text>예시 문제집을 삭제하시겠습니까?</Text>
+                <Text>예시 문제집을 푸시겠습니까?</Text>
                 <BtnDiv>
-                    <NoBtn onClick={()=>{props.setDeletemodal(false)}}>아니오</NoBtn>
-                    <YesBtn>예</YesBtn>
+                    <StudyMode>공부모드</StudyMode>
+                    <TestMode>시험모드</TestMode>
                 </BtnDiv>
             </Modal>
         </>
@@ -45,7 +36,9 @@ const Modal = styled.div`
 const ImgDiv = styled.div`
     display:flex;
     justify-content:end;
-    margin:1em 0;
+    border-bottom:none;
+    margin-top:1em;
+    margin-bottom:1em;
 `;
 
 const Img = styled.img`
@@ -70,7 +63,7 @@ const BtnDiv = styled.div`
     justify-content:center;
 `;
 
-const NoBtn = styled.div`
+const StudyMode = styled.div`
     cursor:pointer;
     width:28%;  
     height:2.5em;
@@ -83,7 +76,7 @@ const NoBtn = styled.div`
     border:1px solid ${COLORS.light_gray};
 `;
 
-const YesBtn = styled.div`
+const TestMode = styled.div`
     cursor:pointer;
     width:28%;
     height:2.5em;
