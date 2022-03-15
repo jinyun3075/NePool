@@ -3,11 +3,20 @@ import { COLORS } from '../../constants/index';
 import styled from 'styled-components';
 
 export default function DeleteModal(props){
+    // function closeModal(){
+    //     modal.style.display = 'none';
+    // }
+    
+    // window.onclick = function(event){
+    //     if(event.target == modal){
+    //         closeModal();
+    //     }
+    // }
     return(
         <>
             <Modal>
                 <ImgDiv>
-                    <Img onClick = { ()=>{ props.setDeletemodal(false) } } src="./img/x.svg" alt="x" />
+                    <Img onClick = { ()=>{ props.setDeletemodal(false) } } src="/img/x.svg" alt="x" />
                 </ImgDiv>
                 <Text>예시 문제집을 삭제하시겠습니까?</Text>
                 <BtnDiv>
@@ -36,13 +45,11 @@ const Modal = styled.div`
 const ImgDiv = styled.div`
     display:flex;
     justify-content:end;
-    border-bottom:none;
-    margin-top:1em;
-    margin-bottom:1em;
+    margin:1em 0;
 `;
 
 const Img = styled.img`
-    z-index:99;
+    pointer-events: auto;
     cursor:pointer;
     width:14px;
     height:14px;

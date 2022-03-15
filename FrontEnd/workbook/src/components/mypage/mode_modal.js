@@ -42,7 +42,7 @@ const ImgDiv = styled.div`
 `;
 
 const Img = styled.img`
-    z-index:99;
+    pointer-events: auto;
     cursor:pointer;
     width:14px;
     height:14px;
