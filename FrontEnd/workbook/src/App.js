@@ -6,6 +6,7 @@ import {Route, Routes} from 'react-router-dom';
 import Join from './pages/Join';
 import Study from './pages/Study';
 import AllPost from './pages/Allpost';
+import AddPage from './pages/Add';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/join" element={<Join />} />
         <Route path="/studymode" element={<Study />} />
         <Route path="/allpost" element={<AllPost />} />
+        <Route path="/add" element={<AddPage />} />
       </Routes>
     </>
     )

@@ -19,7 +19,7 @@ export default function Banner() {
                     <BannerText size="30px">당장 시험 준비를 해야한다면?</BannerText>
                 </div>
                 <ButtonBox>
-                    <Btn href="#" bg="white" border="0.5px solid #b6b6b6">👀 전체 문제 보러가기</Btn>
+                    <Btn href="/Allpost" bg="white" border="0.5px solid #b6b6b6">👀 전체 문제 보러가기</Btn>
                     <Btn href="/Join" bg="#2f80ed" color="white">🙌 회원가입 하러가기</Btn>
                 </ButtonBox>
             </BannerBox>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../constants";
 
-export default function Post() {
+export default function MorePost() {
   const [post, setPost] = useState([
     {
       content: "",
@@ -30,13 +30,11 @@ export default function Post() {
   useEffect(() => {
     getUser();
   }, []);
-
   return (
     <>
       <ItemBox>
         <Items>
           {post.map((postData) => {
-            //map이 순환을 함
             return (
               <li>
                 <a href="#">
@@ -51,7 +49,6 @@ export default function Post() {
           })}
         </Items>
       </ItemBox>
-      <MoreBtn href="/Allpost">더보기</MoreBtn>
     </>
   );
 }
@@ -88,16 +85,4 @@ const TextBox = styled.div`
 const ItemSrc = styled.p`
   margin-bottom: 15px;
   font-size: ${(props) => props.size};
-`;
-
-//더보기 버튼
-const MoreBtn = styled.a`
-  display: block;
-  width: 230px;
-  height: 45px;
-  margin: 82px auto 67px;
-  border: 0.5px solid #b6b6b6;
-  text-align: center;
-  font-size: 15px;
-  line-height: 45px;
 `;
