@@ -32,7 +32,7 @@ export default function HeaderSignin() {
               <img src="/img/close.svg" alt="지우기" />
             </CloseBtn>
           </SearchBox>
-          <h1><a href="#"><Logo src="/img/logo.svg" alt="로고" /></a></h1>
+          <h1><a href="/"><Logo src="/img/logo.svg" alt="로고" /></a></h1>
           {/* <BtnBox>
             <Btn color="#2f80ed" font="white">로그인</Btn>
             <Btn>회원가입</Btn>
