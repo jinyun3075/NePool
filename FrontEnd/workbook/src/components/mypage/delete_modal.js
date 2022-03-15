@@ -35,6 +35,7 @@ const Modal = styled.div`
     left:50%;
     transform:translate(-50%,-50%);
     border-radius: 5px;
+    z-index:2;
     width:30%;
     height:20%;
     border:1px solid ${COLORS.light_gray};

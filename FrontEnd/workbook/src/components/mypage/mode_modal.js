@@ -7,7 +7,7 @@ export default function ModeModal(props){
         <>
             <Modal>
                 <ImgDiv>
-                    <Img onClick = { ()=>{props.setDeletemodal(false)} } src="./img/x.svg" alt="x" />
+                    <Img onClick = { ()=>{props.setModemodal(false)} } src="./img/x.svg" alt="x" />
                 </ImgDiv>
                 <Text>예시 문제집을 푸시겠습니까?</Text>
                 <BtnDiv>
@@ -20,14 +20,15 @@ export default function ModeModal(props){
 } 
 
 
-const Modal = styled.div`
+const Modal = styled.div`   
     position:absolute;
     top:50%;
     left:50%;
-    transform:translate(-50%,-50%);
-    border-radius: 5px;
     width:30%;
     height:20%;
+    transform:translate(-50%,-50%);
+    border-radius: 5px;
+    z-index:2;
     border:1px solid ${COLORS.light_gray};
     padding:0 1em;
     background-color: #fff;

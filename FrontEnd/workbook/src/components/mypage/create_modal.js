@@ -4,12 +4,18 @@ import { COLORS, API } from '../../constants/index';
 import axios from 'axios';
 
 export default function CreateModal(props){
+    const [createname, setCreatename] = useState("")
+    const [createtitle, setCreatetitle] = useState("")
+    const [createcontent, setCreatecontent] = useState("")
+    const [createtype, setCreatetype] = useState("정보처리기사")
     const Workbook  = async() =>{
-        const token = 'authorization : Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDcxODQzMjEsImV4cCI6MTY0NzM1NzEyMSwic3ViIjoiMTIzIn0.nsrTCyz6MDl1qdNPGW-kN3y0V2e-OXisghvCuqSryok';
+        const token = localStorage.getItem('token');
+        const username = localStorage.getItem('user')
         const res = await axios.post(`${API}/workbook`,{
-            username:"",
-            title:"",
-            content:""
+            username: username,
+            title:createtitle,
+            content:createcontent,
+            type:createtype,
         },{
             headers: {
                 'Content-type' : 'application/json',
@@ -20,10 +26,25 @@ export default function CreateModal(props){
         console.log(res);
     }
 
+    function Change(e){ 
+        const {
+            target:{name,value}
+        } = e
+        if(name === 'title'){
+            setCreatetitle(value)
+        }
+        else if(name ==='content'){
+            setCreatecontent(value)
+        }
+        else if(name ==='type'){
+            setCreatetype(value)
+        }
+    }
+
 
     return(
         <>
-            <Modal action ="http://3.34.215.124:80/workbook" method = "POST" onSubmit={function(e){
+            <Modal action ={`${API}/workbook`} method = "POST" onSubmit={function(e){
                 e.preventDefault();
             }.bind(this)}>
                 <ImgDiv>
@@ -36,8 +57,8 @@ export default function CreateModal(props){
                 </InputLabel>
 
                 <TextSelect>
-                    <TextInput name = "title" placeholder ="문제집 이름" type="text"></TextInput>
-                    <Select name="workbooks">
+                    <TextInput onChange = { Change } value = {createtitle} name = "title" placeholder ="문제집 이름" type="text"></TextInput>
+                    <Select defaultValue = "정보처리기사" onChange = { Change } value = {createtype} name="type">
                         <option value="정보처리기사">정보처리기사</option>
                         <option value="YBMCOS">YBM COS</option>
                         <option value="웹디자인 기능사">웹디자인 기능사</option>
@@ -46,10 +67,10 @@ export default function CreateModal(props){
                         <option value="CCTS">CCTS</option>
                         <option value="CLA">CLA</option>
                     </Select>
-                    <Explain name="content" rows="5" placeholder='문제집 설명'></Explain>
+                    <Explain onChange = { Change } value = {createcontent} name="content" rows="5" placeholder='문제집 설명'></Explain>
                 </TextSelect>
 
-                <Create onClick = {Workbook()}>문제집 생성</Create>
+                <Create onClick = {Workbook}>문제집 생성</Create>
  
             </Modal>
         </>
@@ -64,7 +85,7 @@ const Modal = styled.form`
     left:50%;
     transform: translate(-50%,-50%);
     z-index:2;
-    width:25%;
+    width:35%;
     height:70%;
     border-radius:8px;
     border:1px solid ${COLORS.light_gray};

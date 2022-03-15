@@ -6,9 +6,9 @@ export default function UpdateModal(props){
 
     return(
         <> 
-            <Ximg onClick = { ()=>{props.setDeletemodal(true)} } src = "/img/x.svg" alt = "x" />
+            <Ximg onClick = { ()=>{props.setDeletemodal(true); props.setModemodal(false);}} src = "/img/x.svg" alt = "x" />
             <Modal>
-                <Try onClick = {()=>props.setModemodal(!props.modemodal)}>풀기</Try>
+                <Try onClick = { ()=>{props.setModemodal(true); props.setDeletemodal(false);} }>풀기</Try>
                 <Share>공유</Share>
                 <Update>수정</Update>
             </Modal>
