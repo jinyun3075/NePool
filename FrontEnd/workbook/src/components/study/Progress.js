@@ -5,7 +5,7 @@ export default function Progress({ total, currentQuestion }) {
   return (
     <>
       <ProgressCheck>
-        Qusetion {currentQuestion} of {total}
+        Qusetion {currentQuestion + 1} of {total}
       </ProgressCheck>
     </>
   )
