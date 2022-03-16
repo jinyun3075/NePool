@@ -1,7 +1,7 @@
 package com.NePool.app.entity;
 
 import lombok.*;
-import org.hibernate.annotations.GeneratorType;
+
 
 import javax.persistence.*;
 
@@ -12,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 public class NePoolUser extends BaseEntity {
+
     @Id
     private String uno;
 

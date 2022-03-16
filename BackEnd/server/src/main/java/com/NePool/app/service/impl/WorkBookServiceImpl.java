@@ -44,7 +44,6 @@ public class WorkBookServiceImpl implements WorkBookService {
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
         }
-        log.info(random.nextInt(600));
         WorkBook res = workBookRepository.save(dtoToEntity(dto, user.get(), pw.encode(random.nextInt(600) + "").replace("/", "")));
         return entityToDto(res);
     }
