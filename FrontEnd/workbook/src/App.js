@@ -7,6 +7,7 @@ import Join from './pages/Join';
 import Study from './pages/Study';
 import AllPost from './pages/Allpost';
 import AddPage from './pages/Add';
+import Detail from './pages/Detail';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/studymode" element={<Study />} />
         <Route path="/allpost" element={<AllPost />} />
         <Route path="/add" element={<AddPage />} />
+        <Route path="/detail" element={<Detail />} />
       </Routes>
     </>
     )
