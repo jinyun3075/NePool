@@ -22,7 +22,7 @@ export default function Answer({ letter, answer, selected, click, error, correct
         type="radio"
         name="check"
         id={letter}
-        value={letter}
+        value={answer}
         onClick={click}
       />
       <Label htmlFor={letter} className={errors.join(' ')} error={error}>

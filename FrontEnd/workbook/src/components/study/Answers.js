@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Answer from './Answer';
+import { nanoid } from 'nanoid';
 
 export default function Answers({question, currentAnswer, click, error, correct}) {
 
@@ -7,42 +8,42 @@ export default function Answers({question, currentAnswer, click, error, correct}
     <>
       <Form>
         <Answer
-          letter="a"
+          letter={nanoid()}
           answer={question.answer_a}
           click={click}
-          selected={currentAnswer === "a"}
+          selected={currentAnswer === question.answer_a}
           error={error}
           correct={correct}
         />
         <Answer
-          letter="b"
+          letter={nanoid()}
           answer={question.answer_b}
           click={click}
-          selected={currentAnswer === "b"}
+          selected={currentAnswer === question.answer_b}
           error={error}
           correct={correct}
         />
         <Answer
-          letter="c"
+          letter={nanoid()}
           answer={question.answer_c}
           click={click}
-          selected={currentAnswer === "c"}
+          selected={currentAnswer === question.answer_c}
           error={error}
           correct={correct}
         />
         <Answer
-          letter="d"
+          letter={nanoid()}
           answer={question.answer_d}
           click={click}
-          selected={currentAnswer === "d"}
+          selected={currentAnswer === question.answer_d}
           error={error}
           correct={correct}
         />
         <Answer
-          letter="e"
+          letter={nanoid()}
           answer={question.answer_e}
           click={click}
-          selected={currentAnswer === "e"}
+          selected={currentAnswer === question.answer_e}
           error={error}
           correct={correct}
         />

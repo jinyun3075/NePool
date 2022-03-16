@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../../constants'
+import { API, COLORS } from '../../constants'
 import Answers from './Answers';
 import Progress from './Progress';
 import Question from './Question';
+import axios from 'axios';
 
 export default function StudyPage() {
 
@@ -13,68 +14,60 @@ export default function StudyPage() {
   const [error, setError] = useState(false)
   const [correct, setCorrect] = useState(false)
   const [btnVisible, setBtnVisible] = useState(false)
+
+  const [isTest, setIsTest] = useState(false)
   // const [showResult, setResults] = useState(false)
 
-  const questionsData = [
+  const [questionsData, setQuestionsData] = useState([
     {
-      id: 1,
-      question: "1. 통신을 위한 프로그램을 생성하여 포트를 할당하고, 클라이언트의 통신 요청 시 클라이언트와 연결하는 내외부 송·수신 연계기술은?",
-      answer_a: 'DB링크 기술',
-      answer_b: '소켓 기술',
-      answer_c: '스크럼 기술',
-      answer_d: '프로토타입 기술',
-      answer_e: '프로토타입 기술',
-      correct: 'b'
-    },
-    {
-      id: 2,
-      question: "2. 최성이 노트북은?",
-      answer_a: 'LG 그램',
-      answer_b: '맥북 프로',
-      answer_c: '맥북 에어',
-      answer_d: '2014년형 삼성 노트북',
-      answer_e: '프로토타입 기술',
-      correct: 'c'
-    },
-    {
-      id: 3,
-      question: "3. 망고와 조아의 나이 합은?",
-      answer_a: '4',
-      answer_b: '10',
-      answer_c: '6',
-      answer_d: '7',
-      answer_e: '5',
-      correct: 'b'
-    },
-    {
-      id: 4,
-      question: "4. 최성이 점심으로 먹지 않은 메뉴는?",
-      answer_a: '김치찜',
-      answer_b: '떡볶이',
-      answer_c: '닭발',
-      answer_d: '짜장면',
-      answer_e: '프로토타입 기술',
-      correct: 'c'
-    },
-    {
-      id: 5,
-      question: "5. 시찬이 생일은?",
-      answer_a: '1995.07.07',
-      answer_b: '1995.10.05',
-      answer_c: '1995.04.06',
-      answer_d: '1995.11.30',
-      answer_e: '1995.06.24',
-      correct: 'c'
-    },
-  ]
+      id: '',
+      question: '',
+      answer_a: '',
+      answer_b: '',
+      answer_c: '',
+      answer_d: '',
+      answer_e: '',
+      correct: ''
+    }
+  ])
+
+  const getTest = async () => {
+    const token = localStorage.getItem("token");
+    // const user = localStorage.getItem("user");
+    // console.log(token);
+    // console.log(user);
+    const res = await axios.get(`${API}/work/123/$2a$10$WW3C66tx7zm9xpXXQ20txOGaegzx9MkAOdlfA3hCaTzI0Wj0enf9G`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-type": "application/json",
+      },
+    });
+    setQuestionsData(res.data)
+    // setUserName(res.data.name);
+    console.log(res.data.id);
+  };
 
   const question = questionsData[currentQuestion]
 
+  const [answerTest, setAnswerTest] = useState([]) 
+ 
   const click = e => {
     setCurrentAnswer(e.target.value)
+    setAnswers(answers)
+    setAnswerTest([...answerTest, currentAnswer])    
+    console.log("test", answerTest);
+    console.log("answer", currentAnswer);
   }
 
+  
+ 
   const answerCheck = () => {
+    // console.log(currentAnswer);
+    const answer = {questionId: question.id, answer: currentAnswer}
+    answers.push(answer)
+    setAnswers(answers)
+    // setAnswerTest([...answerTest, currentAnswer])
+    
     if(currentAnswer === question.correct) {
       setBtnVisible(true)
       setError(false)
@@ -84,9 +77,20 @@ export default function StudyPage() {
       setCorrect(false)
     }
   }
+  
+  useEffect(() => {
+    getTest();
+  }, []);
 
+  // console.log("test", answerTest);
+  // console.log("answer", currentAnswer);
+
+
+  
   const nextQuestion = () => {
     const answer = {questionId: question.id, answer: currentAnswer}
+    // console.log(answer);
+
 
     answers.push(answer)
     setAnswers(answers)
@@ -107,14 +111,31 @@ export default function StudyPage() {
         <TestBoard>
           <Progress total={questionsData.length} currentQuestion={currentQuestion}/>
           <Test>
-            <Question question={question.question}/>
-            <Answers question={question} currentAnswer={currentAnswer} click={click} error={error} correct={correct}/>
-            {/* {error && <Err>❌틀렸습니다❌</Err>} */}
-            {/* {questionsData.map((questionData) => {
-              return <Question key={questionData.id} questionData={questionData}/>
-            })} */}
+            {isTest
+            ? (
+              <div>
+                <Question question={question.question}/>
+                <Answers question={question} currentAnswer={currentAnswer} click={click} error={error} correct={correct}/>
+              </div>
+            )
+            : (
+              <>
+                {questionsData.map((questionData) => {
+                  return (
+                    <div key={questionData.id}>
+                      <Question question={questionData.question} />
+                      <Answers question={questionData} currentAnswer={currentAnswer} click={click} error={error} correct={correct} />
+                    </div>
+                  )
+                })}
+              </>
+            )
+          }
+          {/* {error && <Err>❌틀렸습니다❌</Err>} */}
+          {/* {questionsData.map((questionData) => {
+            return <Question key={questionData.id} questionData={questionData}/>
+          })} */}
           </Test>
-          
           <Btn onClick={answerCheck}>정답 확인</Btn>
           {btnVisible && <Btn onClick={nextQuestion}>다음 문제</Btn>}
         </TestBoard>
