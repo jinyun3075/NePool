@@ -12,13 +12,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -108,6 +112,13 @@ public class WorkBookServiceImpl implements WorkBookService {
 
         workBook.update(dto.getTitle(), dto.getContent(),dto.getType());
         return entityToDto(workBookRepository.save(workBook));
+    }
+
+    @Override
+    public List<WorkBookRequestDTO> best4() throws Exception {
+        Pageable pageable = PageRequest.of(0, 4,Sort.by("count").descending());
+        Page<WorkBook> res = workBookRepository.findAll(pageable);
+        return res.stream().map(workBook -> entityToDto(workBook)).collect(Collectors.toList());
     }
 
     private WorkBook check(String username, String work_book_id) throws Exception {

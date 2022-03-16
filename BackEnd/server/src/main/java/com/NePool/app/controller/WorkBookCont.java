@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/workbook")
@@ -71,5 +73,10 @@ public class WorkBookCont {
     @PutMapping("/{username}/{work_book_id}")
     public ResponseEntity<WorkBookRequestDTO> update(@PathVariable String username, @PathVariable String work_book_id, @RequestBody WorkBookRequestDTO req) throws Exception{
         return new ResponseEntity<>(service.update(username,work_book_id,req),HttpStatus.OK);
+    }
+
+    @GetMapping("/best4")
+    public ResponseEntity<List<WorkBookRequestDTO>> best4() throws Exception{
+        return new ResponseEntity<>(service.best4(),HttpStatus.OK);
     }
 }

@@ -6,6 +6,8 @@ import com.NePool.app.dto.WorkBookRequestDTO;
 import com.NePool.app.entity.NePoolUser;
 import com.NePool.app.entity.WorkBook;
 
+import java.util.List;
+
 public interface WorkBookService {
     WorkBookRequestDTO register(WorkBookRequestDTO dto) throws Exception;
 
@@ -21,6 +23,7 @@ public interface WorkBookService {
 
     WorkBookRequestDTO update(String username, String work_book_id, WorkBookRequestDTO dto) throws Exception;
 
+    List<WorkBookRequestDTO> best4() throws Exception;
     default WorkBook dtoToEntity(WorkBookRequestDTO dto, NePoolUser user, String id) {
         return WorkBook.builder()
                 .wno(id)
@@ -40,6 +43,9 @@ public interface WorkBookService {
                 .id(entity.getWno())
                 .count(entity.getCount())
                 .type(entity.getType())
-                .share(entity.getShare()).build();
+                .share(entity.getShare())
+                .regDate(entity.getRegDate())
+                .modDate(entity.getModDate())
+                .build();
     }
 }
