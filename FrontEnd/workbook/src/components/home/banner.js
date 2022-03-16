@@ -85,5 +85,5 @@ const WholeBtn = styled.a`
     color: white;
     line-height: 50px;
     text-decoration: underline;
-    margin-left: 290px;
+    margin-left: 230px;
 `
