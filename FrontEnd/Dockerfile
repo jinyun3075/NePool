@@ -1,1 +1,1 @@
-FROM react
+FROM baseImage
