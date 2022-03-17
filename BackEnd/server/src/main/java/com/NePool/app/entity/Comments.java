@@ -10,19 +10,19 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Comment extends BaseEntity{
+public class Comments extends BaseEntity{
 
     @Id
-    private String cno;
+    private String com_no;
 
     @Column(length = 500, nullable = false)
     private String content;
 
-    private Long like;
+    private Long comLike;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private NePoolUser writer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private WorkBook workBook;
+    @ManyToOne
+    private WorkBook workbook;
 }

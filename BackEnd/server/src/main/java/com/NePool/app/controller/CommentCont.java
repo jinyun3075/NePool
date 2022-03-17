@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class CommentCont {
     private final CommentService service;
 
-    @PostMapping("/{username}/{work_book_id}")
-    public ResponseEntity<CommentRequestDTO> register(@PathVariable String username, @PathVariable String work_book_id, @RequestBody CommentRequestDTO dto) throws Exception {
-        return new ResponseEntity<>(service.register(username, work_book_id, dto), HttpStatus.OK);
+    @PostMapping("/{user_id}/{work_book_id}")
+    public ResponseEntity<CommentRequestDTO> register(@PathVariable String user_id, @PathVariable String work_book_id, @RequestBody CommentRequestDTO dto) throws Exception {
+        return new ResponseEntity<>(service.register(user_id, work_book_id, dto), HttpStatus.OK);
     }
 }
