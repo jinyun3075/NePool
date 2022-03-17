@@ -1,6 +1,7 @@
 import React from 'react';
 import { COLORS } from '../../constants/index';
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 export default function ModeModal(props){
     return(
@@ -11,8 +12,8 @@ export default function ModeModal(props){
                 </ImgDiv>
                 <Text>예시 문제집을 푸시겠습니까?</Text>
                 <BtnDiv>
-                    <StudyMode>공부모드</StudyMode>
-                    <TestMode>시험모드</TestMode>
+                    <StudyMode><Link to ='/studymode'>공부모드</Link></StudyMode>
+                    <TestMode><Link to ='/studymode'>시험모드</Link></TestMode>
                 </BtnDiv>
             </Modal>
         </>
@@ -25,7 +26,7 @@ const Modal = styled.div`
     top:50%;
     left:50%;
     width:30%;
-    height:20%;
+    height:26%;
     transform:translate(-50%,-50%);
     border-radius: 5px;
     z-index:2;

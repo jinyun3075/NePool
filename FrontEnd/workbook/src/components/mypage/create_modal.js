@@ -86,7 +86,7 @@ const Modal = styled.form`
     transform: translate(-50%,-50%);
     z-index:2;
     width:35%;
-    height:70%;
+    height:80%;
     border-radius:8px;
     border:1px solid ${COLORS.light_gray};
     background-color: white;

@@ -37,7 +37,7 @@ const Modal = styled.div`
     border-radius: 5px;
     z-index:2;
     width:30%;
-    height:20%;
+    height:26%;
     border:1px solid ${COLORS.light_gray};
     padding:0 1em;
     background-color: #fff;
