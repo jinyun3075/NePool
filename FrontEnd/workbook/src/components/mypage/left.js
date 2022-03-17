@@ -50,23 +50,13 @@ export default function Left() {
                 <Workbook>
                     <ul>
                         <WorkbookLi>
-                            <WorkbookImg src = "/img/vector.svg" alt = "문제집"></WorkbookImg>
+                            <WorkbookImg src = "/img/vector_white.svg" alt = "문제집"></WorkbookImg>
                             <WorkbookP>나의 문제집</WorkbookP>
                         </WorkbookLi>
 
                         <WorkbookLi>
-                            <WorkbookImg src = "/img/vector.svg" alt = "문제집"></WorkbookImg>
-                            <WorkbookP>문제집 만들기</WorkbookP>
-                        </WorkbookLi>
-
-                        <WorkbookLi>
-                            <WorkbookImg src = "/img/vector.svg" alt = "문제집"></WorkbookImg>
-                            <WorkbookP>공유 문제집</WorkbookP>
-                        </WorkbookLi>
-
-                        <WorkbookLi>
-                            <WorkbookImg src = "/img/vector.svg" alt = "문제집"></WorkbookImg>
-                            <WorkbookP>공유 문제집</WorkbookP>
+                            <WorkbookImg src = "/img/vector_gray.svg" alt = "문제집"></WorkbookImg>
+                            <WorkbookP>가져온 문제집</WorkbookP>
                         </WorkbookLi>
                     </ul>
                 </Workbook>
@@ -142,34 +132,24 @@ const WorkbookLi = styled.li`
     display:flex;
     align-items:center;
 
-    &:nth-child(4){
-        margin-top:4em;
-        position:relative;
-        &:before{
-            position:absolute;
-            top:-30px;
-            width:80%;
-            content:'';
-            height:0.5px;
-            background-color:${COLORS.gray};
+    &:first-child{
+        background-color: ${COLORS.blue};
+        .vector path{
+            fill:white;
+        }
+        p{
+            color: white;
         }
     }
 
-    &:hover{
-            background-color: ${COLORS.blue};
-            .vector path{
-                fill:white;
-            }
-            p{
-                color: white;
-            }
-        }
 `;
 
 const WorkbookImg = styled.img`
     width:1.1rem;
     height:1.1rem;
-    color:gray;
+    path {
+        fill : #fff;
+    }
 `;
 
 const WorkbookP = styled.p`
