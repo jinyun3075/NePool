@@ -23,7 +23,7 @@ export default function NoticeModal() {
 }
 
 const NoticeBox = styled.div`
-  /* display: none; */
+  z-index: 99;
   position: absolute;
   width: 500px;
   margin-top: 46px;

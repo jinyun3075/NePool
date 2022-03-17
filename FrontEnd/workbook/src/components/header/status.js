@@ -46,7 +46,7 @@ export default function StatusModal() {
 }
 
 const ProfileStatus = styled.div`
-  /* display: none; */
+  z-index: 99;
   position: absolute;
   width:  280px;
   height: 220px;
