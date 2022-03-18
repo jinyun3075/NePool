@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { COLORS } from '../../constants'
 import Comments from './Comments';
+import Preview from './Preview';
 import Star from './Star';
+import { Link } from 'react-router-dom';
 
 export default function DetailPage() {
 
@@ -18,13 +20,18 @@ export default function DetailPage() {
               <span>별점: 4.5</span>
               <Explain>설마 어디가서 2종따고 운전면허 갖고 있다고 말하고다니는건 아니시죠?</Explain>
               <ButtonBox>
-                <button>공부모드</button>
-                <button>시험모드</button>
+                <Link to='/studymode'>
+                  <button>공부모드</button>
+                </Link>
+                <Link to='/studymode'>
+                  <button>시험모드</button>
+                </Link>
                 <button>스크랩</button>
               </ButtonBox>
             </Info>
           </DetailInfo>
         </DetailBoard>
+        <Preview />
         <Star />
         <Comments />
       </main>

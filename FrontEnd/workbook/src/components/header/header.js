@@ -1,11 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { API } from '../../constants'
 import NoticeModal from './notice';
 import StatusModal from './status';
 
 export default function HeaderSignin() {
+
+  const token = localStorage.getItem("token");
 
   //알림창 모달
   const [noticeOn, setNoticeOn] = useState(false);
@@ -33,24 +36,33 @@ export default function HeaderSignin() {
             </CloseBtn>
           </SearchBox>
           <h1><a href="/"><Logo src="/img/logo.svg" alt="로고" /></a></h1>
-          {/* <BtnBox>
-            <Btn color="#2f80ed" font="white">로그인</Btn>
-            <Btn>회원가입</Btn>
-          </BtnBox> */}
-          <ProfileBox>
-            <button onClick={openNotice}>
-              <NoticeImg src="/img/notice.svg" alt="알림" />
-            </button>
-            {noticeOn && (
-              <NoticeModal />
-            )}
-            <button onClick={openStatus}>
-              <ProfileImg src="/img/mango.jpg" alt="프로필 사진" />
-            </button>
-            {statusON && (
-            <StatusModal />
-            )}
-          </ProfileBox>
+          {token !== null
+          ? (
+            <ProfileBox>
+              <button onClick={openNotice}>
+                <NoticeImg src="/img/notice.svg" alt="알림" />
+              </button>
+              {noticeOn && (
+                <NoticeModal />
+              )}
+              <button onClick={openStatus}>
+                <ProfileImg src="/img/mango.jpg" alt="프로필 사진" />
+              </button>
+              {statusON && (
+              <StatusModal />
+              )}
+            </ProfileBox>
+          )
+          : (
+          <BtnBox>
+            <Link to='/login'>
+              <Btn color="#2f80ed" font="white">로그인</Btn>
+            </Link>
+            <Link to='/join'>
+              <Btn>회원가입</Btn>
+            </Link>
+          </BtnBox>
+          )}
         </HeaderWrap>
       </header>
     </>
@@ -114,7 +126,8 @@ const BtnBox = styled.div`
   width: 220px;
 `
 
-const Btn = styled.a`
+const Btn = styled.button`
+  font-size: 14px;
   width: 100px;
   height: 45px;
   border: 0.5px solid #b6b6b6;

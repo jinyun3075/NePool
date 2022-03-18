@@ -3,8 +3,11 @@ import axios from "axios";
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { API, COLORS } from '../../constants'
+import { useNavigate } from 'react-router-dom';
 
 export default function JoinPage() {
+
+  const navigate = useNavigate()
 
   const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm({ mode: 'onBlur' })
 
@@ -29,6 +32,7 @@ export default function JoinPage() {
       },
     })
     console.log(res);
+    navigate('/login')
     } catch(err) {
       console.log(err);
     }

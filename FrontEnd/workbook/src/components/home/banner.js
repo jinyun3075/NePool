@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export default function Banner() {
     return (
@@ -25,8 +26,11 @@ export default function Banner() {
             </BannerBox>
             <NotionBox>
                 <Notion>
+                    
                     <MainNotion href="#">[안내] 정보처리기사 자격증 관련 서비스 안내</MainNotion>
-                    <WholeBtn href="#">전체보기</WholeBtn>
+                    <Link to='/notice'>
+                        <WholeBtn >전체보기</WholeBtn>
+                    </Link>
                 </Notion>
             </NotionBox>
         </>
@@ -80,7 +84,7 @@ const MainNotion = styled.a`
     color: white;
     line-height: 50px;
 `
-const WholeBtn = styled.a`
+const WholeBtn = styled.span`
     position: absolute;
     color: white;
     line-height: 50px;

@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import { API, COLORS } from '../../constants'
 import { useForm } from 'react-hook-form'
+import { Link, Router, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 
 export default function LoginPage() {
+  const navigate = useNavigate()
+
   const [loginErr, setLoginErr] = useState("아이디 또는 비밀번호가 일치하지 않습니다.")
 
   const {
@@ -30,6 +33,8 @@ export default function LoginPage() {
     // console.log(res.data.username);
     window.localStorage.setItem('token', res.data.token)
     window.localStorage.setItem('user', res.data.username)
+  
+    navigate("/")
     } catch(err) {
       console.log(err);
     }
@@ -65,7 +70,7 @@ export default function LoginPage() {
                 />
                 {errors.id && errors.id.type === 'pattern' && (<Err>아이디 또는 비밀번호가 일치하지 않습니다.</Err>)}
                 {errors.password && errors.password.type === 'pattern' && (<Err>아이디 또는 비밀번호가 일치하지 않습니다.</Err>)}
-            <Btn className="loginBtn" disabled={!isValid} type="submit">로그인</Btn>
+                <Btn className="loginBtn" disabled={!isValid} type="submit">로그인</Btn>
           </Form>
           <OrLine>또는</OrLine>
           <SocialLogin>
@@ -73,7 +78,10 @@ export default function LoginPage() {
             <SocialBtn color="#00BF18" name="/img/naver.svg">네이버 계정으로 로그인</SocialBtn>
           </SocialLogin>
           <Signup>
-            <li>회원가입</li>
+            <Link to='/join'>
+              <li>회원가입</li>
+            </Link>
+            
             <li>아이디/비밀번호 찾기</li>
           </Signup>
         </LoginBox>

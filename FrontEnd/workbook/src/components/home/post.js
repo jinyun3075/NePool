@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../constants";
+import { Link } from 'react-router-dom';
 
 export default function Post() {
   const [post, setPost] = useState([
@@ -38,8 +39,9 @@ export default function Post() {
           {post.slice(0, 10).map((postData) => {
             //map이 순환을 함
             return (
-              <li>
-                <a href="#">
+              <li key={postData.id}>
+                <Link to='/detail'>
+                {/* <Link to={`/detail/${postData.id}`}> */}
                   <ItemImg>
                   </ItemImg>
                   <TextBox>
@@ -47,7 +49,7 @@ export default function Post() {
                     <ItemScr size="13px">만든이: {postData.username}</ItemScr>
                     <ItemTxt size="12px">{postData.content}</ItemTxt>
                   </TextBox>
-                </a>
+                </Link>
               </li>
             );
           })}

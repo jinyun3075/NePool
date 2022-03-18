@@ -2,8 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../constants";
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function StatusModal() {
+
+  const navigate = useNavigate()
+  
   const [userName, setUserName] = useState("");
 
   const getUser = async () => {
@@ -20,6 +24,12 @@ export default function StatusModal() {
     setUserName(res.data.name);
     console.log(res);
   };
+
+  const logout = () => {
+    localStorage.removeItem("user")
+    localStorage.removeItem("token")
+    window.location.reload()
+  }
 
   useEffect(() => {
     getUser();
@@ -38,7 +48,7 @@ export default function StatusModal() {
         </StatusBox>
         <StatusMenu>
           <a href="/mypage">마이페이지</a>
-          <a href="#">로그아웃</a>
+          <a onClick={logout}>로그아웃</a>
         </StatusMenu>
       </ProfileStatus>
     </>
@@ -55,7 +65,6 @@ const ProfileStatus = styled.div`
   background-color: white;
   margin-top: 46px;
   margin-right: 5px;
-}
 `;
 const StatusBox = styled.div`
   display: flex;
@@ -98,5 +107,6 @@ const StatusMenu = styled.div`
   height: 110px;
   a {
     color: #767676;
+    cursor: pointer;
   }
 `;
