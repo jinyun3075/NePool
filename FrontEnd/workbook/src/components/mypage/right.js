@@ -74,7 +74,7 @@ export default function Right() {
                     {
                         workbook.map((workbookdata,i)=>{
                             return(
-                                    <ExampleLi onClick ={yes} value={i} > 
+                                    <ExampleLi onClick ={yes} value={i} key={workbookdata.id} > 
                                         <ExampleP1 >{workbookdata.title}</ExampleP1>
                                         <ExampleP2 >마지막 수정 일시 : 2022-02-28</ExampleP2>
                                         {
@@ -176,6 +176,8 @@ const ExampleP1 = styled.p`
     text-align:center;
     margin-top:25%;
     z-index:2;
+    padding: 0 0.5em;
+    word-break: break-all;
 `;
 
 const ExampleP2 =styled.p`
