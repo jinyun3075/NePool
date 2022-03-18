@@ -41,7 +41,7 @@ const Category = styled.ul`
 const CategoryItem = styled.li`
   margin: 0 40px;
   button {
-    font-size: 20px;
+    font-size: 17px;
   }
 `;
 

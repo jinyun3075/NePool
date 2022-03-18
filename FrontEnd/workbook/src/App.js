@@ -10,6 +10,7 @@ import AddPage from './pages/Add';
 import Detail from './pages/Detail';
 import Notice from './pages/Notice';
 import Sharepage from './pages/Sharepage';
+import UpdatePage from './pages/Update';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/add" element={<AddPage />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/notice" element={<Notice />} />
+        <Route path="/update" element={<UpdatePage />} />
       </Routes>
     </>
     )
