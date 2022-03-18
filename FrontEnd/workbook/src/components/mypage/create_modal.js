@@ -24,6 +24,7 @@ export default function CreateModal(props){
         })
 
         console.log(res);
+        window.location.reload()
     }
 
     function Change(e){ 
@@ -177,6 +178,8 @@ const Explain = styled.textarea`
     border-color: ${COLORS.light_gray};
     border-radius:5px;
     margin-top:20px;
+    resize: none;
+    z-index: 100;
 `;
 
 const Create = styled.button`

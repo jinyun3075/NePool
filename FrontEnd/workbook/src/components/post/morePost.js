@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../constants";
+import { Link } from 'react-router-dom';
 
 export default function MorePost() {
   const [post, setPost] = useState([
@@ -37,7 +38,7 @@ export default function MorePost() {
           {post.map((postData) => {
             return (
               <li>
-                <a href="#">
+                <Link to='/detail'>
                   <ItemImg>
                   </ItemImg>
                   <TextBox>
@@ -45,7 +46,7 @@ export default function MorePost() {
                     <ItemScr size="13px">만든이: {postData.username}</ItemScr>
                     <ItemTxt size="12px">{postData.content}</ItemTxt>
                   </TextBox>
-                </a>
+                </Link>
               </li>
             );
           })}
