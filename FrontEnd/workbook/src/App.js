@@ -9,6 +9,7 @@ import AllPost from './pages/Allpost';
 import AddPage from './pages/Add';
 import Detail from './pages/Detail';
 import Notice from './pages/Notice';
+import Sharepage from './pages/Sharepage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/sharepage" element={<Sharepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/join" element={<Join />} />
         <Route path="/studymode" element={<Study />} />

@@ -9,10 +9,9 @@ import ModeModal from './mode_modal';
 import axios from 'axios'; 
 
 
-export default function Right() {
-    let [update, setUpdate] = useState(false);
-    let [index,setIndex] = useState(0);
+export default function Myshared() {
     let [create, setCreate] = useState(false);
+    let [update, setUpdate] = useState(false);
     let [deletemodal, setDeletemodal] = useState(false);
     let [modemodal, setModemodal] = useState(false);
  
@@ -40,22 +39,9 @@ export default function Right() {
         setWorkbook(res.data.dtoList);
     }
 
-
-    const a = Array(workbook.length).fill(false)
-
     useEffect(() => {
         ReadWorkbook();
-        setUpdate(a);
     }, []);
-
-    const yes = (e) =>{
-        const bb = [...update]
-        bb[e.target.value] = !bb[e.target.value]
-        setUpdate(bb)
-    }
-
-    console.log(update)
-
 
     return(
         <>
@@ -68,23 +54,23 @@ export default function Right() {
                     <p>나의 문제집</p>
                 </Myworkbook>
 
-                {/* onClick ={() => { setUpdate(!update) } } */}
 
                 <Example>
                     {
-                        workbook.map((workbookdata,i)=>{
+                        workbook.map((workbookdata)=>{
                             return(
-                                    <ExampleLi onClick ={yes} value={i} > 
+                                    <ExampleLi onClick ={() => { setUpdate(!update) } }> 
                                         <ExampleP1 >{workbookdata.title}</ExampleP1>
                                         <ExampleP2 >마지막 수정 일시 : 2022-02-28</ExampleP2>
                                         {
-                                            update[i] === true ? 
-                                            <UpdateModal  workbook ={workbook} setWorkbook={workbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
+                                            update === true ? 
+                                            <UpdateModal sorkbook ={workbook} setWorkbook={workbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
                                             : null    
                                         }
                                     </ExampleLi>
                             )
-                        })
+                        }
+                        )
                     }
 
                     {
