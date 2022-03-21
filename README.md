@@ -24,6 +24,8 @@
   - [3.5 문제 삭제](#문제-삭제)
   - [3.6 문제 수정](#문제-수정)
 
+- ### [4 문제집 리뷰](#문제집-리뷰)
+  - [4.1 리뷰 ](#리뷰-작성)
 
 ## 유저
 ### 회원가입
@@ -135,6 +137,8 @@
     - username: String
     - count: Number
     - type: String
+    - regDate: Date
+    - modDate: Date
 - fail
     - 제목 및 내용이 입력되지 않았을 때
     - username 존재하지 않을 때
@@ -158,6 +162,8 @@
     - username: String
     - count: Number
     - type: String
+    - regDate: Date
+    - modDate: Date
 
 - fail
     - username 존재하지 않을 때
@@ -183,6 +189,8 @@
         - username: String
         - count: Number
         - type: String
+        - regDate: Date
+        - modDate: Date
         
     - totalPage: Number
     - page: Number
@@ -215,6 +223,8 @@
         - username: String
         - count: Number
         - type: String
+        - regDate: Date
+        - modDate: Date
 
     - totalPage: Number
     - page: Number
@@ -278,6 +288,8 @@
     - username: String
     - count: Number
     - type: String
+    - regDate: Date
+    - modDate: Date
 
 - fail
     - 제목 및 내용이 입력되지 않았을 때
@@ -301,6 +313,7 @@
   - answer_d: String
   - answer_e: String
   - correct: String
+  - explanation: String
   
 - res
   - id: String
@@ -311,7 +324,7 @@
   - answer_d: String
   - answer_e: String
   - correct: String
-  
+  - explanation: String
 - fail
   - 없는 username 혹은 work_book_id 일 때
   - 모든 요구사항을 입력하지 않을 때 혹은 null 값이 존재 할 때
@@ -334,6 +347,7 @@
   - answer_d: String
   - answer_e: String
   - correct: String
+  - explanation: String
   
 - fail
   - 없는 username 혹은 work_book_id 혹은 work_id 일 때
@@ -358,6 +372,7 @@
     - answer_d: String
     - answer_e: String
     - correct: String
+    - explanation: String
 
 - fail
   - 없는 username 혹은 work_book_id 일 때
@@ -385,8 +400,10 @@
     - answer_c: String
     - answer_d: String
     - answer_e: String
-    - correct: String
+    - choice: String (선택한 답)
+    - correct: String (옳바른 답)
     - result: boolean
+    - explanation: String
     
   - score: Number
   - totalScore: Number
@@ -425,6 +442,7 @@
   - answer_d: String
   - answer_e: String
   - correct: String
+  - explanation: String
   
 - res
   - id: String
@@ -435,6 +453,60 @@
   - answer_d: String
   - answer_e: String
   - correct: String
+  - explanation: String
   
 - fail
   - 없는 username 혹은 work_book_id 혹은 work_id 일 때 
+
+## 문제집 리뷰
+### 리뷰 작성
+- api
+  - /comment/:user_id/:work_book_id (post)
+
+- headers
+  - Content-type : "application/json"
+  - Authorization : “Bearer key”
+
+- req
+  - content: String
+ 
+- res
+  - id: String
+  - content: String
+  - like: Number
+  - writer: String
+  - regDate: Date
+  - modeDate: Date
+
+- fail
+  - content가 비어있을 때
+  - 없는 user_id 혹은 work_book_id 일 때
+
+### 리뷰 가져오기
+- api
+  - /comment/:work_book_id (get)
+
+- headers
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- res
+    - dtoList:Array
+        - id: String
+        - content: String
+        - like: Number
+        - writer: String
+        - regDate: Date
+        - modeDate: Date
+        
+    - totalPage: Number
+    - page: Number
+    - size: Number
+    - prev: boolean
+    - next: boolean
+    - start: Number
+    - end: Number
+    - pageList: Array
+
+- fail
+  - 없는 work_book_id 일 때
