@@ -1,6 +1,9 @@
 package com.NePool.app.service.impl;
 
 import com.NePool.app.dto.CommentRequestDTO;
+import com.NePool.app.dto.PageRequestDTO;
+import com.NePool.app.dto.PageResultDTO;
+import com.NePool.app.dto.UserDTO;
 import com.NePool.app.entity.Comments;
 import com.NePool.app.entity.NePoolUser;
 import com.NePool.app.entity.WorkBook;
@@ -11,11 +14,15 @@ import com.NePool.app.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Function;
 
 @Service
 @Log4j2
@@ -45,5 +52,12 @@ public class CommentServiceImpl implements CommentService {
         }
         Comments entity = commentRepository.save(dtoToEntity(dto,work_book_id,user_id,(pw.encode(random.nextInt(600)+"").replace("/",""))));
         return entityToDto(entity);
+    }
+
+    @Override
+    public PageResultDTO<CommentRequestDTO,Comments> getList(String work_book_id, PageRequestDTO dto) throws Exception {
+        Page<Comments> entity = commentRepository.findByWorkbookWno(work_book_id,dto.getPageable(Sort.by("modDate").ascending()));
+        Function<Comments, CommentRequestDTO> fn = (data -> entityToDto(data));
+        return new PageResultDTO<>(entity, fn);
     }
 }
