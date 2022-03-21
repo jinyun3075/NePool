@@ -32,7 +32,7 @@ public class ApiCheckFilter extends OncePerRequestFilter {
         log.info("APICheckFilter.......................");
 
         boolean checkHeader = checkAuthHeader(request);
-        if(antPathMatcher.match("/user",request.getRequestURI()) || antPathMatcher.match("/user/login",request.getRequestURI())){
+        if(antPathMatcher.match("/user",request.getRequestURI()) || antPathMatcher.match("/user/login",request.getRequestURI()) || antPathMatcher.match("/workbook",request.getRequestURI())){
             filterChain.doFilter(request, response);
             return;
         }
