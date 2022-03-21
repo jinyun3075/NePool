@@ -34,6 +34,7 @@ public interface WorkService {
                 .answer_e(dto.getAnswer_e())
                 .correct(dto.getCorrect())
                 .workBook(workBook)
+                .explanation(dto.getExplanation())
                 .build();
     }
 
@@ -46,6 +47,7 @@ public interface WorkService {
                 .answer_c(entity.getAnswer_c())
                 .answer_d(entity.getAnswer_d())
                 .answer_e(entity.getAnswer_e())
+                .explanation(entity.getExplanation())
                 .correct(entity.getCorrect()).build();
     }
 }

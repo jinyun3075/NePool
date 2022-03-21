@@ -65,14 +65,14 @@ public class WorkBookServiceImpl implements WorkBookService {
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
         }
-        Page<WorkBook> entity = workBookRepository.findByWriterUno(user.get().getUno(), page.getPageable(Sort.by("wno").ascending()));
+        Page<WorkBook> entity = workBookRepository.findByWriterUno(user.get().getUno(), page.getPageable(Sort.by("moddate").ascending()));
         Function<WorkBook, WorkBookRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
     }
 
     @Override
     public PageResultDTO<WorkBookRequestDTO, WorkBook> allList(PageRequestDTO page) throws Exception {
-        Page<WorkBook> entity = workBookRepository.findAll(page.getPageable(Sort.by("wno").descending()));
+        Page<WorkBook> entity = workBookRepository.findAll(page.getPageable(Sort.by("moddate").descending()));
         Function<WorkBook, WorkBookRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
     }

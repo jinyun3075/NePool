@@ -89,6 +89,8 @@ public class WorkServiceImpl implements WorkService {
                     .answer_d(value.getAnswer_d())
                     .answer_e(value.getAnswer_e())
                     .correct(value.getCorrect())
+                    .explanation(value.getExplanation())
+                    .choice(check.getCorrect())
                     .result(bool).build());
         }
         WorkResultRealResponseDTO realRes = new WorkResultRealResponseDTO();

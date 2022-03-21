@@ -31,16 +31,19 @@ public class Work {
     @Column(length = 500, nullable = false)
     private String correct;
 
+    @Column(length = 2000)
+    private String explanation;
     @ManyToOne
     WorkBook workBook;
 
     public void updateWork(WorkDTO dto) {
-        this.question=dto.getQuestion();
-        this.answer_a=dto.getAnswer_a();
-        this.answer_b=dto.getAnswer_b();
-        this.answer_c=dto.getAnswer_c();
-        this.answer_d=dto.getAnswer_d();
-        this.answer_e=dto.getAnswer_e();
-        this.correct=dto.getCorrect();
+        this.question = dto.getQuestion();
+        this.answer_a = dto.getAnswer_a();
+        this.answer_b = dto.getAnswer_b();
+        this.answer_c = dto.getAnswer_c();
+        this.answer_d = dto.getAnswer_d();
+        this.answer_e = dto.getAnswer_e();
+        this.correct = dto.getCorrect();
+        this.explanation = dto.getExplanation();
     }
 }

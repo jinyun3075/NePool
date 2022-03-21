@@ -13,5 +13,7 @@ public class WorkResultResponseDTO {
     private String answer_d;
     private String answer_e;
     private String correct;
+    private String choice;
+    private String explanation;
     private boolean result;
 }
