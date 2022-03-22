@@ -34,6 +34,9 @@ public interface CommentService {
                 .id(entity.getCom_no())
                 .content(entity.getContent())
                 .like(entity.getComLike())
-                .writer(entity.getWriter().getName()).build();
+                .writer(entity.getWriter().getName())
+                .regDate(entity.getRegDate())
+                .modDate(entity.getModDate())
+                .build();
     }
 }

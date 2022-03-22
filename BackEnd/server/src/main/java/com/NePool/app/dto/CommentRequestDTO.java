@@ -3,6 +3,8 @@ package com.NePool.app.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 public class CommentRequestDTO {
@@ -10,4 +12,6 @@ public class CommentRequestDTO {
     private String content;
     private Long like;
     private String writer;
+    private LocalDateTime regDate;
+    private LocalDateTime modDate;
 }

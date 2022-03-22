@@ -21,7 +21,7 @@ import java.util.List;
 public class WorkBookCont {
     private final WorkBookService service;
 
-    @PostMapping("")
+    @PostMapping("/register")
     public ResponseEntity<WorkBookRequestDTO> register(@RequestBody WorkBookRequestDTO dto) throws Exception {
         return new ResponseEntity<>(service.register(dto), HttpStatus.OK);
     }

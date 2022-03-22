@@ -57,6 +57,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public PageResultDTO<CommentRequestDTO,Comments> getList(String work_book_id, PageRequestDTO dto) throws Exception {
         Page<Comments> entity = commentRepository.findByWorkbookWno(work_book_id,dto.getPageable(Sort.by("modDate").ascending()));
+        if(entity.getTotalElements()==0){
+            throw new Exception("존재하지 않는 문제집입니다.");
+        }
         Function<Comments, CommentRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
     }
