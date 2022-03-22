@@ -15,6 +15,7 @@
   - [2.5 문제집 삭제](#문제집-삭제)
   - [2.6 문제집 공유](#문제집-공유)
   - [2.7 문제집 수정](#문제집-수정)
+  - [2.8 문제집 BEST 4](#문제집-BEST-4)
 
 - ### [3 문제](#문제)
   - [3.1 문제 만들기](#문제-만들기)
@@ -25,7 +26,8 @@
   - [3.6 문제 수정](#문제-수정)
 
 - ### [4 문제집 리뷰](#문제집-리뷰)
-  - [4.1 리뷰 ](#리뷰-작성)
+  - [4.1 리뷰 작성](#리뷰-작성)
+  - [4.2 리뷰 가져오기](#리뷰-가져오기)
 
 ## 유저
 ### 회원가입
@@ -296,6 +298,25 @@
     - username 존재하지 않을 때
     - 해당 계정의 문제집이 아니거나 혹은 없는 work_book_id 일 경우
   
+### 문제집 BEST 4
+- api
+  - /workbook/best4 (get)
+
+- headers
+  - Content-type : "application/json"
+  - Authorization : “Bearer key”
+
+- res
+  - Array
+    - id: Number
+    - title: String
+    - content: String
+    - share: boolean
+    - username: String
+    - count: Number
+    - type: String
+    - regDate: Date
+    - modDate: Date
 ## 문제
 ### 문제 만들기
 - api
