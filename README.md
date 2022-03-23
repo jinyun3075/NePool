@@ -119,7 +119,7 @@
 ## 문제집
 ### 문제집 만들기
 - api
-    - /workbook (post)
+    - /workbook/register (post)
 
 - headers
     - Content-type : "application/json"
