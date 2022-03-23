@@ -10,12 +10,14 @@ import axios from 'axios';
 
 
 export default function Right() {
+
+    
     let [update, setUpdate] = useState(false);
     let [index,setIndex] = useState(0);
     let [create, setCreate] = useState(false);
     let [deletemodal, setDeletemodal] = useState(false);
     let [modemodal, setModemodal] = useState(false);
- 
+    
     const [workbook,setWorkbook] = useState([
         {
             content:"",
@@ -24,6 +26,8 @@ export default function Right() {
             share:"",
             title:"",
             username:"",
+            regDate: "",
+            modDate: "",
         },
     ]);
       
@@ -39,23 +43,36 @@ export default function Right() {
         console.log(res);
         setWorkbook(res.data.dtoList);
     }
-
-
+    
     const a = Array(workbook.length).fill(false)
-
+    
     useEffect(() => {
         ReadWorkbook();
         setUpdate(a);
-    }, []);
+    }, []); 
+    
+    
+    useEffect(()=>{
+        console.log(update)
+    },[update])
 
     const yes = (e) =>{
-        const bb = [...update]
-        bb[e.target.value] = !bb[e.target.value]
-        setUpdate(bb)
+        if (update[e.target.value] === true){            
+            const newarray = [...update]
+            newarray[e.target.value] = false
+            setUpdate(newarray)
+        }
+        else{        
+            const newarray = [...update]
+            for(let i=0;i<newarray.length;i++){
+                if(i === e.target.value){
+                    newarray[i] = true
+                }
+                else{newarray[i] = false}
+            }
+            setUpdate(newarray)
+        }
     }
-
-    console.log(update)
-
 
     return(
         <>
@@ -76,10 +93,10 @@ export default function Right() {
                             return(
                                     <ExampleLi onClick ={yes} value={i} key={workbookdata.id} > 
                                         <ExampleP1 >{workbookdata.title}</ExampleP1>
-                                        <ExampleP2 >마지막 수정 일시 : 2022-02-28</ExampleP2>
+                                        <ExampleP2 >마지막 수정 일시 : {workbookdata.modDate}</ExampleP2>
                                         {
                                             update[i] === true ? 
-                                            <UpdateModal  workbook ={workbook} setWorkbook={workbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
+                                            <UpdateModal workbook ={workbook} setWorkbook={workbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
                                             : null    
                                         }
                                     </ExampleLi>
@@ -111,6 +128,7 @@ export default function Right() {
 const Article = styled.article`
     position:relative;
     margin:0 auto;
+    margin-right:4%;
     border:3px solid ${COLORS.light_gray};
     border-radius:15px;
     flex-basis:70%;
