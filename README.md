@@ -214,7 +214,6 @@
 
 - headers
     - Content-type : "application/json"
-    - Authorization : “Bearer key”
 
 - res
     - dtoList:Array
@@ -304,7 +303,6 @@
 
 - headers
   - Content-type : "application/json"
-  - Authorization : “Bearer key”
 
 - res
   - Array
