@@ -11,7 +11,7 @@ export default function CreateModal(props){
     const Workbook  = async() =>{
         const token = localStorage.getItem('token');
         const username = localStorage.getItem('user')
-        const res = await axios.post(`${API}/workbook`,{
+        const res = await axios.post(`${API}/workbook/register`,{
             username: username,
             title:createtitle,
             content:createcontent,
@@ -82,12 +82,12 @@ const Modal = styled.form`
     box-sizing:border-box;
     padding:1em;
     position:absolute;
-    top:50%;
+    top:52%;
     left:50%;
     transform: translate(-50%,-50%);
     z-index:2;
     width:35%;
-    height:80%;
+    height:85%;
     border-radius:8px;
     border:1px solid ${COLORS.light_gray};
     background-color: white;
@@ -154,10 +154,10 @@ const TextSelect = styled.div`
 
 const TextInput = styled.input`
     margin-top:36px;
-    width:96%;
+    width:97%;
     height:20%;
     border-radius:5px;
-    border-color: ${COLORS.light_gray};
+    border: 1px solid ${COLORS.light_gray};
     &:focus{
         border-color: ${COLORS.blue};
     }
