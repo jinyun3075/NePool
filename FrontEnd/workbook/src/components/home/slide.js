@@ -36,6 +36,7 @@ const WhiteBox = styled.div`
   top: 0;
   width: 415px;
   height: 280px;
+  border-radius: 6px;
   background-color: rgba(0, 0, 0, 0.1);
 `;
 const BestCont = styled.div`
