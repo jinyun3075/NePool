@@ -1,10 +1,10 @@
-import Update from "../components/update/update";
+import Update_page from "../components/updatepage/updatepage";
 
 
 export default function UpdatePage() {
   return (
     <>
-      <Update /> 
+      <Update_page /> 
     </>
     )
 }
