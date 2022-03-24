@@ -15,8 +15,6 @@ export default function Update_page() {
         <Left />
         <Updatepage_Right />
       </Section>
-
-
     </>
     )
 } 

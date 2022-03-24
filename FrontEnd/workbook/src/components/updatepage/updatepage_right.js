@@ -7,6 +7,35 @@ import axios from 'axios';
 
 export default function Updatepage_Right() {
 
+    const [question,setQuestion] = useState([
+        {
+            id: "",
+            question: "",
+            answer_a: "",
+            answer_b: "",
+            answer_c: "",
+            answer_d: "",
+            answer_e: "",
+            correct: "",
+            explanation:"",
+        }
+    ])
+    const GetQuestion = async () =>{
+        const username = localStorage.getItem('user');
+        const token = localStorage.getItem('token');
+        const res = await axios.get(`${API}/work/${username}/$2a$10$M9STBayHzNAyeXbnwlu1DuLuWICcqrX42K.HXsbIuCF4EM30G3sjC`,{
+            headers:{
+                'Content-type' : "application/json",
+                Authorization : `Bearer ${token}` 
+            }
+        })
+        console.log(res);
+        setQuestion(res.data)
+    }
+
+    useEffect(() => {
+        GetQuestion()
+    }, []);
 
     return(
         <>
@@ -18,8 +47,8 @@ export default function Updatepage_Right() {
 
                 <ScrollbarSection>
 
-                    <WorkbookDiv>
-                        <WorkbookImg src ="/img/mango.JPG"/>
+                    <WorkbookDiv>                                
+                          <WorkbookImg src ="/img/mango.JPG"/>
                         <TextSelect>
                             <TextInput  placeholder ="문제집 이름" type="text"></TextInput>
                             <Select defaultValue = "정보처리기사">
@@ -36,81 +65,25 @@ export default function Updatepage_Right() {
                     </WorkbookDiv>
                     
                     <QuestionUl>
-                        <QuestionLi>
-                            <Question>1. 통신을 위한 프로그램을 생성하여, 포트를 할당하고, 클라이언트의 하드코딩 헤헤헤헤헤헤 하드코딩 헤헤헤헤헤헤</Question>
-                            <Answer>[정답 : 소켓 기술]</Answer>
-                            <Answers>하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 </Answers>
-                            <ButtonDiv>
-                                <Update>수정</Update>
-                                <Delete>삭제</Delete>
-                            </ButtonDiv>
-                        </QuestionLi>
-
-                        <QuestionLi>
-                            <Question>1. 통신을 위한 프로그램을 생성하여, 포트를 할당하고, 클라이언트의 하드코딩 헤헤헤헤헤헤</Question>
-                            <Answer>[정답 : 소켓 기술]</Answer>
-                            <Answers>하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 </Answers>
-                            <ButtonDiv>
-                                <Update>수정</Update>
-                                <Delete>삭제</Delete>
-                            </ButtonDiv>
-                        </QuestionLi>
-
-                        <QuestionLi>
-                            <Question>1. 통신을 위한 프로그램을 생성하여, 포트를 할당하고, 클라이언트의 하드코딩 헤헤헤헤헤헤</Question>
-                            <Answer>[정답 : 소켓 기술]</Answer>
-                            <Answers>하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 </Answers>
-                            <ButtonDiv>
-                                <Update>수정</Update>
-                                <Delete>삭제</Delete>
-                            </ButtonDiv>
-                        </QuestionLi>
-
-                        <QuestionLi>
-                            <Question>1. 통신을 위한 프로그램을 생성하여, 포트를 할당하고, 클라이언트의 하드코딩 헤헤헤헤헤헤</Question>
-                            <Answer>[정답 : 소켓 기술]</Answer>
-                            <Answers>하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 </Answers>
-                            <ButtonDiv>
-                                <Update>수정</Update>
-                                <Delete>삭제</Delete>
-                            </ButtonDiv>
-                        </QuestionLi>
-                        <QuestionLi>
-                            <Question>1. 통신을 위한 프로그램을 생성하여, 포트를 할당하고, 클라이언트의 하드코딩 헤헤헤헤헤헤</Question>
-                            <Answer>[정답 : 소켓 기술]</Answer>
-                            <Answers>하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 </Answers>
-                            <ButtonDiv>
-                                <Update>수정</Update>
-                                <Delete>삭제</Delete>
-                            </ButtonDiv>
-                        </QuestionLi>                        <QuestionLi>
-                            <Question>1. 통신을 위한 프로그램을 생성하여, 포트를 할당하고, 클라이언트의 하드코딩 헤헤헤헤헤헤</Question>
-                            <Answer>[정답 : 소켓 기술]</Answer>
-                            <Answers>하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 </Answers>
-                            <ButtonDiv>
-                                <Update>수정</Update>
-                                <Delete>삭제</Delete>
-                            </ButtonDiv>
-                        </QuestionLi>                        <QuestionLi>
-                            <Question>1. 통신을 위한 프로그램을 생성하여, 포트를 할당하고, 클라이언트의 하드코딩 헤헤헤헤헤헤</Question>
-                            <Answer>[정답 : 소켓 기술]</Answer>
-                            <Answers>하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 </Answers>
-                            <ButtonDiv>
-                                <Update>수정</Update>
-                                <Delete>삭제</Delete>
-                            </ButtonDiv>
-                        </QuestionLi>                        <QuestionLi>
-                            <Question>1. 통신을 위한 프로그램을 생성하여, 포트를 할당하고, 클라이언트의 하드코딩 헤헤헤헤헤헤</Question>
-                            <Answer>[정답 : 소켓 기술]</Answer>
-                            <Answers>하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 하드코딩 </Answers>
-                            <ButtonDiv>
-                                <Update>수정</Update>
-                                <Delete>삭제</Delete>
-                            </ButtonDiv>
-                        </QuestionLi>
-        
+                        {
+                            question.map((questiondata,i)=>{
+                                return(
+                                    <QuestionLi key = {questiondata.id}>
+                                        <Question>{i+1}. {questiondata.question}</Question>
+                                        <Answer>[정답 : {questiondata.correct}]</Answer>
+                                        <Answers>{questiondata.explanation}</Answers>
+                                        <ButtonDiv>
+                                            <Update>수정</Update>
+                                            <Delete>삭제</Delete>
+                                        </ButtonDiv>
+                                    </QuestionLi>
+                                )
+                            })
+                        }
                     </QuestionUl>
+
                     <Link to ='/add'><CreateBtn>+</CreateBtn></Link>
+
                 </ScrollbarSection>
             </Article>
         </>
