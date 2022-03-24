@@ -49,7 +49,7 @@ export default function Right() {
     useEffect(() => {
         ReadWorkbook();
         setUpdate(a);
-    }, []); 
+    }, []);  
     
     
     useEffect(()=>{
