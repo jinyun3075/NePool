@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 @Log4j2
 public class ApiCheckFilter extends OncePerRequestFilter {
@@ -30,12 +31,15 @@ public class ApiCheckFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("APICheckFilter.......................");
-
-        boolean checkHeader = checkAuthHeader(request);
-        if(antPathMatcher.match("/workbook/best4",request.getRequestURI())||antPathMatcher.match("/user",request.getRequestURI()) || antPathMatcher.match("/user/login",request.getRequestURI()) || antPathMatcher.match("/workbook",request.getRequestURI())){
-            filterChain.doFilter(request, response);
-            return;
+        List<String> checkUrl = checkUrl();
+        log.info(request.getRequestURI());
+        for (String pattern: checkUrl) {
+            if(antPathMatcher.match(pattern,request.getRequestURI())){
+                filterChain.doFilter(request, response);
+                return;
+            }
         }
+        boolean checkHeader = checkAuthHeader(request);
         if (checkHeader) {
             filterChain.doFilter(request, response);
             return;
@@ -67,5 +71,15 @@ public class ApiCheckFilter extends OncePerRequestFilter {
             }
         }
         return checkResult;
+    }
+
+    private List<String> checkUrl() {
+        List<String> list = new ArrayList<>();
+        list.add("/search/*");
+        list.add("/workbook/best4");
+        list.add("/user");
+        list.add("/workbook");
+        list.add("/user/login");
+        return list;
     }
 }
