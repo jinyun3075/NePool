@@ -1,5 +1,7 @@
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { API } from "../../constants";
 import Slide from "./slide";
 
 export default function Carousel() {
@@ -20,9 +22,40 @@ export default function Carousel() {
   };
 
   useEffect(() => {
-    slideRef.current.style.transition = "all 0.5s ease-in-out";
-    slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
+    slideRef.current.style.transition = "all 1.5s ease-in-out";
+    slideRef.current.style.transform = `translateX(0)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
   }, [currentSlide]);
+
+  const [get, setGet] = useState([
+    {
+      id: "",
+      title: "",
+      content: "",
+      share: "",
+      username: "",
+      count: "",
+      type: "",
+      regDate: "",
+      modDate: "",
+    },
+  ]);
+  const getUser = async () => {
+    const res = await axios.get(`${API}/workbook/best4`, {
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    console.log(res);
+    setGet(res.data);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const ggggg = get[currentSlide]
+
+
 
   return (
     <>
@@ -30,7 +63,7 @@ export default function Carousel() {
         <MainTitle>0,004 학생이 인정한 BEST 문제집</MainTitle>
         <CarouselBox>
           <CarouselList ref={slideRef}>
-            <Slide />
+            <Slide ggggg={ggggg} currentSlide={currentSlide}/>
           </CarouselList>
           <BtnArr>
             <BtnBox>
@@ -67,12 +100,12 @@ const CarouselBox = styled.div`
   justify-content: center;
   margin: 30px auto;
   overflow: hidden;
-  width: 900px;
+  width: 830px;
 `;
 const CarouselList = styled.ul`
   display: flex;
-  justify-content: center;
-  width: 900px;
+  /* justify-content: center; */
+  width: 850px;
 `;
 const BtnArr = styled.div`
   position: absolute;

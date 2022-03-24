@@ -42,15 +42,11 @@ export default function HeaderSignin() {
               <button onClick={openNotice}>
                 <NoticeImg src="/img/notice.svg" alt="알림" />
               </button>
-              {noticeOn && (
-                <NoticeModal />
-              )}
+              {noticeOn === true ? <NoticeModal /> : null}
               <button onClick={openStatus}>
                 <ProfileImg src="/img/mango.jpg" alt="프로필 사진" />
               </button>
-              {statusON && (
-              <StatusModal />
-              )}
+              {statusON === true ? <StatusModal /> : null}
             </ProfileBox>
           )
           : (
