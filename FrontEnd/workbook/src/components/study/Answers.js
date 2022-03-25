@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Answer from './Answer';
 import { nanoid } from 'nanoid';
 
-export default function Answers({question, currentAnswer, click, error, correct}) {
+export default function Answers({relatedAnswer, question, currentAnswer, click, error, correct}) {
 
   return (
     <>
