@@ -1,17 +1,24 @@
-import React from 'react';
-import { COLORS } from '../../constants/index';
+import React, { useEffect } from 'react';
+import { API, COLORS } from '../../constants/index';
 import styled from 'styled-components';
+import axios from 'axios';
 
 export default function DeleteModal(props){
-    // function closeModal(){
-    //     modal.style.display = 'none';
-    // }
-    
-    // window.onclick = function(event){
-    //     if(event.target == modal){
-    //         closeModal();
-    //     }
-    // }
+
+    const DeleteWorkbook = async (props) => {
+        const username = localStorage.getItem('user');
+        const token = localStorage.getItem("token");
+        const res = await axios.delete(`${API}/workbook/${username}/${props.workbookid}`,{
+            headers:{
+                'Content-type' : "application/json",
+                Authorization : `Bearer ${token}`,
+            }}
+        );  
+        console.log(res)
+        // window.location.reload()
+    }
+
+
     return(
         <>
             <Modal>
@@ -21,7 +28,7 @@ export default function DeleteModal(props){
                 <Text>예시 문제집을 삭제하시겠습니까?</Text>
                 <BtnDiv>
                     <NoBtn onClick={()=>{props.setDeletemodal(false)}}>아니오</NoBtn>
-                    <YesBtn>예</YesBtn>
+                    <YesBtn onClick = { DeleteWorkbook } >예</YesBtn>
                 </BtnDiv>
             </Modal>
         </>

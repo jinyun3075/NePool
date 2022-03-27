@@ -10,10 +10,11 @@ export default function Share_page() {
   return (
     <>
       <HeaderSignin />
-      <Section>
+      <h1>공유된 페이지 일단 샘플임 ㅎ</h1>
+      {/* <Section>
         <Left />
         <Myshared />
-      </Section>
+      </Section> */}
     </>
     )
 } 

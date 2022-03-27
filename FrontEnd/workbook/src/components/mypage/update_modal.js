@@ -9,7 +9,11 @@ export default function UpdateModal(props){
             <Modal className="updatemodal">
                 <Try onClick = { ()=>{props.setModemodal(true); props.setDeletemodal(false);} }>풀기</Try>
                 <Update><Link to='/update'>수정</Link></Update>
+<<<<<<< Updated upstream
                 <Delete onClick = { ()=>{props.setDeletemodal(true); props.setModemodal(false);}}>삭제</Delete>
+=======
+                <Delete onClick = { ()=>{props.setDeletemodal(true); props.setModemodal(false);}} >삭제</Delete>
+>>>>>>> Stashed changes
             </Modal>
         </>
     )
