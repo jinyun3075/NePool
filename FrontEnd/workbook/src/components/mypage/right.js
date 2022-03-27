@@ -10,13 +10,11 @@ import axios from 'axios';
 
 
 export default function Right() {
-
-    
-    let [update, setUpdate] = useState(false);
-    let [index,setIndex] = useState(0);
+    let [update, setUpdate] = useState(Array(10).fill(false));
     let [create, setCreate] = useState(false);
     let [deletemodal, setDeletemodal] = useState(false);
     let [modemodal, setModemodal] = useState(false);
+    let [workbookid,setWorkbookid] = useState('Please');
     
     const [workbook,setWorkbook] = useState([
         {
@@ -40,32 +38,31 @@ export default function Right() {
                 Authorization : `Bearer ${token}`
             }}
         );
-        console.log(res);
         setWorkbook(res.data.dtoList);
     }
-    
-    const a = Array(workbook.length).fill(false)
-    
-    useEffect(() => {
-        ReadWorkbook();
-        setUpdate(a);
-    }, []);  
-    
-    
+
     useEffect(()=>{
         console.log(update)
+        console.log(workbookid) 
     },[update])
+    
 
-    const yes = (e) =>{
-        if (update[e.target.value] === true){            
+    useEffect(() => {
+        ReadWorkbook();
+    }, []);  
+ 
+    
+    
+    const yes = (event) =>{
+        if (update[event.target.value] === true){            
             const newarray = [...update]
-            newarray[e.target.value] = false
+            newarray[event.target.value] = false
             setUpdate(newarray)
         }
         else{        
             const newarray = [...update]
             for(let i=0;i<newarray.length;i++){
-                if(i === e.target.value){
+                if(i === event.target.value){
                     newarray[i] = true
                 }
                 else{newarray[i] = false}
@@ -73,6 +70,11 @@ export default function Right() {
             setUpdate(newarray)
         }
     }
+    
+    const workbookdataid = (event) =>{
+        setWorkbookid(event.target.dataset.workbookid);
+    }
+
 
     return(
         <>
@@ -86,27 +88,29 @@ export default function Right() {
                 </Myworkbook>
 
                 {/* onClick ={() => { setUpdate(!update) } } */}
-
+ 
                 <Example>
                     {
                         workbook.map((workbookdata,i)=>{
                             return(
-                                    <ExampleLi onClick ={yes} value={i} key={workbookdata.id} > 
+                                    <ExampleLi onClick={ (event) => { workbookdataid(event); yes(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
+                                        
                                         <ExampleP1 >{workbookdata.title}</ExampleP1>
-                                        <ExampleP2 >마지막 수정 일시 : {workbookdata.modDate}</ExampleP2>
+                                        <ExampleP2 >마지막 수정 일시 : {workbookdata.modDate.substring(0,10)}</ExampleP2>
                                         {
                                             update[i] === true ? 
                                             <UpdateModal workbook ={workbook} setWorkbook={workbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
                                             : null    
                                         }
-                                    </ExampleLi>
+                                    </ExampleLi> 
+
                             )
                         })
                     }
-
+                    
                     {
                         deletemodal === true ? 
-                        <DeleteModal deletemodal = {deletemodal} setDeletemodal ={setDeletemodal}/>
+                        <DeleteModal workbookid={workbookid} deletemodal={deletemodal} setDeletemodal ={setDeletemodal}/>
                         :null   
                     }
 
@@ -119,6 +123,7 @@ export default function Right() {
                 </Example>
 
                 <CreateBtn onClick ={ ()=>{setCreate(create=true);}}>+</CreateBtn>
+
             </Article>
         </>
     )
@@ -200,7 +205,7 @@ const ExampleP1 = styled.p`
 
 const ExampleP2 =styled.p`
     cursor:pointer;
-    font-size:0.3rem;
+    font-size:0.5rem;
     color:${COLORS.gray};
     font-weight:500;
     text-align:center;
