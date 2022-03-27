@@ -3,12 +3,12 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../constants";
 import Slide from "./slide";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-export default function Carousel({allUserCount}) {
+export default function Carousel({ allUserCount }) {
   const totalSlide = 3;
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slideRef = useRef(null);
+  // const slideRef = useRef(null);
   //next 버튼 클릭
   const Next = () => {
     currentSlide >= totalSlide
@@ -22,10 +22,10 @@ export default function Carousel({allUserCount}) {
       : setCurrentSlide(currentSlide - 1);
   };
 
-  useEffect(() => {
-    slideRef.current.style.transition = "all 1.5s ease-in-out";
-    slideRef.current.style.transform = `translateX(0)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
-  }, [currentSlide]);
+  // useEffect(() => {
+  //   slideRef.current.style.transition = "all 1.5s ease-in-out";
+  //   slideRef.current.style.transform = `translateX(0)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
+  // }, [currentSlide]);
 
   const [get, setGet] = useState([
     {
@@ -61,21 +61,17 @@ export default function Carousel({allUserCount}) {
       <MainBox>
         <MainTitle>{allUserCount}명의 학생이 인정한 BEST 문제집</MainTitle>
         <CarouselBox>
-          <Link to='/detail'>
-            <CarouselList ref={slideRef}>
-              <Slide ggggg={ggggg} currentSlide={currentSlide}/>
-            </CarouselList>
-          </Link>
-          <BtnArr>
-            <BtnBox>
-              <button type="button" onClick={Prev}>
-                <img src="/img/prev.svg" alt="이전버튼" />
-              </button>
-              <button type="button" onClick={Next}>
-                <img src="/img/next.svg" alt="다음버튼" />
-              </button>
-            </BtnBox>
-          </BtnArr>
+          <BtnBox>
+            <button type="button" onClick={Prev}>
+              <img src="/img/prev.svg" alt="이전버튼" />
+            </button>
+            <button type="button" onClick={Next}>
+              <img src="/img/next.svg" alt="다음버튼" />
+            </button>
+          </BtnBox>
+          <CarouselList>
+            <Slide ggggg={ggggg} currentSlide={currentSlide} />
+          </CarouselList>
         </CarouselBox>
       </MainBox>
     </>
@@ -107,11 +103,9 @@ const CarouselList = styled.ul`
   display: flex;
   /* justify-content: center; */
   width: 850px;
+  z-index: 1;
 `;
-const BtnArr = styled.div`
-  position: absolute;
-  margin-right: 1060px;
-`;
+
 const BtnBox = styled.div`
   position: absolute;
   display: flex;
