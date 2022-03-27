@@ -31,7 +31,7 @@ export default function HeaderSignin() {
               <img src="/img/search.svg" alt="돋보기" />
             </SearchBtn>
             <SearchInp type="text" autoFocus placeholder='문제집을 검색해 보세요!' />
-            <CloseBtn>
+            <CloseBtn type="reset">
               <img src="/img/close.svg" alt="지우기" />
             </CloseBtn>
           </SearchBox>

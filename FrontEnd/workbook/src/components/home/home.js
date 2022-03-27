@@ -6,8 +6,48 @@ import PostNav from './postNav';
 import Banner from './banner';
 import Footer from './footer';
 import Post from './post';
+import axios from 'axios';
+import { API } from '../../constants';
 
 export default function Home() {
+    const [allUser, setAllUser] = useState([
+        {
+            "dtoList": [
+                "username":"",
+                "name": "",
+                "email": "",
+                "password": "",
+                "totalPage":"",
+            ],
+            "page": "",
+            "size":"",
+            "prev": "",
+            "next": "",
+            "start": "",
+            "end": "",
+            "pageList": "",
+        },
+    ]);
+
+    const getUser = async () => {
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${API}/user`, {
+            headers: {
+                "Content-type" : "application/json",
+                "Authorization" : `Bearer ${token}`,
+            },
+        });
+        console.log(res);
+        setAllUser(res.data.dtoList);
+    };
+    
+    useEffect(() => {
+        getUser();
+    }, []);
+    
+    const allUserCount = allUser.length;
+    // console.log(allUserCount);
+    
     const [scrollY, setScrollY] = useState(0);
     const [BtnOFF, setBtnOff] = useState(false);
     
@@ -41,10 +81,10 @@ export default function Home() {
     return (
         <>
           <HeaderSignin />
-          <Carousel />
+          <Carousel allUserCount={allUserCount} />
           <PostNav />
           <Post />
-          <Banner />
+          <Banner  allUserCount={allUserCount} />
           <Footer />
           <TopBtn><button className={BtnOFF ? "topOn" : "active"} onClick={scrollTop}></button></TopBtn>
         </>

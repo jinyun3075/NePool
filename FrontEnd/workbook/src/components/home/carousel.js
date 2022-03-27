@@ -3,8 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../constants";
 import Slide from "./slide";
+import { Link } from 'react-router-dom';
 
-export default function Carousel() {
+export default function Carousel({allUserCount}) {
   const totalSlide = 3;
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
@@ -45,7 +46,7 @@ export default function Carousel() {
         "Content-type": "application/json",
       },
     });
-    console.log(res);
+    // console.log(res);
     setGet(res.data);
   };
 
@@ -53,18 +54,18 @@ export default function Carousel() {
     getUser();
   }, []);
 
-  const ggggg = get[currentSlide]
-
-
+  const ggggg = get[currentSlide];
 
   return (
     <>
       <MainBox>
-        <MainTitle>0,004 학생이 인정한 BEST 문제집</MainTitle>
+        <MainTitle>{allUserCount}명의 학생이 인정한 BEST 문제집</MainTitle>
         <CarouselBox>
-          <CarouselList ref={slideRef}>
-            <Slide ggggg={ggggg} currentSlide={currentSlide}/>
-          </CarouselList>
+          <Link to='/detail'>
+            <CarouselList ref={slideRef}>
+              <Slide ggggg={ggggg} currentSlide={currentSlide}/>
+            </CarouselList>
+          </Link>
           <BtnArr>
             <BtnBox>
               <button type="button" onClick={Prev}>
@@ -84,7 +85,7 @@ export default function Carousel() {
 const MainBox = styled.div`
   display: flex;
   flex-direction: column;
-  height: 530px;
+  height: 500px;
   background-color: rgba(47, 128, 237, 0.27);
 `;
 const MainTitle = styled.h3`

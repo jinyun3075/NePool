@@ -1,18 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { API } from '../../constants';
 
-export default function Banner() {
+export default function Banner({allUserCount}) {
+    const [allBook, setAllBook] = useState([
+        {
+
+        }
+    ]);
+
+    const getBook = async() => {
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${API}/workbook`, {
+            headers: {
+                "Content-type" : "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+        console.log(res);
+        setAllBook(res.data.dtoList);
+    };
+
+    useEffect(() => {
+        getBook();
+      }, []);
+
+    const allBookCount = allBook.length;
     return (
         <>
             <BannerBox>
                 <div>
                     <BannerText size="20px">현재
                         <BannerText size="30px" weight="bold">
-                            &nbsp;0,004명
+                            &nbsp;{allUserCount}명
                         </BannerText>의 학생 분들이
                         <BannerText size="30px" weight="bold">
-                            &nbsp;662개
+                            &nbsp;{allBookCount}개
                         </BannerText>에 달하는 내풀 문제집을 풀고 있습니다!
                     </BannerText>
                 </div>
