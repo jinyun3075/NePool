@@ -8,6 +8,9 @@ export default function CreateModal(props){
     const [createtitle, setCreatetitle] = useState("")
     const [createcontent, setCreatecontent] = useState("")
     const [createtype, setCreatetype] = useState("정보처리기사")
+
+
+    // 문제집 생성 API (Post)
     const Workbook  = async() =>{
         const token = localStorage.getItem('token');
         const username = localStorage.getItem('user')
@@ -59,14 +62,12 @@ export default function CreateModal(props){
 
                 <TextSelect>
                     <TextInput onChange = { Change } value = {createtitle} name = "title" placeholder ="문제집 이름" type="text"></TextInput>
-                    <Select defaultValue = "정보처리기사" onChange = { Change } value = {createtype} name="type">
-                        <option value="정보처리기사">정보처리기사</option>
-                        <option value="YBMCOS">YBM COS</option>
-                        <option value="웹디자인 기능사">웹디자인 기능사</option>
-                        <option value="리눅스 마스터">리눅스 마스터</option>
-                        <option value="TOPCIT">TOPCIT</option>
-                        <option value="CCTS">CCTS</option>
-                        <option value="CLA">CLA</option>
+                    <Select defaultValue ="수능·내신" onChange = { Change } value = {createtype} name="type">
+                        <option value="수능·내신">수능·내신</option>
+                        <option value="수능·내신">어학</option>
+                        <option value="웹디자인 기능사">자격증</option>
+                        <option value="리눅스 마스터">시사·상식</option>
+                        <option value="기타">기타</option>
                     </Select>
                     <Explain onChange = { Change } value = {createcontent} name="content" rows="5" placeholder='문제집 설명'></Explain>
                 </TextSelect>

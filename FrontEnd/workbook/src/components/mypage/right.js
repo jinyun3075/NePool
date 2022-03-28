@@ -16,6 +16,8 @@ export default function Right() {
     let [modemodal, setModemodal] = useState(false);
     let [workbookid, setWorkbookid] = useState('');
     
+
+    // 문제집 리스트 받아오기 (Get)
     const [workbook,setWorkbook] = useState([
         {
             content:"",
@@ -38,6 +40,7 @@ export default function Right() {
                 Authorization : `Bearer ${token}`
             }}
         );
+        console.log(res)
         setWorkbook(res.data.dtoList);
     }
 
@@ -52,7 +55,7 @@ export default function Right() {
     }, []);  
  
     
-    
+    // 문제집 클릭시 해당 모달 보이기
     const yes = (event) =>{
         if (update[event.target.value] === true){            
             const newarray = [...update]
@@ -71,6 +74,7 @@ export default function Right() {
         }
     }
     
+
     const workbookdataid = (id) =>{
         setWorkbookid(id);
     }
@@ -101,7 +105,7 @@ export default function Right() {
                                         <ExampleP2 >마지막 수정 일시 : {workbookdata.modDate.substring(0,10)}</ExampleP2>
                                         {
                                             update[i] === true ? 
-                                            <UpdateModal workbook ={workbook} setWorkbook={workbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
+                                            <UpdateModal workbookid = {workbookid} workworkbook ={workbook} setWorkbook={workbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
                                             : null    
                                         }
                                     </ExampleLi> 
