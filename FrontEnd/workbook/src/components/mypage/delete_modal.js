@@ -5,17 +5,19 @@ import axios from 'axios';
 
 export default function DeleteModal(props){
 
+    const workbookid = props.workbookid
+
     const DeleteWorkbook = async (props) => {
         const username = localStorage.getItem('user');
         const token = localStorage.getItem("token");
-        const res = await axios.delete(`${API}/workbook/${username}/${props.workbookid}`,{
+        const res = await axios.delete(`${API}/workbook/${username}/${workbookid}`,{
             headers:{
                 'Content-type' : "application/json",
                 Authorization : `Bearer ${token}`,
             }}
         );  
-        console.log(res)
-        // window.location.reload()
+        // console.log(res)
+        window.location.reload()
     }
 
 

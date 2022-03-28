@@ -14,7 +14,7 @@ export default function Right() {
     let [create, setCreate] = useState(false);
     let [deletemodal, setDeletemodal] = useState(false);
     let [modemodal, setModemodal] = useState(false);
-    let [workbookid,setWorkbookid] = useState('Please');
+    let [workbookid, setWorkbookid] = useState('');
     
     const [workbook,setWorkbook] = useState([
         {
@@ -42,7 +42,7 @@ export default function Right() {
     }
 
     useEffect(()=>{
-        console.log(update)
+        // console.log(update)
         console.log(workbookid) 
     },[update])
     
@@ -71,9 +71,11 @@ export default function Right() {
         }
     }
     
-    const workbookdataid = (event) =>{
-        setWorkbookid(event.target.dataset.workbookid);
+    const workbookdataid = (id) =>{
+        setWorkbookid(id);
     }
+
+   
 
 
     return(
@@ -93,7 +95,7 @@ export default function Right() {
                     {
                         workbook.map((workbookdata,i)=>{
                             return(
-                                    <ExampleLi onClick={ (event) => { workbookdataid(event); yes(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
+                                    <ExampleLi onClick={ (event) => { workbookdataid(workbookdata.id); yes(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
                                         
                                         <ExampleP1 >{workbookdata.title}</ExampleP1>
                                         <ExampleP2 >마지막 수정 일시 : {workbookdata.modDate.substring(0,10)}</ExampleP2>
