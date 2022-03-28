@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { COLORS, API } from '../../constants/index';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios'; 
 
 
 export default function Updatepage_Right() {
+    const location = useLocation();
+    const workbookid = location.state.workbookid
 
+
+    // 문제 보이기 (Get)
     const [question,setQuestion] = useState([
         {
             id: "",
@@ -21,9 +25,10 @@ export default function Updatepage_Right() {
         }
     ])
     const GetQuestion = async () =>{
+        console.log(location.state)
         const username = localStorage.getItem('user');
         const token = localStorage.getItem('token');
-        const res = await axios.get(`${API}/work/${username}/$2a$10$M9STBayHzNAyeXbnwlu1DuLuWICcqrX42K.HXsbIuCF4EM30G3sjC`,{
+        const res = await axios.get(`${API}/work/${username}/${workbookid}`,{
             headers:{
                 'Content-type' : "application/json",
                 Authorization : `Bearer ${token}` 
