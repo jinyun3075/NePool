@@ -1,20 +1,67 @@
+import axios from 'axios';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../../constants';
+import { API, COLORS } from '../../constants';
 
-export default function Preview() {
+export default function Preview({workBook, id}) {
 
+  const userName = workBook.username
+  const workBookId = workBook.id
+
+
+
+  const [quiz, setQuiz] = useState([{
+    id: "",
+    question: "",
+    answer_a: "",
+    answer_b: "",
+    answer_c: "",
+    answer_d: "",
+    answer_e: "",
+    correct: "",
+    explanation: "",
+  }])
+
+   
+
+  const getQuestion = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.get(`${API}/work/${userName}/${workBookId}`, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+      setQuiz(res.data)
+    } catch(err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getQuestion();
+  }, [workBook])
+
+  console.log(quiz);
+  
   return (
     <>
       <PrivewBoard>
-        <testPreview>
-          <span>📖</span>
+        <TestPreview>
+          <Icon>📖</Icon>
           <Tit>문제 미리보기</Tit>
           <List>
-            <li>1. 통신을 위한 프로그램을 생성하여 포트를 할당하고, 클라이언트의 통신 요청 시 클라이언트와 연결하는 내외부 송·수신 연계기술은?</li>
-            <li>2. 통신을 위한 프로그램을 생성하여 포트를 할당하고, 클라이언트의 통신 요청 시 클라이언트와 연결하는 내외부 송·수신 연계기술은?</li>
-            <li>3. 통신을 위한 프로그램을 생성하여 포트를 할당하고, 클라이언트의 통신 요청 시 클라이언트와 연결하는 내외부 송·수신 연계기술은?</li>
+            {/* {quiz && quiz[0].question} */}
+            {/* {quiz && quiz.map((q) => {
+              return (
+                <Item key={q.id}>
+                  <span>{q.question}</span>
+                </Item>
+              );
+            })} */}
           </List>
-        </testPreview>
+        </TestPreview>
       </PrivewBoard>
     </>
   )
@@ -22,24 +69,42 @@ export default function Preview() {
 
 const PrivewBoard = styled.section`
   border: 1px solid ${COLORS.light_gray};
-  width: 750px;
+  border-radius: 5px;
+  width: 800px;
   margin: 50px auto;
 `
 
-const testPreview = styled.article`
-  width: 300px;
-  display: flex;
-  /* margin-right: 100px; */
+const TestPreview = styled.article`
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 5px;
+  padding: 20px 30px 35px;
 `
 
-const List = styled.ul`
-  display: flex;
+const Icon = styled.span`
+  font-size: 20px;
 `
 
 const Tit = styled.span`
-  font-size: 16px;
+  font-size: 20px;
+  display: block;
+  text-align: center;
+  margin: 3px 0 25px;
+  color: ${COLORS.blue};
 `
+
+const List = styled.ul`
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`
+
+const Item = styled.li`
+  font-size: 15px;
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`
+

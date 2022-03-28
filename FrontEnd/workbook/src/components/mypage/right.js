@@ -15,6 +15,7 @@ export default function Right() {
     let [deletemodal, setDeletemodal] = useState(false);
     let [modemodal, setModemodal] = useState(false);
     let [workbookid, setWorkbookid] = useState('');
+    let [workbookUserName, setworkbookUserName] = useState('');
     
     const [workbook,setWorkbook] = useState([
         {
@@ -75,6 +76,10 @@ export default function Right() {
         setWorkbookid(id);
     }
 
+    const workbookdatausernmae = (username) => {
+      setworkbookUserName(username)
+    }
+
    
 
 
@@ -95,7 +100,7 @@ export default function Right() {
                     {
                         workbook.map((workbookdata,i)=>{
                             return(
-                                    <ExampleLi onClick={ (event) => { workbookdataid(workbookdata.id); yes(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
+                                    <ExampleLi onClick={ (event) => { workbookdatausernmae(workbookdata.username); workbookdataid(workbookdata.id); yes(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
                                         
                                         <ExampleP1 >{workbookdata.title}</ExampleP1>
                                         <ExampleP2 >마지막 수정 일시 : {workbookdata.modDate.substring(0,10)}</ExampleP2>
@@ -118,7 +123,7 @@ export default function Right() {
 
                     {    
                         modemodal === true ?
-                        <ModeModal modemodal = {modemodal} setModemodal = {setModemodal} />
+                        <ModeModal workbookid={workbookid} username={workbookUserName} modemodal = {modemodal} setModemodal = {setModemodal} />
                         :null
                     }
 

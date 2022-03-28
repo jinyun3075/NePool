@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { API, COLORS } from '../../constants'
-import {Link} from 'react-router-dom';
+import {Link, useLocation, useParams} from 'react-router-dom';
 import Progress from './Progress';
 import Question from './Question';
 import axios from 'axios';
@@ -9,7 +9,13 @@ import Answers from './Answers';
 import { ExplanationModal } from './ExplanationModal';
 import Result from './Result';
 
-export default function StudyPage01() {
+export default function StudyPage() {
+
+  const location = useLocation()
+  const userName = location.state.username
+
+  const params = useParams()
+  const workBookId = params.id
 
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [currentAnswer, setCurrentAnswer] = useState("")
@@ -28,6 +34,7 @@ export default function StudyPage01() {
 
   const [modal, setModal] = useState(false)
 
+ 
   const openExModal = () => {
     setModal(true);
   };
@@ -51,15 +58,28 @@ export default function StudyPage01() {
 
   const getTest = async () => {
     const token = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
-    const res = await axios.get(`${API}/work/${user}/$2a$10$M9STBayHzNAyeXbnwlu1DuLuWICcqrX42K.HXsbIuCF4EM30G3sjC`, {
+    
+    try {
+      const res = await axios.get(`${API}/work/${userName}/${workBookId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-type": "application/json",
       },
     });
     setQuestionsData(res.data)
+    
+    } catch(err) {
+      console.log(err);
+    }
+    
   };
+
+    
+  useEffect(() => {
+    getTest();
+  }, []);
+
+  console.log(questionsData);
 
   const question = questionsData[currentQuestion]
 
@@ -97,10 +117,6 @@ export default function StudyPage01() {
       setCorrect(false)
     }
   }
-  
-  useEffect(() => {
-    getTest();
-  }, []);
 
   const [questionsAndAnswers, setQuestionsAndAnswers] = useState([]);
 
@@ -134,7 +150,7 @@ export default function StudyPage01() {
           <Result questionsData={questionsData} bb={bb}/>
           <BtnBox>
             <Btn onClick={() => {window.location.reload()}}>다시 풀기</Btn>
-            <Linkto as={Link} to="/detail">완료</Linkto>
+            <Linkto as={Link} to={`/detail/${workBookId}`} state={{username: userName}}>완료</Linkto>
             {/* <Btn></Btn> */}
           </BtnBox>
         </ResultBoard>

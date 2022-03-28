@@ -1,11 +1,51 @@
 import styled from 'styled-components';
-import { COLORS } from '../../constants'
+import { API, COLORS } from '../../constants'
 import Comments from './Comments';
 import Preview from './Preview';
 import Star from './Star';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function DetailPage() {
+
+  const [workBook, setWorkBook] = useState([
+    {
+      content: "",
+      count: 0,
+      id: "",
+      share: false,
+      title: "",
+      username: "",
+    },
+  ]);
+
+  const params = useParams()
+  const workbookId = params.id
+
+  const location = useLocation()
+
+  const userName = location.state.username
+
+  const getWorkBook = async () => {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.get(`${API}/workbook/${userName}/${workbookId}`, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setWorkBook(res.data)
+  };
+
+  useEffect(() => {
+    getWorkBook();
+  }, []);
+
+  const {content, count, id, modDate, share, title, type, username} = workBook
+
+  // console.log(workBook);
 
   return (
     <>
@@ -14,16 +54,16 @@ export default function DetailPage() {
         <DetailBoard>
           <DetailInfo>
             <Info>
-              <SubTit>영어</SubTit>
-              <Tit>운전 면허 1종</Tit>
-              <Author>만든이: 123</Author>
+              <SubTit>{type}</SubTit>
+              <Tit>{title}</Tit>
+              <Author>만든이: {username}</Author>
               <span>별점: 4.5</span>
-              <Explain>설마 어디가서 2종따고 운전면허 갖고 있다고 말하고다니는건 아니시죠?</Explain>
+              <Explain>{content}</Explain>
               <ButtonBox>
-                <Link to='/studymode'>
+                <Link to={`/studymode/${id}`} state={{username: username}}>
                   <button>공부모드</button>
                 </Link>
-                <Link to='/studymode'>
+                <Link to={`/studymode/${id}`} state={{username: username}}>
                   <button>시험모드</button>
                 </Link>
                 <button>스크랩</button>
@@ -31,9 +71,9 @@ export default function DetailPage() {
             </Info>
           </DetailInfo>
         </DetailBoard>
-        <Preview />
-        <Star />
-        <Comments />
+        <Preview workbookId={id} workBook={workBook}/>
+        <Star count={count} username={username} />
+        <Comments workbookId={workbookId}/>
       </main>
     </>
   )

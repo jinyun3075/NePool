@@ -40,8 +40,7 @@ export default function Post() {
             //map이 순환을 함
             return (
               <li key={postData.id}>
-                {/* <Link to='/detail'> */}
-                <Link to={`/detail/${postData.id}`}>
+                <Link to={`/detail/${postData.id}`}  state={{username: postData.username}} >
                   <ItemImg>
                   </ItemImg>
                   <TextBox>
