@@ -21,10 +21,10 @@ function App() {
         <Route path="/sharepage" element={<Sharepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/join" element={<Join />} />
-        <Route path="/studymode" element={<Study />} />
+        <Route path="/studymode/:id" element={<Study />} />
         <Route path="/allpost" element={<AllPost />} />
         <Route path="/add" element={<AddPage />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/detail/:id" element={<Detail />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/update" element={<UpdatePage />} />
       </Routes>

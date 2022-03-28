@@ -24,21 +24,21 @@ export default function MorePost() {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(res);
     setPost(res.data.dtoList);
   };
 
   useEffect(() => {
     getUser();
   }, []);
+  
   return (
     <>
       <ItemBox>
         <Items>
           {post.map((postData) => {
             return (
-              <li>
-                <Link to='/detail'>
+              <li key={postData.id}>
+                <Link to={`/detail/${postData.id}`} state={{username: postData.username}}>
                   <ItemImg>
                   </ItemImg>
                   <TextBox>
