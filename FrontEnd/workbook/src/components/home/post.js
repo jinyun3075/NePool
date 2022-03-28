@@ -1,42 +1,14 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { API } from "../../constants";
 import { Link } from 'react-router-dom';
 
-export default function Post() {
-  const [post, setPost] = useState([
-    {
-      content: "",
-      count: 0,
-      id: "",
-      share: false,
-      title: "",
-      username: "",
-    },
-  ]);
-
-  const getUser = async () => {
-    const token = localStorage.getItem("token");
-    const res = await axios.get(`${API}/workbook?page=1&size=5000`, {
-      headers: {
-        "Content-type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
-    console.log(res);
-    setPost(res.data.dtoList);
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
+export default function Post({allUserPost}) {
 
   return (
     <>
       <ItemBox>
         <Items>
-          {post.slice(0, 10).map((postData) => {
+          {allUserPost.slice(0, 10).map((postData) => {
             //map이 순환을 함
             return (
               <li key={postData.id}>

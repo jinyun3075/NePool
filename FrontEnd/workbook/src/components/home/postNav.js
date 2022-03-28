@@ -10,19 +10,19 @@ export default function PostNav() {
           <button>전체</button>
         </CategoryItem>
         <CategoryItem>
-          <button>수능내신</button>
+          <button>수능·내신</button>
         </CategoryItem>
         <CategoryItem>
-          <button>어학자격증</button>
+          <button>어학</button>
         </CategoryItem>
         <CategoryItem>
-          <button>국가기술자격증</button>
+          <button>자격증</button>
         </CategoryItem>
         <CategoryItem>
-          <button>국가전문자격증</button>
+          <button>시사·상식</button>
         </CategoryItem>
         <CategoryItem>
-          <button>기타자격증</button>
+          <button>기타</button>
         </CategoryItem>
       </Category>
       {/* <MoreBtn href="#">더보기</MoreBtn> */}

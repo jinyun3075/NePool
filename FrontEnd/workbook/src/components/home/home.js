@@ -12,13 +12,13 @@ import { API } from '../../constants';
 export default function Home() {
     const [allUser, setAllUser] = useState([
         {
-            "dtoList": [
+            "dtoList": {
                 "username":"",
                 "name": "",
                 "email": "",
                 "password": "",
                 "totalPage":"",
-            ],
+            },
             "page": "",
             "size":"",
             "prev": "",
@@ -47,6 +47,36 @@ export default function Home() {
     
     const allUserCount = allUser.length;
     // console.log(allUserCount);
+    
+    const [post, setPost] = useState([
+        {
+          content: "",
+          count: 0,
+          id: "",
+          share: false,
+          title: "",
+          username: "",
+        },
+      ]);
+    
+      const getPost = async () => {
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${API}/workbook?page=1&size=5000`, {
+          headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+        console.log(res);
+        setPost(res.data.dtoList);
+      };
+    
+      useEffect(() => {
+        getPost();
+      }, []);
+
+      const allBookCount = post.length;
+    //   console.log(allBookCount);
     
     const [scrollY, setScrollY] = useState(0);
     const [BtnOFF, setBtnOff] = useState(false);
@@ -83,8 +113,8 @@ export default function Home() {
           <HeaderSignin />
           <Carousel allUserCount={allUserCount} />
           <PostNav />
-          <Post />
-          <Banner  allUserCount={allUserCount} />
+          <Post allUserPost={post} />
+          <Banner  allUserCount={allUserCount} allBookCount={allBookCount} />
           <Footer />
           <TopBtn><button className={BtnOFF ? "topOn" : "active"} onClick={scrollTop}></button></TopBtn>
         </>
