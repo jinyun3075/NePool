@@ -1,9 +1,10 @@
-import { useCallback, useRef, useState } from 'react';
+import axios from 'axios';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../../constants'
+import { API, COLORS } from '../../constants'
 import CommentList from './CommentList';
 
-export default function Comments() {
+export default function Comments({workbookId}) {
 
   const textAreaRef = useRef(null)
 
@@ -18,6 +19,8 @@ export default function Comments() {
   const [text, setText] = useState("")
   const [isText, setIsText] = useState(false)
 
+  const [activeText, setActiveText] = useState(false)
+
   const onChange = (e) => {
     setText(e.target.value)
     if(e.target.value.length > 0) {
@@ -27,10 +30,56 @@ export default function Comments() {
     }
   }
 
+  const [user, setUser] = useState({
+    id: "",
+    name: "",
+    email: "",
+    password: ""
+  })
+
+  const getUser = async () => {
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user")
+    const res = await axios.get(`${API}/user/${user}`, {
+        headers: {
+            "Content-type" : "application/json",
+            "Authorization" : `Bearer ${token}`,
+        },
+    });
+    setUser(res.data);
+  };
+    
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const userId = user.id
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    const token = localStorage.getItem("token");
+    try {
+      const contentData = {content: text}
+      const res = await axios.post(`${API}/comment/${userId}/${workbookId}`, contentData, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+      console.log(res);
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+  const onClick = () => {
+    setActiveText(!activeText)
+  }
+
   return (
     <>
       <CommentBoard>
-        <Form>
+        <Form onSubmit={onSubmit}> 
           <label htmlFor="text">
             <Textarea
               name="text"
@@ -38,14 +87,20 @@ export default function Comments() {
               onChange={onChange}
               ref={textAreaRef}
               onInput={resizeHeight}
-              placeholder="댓글 입력하기..."
+              onClick={onClick}
+              placeholder="이 문제집에 대한 나의 평가는?"
             />
           </label>
-          <Btn>등록</Btn>
+          {activeText && <Btn disabled={!isText}>등록</Btn>}
         </Form>
-        <Comment>
-          <CommentList />
-        </Comment>
+        <article>
+          <ReviewTit>리뷰(2)</ReviewTit>
+          <Comment>
+            <CommentList workbookId={workbookId}/>
+            <CommentList workbookId={workbookId}/>
+          </Comment>
+        </article>
+        
       </CommentBoard>
     </>
   )
@@ -59,24 +114,26 @@ const CommentBoard = styled.section`
 `
 
 const Form = styled.form`
-  width: 40%;
-  padding: 20px 30px 60px;
-  margin-bottom: 50px;
-  border: 1px solid black;
+  width: 800px;
+  padding: 20px 30px;
+  margin-bottom: 35px;
+  border: 1px solid ${COLORS.light_gray};
+  border-radius: 5px;
   position: relative;
-  &::after {
+  /* &::after {
     content: '';
     position: absolute;
     width: 100%;
     bottom: 45px;
     left: 0;
-    border-bottom: 1px solid black;
-  }
+    border-bottom: 1px solid ${COLORS.light_gray};
+  } */
 `
 
 const Textarea = styled.textarea`
   width: 100%;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
+  font-family: "Noto Sans KR";
   font-size: 14px;
   line-height: 18px;
   outline: none;
@@ -84,39 +141,28 @@ const Textarea = styled.textarea`
   padding: 0;
   resize: none;
   &::placeholder {
-    color: #dbdbdb;
+    color: ${COLORS.light_gray}
   }
+`
+
+const ReviewTit = styled.strong`
+  font-size: 15px;
+  color: ${COLORS.gray};
 `
 
 const Comment = styled.ul`
   display: flex;
   flex-direction: column;
-  width: 840px;
-  margin: 0 auto;
-  padding: 20px 16px 50px;
+  width: 850px;
+  margin: 16px auto;
+  padding: 0px 10px 40px;
 `
 
 const Btn = styled.button`
-  position: absolute;
-  bottom: 0;
-  right: 0;
   font-size: 16px;
-  width: 120px;
-  height: 45px;
-  /* margin: 20px 15px 20px 0; */
-  color: #fff;
-  background-color: ${COLORS.blue};
   border: none;
-  /* border-radius: 5px; */
-  /* display: none; */
+  color: ${COLORS.blue};
   &:disabled {
-    opacity: 0.5;
-  }
-  span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* align-content: center; */
-    /* align-items: center; */
+    color: ${COLORS.light_gray};
   }
 `

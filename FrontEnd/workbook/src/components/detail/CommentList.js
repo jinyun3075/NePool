@@ -1,41 +1,78 @@
-import { useCallback, useRef, useState } from 'react';
+import axios from 'axios';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { API } from '../../constants';
 
-export default function CommentList() {
+export default function CommentList({workbookId}) {
+
+  const [comment, setComment] = useState([{
+    dtoList: [],
+    id: "",
+    content: "",
+    like: 0,
+    writer: "",
+    regDate: "",
+    modeDate: "",
+    totalPage: 0,
+    page: 0,
+    size: 0,
+    prev: false,
+    next: false,
+    start: 0,
+    end: 0,
+    pageList: []
+  }])
+
+  const getComment = async () => {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.get(`${API}/comment/${workbookId}`, {
+        headers: {
+            "Content-type" : "application/json",
+            "Authorization" : `Bearer ${token}`,
+        },
+    });
+    // setComment(res.data);
+    // console.log(res);
+  };
+    
+  useEffect(() => {
+    getComment();
+  }, []);
 
   return (
     <>
       <CommentBox>
         <CommentInfo>
-          <a href="/mypage">
+          <ReviewBox>
+            <StarBox>
+              <Star src="/img/star.svg" alt="별점" />
+              <Star src="/img/star.svg" alt="별점" />
+              <Star src="/img/star.svg" alt="별점" />
+              <Star src="/img/star.svg" alt="별점" />
+              <Star src="/img/star.svg" alt="별점" />
+              <span>(4점)</span>
+            </StarBox>
+           <CommentText>리뷰입니다. 리뷰입니다.</CommentText>
+          </ReviewBox>
+          <AuthorBox>
             <AuthorImg src="/img/mango.jpg" alt="누구님의 프로필사진" />
-          </a>
-          <a href="/mypage">
-            <AuthorNickName>닉네임</AuthorNickName>
-          </a>
-        <CommentDate>2022.03.16</CommentDate>
-      </CommentInfo>
-      <CommentText>장난하냐?</CommentText>
+            <AuthorNickName>망고언니</AuthorNickName>
+          </AuthorBox>
+        </CommentInfo>
+      <CommentDate>2022.03.16</CommentDate>
       </CommentBox>
     </>
   )
 }
 const CommentBox = styled.li`
-  margin-bottom: 16px;
-  position: relative;
-  .more {
-    color: #c4c4c4;
-    content: "";
-    position: absolute;
-    top: 5px;
-    right: 0;
-    width: 20px;
-    height: 20px;
-  }
+  padding: 30px 0 20px;
+  border-bottom: 0.5px solid #dbdbdb;
 `
 
 const CommentInfo = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 4px;
 `;
@@ -47,6 +84,36 @@ const AuthorImg = styled.img`
   border-radius: 50%;
   margin-right: 12px;
 `;
+
+const ReviewBox = styled.div`
+display: flex;
+flex-direction: column;
+`
+
+const StarBox = styled.div`
+display: flex;
+align-items: center;
+span {
+  font-size: 13px;
+  margin-left: 5px;
+  color: #767676;
+}
+
+`
+
+
+const AuthorBox = styled.div`
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+
+`
+
+const Star = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-left: 2px;
+`
 
 const AuthorNickName = styled.strong`
   font-weight: 500;
@@ -62,14 +129,15 @@ const CommentDate = styled.span`
   line-height: 13px;
   color: #767676;
   margin-top: 8.5px;
-  &::before {
+  /* &::before {
     content: "·";
     margin-right: 4.5px;
-  }
+  } */
 `;
 
 const CommentText = styled.p`
-  padding-left: 48px;
+  margin-top: 15px;
+  /* padding-left: 48px; */
   font-size: 14px;
   line-height: 18px;
   color: #333333;
