@@ -21,7 +21,7 @@ export default function Post() {
     const res = await axios.get(`${API}/workbook?page=1&size=5000`, {
       headers: {
         "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
       },
     });
     console.log(res);
@@ -40,8 +40,8 @@ export default function Post() {
             //map이 순환을 함
             return (
               <li key={postData.id}>
-                <Link to='/detail'>
-                {/* <Link to={`/detail/${postData.id}`}> */}
+                {/* <Link to='/detail'> */}
+                <Link to={`/detail/${postData.id}`}>
                   <ItemImg>
                   </ItemImg>
                   <TextBox>

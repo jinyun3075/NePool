@@ -1,24 +1,26 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { API } from "../../constants";
+
 
 export default function Slide({ ggggg, currentSlide }) {
-  console.log(ggggg);
+  // console.log(ggggg);
   
   return (
     <>
+    <Link to='/detail'>
       <CarouselItem>
-        <img src={`/img/slide${currentSlide + 1}.svg`} alt="문제집 이미지" />
-        <WhiteBox>
-          <BestCont>
-            <ItemScr size="30px">{ggggg.title}</ItemScr>
-            <ItemScr size="16px">만든이:{ggggg.username}</ItemScr>
-            <ItemScr size="16px">⭐️⭐️⭐️⭐️⭐️(4.5)</ItemScr>
-            <ItemScr size="16px">{ggggg.content}</ItemScr>
-          </BestCont>
-        </WhiteBox>
+          <WhiteBox>
+            <BestCont>
+              <ItemScr size="30px">{ggggg.title}</ItemScr>
+              <ItemScr size="16px">만든이:{ggggg.username}</ItemScr>
+              <ItemScr size="16px">⭐️⭐️⭐️⭐️⭐️(4.5)</ItemScr>
+              <ItemScr size="16px">{ggggg.content}</ItemScr>
+            </BestCont>
+          </WhiteBox>
+          <img src={`/img/slide${currentSlide + 1}.svg`} alt="문제집 이미지" />
       </CarouselItem>
+      </Link>
     </>
   );
 }
@@ -33,7 +35,7 @@ const CarouselItem = styled.li`
 `;
 const WhiteBox = styled.div`
   position: absolute;
-  top: 0;
+  top: 223px;
   width: 415px;
   height: 280px;
   border-radius: 6px;
