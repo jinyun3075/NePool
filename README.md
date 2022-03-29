@@ -496,6 +496,7 @@
 
 - req
   - content: String
+  - like: Number
  
 - res
   - id: String
