@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../constants";
 import Slide from "./slide";
@@ -8,8 +8,6 @@ import { Link } from "react-router-dom";
 export default function Carousel({ allUserCount }) {
   const totalSlide = 3;
   const [currentSlide, setCurrentSlide] = useState(0);
-  // const slideRef = useRef(null);
-  //next 버튼 클릭
   const Next = () => {
     currentSlide >= totalSlide
       ? setCurrentSlide(0)
@@ -21,11 +19,6 @@ export default function Carousel({ allUserCount }) {
       ? setCurrentSlide(totalSlide)
       : setCurrentSlide(currentSlide - 1);
   };
-
-  // useEffect(() => {
-  //   slideRef.current.style.transition = "all 1.5s ease-in-out";
-  //   slideRef.current.style.transform = `translateX(0)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
-  // }, [currentSlide]);
 
   const [get, setGet] = useState([
     {
