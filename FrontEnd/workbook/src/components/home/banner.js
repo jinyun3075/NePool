@@ -1,29 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { API } from "../../constants";
 
-export default function Banner({ allUserCount }) {
-  const [allBook, setAllBook] = useState([{}]);
+export default function Banner({allUserCount,allBookCount}) {
 
-  const getBook = async () => {
-    const token = localStorage.getItem("token");
-    const res = await axios.get(`${API}/workbook`, {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log(res);
-    setAllBook(res.data.dtoList);
-  };
-
-  useEffect(() => {
-    getBook();
-  }, []);
-
-  const allBookCount = allBook.length;
   return (
     <>
       <BannerBox>
