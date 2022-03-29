@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../constants";
 import { Link } from 'react-router-dom';
+import PostBtn from "./postButton";
 
 export default function MorePost() {
   const [post, setPost] = useState([
@@ -25,6 +26,7 @@ export default function MorePost() {
       },
     });
     setPost(res.data.dtoList);
+    console.log(res);
   };
 
   useEffect(() => {
@@ -52,6 +54,7 @@ export default function MorePost() {
           })}
         </Items>
       </ItemBox>
+      <PostBtn />
     </>
   );
 }
