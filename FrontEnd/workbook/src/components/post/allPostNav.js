@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-export default function PostNav() {
+export default function AllPostNav() {
 
   return (
     <>
@@ -25,7 +25,6 @@ export default function PostNav() {
           <button>기타</button>
         </CategoryItem>
       </Category>
-      {/* <MoreBtn href="#">더보기</MoreBtn> */}
     </>
   );
 }

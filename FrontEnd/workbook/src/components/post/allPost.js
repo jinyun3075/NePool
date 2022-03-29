@@ -1,16 +1,15 @@
 import React from "react";
 import HeaderSignin from "../header/header";
-import PostNav from "../home/postNav";
+import AllPostNav from "./allPostNav";
 import MorePost from "./morePost";
-import PostBtn from "./postButton";
 
 export default function AllPost() {
   return (
     <>
       <HeaderSignin />
-      <PostNav />
+      <AllPostNav />
       <MorePost />
-      <PostBtn />
+      {/* <PostBtn /> */}
     </>
   );
 }
