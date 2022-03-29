@@ -540,7 +540,7 @@
 
 ### 리뷰 별점
 - api
-  - /comment/like/:work_book_id
+  - /comment/like/:work_book_id (get)
 
 - headers
     - Content-type : "application/json"
