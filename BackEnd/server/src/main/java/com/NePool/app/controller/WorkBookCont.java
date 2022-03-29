@@ -2,6 +2,7 @@ package com.NePool.app.controller;
 
 import com.NePool.app.dto.PageRequestDTO;
 import com.NePool.app.dto.PageResultDTO;
+import com.NePool.app.dto.StarDTO;
 import com.NePool.app.dto.WorkBookRequestDTO;
 import com.NePool.app.entity.WorkBook;
 import com.NePool.app.service.WorkBookService;
@@ -79,4 +80,10 @@ public class WorkBookCont {
     public ResponseEntity<List<WorkBookRequestDTO>> best4() throws Exception{
         return new ResponseEntity<>(service.best4(),HttpStatus.OK);
     }
+
+//    @PostMapping("/star/add")
+//    public ResponseEntity<Long> addStar(@RequestBody StarDTO dto){
+//        starService.register(dto.getWork_book_id(),dto.getUser_id(),dto.getScore());
+//        return new ResponseEntity<>(1L,HttpStatus.OK);
+//    }
 }

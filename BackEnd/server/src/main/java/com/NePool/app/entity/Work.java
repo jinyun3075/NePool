@@ -2,6 +2,8 @@ package com.NePool.app.entity;
 
 import com.NePool.app.dto.WorkDTO;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -33,7 +35,11 @@ public class Work {
 
     @Column(length = 2000)
     private String explanation;
-    @ManyToOne
+
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     WorkBook workBook;
 
     public void updateWork(WorkDTO dto) {

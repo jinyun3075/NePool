@@ -1,6 +1,8 @@
 package com.NePool.app.entity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -23,6 +25,9 @@ public class Comments extends BaseEntity{
     @ManyToOne
     private NePoolUser writer;
 
-    @ManyToOne
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private WorkBook workbook;
 }

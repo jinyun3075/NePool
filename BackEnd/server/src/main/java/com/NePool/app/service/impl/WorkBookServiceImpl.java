@@ -5,8 +5,10 @@ import com.NePool.app.dto.PageResultDTO;
 import com.NePool.app.dto.WorkBookRequestDTO;
 import com.NePool.app.entity.NePoolUser;
 import com.NePool.app.entity.WorkBook;
+import com.NePool.app.repository.CommentRepository;
 import com.NePool.app.repository.UserRepository;
 import com.NePool.app.repository.WorkBookRepository;
+import com.NePool.app.repository.WorkRepository;
 import com.NePool.app.service.WorkBookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -30,6 +32,8 @@ import java.util.stream.Collectors;
 public class WorkBookServiceImpl implements WorkBookService {
     public final WorkBookRepository workBookRepository;
     public final UserRepository userRepository;
+    public final WorkRepository workRepository;
+    public final CommentRepository commentRepository;
     @Autowired
     private Random random;
     @Autowired

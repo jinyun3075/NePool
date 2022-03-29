@@ -31,7 +31,6 @@ public class WorkBook extends BaseEntity {
 
     private Long count;
 
-
     public void upCount() {
         count++;
     }
