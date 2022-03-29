@@ -29,6 +29,9 @@
   - [4.1 리뷰 작성](#리뷰-작성)
   - [4.2 리뷰 가져오기](#리뷰-가져오기)
 
+- ### [5 검색](#검색)
+  - [5.1 문제집 및 유저 검색](#문제집-및-유저-검색)
+
 ## 유저
 ### 회원가입
 - api
@@ -43,6 +46,7 @@
     - password: String
     - name: String
 - res
+    - id: String
     - username: String
     - name: String
     - email: String
@@ -67,6 +71,7 @@
     - username: String
     - password: String
 - res
+    - id: String
     - username: String
     - name: String
     - email: String
@@ -84,6 +89,7 @@
     
 - res
     - id: String
+    - username: String
     - name: String
     - email: String
     - password: String
@@ -102,6 +108,7 @@
 
 - res
     - dtoList:Array
+        - id: String
         - username: String
         - name: String
         - email: String
@@ -503,7 +510,7 @@
 
 ### 리뷰 가져오기
 - api
-  - /comment/:work_book_id (get)
+  - /comment/:work_book_id?page=Number&size=Number (get)
 
 - headers
     - Content-type : "application/json"
@@ -529,3 +536,31 @@
 
 - fail
   - 없는 work_book_id 일 때
+
+## 검색
+### 문제집 및 유저 검색
+- api
+  - /search/:keyword (get)
+
+- headers
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- res
+  - workbook: Array
+      - id: Number
+      - title: String
+      - content: String
+      - share: boolean
+      - username: String
+      - count: Number
+      - type: String
+      - regDate: Date
+      - modDate: Date
+  - user: Array
+      - id: String
+      - username: String
+      - name: String
+      - email: String
+      - password: String
+    
