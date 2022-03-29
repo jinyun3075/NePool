@@ -510,7 +510,7 @@
 
 ### 리뷰 가져오기
 - api
-  - /comment/:work_book_id (get)
+  - /comment/:work_book_id?page=Number&size=Number (get)
 
 - headers
     - Content-type : "application/json"
