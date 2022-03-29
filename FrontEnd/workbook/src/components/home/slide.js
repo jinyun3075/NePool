@@ -8,7 +8,7 @@ export default function Slide({ ggggg, currentSlide }) {
   
   return (
     <>
-    <Link to='/detail'>
+    <Link to={`/detail/${ggggg.id}`} state={{username:ggggg.username}}>
       <CarouselItem>
           <WhiteBox>
             <BestCont>
@@ -35,7 +35,7 @@ const CarouselItem = styled.li`
 `;
 const WhiteBox = styled.div`
   position: absolute;
-  top: 223px;
+  /* top: 223px; */
   width: 415px;
   height: 280px;
   border-radius: 6px;
