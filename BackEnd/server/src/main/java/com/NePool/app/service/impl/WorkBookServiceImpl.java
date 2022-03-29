@@ -75,8 +75,14 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-    public PageResultDTO<WorkBookRequestDTO, WorkBook> allList(PageRequestDTO page) throws Exception {
-        Page<WorkBook> entity = workBookRepository.findAll(page.getPageable(Sort.by("modDate").descending()));
+    public PageResultDTO<WorkBookRequestDTO, WorkBook> allList(PageRequestDTO page, String type) throws Exception {
+        log.info(type);
+        Page<WorkBook> entity;
+        if(type==null) {
+            entity = workBookRepository.findAll(page.getPageable(Sort.by("modDate").descending()));
+        }else {
+            entity = workBookRepository.findByType(type,page.getPageable(Sort.by("modDate").descending()));
+        }
         Function<WorkBook, WorkBookRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
     }

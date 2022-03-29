@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -56,11 +57,25 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public PageResultDTO<CommentRequestDTO,Comments> getList(String work_book_id, PageRequestDTO dto) throws Exception {
-        Page<Comments> entity = commentRepository.findByWorkbookWno(work_book_id,dto.getPageable(Sort.by("modDate").ascending()));
-        if(entity.getTotalElements()==0){
+        Optional<WorkBook> workBook = workBookRepository.findById(work_book_id);
+        if (!workBook.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");
+        }
+        Page<Comments> entity = commentRepository.findByWorkbookWno(work_book_id,dto.getPageable(Sort.by("modDate").descending()));
+        if(entity.getTotalElements()==0){
+            throw new Exception("만들어져있는 문제가 없습니다.");
         }
         Function<Comments, CommentRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
+    }
+
+    @Override
+    public double getLike(String work_book_id) throws Exception {
+        List<Comments> list = commentRepository.findByWorkbookWno(work_book_id);
+        int allLike=0;
+        for(Comments data:list) {
+            allLike+=data.getComLike();
+        }
+        return (Math.round(((float)allLike/list.size())*10)/10.0);
     }
 }

@@ -13,7 +13,7 @@ public interface CommentService {
     CommentRequestDTO register(String username, String work_book_id, CommentRequestDTO dto) throws Exception;
 
     PageResultDTO<CommentRequestDTO,Comments> getList(String work_book_id, PageRequestDTO dto) throws Exception;
-
+    double getLike(String work_book_id) throws Exception;
     default Comments dtoToEntity(CommentRequestDTO dto, String workBook_id, String user_id,String id) {
         WorkBook workBook = WorkBook.builder()
                 .wno(workBook_id)
@@ -24,7 +24,7 @@ public interface CommentService {
         return Comments.builder()
                 .com_no(id)
                 .content(dto.getContent())
-                .comLike(0l)
+                .comLike(dto.getLike())
                 .workbook(workBook)
                 .writer(user)
                 .build();

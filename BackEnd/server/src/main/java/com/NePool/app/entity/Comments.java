@@ -17,7 +17,7 @@ public class Comments extends BaseEntity{
     @Id
     private String com_no;
 
-    @Column(length = 500, nullable = false)
+    @Column(length = 2000, nullable = false)
     private String content;
 
     private Long comLike;

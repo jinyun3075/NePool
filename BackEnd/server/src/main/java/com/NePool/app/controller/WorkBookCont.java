@@ -2,7 +2,6 @@ package com.NePool.app.controller;
 
 import com.NePool.app.dto.PageRequestDTO;
 import com.NePool.app.dto.PageResultDTO;
-import com.NePool.app.dto.StarDTO;
 import com.NePool.app.dto.WorkBookRequestDTO;
 import com.NePool.app.entity.WorkBook;
 import com.NePool.app.service.WorkBookService;
@@ -46,13 +45,13 @@ public class WorkBookCont {
     }
 
     @GetMapping("")
-    public ResponseEntity<PageResultDTO<WorkBookRequestDTO, WorkBook>> allList(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) throws Exception{
+    public ResponseEntity<PageResultDTO<WorkBookRequestDTO, WorkBook>> allList(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "type", required = false) String type) throws Exception{
         PageRequestDTO req = new PageRequestDTO();
         if (page != null && size != null) {
             req.setSize(size);
             req.setPage(page);
         }
-        return new ResponseEntity<>(service.allList(req),HttpStatus.OK);
+        return new ResponseEntity<>(service.allList(req,type),HttpStatus.OK);
     }
 
     @DeleteMapping("{username}/{work_book_id}")
@@ -80,10 +79,4 @@ public class WorkBookCont {
     public ResponseEntity<List<WorkBookRequestDTO>> best4() throws Exception{
         return new ResponseEntity<>(service.best4(),HttpStatus.OK);
     }
-
-//    @PostMapping("/star/add")
-//    public ResponseEntity<Long> addStar(@RequestBody StarDTO dto){
-//        starService.register(dto.getWork_book_id(),dto.getUser_id(),dto.getScore());
-//        return new ResponseEntity<>(1L,HttpStatus.OK);
-//    }
 }
