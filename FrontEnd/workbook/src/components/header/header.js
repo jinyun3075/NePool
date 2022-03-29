@@ -1,12 +1,53 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { API } from "../../constants";
 import NoticeModal from "./notice";
+import SearchResult from "./search";
 import StatusModal from "./status";
 
 export default function HeaderSignin() {
   const token = localStorage.getItem("token");
+  const [search, setSearch] = useState([
+    {
+      content: "",
+      count: 0,
+      id: "",
+      mogDate: "",
+      regDate: "",
+      share: false,
+      title: "",
+      type: "",
+      username: "",
+    },
+  ]);
+  const [keyUp, setKeyUp] = useState()
+  const onKeyUp = (e) => {
+    setKeyUp(e.target.value);
+  }
+  console.log(keyUp);
+  const getResult = async() => {
+    const res = await axios.get(`${API}/search/${keyUp}`, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(res.data);
+    setSearch(res.data.workBook);
+  };
+  console.log(search);
+  useEffect(() => {
+    getResult();
+  },[keyUp]);
 
+ 
+  //검색창 모달
+  const [searchOn, setSearchOn] = useState(false);
+  const openSearch = () => {
+    setSearchOn(!searchOn);
+  }
   //알림창 모달
   const [noticeOn, setNoticeOn] = useState(false);
   const openNotice = () => {
@@ -27,14 +68,15 @@ export default function HeaderSignin() {
             <SearchBtn>
               <img src="/img/search.svg" alt="돋보기" />
             </SearchBtn>
-            <SearchInp
+            <SearchInp onFocus={openSearch} onBlur={openSearch}
+            onChange={onKeyUp}
               type="text"
-              autoFocus
               placeholder="문제집을 검색해 보세요!"
             />
             <CloseBtn type="reset">
               <img src="/img/close.svg" alt="지우기" />
             </CloseBtn>
+            {searchOn === true ?<SearchResult search={search}/> : null}
           </SearchBox>
           <h1>
             <Link to="/">
@@ -80,6 +122,7 @@ const HeaderWrap = styled.div`
 `;
 // 검색창
 const SearchBox = styled.form`
+  z-index: 999;
   display: flex;
   align-items: center;
   width: 360px;
