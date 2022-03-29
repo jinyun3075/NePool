@@ -10,7 +10,7 @@ import axios from 'axios';
 
 
 export default function Right() {
-    let [update, setUpdate] = useState(Array(10).fill(false));
+    let [update, setUpdate] = useState(Array(100).fill(false));
     let [create, setCreate] = useState(false);
     let [deletemodal, setDeletemodal] = useState(false);
     let [modemodal, setModemodal] = useState(false);
@@ -80,7 +80,7 @@ export default function Right() {
         setWorkbookid(id);
     }
 
-    const workbookdatausernmae = (username) => {
+    const workbookdatausername = (username) => {
       setworkbookUserName(username)
     }
 
@@ -104,7 +104,7 @@ export default function Right() {
                     {
                         workbook.map((workbookdata,i)=>{
                             return(
-                                    <ExampleLi onClick={ (event) => { workbookdatausernmae(workbookdata.username); workbookdataid(workbookdata.id); yes(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
+                                    <ExampleLi onClick={ (event) => { workbookdatausername(workbookdata.username); workbookdataid(workbookdata.id); yes(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
                                         
                                         <ExampleP1 >{workbookdata.title}</ExampleP1>
                                         <ExampleP2 >마지막 수정 일시 : {workbookdata.modDate.substring(0,10)}</ExampleP2>

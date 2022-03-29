@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { COLORS } from "../../constants/index";
 
-export default function AddCont() {
+export default function AddCont(props) {
+    const workbookid = props.workbookid
+    console.log(workbookid)
     return (
       <>
       <Right>

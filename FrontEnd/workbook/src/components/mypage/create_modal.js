@@ -64,9 +64,9 @@ export default function CreateModal(props){
                     <TextInput onChange = { Change } value = {createtitle} name = "title" placeholder ="문제집 이름" type="text"></TextInput>
                     <Select defaultValue ="수능·내신" onChange = { Change } value = {createtype} name="type">
                         <option value="수능·내신">수능·내신</option>
-                        <option value="수능·내신">어학</option>
-                        <option value="웹디자인 기능사">자격증</option>
-                        <option value="리눅스 마스터">시사·상식</option>
+                        <option value="어학">어학</option>
+                        <option value="자격증">자격증</option>
+                        <option value="시사·상식">시사·상식</option>
                         <option value="기타">기타</option>
                     </Select>
                     <Explain onChange = { Change } value = {createcontent} name="content" rows="5" placeholder='문제집 설명'></Explain>
