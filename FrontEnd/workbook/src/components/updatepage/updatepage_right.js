@@ -8,7 +8,10 @@ import axios from 'axios';
 export default function Updatepage_Right() {
     const location = useLocation();
     const workbookid = location.state.workbookid
-
+    const username = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    const [workid,setWorkid] = useState('');
+    console.log(workid);
 
     // 문제 보이기 (Get)
     const [question,setQuestion] = useState([
@@ -25,9 +28,6 @@ export default function Updatepage_Right() {
         }
     ])
     const GetQuestion = async () =>{
-        console.log(location.state)
-        const username = localStorage.getItem('user');
-        const token = localStorage.getItem('token');
         const res = await axios.get(`${API}/work/${username}/${workbookid}`,{
             headers:{
                 'Content-type' : "application/json",
@@ -38,9 +38,42 @@ export default function Updatepage_Right() {
         setQuestion(res.data)
     }
 
+    // 문제 수정
+
+    // const UpdateWorkbook = async () =>{
+    //     const respond = await axios.put(`${API}/workbook/${username}/${workbookid}`,{
+    //         headers:{
+    //             'Content-type' : "application/json",
+    //             Authorization : `Bearer ${token}` 
+    //         }
+    //     })
+    //     console.log(respond);
+    // }
+    
+    // useEffect(() => {
+    //     GetQuestion();
+    // }, []);
+
+    
     useEffect(() => {
-        GetQuestion()
-    }, []);
+        GetQuestion();
+    }, [workid]);    
+   
+    const QuestionId = async (id) =>{
+        await setWorkid(id)
+    }
+    
+    // 문제 삭제
+    const DeleteQuestion = async ()=> {
+        const ress = await axios.delete(`${API}/work/${username}/${workbookid}/${workid}`,{
+            headers:{
+                'Content-type' : "application/json",
+                Authorization : `Bearer ${token}` 
+            }    
+        })    
+        console.log(ress)
+    }    
+    
 
     return(
         <>
@@ -56,16 +89,15 @@ export default function Updatepage_Right() {
                           <WorkbookImg src ="/img/mango.JPG"/>
                         <TextSelect>
                             <TextInput  placeholder ="문제집 이름" type="text"></TextInput>
-                            <Select defaultValue = "정보처리기사">
-                                <option value="정보처리기사">정보처리기사</option>
-                                <option value="YBMCOS">YBM COS</option>
-                                <option value="웹디자인 기능사">웹디자인 기능사</option>
-                                <option value="리눅스 마스터">리눅스 마스터</option>
-                                <option value="TOPCIT">TOPCIT</option>
-                                <option value="CCTS">CCTS</option>
-                                <option value="CLA">CLA</option>
+                            <Select defaultValue = "수능·내신">
+                                <option value="수능·내신">수능·내신</option>
+                                <option value="어학">어학</option>
+                                <option value="자격증">자격증</option>
+                                <option value="시사·상식">시사·상식</option>
+                                <option value="기타">기타</option>
                             </Select>
                             <Explain rows="5" placeholder='문제집 설명'></Explain>
+                            <button>수정</button>
                         </TextSelect>    
                     </WorkbookDiv>
                     
@@ -79,7 +111,7 @@ export default function Updatepage_Right() {
                                         <Answers>{questiondata.explanation}</Answers>
                                         <ButtonDiv>
                                             <Update>수정</Update>
-                                            <Delete>삭제</Delete>
+                                            <Delete onClick = { () => { QuestionId(questiondata.id); DeleteQuestion();} }>삭제</Delete>
                                         </ButtonDiv>
                                     </QuestionLi>
                                 )
@@ -87,7 +119,7 @@ export default function Updatepage_Right() {
                         }
                     </QuestionUl>
 
-                    <Link to ='/add'><CreateBtn>+</CreateBtn></Link>
+                    <Link to ='/add' state= {{workbookid: workbookid}}><CreateBtn>+</CreateBtn></Link>
 
                 </ScrollbarSection>
             </Article>
@@ -259,6 +291,7 @@ const CreateBtn = styled.button`
     z-index:2;
     width:50px;
     font-size:30px;
+    line-height:25px;
     height:50px;
     bottom:20px;
     right:20px;
