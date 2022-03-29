@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import HeaderSignin from '../header/header';
 import Carousel from './carousel';
-import PostNav from './postNav';
 import Banner from './banner';
 import Footer from './footer';
 import Post from './post';
@@ -82,7 +81,6 @@ export default function Home() {
         <>
           <HeaderSignin />
           <Carousel allUserCount={allUserCount} />
-          <PostNav />
           <Post />
           <Banner  allUserCount={allUserCount} />
           <Footer />

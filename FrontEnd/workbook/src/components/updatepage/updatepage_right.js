@@ -11,9 +11,7 @@ export default function Updatepage_Right() {
     const username = localStorage.getItem('user');
     const token = localStorage.getItem('token');
     const [workid,setWorkid] = useState('');
-    console.log(workid);
 
-    // 문제 보이기 (Get)
     const [question,setQuestion] = useState([
         {
             id: "",
@@ -27,6 +25,16 @@ export default function Updatepage_Right() {
             explanation:"",
         }
     ])
+
+    const [putworkbook,setPutworkbook] = useState([
+        {
+            title: '',
+            content: '',
+            type:'',
+        }
+    ]);
+
+    // 문제 보이기 (Get)
     const GetQuestion = async () =>{
         const res = await axios.get(`${API}/work/${username}/${workbookid}`,{
             headers:{
@@ -38,34 +46,40 @@ export default function Updatepage_Right() {
         setQuestion(res.data)
     }
 
-    // 문제 수정
+    const handlingChange =(e)=>{
+        setPutworkbook({[e.target.name]: e.target.value})
+    }
 
-    // const UpdateWorkbook = async () =>{
-    //     const respond = await axios.put(`${API}/workbook/${username}/${workbookid}`,{
-    //         headers:{
-    //             'Content-type' : "application/json",
-    //             Authorization : `Bearer ${token}` 
-    //         }
-    //     })
-    //     console.log(respond);
-    // }
+    // 문제 수정
+    const UpdateWorkbook = async () =>{
+        const res = await axios.put(`${API}/workbook/${username}/${workbookid}`,{
+            title: putworkbook.title,
+            content: putworkbook.content,
+            type: putworkbook.type,
+        },{
+            headers:{
+                'Content-type' : "application/json",
+                Authorization : `Bearer ${token}` 
+            }
+        })
+        console.log(res);
+    }
     
-    // useEffect(() => {
-    //     GetQuestion();
-    // }, []);
 
     
     useEffect(() => {
         GetQuestion();
     }, [workid]);    
    
-    const QuestionId = async (id) =>{
-        await setWorkid(id)
+
+    const QuestionId = (id) =>{
+        setWorkid(id)
     }
     
     // 문제 삭제
     const DeleteQuestion = async ()=> {
-        const ress = await axios.delete(`${API}/work/${username}/${workbookid}/${workid}`,{
+        const ress = await axios.delete(`${API}/work/${username}/${workbookid}/${workid}`,
+        {
             headers:{
                 'Content-type' : "application/json",
                 Authorization : `Bearer ${token}` 
@@ -85,21 +99,21 @@ export default function Updatepage_Right() {
 
                 <ScrollbarSection>
 
-                    <WorkbookDiv>                                
+                    <WorkbookForm onSubmit={(e)=>{e.preventDefault()}} >                                
                           <WorkbookImg src ="/img/mango.JPG"/>
                         <TextSelect>
-                            <TextInput  placeholder ="문제집 이름" type="text"></TextInput>
-                            <Select defaultValue = "수능·내신">
+                            <TextInput  placeholder ="문제집 이름" name = "title" value={putworkbook.title} onChange={handlingChange} type="text"></TextInput>
+                            <Select defaultValue = "수능·내신" name="type" value={putworkbook.type} onChange={handlingChange}>
                                 <option value="수능·내신">수능·내신</option>
                                 <option value="어학">어학</option>
                                 <option value="자격증">자격증</option>
                                 <option value="시사·상식">시사·상식</option>
                                 <option value="기타">기타</option>
                             </Select>
-                            <Explain rows="5" placeholder='문제집 설명'></Explain>
-                            <button>수정</button>
+                            <Explain rows="5" placeholder='문제집 설명' name="content" value={putworkbook.content} onChange={handlingChange}></Explain>
+                            <Workbookupdate type="submit" onClick ={UpdateWorkbook}>수정</Workbookupdate>
                         </TextSelect>    
-                    </WorkbookDiv>
+                    </WorkbookForm>
                     
                     <QuestionUl>
                         {
@@ -165,7 +179,7 @@ const ScrollbarSection = styled.section`
         background-color: white;
     }
 `;
-const WorkbookDiv = styled.div`
+const WorkbookForm = styled.form`
     display:flex;
     margin: 1em 0;
     width:100%;
@@ -229,6 +243,16 @@ const Explain = styled.textarea`
     resize: none;
 `;
 
+const Workbookupdate = styled.button`
+    border:none;
+    font-size:12px;
+    width:40%;
+    height:32px;
+    margin-top:20px;
+    border-radius:5px;
+    background-color: ${COLORS.blue};
+    color:#fff;
+`
 const QuestionUl = styled.ul`
     width:100%;
 `;
