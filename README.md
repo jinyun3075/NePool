@@ -28,6 +28,7 @@
 - ### [4 문제집 리뷰](#문제집-리뷰)
   - [4.1 리뷰 작성](#리뷰-작성)
   - [4.2 리뷰 가져오기](#리뷰-가져오기)
+  - [4.3 리뷰 별점](#리뷰-별점)
 
 - ### [5 검색](#검색)
   - [5.1 문제집 및 유저 검색](#문제집-및-유저-검색)
@@ -216,8 +217,8 @@
 ### 모든 문제집
 - api
     - /workbook/ (get)
-    - /workbook?page=Number&size=Number (get)
-
+    - /workbook?page=Number&size=Number&type=String (get)
+    - (설명) 모든 문제집을 가져올때는 type을 지우고 카테고리별로 가져올때는 type에 
 
 - headers
     - Content-type : "application/json"
@@ -495,6 +496,7 @@
 
 - req
   - content: String
+  - like: Number
  
 - res
   - id: String
@@ -533,6 +535,20 @@
     - start: Number
     - end: Number
     - pageList: Array
+
+- fail
+  - 없는 work_book_id 일 때
+
+### 리뷰 별점
+- api
+  - /comment/like/:work_book_id (get)
+
+- headers
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- res
+    - :Number
 
 - fail
   - 없는 work_book_id 일 때
