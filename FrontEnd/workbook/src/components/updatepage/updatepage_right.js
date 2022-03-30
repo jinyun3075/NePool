@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { COLORS, API } from '../../constants/index';
-import {Link, useLocation} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios'; 
 
 
 export default function Updatepage_Right() {
+    const navigate = useNavigate();
     const location = useLocation();
     const workbookid = location.state.workbookid
     const username = localStorage.getItem('user');
@@ -25,14 +26,14 @@ export default function Updatepage_Right() {
             explanation:"",
         }
     ])
-
-    const [putworkbook,setPutworkbook] = useState([
+    
+    const [putworkbook,setPutworkbook] = useState(
         {
             title: '',
             content: '',
-            type:'',
+            type:'수능·내신'
         }
-    ]);
+    );
 
     // 문제 보이기 (Get)
     const GetQuestion = async () =>{
@@ -46,8 +47,8 @@ export default function Updatepage_Right() {
         setQuestion(res.data)
     }
 
-    const handlingChange =(e)=>{
-        setPutworkbook({[e.target.name]: e.target.value})
+    const handlingChange = (e)=>{
+        setPutworkbook({...putworkbook,[e.target.name]: e.target.value})
     }
 
     // 문제 수정
@@ -63,6 +64,7 @@ export default function Updatepage_Right() {
             }
         })
         console.log(res);
+        navigate('/mypage');
     }
     
 
@@ -99,8 +101,9 @@ export default function Updatepage_Right() {
 
                 <ScrollbarSection>
 
-                    <WorkbookForm onSubmit={(e)=>{e.preventDefault()}} >                                
-                          <WorkbookImg src ="/img/mango.JPG"/>
+                    <WorkbookForm onSubmit={(e)=>{e.preventDefault()}} >  
+                        <Input type="file" id ="input"/>                              
+                        <Label htmlFor="input"><WorkbookImg src ="/img/mango.JPG"/></Label>
                         <TextSelect>
                             <TextInput  placeholder ="문제집 이름" name = "title" value={putworkbook.title} onChange={handlingChange} type="text"></TextInput>
                             <Select defaultValue = "수능·내신" name="type" value={putworkbook.type} onChange={handlingChange}>
@@ -186,11 +189,21 @@ const WorkbookForm = styled.form`
     height:45%;
 `;
 
-const WorkbookImg = styled.div`
-    width: 20%;
-    height: 280px;
+const Input = styled.input`
+    display:none;
+    width:20%;
+    height:100%;
+`;
+const Label = styled.label`
+    cursor:pointer;
     margin-left: 18%;
     margin-right: 50px;
+    width:20%;
+    height:100%;
+`;
+const WorkbookImg = styled.div`
+    width: 100%;
+    height: 280px;
     background: url(/img/mango.jpg) no-repeat center center/cover;
     opacity: 0.6;
 `;

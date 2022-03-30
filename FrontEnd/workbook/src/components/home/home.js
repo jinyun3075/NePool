@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import HeaderSignin from '../header/header';
-import Carousel from './carousel';
-import Banner from './banner';
-import Footer from './footer';
-import Post from './post';
-import axios from 'axios';
-import { API } from '../../constants';
-=======
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import HeaderSignin from "../header/header";
@@ -18,7 +7,6 @@ import Footer from "./footer";
 import Post from "./post";
 import axios from "axios";
 import { API } from "../../constants";
->>>>>>> e9429c5f605703a56a3da77261701649d60ac42b
 
 export default function Home() {
   const [allUser, setAllUser] = useState([
@@ -118,18 +106,6 @@ export default function Home() {
     };
   });
 
-<<<<<<< HEAD
-    return (
-        <>
-          <HeaderSignin />
-          <Carousel allUserCount={allUserCount} />
-          <Post />
-          <Banner  allUserCount={allUserCount} />
-          <Footer />
-          <TopBtn><button className={BtnOFF ? "topOn" : "active"} onClick={scrollTop}></button></TopBtn>
-        </>
-    )
-=======
   return (
     <>
       <HeaderSignin />
@@ -145,7 +121,6 @@ export default function Home() {
       </TopBtn>
     </>
   );
->>>>>>> e9429c5f605703a56a3da77261701649d60ac42b
 }
 
 const TopBtn = styled.div`

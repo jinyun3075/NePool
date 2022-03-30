@@ -11,12 +11,16 @@ import axios from 'axios';
 
 export default function Right() {
     let [update, setUpdate] = useState(Array(100).fill(false));
+    let [share, setShare] = useState(Array(100).fill(false));
     let [create, setCreate] = useState(false);
     let [deletemodal, setDeletemodal] = useState(false);
     let [modemodal, setModemodal] = useState(false);
     let [workbookid, setWorkbookid] = useState('');
     let [workbookUserName, setworkbookUserName] = useState('');
-    
+
+    useEffect(() => {
+        ReadWorkbook();
+    }, []);  
 
     // 문제집 리스트 받아오기 (Get)
     const [workbook,setWorkbook] = useState([
@@ -44,20 +48,10 @@ export default function Right() {
         console.log(res)
         setWorkbook(res.data.dtoList);
     }
-
-    useEffect(()=>{
-        // console.log(update)
-        console.log(workbookid) 
-    },[update])
-    
-
-    useEffect(() => {
-        ReadWorkbook();
-    }, []);  
  
     
     // 문제집 클릭시 해당 모달 보이기
-    const yes = (event) =>{
+    const updateboolean = (event) =>{
         if (update[event.target.value] === true){            
             const newarray = [...update]
             newarray[event.target.value] = false
@@ -75,6 +69,20 @@ export default function Right() {
         }
     }
     
+    
+    const shareboolean = (event) =>{
+        if (share[event.target.dataset.index] === false){            
+            const newarr = [...share]   
+            newarr[event.target.dataset.index] = true
+            setShare(newarr)
+        }
+        else{        
+            const newarr = [...share]
+            newarr[event.target.dataset.index] = false
+            setShare(newarr)
+        }
+    }
+    
 
     const workbookdataid = (id) =>{
         setWorkbookid(id);
@@ -83,8 +91,6 @@ export default function Right() {
     const workbookdatausername = (username) => {
       setworkbookUserName(username)
     }
-
-   
 
 
     return(
@@ -104,15 +110,23 @@ export default function Right() {
                     {
                         workbook.map((workbookdata,i)=>{
                             return(
-                                    <ExampleLi onClick={ (event) => { workbookdatausername(workbookdata.username); workbookdataid(workbookdata.id); yes(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
+                                    <ExampleLi onClick={ (event) => { workbookdatausername(workbookdata.username); workbookdataid(workbookdata.id); updateboolean(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
+                                        
+                                        {
+                                            share[i] === false 
+                                            ? <WhiteShare data-index ={i} onClick = { (event) => { shareboolean(event) }} /> 
+                                            : <BlueShare  data-index ={i} onClick = { (event) => { shareboolean(event) }} />
+                                        }
                                         
                                         <ExampleP1 >{workbookdata.title}</ExampleP1>
                                         <ExampleP2 >마지막 수정 일시 : {workbookdata.modDate.substring(0,10)}</ExampleP2>
+
                                         {
-                                            update[i] === true ? 
-                                            <UpdateModal workbookid = {workbookid} workworkbook ={workbook} setWorkbook={workbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
+                                            update[i] === true 
+                                            ? <UpdateModal workbookid = {workbookid} workworkbook ={workbook} setWorkbook={workbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
                                             : null    
                                         }
+
                                     </ExampleLi> 
 
                             )
@@ -201,6 +215,30 @@ const ExampleLi = styled.li`
                 opacity:0.6;
                 height:100%;
             }
+`;
+
+const WhiteShare = styled.span`
+    position:absolute;
+    content:"";
+    width:20px;
+    height:20px;
+    top:10px;
+    right:10px;
+    cursor:pointer;
+    z-index:3;
+    background: url(/img/whiteshare.svg) no-repeat center center/cover;
+`;
+
+const BlueShare = styled.span`
+    position:absolute;
+    content:"";
+    width:20px;
+    height:20px;
+    top:10px;
+    right:10px;
+    cursor:pointer;
+    z-index:3;    
+    background: url(/img/blueshare.svg) no-repeat center center/cover;
 `;
 
 const ExampleP1 = styled.p` 
