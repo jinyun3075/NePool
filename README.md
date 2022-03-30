@@ -29,9 +29,15 @@
   - [4.1 리뷰 작성](#리뷰-작성)
   - [4.2 리뷰 가져오기](#리뷰-가져오기)
   - [4.3 리뷰 별점](#리뷰-별점)
+  - [4.4 리뷰 삭제](#리뷰-삭제)
+  
+- ### [5 공유된 문제집](#공유된-문제집)
+  - [5.1 공유된 문제집 추가](#공유된-문제집-추가)
+  - [5.2 공유된 문제집 가져오기](#공유된-문제집-가져오기)
+  - [5.3 공유된 문제집 삭제](#공유된-문제집-삭제)
 
-- ### [5 검색](#검색)
-  - [5.1 문제집 및 유저 검색](#문제집-및-유저-검색)
+- ### [6 검색](#검색)
+  - [6.1 문제집 및 유저 검색](#문제집-및-유저-검색)
 
 ## 유저
 ### 회원가입
@@ -447,9 +453,6 @@
   - Content-type : "application/json"
   - Authorization : “Bearer key”
 
-- req
-  - " 삭제 성공 "
-
 - fail
   - 없는 username 혹은 work_book_id 혹은 work_id 일 때
   
@@ -553,6 +556,81 @@
 - fail
   - 없는 work_book_id 일 때
 
+### 리뷰 삭제
+- api
+  - /comment/:comment_id/:writer (delete)
+  
+- headers
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+   
+- res
+    - " 삭제 완료 "
+
+- fail
+    - 없는 comment_id, writer 일 때
+## 공유된 문제집
+### 공유된 문제집 추가
+- api
+    - /share/register (post)
+
+- headers
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- req
+    - work_book_id: String
+    - user_id: String
+
+- res
+    - workbook {}
+    - user {}
+
+- fail
+    - 없는 work_book_id , user_id 일 때
+
+### 공유된 문제집 가져오기
+- api
+    - /share/:user_id (get)
+
+- headers
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- res
+    - dtoList:Array
+        - workbook {}
+        - user {}
+    - totalPage: Number
+    - page: Number
+    - size: Number
+    - prev: boolean
+    - next: boolean
+    - start: Number
+    - end: Number
+    - pageList: Array
+
+- fail
+    - 없는 user_id 일 때
+   
+### 공유된 문제집 삭제
+- api
+    - /share (delete)
+
+- headers
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- req
+    - work_book_id: String
+    - user_id: String
+
+- res
+  - " 삭제 완료 "
+  
+- fail
+    - 없는 work_book_id , user_id 일 때
+ 
 ## 검색
 ### 문제집 및 유저 검색
 - api
