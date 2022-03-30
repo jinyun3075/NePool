@@ -24,7 +24,6 @@ export default function DetailPage() {
   const workbookId = params.id
 
   const location = useLocation()
-
   const userName = location.state.username
 
   const getWorkBook = async () => {
@@ -45,7 +44,23 @@ export default function DetailPage() {
 
   const {content, count, id, modDate, share, title, type, username} = workBook
 
-  // console.log(workBook);
+  const [averageStar, setAverageStar] = useState(0)
+
+  const getStar = async () => {
+    const token = localStorage.getItem("token");
+  
+    const res = await axios.get(`${API}/comment/like/${id}`, {
+        headers: {
+            "Content-type" : "application/json",
+            "Authorization" : `Bearer ${token}`,
+        },
+    });
+    setAverageStar(res.data)
+  };
+    
+  useEffect(() => {
+    getStar();
+  }, [id]);
 
   return (
     <>
@@ -57,7 +72,7 @@ export default function DetailPage() {
               <SubTit>{type}</SubTit>
               <Tit>{title}</Tit>
               <Author>만든이: {username}</Author>
-              <span>별점: 4.5</span>
+              <span>별점: {averageStar}</span>
               <Explain>{content}</Explain>
               <ButtonBox>
                 <Link to={`/studymode/${id}`} state={{username: username}}>
@@ -71,8 +86,8 @@ export default function DetailPage() {
             </Info>
           </DetailInfo>
         </DetailBoard>
-        <Preview workbookId={id} workBook={workBook}/>
-        <Star count={count} username={username} />
+        <Preview workBook={workBook} />
+        <Star count={count} username={username} averageStar={averageStar} />
         <Comments workbookId={workbookId}/>
       </main>
     </>

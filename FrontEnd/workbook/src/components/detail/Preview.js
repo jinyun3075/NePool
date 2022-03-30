@@ -3,12 +3,10 @@ import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { API, COLORS } from '../../constants';
 
-export default function Preview({workBook, id}) {
+export default function Preview({workBook}) {
 
   const userName = workBook.username
   const workBookId = workBook.id
-
-
 
   const [quiz, setQuiz] = useState([{
     id: "",
@@ -21,8 +19,6 @@ export default function Preview({workBook, id}) {
     correct: "",
     explanation: "",
   }])
-
-   
 
   const getQuestion = async () => {
     const token = localStorage.getItem("token");
@@ -41,9 +37,7 @@ export default function Preview({workBook, id}) {
 
   useEffect(() => {
     getQuestion();
-  }, [workBook])
-
-  console.log(quiz);
+  }, [userName])
   
   return (
     <>
@@ -52,14 +46,18 @@ export default function Preview({workBook, id}) {
           <Icon>📖</Icon>
           <Tit>문제 미리보기</Tit>
           <List>
-            {/* {quiz && quiz[0].question} */}
-            {/* {quiz && quiz.map((q) => {
-              return (
-                <Item key={q.id}>
-                  <span>{q.question}</span>
-                </Item>
-              );
-            })} */}
+            {quiz.length > 1 && (
+              <>
+                {quiz.slice(0, 3).map((q, index) => {
+                  return (
+                    <Item key={q.id}>
+                      <strong>{index + 1}. {q.question}</strong>
+                    </Item>
+                  );
+              })}
+              </>
+              )
+            }
           </List>
         </TestPreview>
       </PrivewBoard>
@@ -72,6 +70,7 @@ const PrivewBoard = styled.section`
   border-radius: 5px;
   width: 800px;
   margin: 50px auto;
+
 `
 
 const TestPreview = styled.article`
@@ -97,14 +96,29 @@ const List = styled.ul`
   width: 700px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  justify-content: flex-start;
+  gap: 25px;
+  background: ${COLORS.alpha_blue};
+  padding: 30px 15px;
+  border-radius: 3px;
+`
+
+const Span = styled.div`
+  display: flex;
+  align-items: flex-start;
+  
+  span {
+    color: ${COLORS.gray};
+    /* margin-left: 15px; */
+  }
 `
 
 const Item = styled.li`
+  margin: 0 auto;
   font-size: 15px;
   overflow: hidden;
   word-wrap: break-word;
   white-space: nowrap;
   text-overflow: ellipsis;
-`
 
+`
