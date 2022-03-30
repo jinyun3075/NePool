@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { API, COLORS } from '../../constants'
-import {Link, useLocation, useParams} from 'react-router-dom';
+import {Link, Router, useLocation, useParams, useNavigate  } from 'react-router-dom';
 import Progress from './Progress';
 import Question from './Question';
 import axios from 'axios';
@@ -10,6 +10,8 @@ import { ExplanationModal } from './ExplanationModal';
 import Result from './Result';
 
 export default function StudyPage() {
+
+  const navigate = useNavigate();
 
   const location = useLocation()
   const userName = location.state.username
@@ -79,7 +81,7 @@ export default function StudyPage() {
     getTest();
   }, []);
 
-  console.log(questionsData);
+  // console.log(questionsData);
 
   const question = questionsData[currentQuestion]
 
@@ -150,8 +152,7 @@ export default function StudyPage() {
           <Result questionsData={questionsData} bb={bb}/>
           <BtnBox>
             <Btn onClick={() => {window.location.reload()}}>다시 풀기</Btn>
-            <Linkto as={Link} to={`/detail/${workBookId}`} state={{username: userName}}>완료</Linkto>
-            {/* <Btn></Btn> */}
+            <Btn onClick={() =>  navigate(-1)}>완료</Btn>
           </BtnBox>
         </ResultBoard>
       </main>
@@ -240,23 +241,6 @@ const BtnBox = styled.div`
 
 const Btn = styled.button`
   font-size: 14px;
-  width: 100px;
-  height: 50px;  
-  margin: 20px 30px 0px 0px;
-  color: #fff;
-  background-color: ${COLORS.blue};
-  border: none;
-  border-radius: 4px;
-  &:disabled {
-    opacity: 0.5;
-  }
-`
-
-const Linkto = styled.a`
-  font-size: 14px;
-  display: block;
-  text-align: center;
-  line-height: 50px;
   width: 100px;
   height: 50px;  
   margin: 20px 30px 0px 0px;
