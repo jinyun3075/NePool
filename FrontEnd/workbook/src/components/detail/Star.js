@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { COLORS } from '../../constants';
 
-export default function Star({count}) {
+export default function Star({count, averageStar}) {
 
   return (
     <>
@@ -16,7 +16,7 @@ export default function Star({count}) {
         <Item>
           <Icon src={'/img/star.svg'}></Icon>
           <TextBox>
-            <Num>4.5</Num>
+            <Num>{averageStar}</Num>
             <Tit>평균 별점</Tit>
           </TextBox>
         </Item>

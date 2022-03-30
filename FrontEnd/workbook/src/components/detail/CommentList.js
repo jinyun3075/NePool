@@ -3,42 +3,46 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { API } from '../../constants';
 
-export default function CommentList({workbookId}) {
+export default function CommentList({comment}) {
 
-  const [comment, setComment] = useState([{
-    dtoList: [],
-    id: "",
-    content: "",
-    like: 0,
-    writer: "",
-    regDate: "",
-    modeDate: "",
-    totalPage: 0,
-    page: 0,
-    size: 0,
-    prev: false,
-    next: false,
-    start: 0,
-    end: 0,
-    pageList: []
-  }])
+  const {content, id, like, modDate, regDate, writer} = comment
 
-  const getComment = async () => {
-    const token = localStorage.getItem("token");
+  const timeSet = (regDate) => {
+    const today = new Date()
+    const getPostTime = new Date(regDate)
 
-    const res = await axios.get(`${API}/comment/${workbookId}`, {
-        headers: {
-            "Content-type" : "application/json",
-            "Authorization" : `Bearer ${token}`,
-        },
-    });
-    // setComment(res.data);
-    // console.log(res);
-  };
+    getPostTime.setHours(getPostTime.getHours()+9)
+
+    const timeSec = Math.floor((today.getTime() - getPostTime.getTime()) / 1000 / 60 )
+
+    if(timeSec < 1) return '방금 전'
+    if(timeSec < 60) return `${timeSec}분 전`
+
+    const timeHour = Math.floor(timeSec / 60);
+    if (timeHour < 24) return `${timeHour}시간 전`
+
+    const timeDay = Math.floor(timeHour / 24);
+    if (timeDay < 7) return `${timeDay}일 전`
+
+    const timeWeek = Math.round(timeDay / 7);
+    if (timeWeek < 4) return `${timeWeek}주 전`
     
+    const timeMonth = Math.round(timeDay / 30);
+    if (timeMonth < 12) return `${timeMonth}개월 전`
+
+    const timeYear = Math.floor(timeMonth / 365);
+    return `${Math.floor(timeYear / 365)}년 전`;
+  }
+
+  const updatedDate = timeSet(regDate)
+
+  const [rating, setRating] = useState(0)
+
   useEffect(() => {
-    getComment();
-  }, []);
+    setRating(like)
+  })
+
+  const stars = Array(5).fill(0)
 
   return (
     <>
@@ -46,21 +50,24 @@ export default function CommentList({workbookId}) {
         <CommentInfo>
           <ReviewBox>
             <StarBox>
-              <Star src="/img/star.svg" alt="별점" />
-              <Star src="/img/star.svg" alt="별점" />
-              <Star src="/img/star.svg" alt="별점" />
-              <Star src="/img/star.svg" alt="별점" />
-              <Star src="/img/star.svg" alt="별점" />
-              <span>(4점)</span>
+              {stars.map((star, index) => {
+              return (
+                <Star 
+                  key={index} 
+                  src={(rating) >  index ? "/img/starCheck.svg" : "/img/star.svg"}
+                  alt="별점"/>
+              )
+            })}
+              <span>{like}</span>
             </StarBox>
-           <CommentText>리뷰입니다. 리뷰입니다.</CommentText>
+           <CommentText>{content}</CommentText>
           </ReviewBox>
           <AuthorBox>
             <AuthorImg src="/img/mango.jpg" alt="누구님의 프로필사진" />
-            <AuthorNickName>망고언니</AuthorNickName>
+            <AuthorNickName>{writer}</AuthorNickName>
           </AuthorBox>
         </CommentInfo>
-      <CommentDate>2022.03.16</CommentDate>
+      <CommentDate>{updatedDate}</CommentDate>
       </CommentBox>
     </>
   )
@@ -82,7 +89,7 @@ const AuthorImg = styled.img`
   height: 36px;
   border: 0.5px solid #dbdbdb;
   border-radius: 50%;
-  margin-right: 12px;
+  /* margin-right: 12px; */
 `;
 
 const ReviewBox = styled.div`
@@ -93,9 +100,10 @@ flex-direction: column;
 const StarBox = styled.div`
 display: flex;
 align-items: center;
+gap: 1px;
 span {
   font-size: 13px;
-  margin-left: 5px;
+  margin-left: 8px;
   color: #767676;
 }
 
@@ -105,22 +113,23 @@ span {
 const AuthorBox = styled.div`
 display: flex;
 flex-direction: column;
-align-items: flex-end;
 
 `
 
 const Star = styled.img`
   width: 20px;
   height: 20px;
-  margin-left: 2px;
+  display: block;
+  /* margin-left: 2px; */
 `
 
 const AuthorNickName = styled.strong`
   font-weight: 500;
   font-size: 14px;
   line-height: 18px;
-  display: block;
-  margin: 6px 6px 0 0;
+  text-align: center;
+  /* display: block; */
+  /* margin: 6px auto; */
 `;
 
 const CommentDate = styled.span`
@@ -137,7 +146,7 @@ const CommentDate = styled.span`
 
 const CommentText = styled.p`
   margin-top: 15px;
-  /* padding-left: 48px; */
+  padding: 0 20px 0 2px;
   font-size: 14px;
   line-height: 18px;
   color: #333333;
