@@ -44,8 +44,8 @@ public class WorkCont {
         return "삭제완료";
     }
     @PutMapping("/{username}/{work_book_id}/{work_id}")
-    public ResponseEntity<WorkDTO> update(@PathVariable String username, @PathVariable String work_book_id, @PathVariable String work_id, @RequestBody WorkDTO dto) throws Exception{
-        return new ResponseEntity<>(service.update(username,work_book_id,work_id,dto),HttpStatus.OK);
+    public ResponseEntity<WorkDTO> update(@PathVariable String username, @PathVariable String work_book_id, @PathVariable String work_id, @RequestBody WorkDTO dto) throws Exception {
+        return new ResponseEntity<>(service.update(username, work_book_id, work_id, dto), HttpStatus.OK);
     }
 
 }

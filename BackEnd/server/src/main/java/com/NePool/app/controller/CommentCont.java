@@ -41,4 +41,9 @@ public class CommentCont {
     public ResponseEntity<Double> getLike(@PathVariable String work_book_id) throws Exception {
         return new ResponseEntity<>(service.getLike(work_book_id),HttpStatus.OK);
     }
+
+    @DeleteMapping("/{comment_id}/{writer}")
+    public ResponseEntity<String> delete(@PathVariable String comment_id, @PathVariable String writer) throws Exception{
+        return new ResponseEntity<>(service.delete(comment_id,writer),HttpStatus.OK);
+    }
 }

@@ -71,11 +71,30 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public double getLike(String work_book_id) throws Exception {
+        Optional<WorkBook> workBook = workBookRepository.findById(work_book_id);
+        if (!workBook.isPresent()) {
+            throw new Exception("존재하지 않는 문제집입니다.");
+        }
+        log.info(workBook);
         List<Comments> list = commentRepository.findByWorkbookWno(work_book_id);
+        log.info(list);
         int allLike=0;
         for(Comments data:list) {
             allLike+=data.getComLike();
         }
         return (Math.round(((float)allLike/list.size())*10)/10.0);
+    }
+
+    @Override
+    public String delete(String comment_id, String writer) throws Exception {
+        Optional<Comments> comments= commentRepository.findById(comment_id);
+        if (!comments.isPresent()) {
+            throw new Exception("존재하지 않는 리뷰입니다.");
+        }
+        if(comments.get().getWriter().getName().equals(writer)){
+            commentRepository.deleteById(comment_id);
+            return "삭제 완료";
+        }
+        return "삭제 실패 ex) 작성자가 다릅니다.";
     }
 }
