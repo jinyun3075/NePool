@@ -110,7 +110,7 @@ export default function Home() {
     <>
       <HeaderSignin />
       <Carousel allUserCount={allUserCount} />
-      <Post allUserPost={post} />
+      <Post />
       <Banner allUserCount={allUserCount} allBookCount={allBookCount} />
       <Footer />
       <TopBtn>
