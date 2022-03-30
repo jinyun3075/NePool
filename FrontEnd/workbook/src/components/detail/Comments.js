@@ -153,7 +153,7 @@ export default function Comments({workbookId}) {
             <ReviewTit>리뷰({comments.length})</ReviewTit>
             <Comment>
               {comments.map(comment => {
-                return <CommentList key={comment.id} comment={comment} workbookId={workbookId} starCount={starCount}/>
+                return <CommentList key={comment.id} comment={comment} workbookId={workbookId} starCount={starCount} user={user}/>
               })}
             </Comment>
           </article>
