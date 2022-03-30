@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -52,5 +53,17 @@ public class ShareWorkBookServiceImpl implements ShareWorkBookService {
         Page<ShareWorkBook> entity = shareRepository.findByNePoolUserUno(user_id,req.getPageable(Sort.by("modDate").ascending()));
         Function<ShareWorkBook,ShareWorkBookResultDTO> fn = (data-> entityToDto(data));
         return new PageResultDTO<>(entity,fn);
+    }
+
+    @Override
+    public void delete(ShareWorkBookDTO dto) throws Exception {
+        Optional<NePoolUser> user = userRepository.findById(dto.getUser_id());
+        if (!user.isPresent()) {
+            throw new Exception("존재하지 않는 아이디입니다.");
+        }
+        Long entity = shareRepository.deleteByWorkBookWnoAndNePoolUserUno(dto.getWork_book_id(),dto.getUser_id());
+        if(entity == 0) {
+            throw new Exception("존재하지 않는 문제집입니다.");
+        }
     }
 }

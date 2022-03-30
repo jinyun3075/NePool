@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 public interface ShareWorkBookService {
     ShareWorkBookResultDTO register(ShareWorkBookDTO dto) throws Exception;
     PageResultDTO<ShareWorkBookResultDTO, ShareWorkBook> getList(String user_id, PageRequestDTO req) throws Exception;
+    void delete(ShareWorkBookDTO dto) throws  Exception;
     default ShareWorkBook dtoToEntity(WorkBook workBook, NePoolUser user) {
         return ShareWorkBook.builder()
                 .workBook(workBook)

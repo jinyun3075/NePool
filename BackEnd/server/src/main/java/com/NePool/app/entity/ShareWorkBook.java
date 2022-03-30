@@ -1,6 +1,8 @@
 package com.NePool.app.entity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -16,8 +18,10 @@ public class ShareWorkBook extends BaseEntity {
     private Long sno;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private WorkBook workBook;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private NePoolUser nePoolUser;
 }

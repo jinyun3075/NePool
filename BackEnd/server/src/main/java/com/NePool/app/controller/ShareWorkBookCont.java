@@ -33,4 +33,10 @@ public class ShareWorkBookCont {
         }
         return new ResponseEntity<>(service.getList(user_id,req),HttpStatus.OK);
     }
+
+    @DeleteMapping("")
+    public String update(@RequestBody ShareWorkBookDTO dto) throws Exception {
+        service.delete(dto);
+        return "삭제 완료";
+    }
 }
