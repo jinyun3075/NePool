@@ -1,51 +1,163 @@
-import { useCallback, useRef, useState } from 'react';
+import axios from 'axios';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../../constants'
+import { API, COLORS } from '../../constants'
 import CommentList from './CommentList';
 
-export default function Comments() {
+export default function Comments({workbookId}) {
 
-  const textAreaRef = useRef(null)
-
-  const resizeHeight = useCallback(() => {
-    if (textAreaRef === null || textAreaRef.current === null) {
-      return
-    }
-    textAreaRef.current.style.height = '18px'
-    textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px'
-  }, [])
-  
   const [text, setText] = useState("")
   const [isText, setIsText] = useState(false)
 
   const onChange = (e) => {
     setText(e.target.value)
-    if(e.target.value.length > 0) {
+    if(e.target.value.length > 0 && e.target.value.length < 500) {
       setIsText(true)
     } else {
       setIsText(false)
     }
   }
 
+  const [user, setUser] = useState({
+    id: "",
+    name: "",
+    email: "",
+    password: ""
+  })
+
+  const getUser = async () => {
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user")
+    const res = await axios.get(`${API}/user/${user}`, {
+        headers: {
+            "Content-type" : "application/json",
+            "Authorization" : `Bearer ${token}`,
+        },
+    });
+    setUser(res.data);
+  };
+    
+  useEffect(() => {
+    getUser();
+  }, []);
+
+
+  const userId = user.id
+
+  const [comments, setComment] = useState([{
+    content: "",
+    id: "",
+    like: 0,
+    writer: "",
+    regDate: "",
+    modeDate: "",
+  }])
+
+  const byteCheck = (str) => {
+    return str
+    .split('') 
+    .map(s => s.charCodeAt(0))
+    .reduce((prev, c) => (prev + ((c === 10) ? 2 : ((c >> 7) ? 2 : 1))), 0); 
+  }
+
+  const [rating, setRating] = useState(0)
+  const [hoverRating, setHoverRating] = useState(0);
+
+  const stars = Array(5).fill(0)
+
+  const [starCount, setStarCount] = useState(0)
+
+  const onSaveRating = (index) => {
+    setRating(index)
+    setStarCount(index)
+  }
+
+  const onMouseEnter = (index) => setHoverRating(index);
+  
+  const onMouseLeave = () => setHoverRating(undefined);
+  
+  const getComment = async () => {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.get(`${API}/comment/${workbookId}?page=1&size=500`, {
+        headers: {
+            "Content-type" : "application/json",
+            "Authorization" : `Bearer ${token}`,
+        },
+    });
+    setComment(res.data.dtoList);
+  };
+    
+  useEffect(() => {
+    byteCheck(text)
+    getComment();
+  }, []);
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    const token = localStorage.getItem("token");
+    try {
+      const contentData = {
+        content: text,
+        like: starCount,
+      }
+      await axios.post(`${API}/comment/${userId}/${workbookId}`, contentData, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+      window.location.reload()
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
   return (
     <>
       <CommentBoard>
-        <Form>
+        <Form onSubmit={onSubmit} >
           <label htmlFor="text">
             <Textarea
               name="text"
               value={text}
               onChange={onChange}
-              ref={textAreaRef}
-              onInput={resizeHeight}
-              placeholder="댓글 입력하기..."
+              placeholder="이 문제집에 대한 나의 평가는?"
             />
           </label>
-          <Btn>등록</Btn>
+          <BtnBox >
+            <StarDiv>
+              <StarBox>
+              {stars.map((star, index) => {
+                return (
+                  <Star 
+                    key={index} 
+                    src={(hoverRating || rating) >  index ? "/img/starCheck.svg" : "/img/star.svg"}
+                    onClick={() => onSaveRating(index + 1)}
+                    onMouseOver={() => onMouseEnter(index + 1)}
+                    onMouseLeave={onMouseLeave}
+                    alt="별점"/>
+                )
+              })}
+              </StarBox>
+              <StarCount>{starCount} 점</StarCount>
+            </StarDiv>
+            <div>
+              <span>{text.length + "/500"}</span>
+              <Btn disabled={!isText}>등록</Btn>
+            </div>
+          </BtnBox>
         </Form>
-        <Comment>
-          <CommentList />
-        </Comment>
+        {comments !== undefined && (
+          <article>
+            <ReviewTit>리뷰({comments.length})</ReviewTit>
+            <Comment>
+              {comments.map(comment => {
+                return <CommentList key={comment.id} comment={comment} workbookId={workbookId} starCount={starCount} user={user}/>
+              })}
+            </Comment>
+          </article>
+        )}
       </CommentBoard>
     </>
   )
@@ -59,64 +171,101 @@ const CommentBoard = styled.section`
 `
 
 const Form = styled.form`
-  width: 40%;
-  padding: 20px 30px 60px;
-  margin-bottom: 50px;
-  border: 1px solid black;
+  width: 800px;
+  padding: 20px 30px;
+  margin-bottom: 35px;
+  border: 1px solid ${COLORS.light_gray};
+  border-radius: 5px;
   position: relative;
-  &::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    bottom: 45px;
-    left: 0;
-    border-bottom: 1px solid black;
-  }
+`
+
+const StarDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+`    
+
+const StarBox = styled.div`
+  margin: 15px 0;
+  display: flex;
+`
+
+const StarCount = styled.span`
+  display: block;
+  text-align: center;
+  font-size: 14px;
+`
+
+const Star = styled.img`
+  width: 25px;
+  height: 25px;
+  margin-left: 2px;
 `
 
 const Textarea = styled.textarea`
-  width: 100%;
-  margin-bottom: 16px;
+  width: 740px;
+  display: block;
+  min-height: 120px;
+  margin: 10px auto;
+  padding: 15px 20px;
+  font-family: "Noto Sans KR";
   font-size: 14px;
   line-height: 18px;
   outline: none;
   border: none;
-  padding: 0;
   resize: none;
   &::placeholder {
-    color: #dbdbdb;
+    color: ${COLORS.light_gray};
   }
+  &:focus {
+    border: 1px solid ${COLORS.blue};
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${COLORS.light_gray};
+    border-radius: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    color: ${COLORS.light_gray};
+    border-radius: 6px;
+  }
+`
+
+const BtnBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: ${COLORS.light_gray};
+`
+
+const ReviewTit = styled.strong`
+  font-size: 15px;
+  color: ${COLORS.gray};
 `
 
 const Comment = styled.ul`
   display: flex;
   flex-direction: column;
-  width: 840px;
-  margin: 0 auto;
-  padding: 20px 16px 50px;
+  width: 850px;
+  margin: 16px auto;
+  padding: 0px 10px 40px;
 `
 
 const Btn = styled.button`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  font-size: 16px;
-  width: 120px;
+  font-size: 14px;
+  width: 100px;
   height: 45px;
-  /* margin: 20px 15px 20px 0; */
-  color: #fff;
-  background-color: ${COLORS.blue};
-  border: none;
-  /* border-radius: 5px; */
-  /* display: none; */
+  border-radius: 6px;
+  text-align: center;
+  margin: 0 10px;
+  background: ${COLORS.blue};
+  color: ${COLORS.white};
   &:disabled {
-    opacity: 0.5;
-  }
-  span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* align-content: center; */
-    /* align-items: center; */
+    background: ${COLORS.alpha_blue};
   }
 `

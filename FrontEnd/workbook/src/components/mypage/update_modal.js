@@ -1,14 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLORS } from '../../constants';
 
 export default function UpdateModal(props){
+    const workbookid = props.workbookid
     return(
         <> 
             <Modal className="updatemodal">
                 <Try onClick = { ()=>{props.setModemodal(true); props.setDeletemodal(false);} }>풀기</Try>
-                <Update>수정</Update>
-                <Delete onClick = { ()=>{props.setDeletemodal(true); props.setModemodal(false);}}>삭제</Delete>
+                <Update><Link to='/update' state={{workbookid:workbookid}}>수정</Link></Update>
+                <Delete onClick = { ()=>{props.setDeletemodal(true); props.setModemodal(false);}} >삭제</Delete>
             </Modal>
         </>
     )

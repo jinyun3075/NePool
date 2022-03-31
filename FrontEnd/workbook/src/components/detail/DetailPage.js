@@ -1,9 +1,66 @@
 import styled from 'styled-components';
-import { COLORS } from '../../constants'
+import { API, COLORS } from '../../constants'
 import Comments from './Comments';
+import Preview from './Preview';
 import Star from './Star';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function DetailPage() {
+
+  const [workBook, setWorkBook] = useState([
+    {
+      content: "",
+      count: 0,
+      id: "",
+      share: false,
+      title: "",
+      username: "",
+    },
+  ]);
+
+  const params = useParams()
+  const workbookId = params.id
+
+  const location = useLocation()
+  const userName = location.state.username
+
+  const getWorkBook = async () => {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.get(`${API}/workbook/${userName}/${workbookId}`, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setWorkBook(res.data)
+  };
+
+  useEffect(() => {
+    getWorkBook();
+  }, [workbookId]);
+
+  const {content, count, id, modDate, share, title, type, username} = workBook
+
+  const [averageStar, setAverageStar] = useState(0)
+
+  const getStar = async () => {
+    const token = localStorage.getItem("token");
+  
+    const res = await axios.get(`${API}/comment/like/${id}`, {
+        headers: {
+            "Content-type" : "application/json",
+            "Authorization" : `Bearer ${token}`,
+        },
+    });
+    setAverageStar(res.data)
+  };
+    
+  useEffect(() => {
+    getStar();
+  }, [id]);
 
   return (
     <>
@@ -12,21 +69,26 @@ export default function DetailPage() {
         <DetailBoard>
           <DetailInfo>
             <Info>
-              <SubTit>영어</SubTit>
-              <Tit>운전 면허 1종</Tit>
-              <Author>만든이: 123</Author>
-              <span>별점: 4.5</span>
-              <Explain>설마 어디가서 2종따고 운전면허 갖고 있다고 말하고다니는건 아니시죠?</Explain>
+              <SubTit>{type}</SubTit>
+              <Tit>{title}</Tit>
+              <Author>만든이: {username}</Author>
+              <span>별점: {averageStar}</span>
+              <Explain>{content}</Explain>
               <ButtonBox>
-                <button>공부모드</button>
-                <button>시험모드</button>
+                <Link to={`/studymode/${id}`} state={{username: username}}>
+                  <button>공부모드</button>
+                </Link>
+                <Link to={`/studymode/${id}`} state={{username: username}}>
+                  <button>시험모드</button>
+                </Link>
                 <button>스크랩</button>
               </ButtonBox>
             </Info>
           </DetailInfo>
         </DetailBoard>
-        <Star />
-        <Comments />
+        <Preview workBook={workBook} />
+        <Star count={count} username={username} averageStar={averageStar} />
+        <Comments workbookId={workbookId}/>
       </main>
     </>
   )

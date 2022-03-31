@@ -3,77 +3,36 @@ import { COLORS } from '../../constants'
 
 export default function Answer({ letter, answer, selected, click, error, correct }) {
 
-  let classes = ['answer']
-  let errors = ['check']
-
-  if(selected) {
-    classes.push('selected')
-  }
-
-  if(error) {
-    errors.push('wrong')
-  } else if(correct) {
-    errors.push('correct')
-  }
-
   return (
-    <>
-      <Check
-        type="radio"
-        name="check"
-        id={letter}
-        value={answer}
-        onClick={click}
-      />
-      <Label htmlFor={letter} className={errors.join(' ')} error={error}>
-        <span className={classes.join(' ')}>{answer}</span>
-      </Label>
-    </>
+    <Button 
+      name="check"
+      id={letter}
+      value={answer}
+      onClick={click}
+      className={selected ? 'selected' : ''}
+      correct={correct}
+      error={error}
+      disabled={correct}
+    >
+      <span>{answer}</span>
+    </Button>
   )
 }
 
-const Label = styled.label`
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-  padding-left: 32px;
-  span {
-    font-size: 14px;
-  }
-  &::before {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 0;
-    width: 16px;
-    height: 16px;
-    border: 1px solid ${COLORS.light_gray};
-    /* background-color: black; */
-  }
-  .answer.selected {
-    font-weight: 700;
-  }
-  `
 
-const Check = styled.input`
-  display: none;
-  &:checked + .check::after {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 0;
-    width: 16px;
-    height: 16px;
-    border: 1px solid ${COLORS.light_gray};
-    background: url(img/check.svg) no-repeat center/14px;
-    /* background: ${COLORS.blue}; */
-    /* background: ${COLORS.wrong}; */
-    /* background: ${props => props.error ? COLORS.wrong : COLORS.blue}; */
+const Button = styled.button`
+  padding: 20px 30px;
+  text-align: start;
+  box-shadow: 0 0 0 1px rgb(34 36 38 / 15%) inset, 0 2px 3px 0 rgb(34 36 38 / 4%);
+  &:hover {
+    background: ${COLORS.alpha_gray};
   }
-  &:checked + .wrong::after {
-    background: ${COLORS.wrong};
+  &:active {
+    background: ${COLORS.light_gray};
   }
-  &:checked + .correct::after {
-    background: ${COLORS.blue};
+  &.selected {
+    background: ${COLORS.alpha_gray};
+    background: ${props => (props.correct && COLORS.blue) || (props.error && COLORS.error)};
+    color: ${props => (props.correct || props.error) && COLORS.white};
   }
-  `
+`

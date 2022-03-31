@@ -9,6 +9,9 @@ import AllPost from './pages/Allpost';
 import AddPage from './pages/Add';
 import Detail from './pages/Detail';
 import Notice from './pages/Notice';
+import Sharepage from './pages/Sharepage';
+import UpdatePage from './pages/Update';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -16,13 +19,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/sharepage" element={<Sharepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/join" element={<Join />} />
-        <Route path="/studymode" element={<Study />} />
+        <Route path="/studymode/:id" element={<Study />} />
         <Route path="/allpost" element={<AllPost />} />
         <Route path="/add" element={<AddPage />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/detail/:id" element={<Detail />} />
         <Route path="/notice" element={<Notice />} />
+        <Route path="/update" element={<UpdatePage />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </>
     )

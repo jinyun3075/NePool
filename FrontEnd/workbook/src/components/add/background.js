@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { COLORS } from "../../constants/index";
 import AddCont from "./addContent";
 
-export default function Background() {
+export default function Background(props) {
   return (
     <>
       <Section>
@@ -46,7 +46,7 @@ export default function Background() {
             </ul>
           </Workbook>
         </Left>
-      <AddCont />
+      <AddCont workbookid = {props.workbookid} />
       </Section>
     </>
   );

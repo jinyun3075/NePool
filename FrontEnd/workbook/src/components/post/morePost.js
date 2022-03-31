@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../constants";
+import { Link } from 'react-router-dom';
+import PostBtn from "./postButton";
 
 export default function MorePost() {
   const [post, setPost] = useState([
@@ -9,8 +11,11 @@ export default function MorePost() {
       content: "",
       count: 0,
       id: "",
+      mogDate: "",
+      regDate: "",
       share: false,
       title: "",
+      type: "",
       username: "",
     },
   ]);
@@ -23,38 +28,116 @@ export default function MorePost() {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(res);
     setPost(res.data.dtoList);
+    console.log(res);
   };
 
   useEffect(() => {
     getUser();
   }, []);
+  
+  const [data, setData] = useState();
+  const onClick = (e) => {
+    if(e.target.name === '전체') {
+      setData(post)
+    } else {
+      setData(post.filter(item => item.type === e.target.name))
+    }
+  };
   return (
     <>
+     <Category>
+        <CategoryItem>
+          <button onClick={onClick} name="전체">
+            전체
+          </button>
+        </CategoryItem>
+        <CategoryItem>
+          <button onClick={onClick} name="수능·내신">
+            수능·내신
+          </button>
+        </CategoryItem>
+        <CategoryItem>
+          <button onClick={onClick} name="어학">
+            어학
+          </button>
+        </CategoryItem>
+        <CategoryItem>
+          <button onClick={onClick} name="자격증">
+            자격증
+          </button>
+        </CategoryItem>
+        <CategoryItem>
+          <button onClick={onClick} name="시사·상식">
+            시사·상식
+          </button>
+        </CategoryItem>
+        <CategoryItem>
+          <button onClick={onClick} name="기타">
+            기타
+          </button>
+        </CategoryItem>
+      </Category>
       <ItemBox>
         <Items>
-          {post.map((postData) => {
-            return (
-              <li>
-                <a href="#">
-                  <ItemImg>
-                  </ItemImg>
-                  <TextBox>
-                    <ItemScr size="20px">{postData.title}</ItemScr>
-                    <ItemScr size="13px">만든이: {postData.username}</ItemScr>
-                    <ItemTxt size="12px">{postData.content}</ItemTxt>
-                  </TextBox>
-                </a>
-              </li>
-            );
-          })}
+          {data === undefined ? (
+            <>
+            {post.map((postData) => {
+              return (
+                <li key={postData.id}>
+                  <Link to={`/detail/${postData.id}`} state={{username: postData.username}}>
+                    <ItemImg>
+                    </ItemImg>
+                    <TextBox>
+                      <ItemScr size="20px">{postData.title}</ItemScr>
+                      <ItemScr size="13px">만든이: {postData.username}</ItemScr>
+                      <ItemTxt size="12px">{postData.content}</ItemTxt>
+                    </TextBox>
+                  </Link>
+                </li>
+              );
+            })}
+            </>
+          ) : (
+            <>
+            {data.map((postData) => {
+              return (
+                <li key={postData.id}>
+                  <Link to={`/detail/${postData.id}`} state={{username: postData.username}}>
+                    <ItemImg>
+                    </ItemImg>
+                    <TextBox>
+                      <ItemScr size="20px">{postData.title}</ItemScr>
+                      <ItemScr size="13px">만든이: {postData.username}</ItemScr>
+                      <ItemTxt size="12px">{postData.content}</ItemTxt>
+                    </TextBox>
+                  </Link>
+                </li>
+              );
+            })}
+            </>
+          )}
         </Items>
       </ItemBox>
+      <PostBtn />
     </>
   );
 }
 
+//네브바
+const Category = styled.ul`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  border-bottom: 1px solid #b6b6b6;
+`;
+const CategoryItem = styled.li`
+  margin: 0 40px;
+  button {
+    font-size: 17px;
+  }
+`;
 //리스트
 const ItemBox = styled.div`
   display: flex;

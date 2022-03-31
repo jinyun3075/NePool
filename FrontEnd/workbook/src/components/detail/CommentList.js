@@ -1,59 +1,165 @@
-import { useCallback, useRef, useState } from 'react';
+import axios from 'axios';
+import {useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { API } from '../../constants';
 
-export default function CommentList() {
+export default function CommentList({comment, user}) {
+
+  const {content, id, like, regDate, writer} = comment
+
+  const timeSet = (regDate) => {
+    const today = new Date()
+    const getPostTime = new Date(regDate)
+
+    getPostTime.setHours(getPostTime.getHours()+9)
+
+    const timeSec = Math.floor((today.getTime() - getPostTime.getTime()) / 1000 / 60 )
+
+    if(timeSec < 1) return '방금 전'
+    if(timeSec < 60) return `${timeSec}분 전`
+
+    const timeHour = Math.floor(timeSec / 60);
+    if (timeHour < 24) return `${timeHour}시간 전`
+
+    const timeDay = Math.floor(timeHour / 24);
+    if (timeDay < 7) return `${timeDay}일 전`
+
+    const timeWeek = Math.round(timeDay / 7);
+    if (timeWeek < 4) return `${timeWeek}주 전`
+    
+    const timeMonth = Math.round(timeDay / 30);
+    if (timeMonth < 12) return `${timeMonth}개월 전`
+
+    const timeYear = Math.floor(timeMonth / 365);
+    return `${Math.floor(timeYear / 365)}년 전`;
+  }
+
+  const updatedDate = timeSet(regDate)
+
+  const [rating, setRating] = useState(0)
+
+  const stars = Array(5).fill(0)
+
+   useEffect(() => {
+    setRating(like)
+  }, [])
+
+  const deleteComment = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.delete(`${API}/comment/${id}/${writer}`, {
+            headers: {
+                "Content-type" : "application/json",
+                "Authorization" : `Bearer ${token}`,
+            },
+        });
+        // window.location.reload()
+        console.log(res);
+    } catch(err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
       <CommentBox>
         <CommentInfo>
-          <a href="/mypage">
+          <ReviewBox>
+            <StarBox>
+              {stars.map((star, index) => {
+              return (
+                <Star 
+                  key={index} 
+                  src={(rating) >  index ? "/img/starCheck.svg" : "/img/star.svg"}
+                  alt="별점"/>
+              )
+            })}
+              <span>{like}</span>
+            </StarBox>
+           <CommentText>{content}</CommentText>
+          </ReviewBox>
+          <AuthorBox>
             <AuthorImg src="/img/mango.jpg" alt="누구님의 프로필사진" />
-          </a>
-          <a href="/mypage">
-            <AuthorNickName>닉네임</AuthorNickName>
-          </a>
-        <CommentDate>2022.03.16</CommentDate>
-      </CommentInfo>
-      <CommentText>장난하냐?</CommentText>
+            <AuthorNickName>{writer}</AuthorNickName>
+          </AuthorBox>
+        </CommentInfo>
+        <Div>
+          <CommentDate>{updatedDate}</CommentDate>
+          {user.name === writer && <button onClick={deleteComment}>삭제</button>}
+        </Div>
       </CommentBox>
     </>
   )
 }
 const CommentBox = styled.li`
-  margin-bottom: 16px;
-  position: relative;
-  .more {
-    color: #c4c4c4;
-    content: "";
-    position: absolute;
-    top: 5px;
-    right: 0;
-    width: 20px;
-    height: 20px;
-  }
+  padding: 30px 0 20px;
+  border-bottom: 0.5px solid #dbdbdb;
 `
 
 const CommentInfo = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 4px;
 `;
+
+const Div = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: center;
+button {
+  margin-top: 5px;
+  font-size: 13px;
+  color: #767676;
+}
+`
 
 const AuthorImg = styled.img`
   width: 36px;
   height: 36px;
   border: 0.5px solid #dbdbdb;
   border-radius: 50%;
-  margin-right: 12px;
+  /* margin-right: 12px; */
 `;
+
+const ReviewBox = styled.div`
+display: flex;
+flex-direction: column;
+`
+
+const StarBox = styled.div`
+display: flex;
+align-items: center;
+gap: 1px;
+span {
+  font-size: 13px;
+  margin-left: 8px;
+  color: #767676;
+}
+
+`
+
+
+const AuthorBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`
+
+const Star = styled.img`
+  width: 20px;
+  height: 20px;
+  display: block;
+  /* margin-left: 2px; */
+`
 
 const AuthorNickName = styled.strong`
   font-weight: 500;
   font-size: 14px;
   line-height: 18px;
-  display: block;
-  margin: 6px 6px 0 0;
+  text-align: center;
+  /* display: block; */
+  margin: 3px 0;
 `;
 
 const CommentDate = styled.span`
@@ -62,28 +168,16 @@ const CommentDate = styled.span`
   line-height: 13px;
   color: #767676;
   margin-top: 8.5px;
-  &::before {
+  /* &::before {
     content: "·";
     margin-right: 4.5px;
-  }
+  } */
 `;
 
 const CommentText = styled.p`
-  padding-left: 48px;
+  margin-top: 15px;
+  padding: 0 20px 0 2px;
   font-size: 14px;
   line-height: 18px;
   color: #333333;
-`;
-
-const Background = styled.div`
-  &.true {
-    position: fixed;
-    top: 72px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #777;
-    opacity: 0.4;
-    z-index: 10;
-  }
 `;

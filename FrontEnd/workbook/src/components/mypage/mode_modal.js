@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 
 export default function ModeModal(props){
-    return(
+  return(
         <>
             <Modal>
                 <ImgDiv>
@@ -12,8 +12,8 @@ export default function ModeModal(props){
                 </ImgDiv>
                 <Text>예시 문제집을 푸시겠습니까?</Text>
                 <BtnDiv>
-                    <StudyMode><Link to ='/studymode'>공부모드</Link></StudyMode>
-                    <TestMode><Link to ='/studymode'>시험모드</Link></TestMode>
+                    <StudyMode><Link to ={`/studymode/${props.workbookid}`} state={{username: props.username}}>공부모드</Link></StudyMode>
+                    <TestMode><Link to ={`/studymode/${props.workbookid}`} state={{username: props.username}}>시험모드</Link></TestMode>
                 </BtnDiv>
             </Modal>
         </>

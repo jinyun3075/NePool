@@ -1,56 +1,125 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { API } from '../../constants'
-import NoticeModal from './notice';
-import StatusModal from './status';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { API } from "../../constants";
+import NoticeModal from "./notice";
+import SearchResult from "./search";
+import StatusModal from "./status";
 
 export default function HeaderSignin() {
+  const token = localStorage.getItem("token");
+  const [search, setSearch] = useState([
+    {
+      content: "",
+      count: 0,
+      id: "",
+      mogDate: "",
+      regDate: "",
+      share: false,
+      title: "",
+      type: "",
+      username: "",
+    },
+  ]);
+  const [keyUp, setKeyUp] = useState()
+  const onKeyUp = (e) => {
+    setKeyUp(e.target.value);
+  }
+  // console.log(keyUp);
+  const getResult = async() => {
+    const res = await axios.get(`${API}/search/${keyUp}`, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // console.log(res.data);
+    setSearch(res.data.workBook);
+  };
+  console.log(search);
+  useEffect(() => {
+    getResult();
+  },[keyUp]);
 
+ 
+  //검색창 모달
+  const [searchOn, setSearchOn] = useState(false);
+  const openSearch = () => {
+    setSearchOn(!searchOn);
+  }
+  // const closeSearch = () => {
+  //   setSearchOn(false);
+  // }
   //알림창 모달
   const [noticeOn, setNoticeOn] = useState(false);
   const openNotice = () => {
     setNoticeOn(!noticeOn);
   };
+  // const closeNotice = () => {
+  //   setNoticeOn(false);
+  // };
 
   //프로필 창 모달
   const [statusON, setStatusON] = useState(false);
   const openStatus = () => {
     setStatusON(!statusON);
   };
+  // const closeStatus = () => {
+  //   setStatusON(false);
+  // };
 
   return (
     <>
-      <header>
+      <header onClick={ () =>{
+          // closeNotice()
+          // closeSearch()
+          // closeStatus()
+        }}>
         <HeaderWrap>
           <SearchBox>
             <SearchBtn>
               <img src="/img/search.svg" alt="돋보기" />
             </SearchBtn>
-            <SearchInp type="text" autoFocus placeholder='문제집을 검색해 보세요!' />
-            <CloseBtn>
+            <SearchInp onClick={openSearch} 
+            onChange={onKeyUp}
+              type="text"
+              placeholder="문제집을 검색해 보세요!"
+            />
+            <CloseBtn type="reset">
               <img src="/img/close.svg" alt="지우기" />
             </CloseBtn>
+            {searchOn === true ?<SearchResult search={search}/> : null}
           </SearchBox>
-          <h1><a href="/"><Logo src="/img/logo.svg" alt="로고" /></a></h1>
-          {/* <BtnBox>
-            <Btn color="#2f80ed" font="white">로그인</Btn>
-            <Btn>회원가입</Btn>
-          </BtnBox> */}
-          <ProfileBox>
-            <button onClick={openNotice}>
-              <NoticeImg src="/img/notice.svg" alt="알림" />
-            </button>
-            {noticeOn && (
-              <NoticeModal />
-            )}
-            <button onClick={openStatus}>
-              <ProfileImg src="/img/mango.jpg" alt="프로필 사진" />
-            </button>
-            {statusON && (
-            <StatusModal />
-            )}
-          </ProfileBox>
+          <h1>
+            <Link to="/">
+              <Logo src="/img/logo.svg" alt="로고" />
+            </Link>
+          </h1>
+          {token !== null ? (
+            <ProfileBox>
+              <button onClick={openNotice}>
+                <NoticeImg src="/img/notice.svg" alt="알림" />
+              </button>
+              {/* {noticeOn === true ? <NoticeModal /> : null} */}
+              <NoticeModal noticeOn = {noticeOn} />
+              <button onClick={openStatus}>
+                <ProfileImg src="/img/mango.jpg" alt="프로필 사진" />
+              </button>
+              {statusON === true ? <StatusModal /> : null}
+            </ProfileBox>
+          ) : (
+            <BtnBox>
+              <Link to="/login">
+                <Btn color="#2f80ed" font="white">
+                  로그인
+                </Btn>
+              </Link>
+              <Link to="/join">
+                <Btn>회원가입</Btn>
+              </Link>
+            </BtnBox>
+          )}
         </HeaderWrap>
       </header>
     </>
@@ -63,28 +132,29 @@ const HeaderWrap = styled.div`
   margin-top: 18px;
   padding-bottom: 18px;
   align-items: center;
-  border-bottom: 3px solid #C1C1C1;
-`
-// 검색창 
+  border-bottom: 3px solid #c1c1c1;
+`;
+// 검색창
 const SearchBox = styled.form`
+  /* z-index: 999; */
   display: flex;
   align-items: center;
   width: 360px;
-`
+`;
 const SearchBtn = styled.button`
   position: relative;
-  z-index: 99;
+  z-index: 2;
   width: 40px;
   height: 40px;
   border-radius: 6px;
-`
+`;
 const CloseBtn = styled.button`
   position: absolute;
   width: 40px;
   height: 40px;
   border-radius: 6px;
   margin-left: 321px;
-`
+`;
 const SearchInp = styled.input`
   position: absolute;
   width: 280px;
@@ -103,39 +173,41 @@ const SearchInp = styled.input`
     outline: none;
     border: 2px solid #2f80ed;
   }
-`
+`;
 
 const Logo = styled.img`
   width: 180px;
-`
+`;
 const BtnBox = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 220px;
-`
+  justify-content: center;
+  width: 360px;
+`;
 
-const Btn = styled.a`
+const Btn = styled.button`
+  font-size: 14px;
   width: 100px;
   height: 45px;
   border: 0.5px solid #b6b6b6;
   border-radius: 6px;
   text-align: center;
   line-height: 45px;
-  background-color: ${props => props.color};
-  color: ${props => props.font};
-`
+  background-color: ${(props) => props.color};
+  color: ${(props) => props.font};
+  margin: 0 10px;
+`;
 
 const ProfileBox = styled.div`
   display: flex;
-  justify-content:right;
+  justify-content: right;
   width: 360px;
-`
+`;
 const NoticeImg = styled.img`
   width: 40px;
   height: 40px;
-`
+`;
 const ProfileImg = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 6px;
-`
+`;

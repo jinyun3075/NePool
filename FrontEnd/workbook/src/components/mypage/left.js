@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { COLORS, API } from '../../constants/index';
 import styled from 'styled-components';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 export default function Left() {
     const [userinfo,setUserinfo] = useState([{
@@ -54,10 +55,12 @@ export default function Left() {
                             <WorkbookP>나의 문제집</WorkbookP>
                         </WorkbookLi>
 
-                        <WorkbookLi>
-                            <WorkbookImg src = "/img/vector_gray.svg" alt = "문제집"></WorkbookImg>
-                            <WorkbookP>가져온 문제집</WorkbookP>
-                        </WorkbookLi>
+                        {/* <Link to='sharepage'> */}
+                            <WorkbookLi>
+                                <WorkbookImg src = "/img/vector_gray.svg" alt = "문제집"></WorkbookImg>
+                                <WorkbookP>가져온 문제집</WorkbookP>
+                            </WorkbookLi>
+                        {/* </Link> */}
                     </ul>
                 </Workbook>
             </Article>

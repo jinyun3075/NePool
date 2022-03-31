@@ -1,1 +1,27 @@
-@import './reset.css'
+@import "./reset.css";
+
+@font-face {
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: bold;
+  font-weight: 700;
+  src: url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap")
+    format("woff2");
+}
+
+html,
+body {
+  font-family: "Noto Sans KR";
+}
+
+button,
+input {
+  font-family: "Noto Sans KR";
+}

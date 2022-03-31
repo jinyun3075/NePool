@@ -10,11 +10,15 @@ import axios from 'axios';
 
 
 export default function Right() {
+    let [update, setUpdate] = useState(Array(100).fill(false));
     let [create, setCreate] = useState(false);
-    let [update, setUpdate] = useState(false);
     let [deletemodal, setDeletemodal] = useState(false);
     let [modemodal, setModemodal] = useState(false);
- 
+    let [workbookid, setWorkbookid] = useState('');
+    let [workbookUserName, setworkbookUserName] = useState('');
+    
+
+    // 문제집 리스트 받아오기 (Get)
     const [workbook,setWorkbook] = useState([
         {
             content:"",
@@ -23,6 +27,8 @@ export default function Right() {
             share:"",
             title:"",
             username:"",
+            regDate: "",
+            modDate: "",
         },
     ]);
       
@@ -35,13 +41,51 @@ export default function Right() {
                 Authorization : `Bearer ${token}`
             }}
         );
-        console.log(res);
+        console.log(res)
         setWorkbook(res.data.dtoList);
     }
 
+    useEffect(()=>{
+        // console.log(update)
+        console.log(workbookid) 
+    },[update])
+    
+
     useEffect(() => {
         ReadWorkbook();
-    }, []);
+    }, []);  
+ 
+    
+    // 문제집 클릭시 해당 모달 보이기
+    const yes = (event) =>{
+        if (update[event.target.value] === true){            
+            const newarray = [...update]
+            newarray[event.target.value] = false
+            setUpdate(newarray)
+        }
+        else{        
+            const newarray = [...update]
+            for(let i=0;i<newarray.length;i++){
+                if(i === event.target.value){
+                    newarray[i] = true
+                }
+                else{newarray[i] = false}
+            }
+            setUpdate(newarray)
+        }
+    }
+    
+
+    const workbookdataid = (id) =>{
+        setWorkbookid(id);
+    }
+
+    const workbookdatausername = (username) => {
+      setworkbookUserName(username)
+    }
+
+   
+
 
     return(
         <>
@@ -54,40 +98,43 @@ export default function Right() {
                     <p>나의 문제집</p>
                 </Myworkbook>
 
-
+                {/* onClick ={() => { setUpdate(!update) } } */}
+ 
                 <Example>
                     {
-                        workbook.map((workbookdata)=>{
+                        workbook.map((workbookdata,i)=>{
                             return(
-                                    <ExampleLi onClick ={() => { setUpdate(!update) } }> 
+                                    <ExampleLi onClick={ (event) => { workbookdatausername(workbookdata.username); workbookdataid(workbookdata.id); yes(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
+                                        
                                         <ExampleP1 >{workbookdata.title}</ExampleP1>
-                                        <ExampleP2 >마지막 수정 일시 : 2022-02-28</ExampleP2>
+                                        <ExampleP2 >마지막 수정 일시 : {workbookdata.modDate.substring(0,10)}</ExampleP2>
                                         {
-                                            update === true ? 
-                                            <UpdateModal sorkbook ={workbook} setWorkbook={workbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
+                                            update[i] === true ? 
+                                            <UpdateModal workbookid = {workbookid} workworkbook ={workbook} setWorkbook={workbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
                                             : null    
                                         }
-                                    </ExampleLi>
-                            )
-                        }
-                        )
-                    }
+                                    </ExampleLi> 
 
+                            )
+                        })
+                    }
+                    
                     {
                         deletemodal === true ? 
-                        <DeleteModal deletemodal = {deletemodal} setDeletemodal ={setDeletemodal}/>
+                        <DeleteModal workbookid={workbookid} deletemodal={deletemodal} setDeletemodal ={setDeletemodal}/>
                         :null   
                     }
 
                     {    
                         modemodal === true ?
-                        <ModeModal modemodal = {modemodal} setModemodal = {setModemodal} />
+                        <ModeModal workbookid={workbookid} username={workbookUserName} modemodal = {modemodal} setModemodal = {setModemodal} />
                         :null
                     }
 
                 </Example>
 
                 <CreateBtn onClick ={ ()=>{setCreate(create=true);}}>+</CreateBtn>
+
             </Article>
         </>
     )
@@ -97,6 +144,7 @@ export default function Right() {
 const Article = styled.article`
     position:relative;
     margin:0 auto;
+    margin-right:4%;
     border:3px solid ${COLORS.light_gray};
     border-radius:15px;
     flex-basis:70%;
@@ -162,11 +210,13 @@ const ExampleP1 = styled.p`
     text-align:center;
     margin-top:25%;
     z-index:2;
+    padding: 0 0.5em;
+    word-break: break-all;
 `;
 
 const ExampleP2 =styled.p`
     cursor:pointer;
-    font-size:0.3rem;
+    font-size:0.5rem;
     color:${COLORS.gray};
     font-weight:500;
     text-align:center;
