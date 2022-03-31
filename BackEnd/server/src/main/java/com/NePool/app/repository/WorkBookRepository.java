@@ -17,8 +17,9 @@ public interface WorkBookRepository extends JpaRepository<WorkBook,String> {
 
     List<WorkBook> findByTitleLike(String title);
 
-    Page<WorkBook> findByType(String type,Pageable pageable);
+    Page<WorkBook> findByTypeAndShare(String type,boolean share,Pageable pageable);
 
+    Page<WorkBook> findByShare(boolean share, Pageable pageable);
     @Transactional
     Long deleteByWnoAndWriterUno(String id, String user);
 }

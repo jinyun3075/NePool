@@ -79,4 +79,8 @@ public class WorkBookCont {
     public ResponseEntity<List<WorkBookRequestDTO>> best4() throws Exception{
         return new ResponseEntity<>(service.best4(),HttpStatus.OK);
     }
+
+    @GetMapping("/all") Long all() {
+        return service.all();
+    }
 }

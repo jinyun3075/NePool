@@ -23,6 +23,8 @@ public interface WorkBookService {
 
     WorkBookRequestDTO update(String username, String work_book_id, WorkBookRequestDTO dto) throws Exception;
 
+    Long all();
+
     List<WorkBookRequestDTO> best4() throws Exception;
     default WorkBook dtoToEntity(WorkBookRequestDTO dto, NePoolUser user, String id) {
         return WorkBook.builder()

@@ -76,12 +76,11 @@ public class WorkBookServiceImpl implements WorkBookService {
 
     @Override
     public PageResultDTO<WorkBookRequestDTO, WorkBook> allList(PageRequestDTO page, String type) throws Exception {
-        log.info(type);
         Page<WorkBook> entity;
         if(type==null) {
-            entity = workBookRepository.findAll(page.getPageable(Sort.by("modDate").descending()));
+            entity = workBookRepository.findByShare(true,page.getPageable(Sort.by("modDate").descending()));
         }else {
-            entity = workBookRepository.findByType(type,page.getPageable(Sort.by("modDate").descending()));
+            entity = workBookRepository.findByTypeAndShare(type,true,page.getPageable(Sort.by("modDate").descending()));
         }
         Function<WorkBook, WorkBookRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
@@ -126,8 +125,14 @@ public class WorkBookServiceImpl implements WorkBookService {
     @Override
     public List<WorkBookRequestDTO> best4() throws Exception {
         Pageable pageable = PageRequest.of(0, 4,Sort.by("count").descending());
-        Page<WorkBook> res = workBookRepository.findAll(pageable);
+        Page<WorkBook> res = workBookRepository.findByShare(true,pageable);
         return res.stream().map(workBook -> entityToDto(workBook)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Long all() {
+        long workbook = workBookRepository.findAll().size();
+        return workbook;
     }
 
     private WorkBook check(String username, String work_book_id) throws Exception {
