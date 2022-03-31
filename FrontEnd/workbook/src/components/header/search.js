@@ -1,25 +1,29 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { COLORS } from "../../constants";
 
-export default function SearchResult({search}) {
+export default function SearchResult({ search }) {
   return (
     <>
       <NoticeBox>
         <div>
           <SearchList>
-              {search !== undefined &&  (
-                  <>
+            {search !== undefined && (
+              <>
                 {search.map((data) => {
-                    return (
-                  <NoticeCont key = {data.id}>
-                    <p>만든이: {data.username}</p>
-                    <p>{data.title}</p>
-                  </NoticeCont>
-                    )
+                  return (
+                      <Link to={`/detail/${data.id}`}
+                      state={{username: data.username}}>
+                          <NoticeCont key={data.id}>
+                            <p>만든이: {data.username}</p>
+                            <p>{data.title}</p>
+                          </NoticeCont>
+                      </Link>
+                  );
                 })}
-                </>
-              )}
+              </>
+            )}
           </SearchList>
         </div>
       </NoticeBox>
@@ -28,7 +32,7 @@ export default function SearchResult({search}) {
 }
 
 const NoticeBox = styled.div`
-  z-index: 0;
+  z-index: 3;
   position: absolute;
   width: 360px;
   top: 55px;

@@ -26,7 +26,7 @@ export default function HeaderSignin() {
   const onKeyUp = (e) => {
     setKeyUp(e.target.value);
   }
-  console.log(keyUp);
+  // console.log(keyUp);
   const getResult = async() => {
     const res = await axios.get(`${API}/search/${keyUp}`, {
       headers: {
@@ -34,7 +34,7 @@ export default function HeaderSignin() {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(res.data);
+    // console.log(res.data);
     setSearch(res.data.workBook);
   };
   console.log(search);
@@ -48,27 +48,40 @@ export default function HeaderSignin() {
   const openSearch = () => {
     setSearchOn(!searchOn);
   }
+  // const closeSearch = () => {
+  //   setSearchOn(false);
+  // }
   //알림창 모달
   const [noticeOn, setNoticeOn] = useState(false);
   const openNotice = () => {
     setNoticeOn(!noticeOn);
   };
+  // const closeNotice = () => {
+  //   setNoticeOn(false);
+  // };
 
   //프로필 창 모달
   const [statusON, setStatusON] = useState(false);
   const openStatus = () => {
     setStatusON(!statusON);
   };
+  // const closeStatus = () => {
+  //   setStatusON(false);
+  // };
 
   return (
     <>
-      <header>
+      <header onClick={ () =>{
+          // closeNotice()
+          // closeSearch()
+          // closeStatus()
+        }}>
         <HeaderWrap>
           <SearchBox>
             <SearchBtn>
               <img src="/img/search.svg" alt="돋보기" />
             </SearchBtn>
-            <SearchInp onFocus={openSearch} onBlur={openSearch}
+            <SearchInp onClick={openSearch} 
             onChange={onKeyUp}
               type="text"
               placeholder="문제집을 검색해 보세요!"
@@ -88,7 +101,8 @@ export default function HeaderSignin() {
               <button onClick={openNotice}>
                 <NoticeImg src="/img/notice.svg" alt="알림" />
               </button>
-              {noticeOn === true ? <NoticeModal /> : null}
+              {/* {noticeOn === true ? <NoticeModal /> : null} */}
+              <NoticeModal noticeOn = {noticeOn} />
               <button onClick={openStatus}>
                 <ProfileImg src="/img/mango.jpg" alt="프로필 사진" />
               </button>
@@ -122,14 +136,14 @@ const HeaderWrap = styled.div`
 `;
 // 검색창
 const SearchBox = styled.form`
-  z-index: 999;
+  /* z-index: 999; */
   display: flex;
   align-items: center;
   width: 360px;
 `;
 const SearchBtn = styled.button`
   position: relative;
-  z-index: 99;
+  z-index: 2;
   width: 40px;
   height: 40px;
   border-radius: 6px;
