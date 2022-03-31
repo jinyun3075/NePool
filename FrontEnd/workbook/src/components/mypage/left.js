@@ -22,7 +22,6 @@ export default function Left() {
             }
         });
         setUserinfo(res.data)
-        console.log(res);
     }
 
     useEffect(()=>{

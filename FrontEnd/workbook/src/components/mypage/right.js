@@ -17,12 +17,22 @@ export default function Right() {
     let [modemodal, setModemodal] = useState(false);
     let [workbookid, setWorkbookid] = useState('');
     let [workbookUserName, setworkbookUserName] = useState('');
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('user');
+    
+    const workbookdataid = (id) =>{
+        setWorkbookid(id);
+    }
+    
+    const workbookdatausername = (username) => {
+        setworkbookUserName(username)
+    }
 
     useEffect(() => {
         ReadWorkbook();
     }, []);  
 
-    // 문제집 리스트 받아오기 (Get)
+    // 문제집 data
     const [workbook,setWorkbook] = useState([
         {
             content:"",
@@ -35,22 +45,41 @@ export default function Right() {
             modDate: "",
         },
     ]);
-      
-  const ReadWorkbook = async () => {
-        const token = localStorage.getItem('token');
-        const username = localStorage.getItem('user');
+
+    // 문제집 리스트 API (Get)
+    const ReadWorkbook = async () => {
         const res = await axios.get(`${API}/workbook/${username}?page=1&size=500`,{
             headers:{
                 'Content-type' : "application/json",
                 Authorization : `Bearer ${token}`
             }}
         );
-        console.log(res)
         setWorkbook(res.data.dtoList);
     }
- 
     
-    // 문제집 클릭시 해당 모달 보이기
+    // 문제집 공유 API
+    const ShareWorkbook = async () =>{
+        const res = await axios.put(`${API}/workbook/share/${username}/${workbookid}`,
+        {
+
+        },
+        {
+            headers:{
+                'Content-type' : 'application/json',
+                Authorization : `Bearer ${token}`,
+            }}
+        );  
+        console.log(res)
+        
+        // setShare()
+    }
+
+
+    useEffect( ()=>{
+        ShareWorkbook();
+    },[share,workbookid])
+
+    // 클릭한 문제집만 모달 보이기
     const updateboolean = (event) =>{
         if (update[event.target.value] === true){            
             const newarray = [...update]
@@ -69,7 +98,7 @@ export default function Right() {
         }
     }
     
-    
+    // 클릭한 공유버튼만 모달 보이기
     const shareboolean = (event) =>{
         if (share[event.target.dataset.index] === false){            
             const newarr = [...share]   
@@ -83,16 +112,6 @@ export default function Right() {
         }
     }
     
-
-    const workbookdataid = (id) =>{
-        setWorkbookid(id);
-    }
-
-    const workbookdatausername = (username) => {
-      setworkbookUserName(username)
-    }
-
-
     return(
         <>
             <Article>
@@ -111,12 +130,14 @@ export default function Right() {
                         workbook.map((workbookdata,i)=>{
                             return(
                                     <ExampleLi onClick={ (event) => { workbookdatausername(workbookdata.username); workbookdataid(workbookdata.id); updateboolean(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
-                                        
-                                        {
+
+                                        <WhiteShare onClick ={ ShareWorkbook }></WhiteShare>
+
+                                        {/* {
                                             share[i] === false 
-                                            ? <WhiteShare data-index ={i} onClick = { (event) => { shareboolean(event) }} /> 
-                                            : <BlueShare  data-index ={i} onClick = { (event) => { shareboolean(event) }} />
-                                        }
+                                            ? <WhiteShare data-index ={i} onClick = { (event) => { shareboolean(event); workbookdataid(workbookdata.id); ShareWorkbook();}} /> 
+                                            : <BlueShare  data-index ={i} onClick = { (event) => { shareboolean(event); workbookdataid(workbookdata.id); ShareWorkbook();}} />
+                                        } */}
                                         
                                         <ExampleP1 >{workbookdata.title}</ExampleP1>
                                         <ExampleP2 >마지막 수정 일시 : {workbookdata.modDate.substring(0,10)}</ExampleP2>
