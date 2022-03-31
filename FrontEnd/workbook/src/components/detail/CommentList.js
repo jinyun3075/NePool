@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { API } from '../../constants';
 
-export default function CommentList({comment}) {
+export default function CommentList({comment, user}) {
 
-  const {content, id, like, modDate, regDate, writer} = comment
+  const {content, id, like, regDate, writer} = comment
 
   const timeSet = (regDate) => {
     const today = new Date()
@@ -38,11 +38,27 @@ export default function CommentList({comment}) {
 
   const [rating, setRating] = useState(0)
 
-  useEffect(() => {
-    setRating(like)
-  })
-
   const stars = Array(5).fill(0)
+
+   useEffect(() => {
+    setRating(like)
+  }, [])
+
+  const deleteComment = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.delete(`${API}/comment/${id}/${writer}`, {
+            headers: {
+                "Content-type" : "application/json",
+                "Authorization" : `Bearer ${token}`,
+            },
+        });
+        // window.location.reload()
+        console.log(res);
+    } catch(err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -67,7 +83,10 @@ export default function CommentList({comment}) {
             <AuthorNickName>{writer}</AuthorNickName>
           </AuthorBox>
         </CommentInfo>
-      <CommentDate>{updatedDate}</CommentDate>
+        <Div>
+          <CommentDate>{updatedDate}</CommentDate>
+          {user.name === writer && <button onClick={deleteComment}>삭제</button>}
+        </Div>
       </CommentBox>
     </>
   )
@@ -83,6 +102,17 @@ const CommentInfo = styled.div`
   align-items: flex-start;
   margin-bottom: 4px;
 `;
+
+const Div = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: center;
+button {
+  margin-top: 5px;
+  font-size: 13px;
+  color: #767676;
+}
+`
 
 const AuthorImg = styled.img`
   width: 36px;
@@ -111,9 +141,9 @@ span {
 
 
 const AuthorBox = styled.div`
-display: flex;
-flex-direction: column;
-
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 `
 
 const Star = styled.img`
@@ -129,7 +159,7 @@ const AuthorNickName = styled.strong`
   line-height: 18px;
   text-align: center;
   /* display: block; */
-  /* margin: 6px auto; */
+  margin: 3px 0;
 `;
 
 const CommentDate = styled.span`
@@ -150,17 +180,4 @@ const CommentText = styled.p`
   font-size: 14px;
   line-height: 18px;
   color: #333333;
-`;
-
-const Background = styled.div`
-  &.true {
-    position: fixed;
-    top: 72px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #777;
-    opacity: 0.4;
-    z-index: 10;
-  }
 `;

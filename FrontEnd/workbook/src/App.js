@@ -11,6 +11,7 @@ import Detail from './pages/Detail';
 import Notice from './pages/Notice';
 import Sharepage from './pages/Sharepage';
 import UpdatePage from './pages/Update';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/update" element={<UpdatePage />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </>
     )

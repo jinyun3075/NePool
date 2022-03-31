@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function NoticeModal() {
+export default function NoticeModal({noticeOn}) {
   return (
     <>
+    {noticeOn ?
       <NoticeBox>
         <div>
           <ul>
@@ -17,7 +18,8 @@ export default function NoticeModal() {
             </NoticeCont>
           </ul>
         </div>
-      </NoticeBox>
+      </NoticeBox> : null
+    }
     </>
   );
 }

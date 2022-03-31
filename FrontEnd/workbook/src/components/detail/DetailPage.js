@@ -40,7 +40,7 @@ export default function DetailPage() {
 
   useEffect(() => {
     getWorkBook();
-  }, []);
+  }, [workbookId]);
 
   const {content, count, id, modDate, share, title, type, username} = workBook
 
