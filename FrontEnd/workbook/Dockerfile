@@ -2,11 +2,10 @@ FROM node:16.13.1
 
 WORKDIR /usr/src/app
 
-COPY . ./
-
 RUN npm i yarn
-RUN yarn
+RUN yarn add serve --dev
+RUN mkdir build
+COPY ./build ./build/
+COPY ./package.json ./
 
-CMD [ "yarn","start"]
-
-EXPOSE 3000
+ENTRYPOINT [ "npx","serve","-s","build"]
