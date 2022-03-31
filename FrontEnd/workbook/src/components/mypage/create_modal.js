@@ -25,8 +25,6 @@ export default function CreateModal(props){
                 Authorization : `Bearer ${token}`,
             },
         })
-
-        console.log(res);
         window.location.reload()
     }
 
