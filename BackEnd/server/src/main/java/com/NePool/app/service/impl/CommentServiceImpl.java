@@ -70,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public double getLike(String work_book_id) throws Exception {
+    public Float getLike(String work_book_id) throws Exception {
         Optional<WorkBook> workBook = workBookRepository.findById(work_book_id);
         if (!workBook.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");

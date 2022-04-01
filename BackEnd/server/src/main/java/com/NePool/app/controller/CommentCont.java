@@ -38,7 +38,7 @@ public class CommentCont {
     }
 
     @GetMapping("/like/{work_book_id}")
-    public ResponseEntity<Double> getLike(@PathVariable String work_book_id) throws Exception {
+    public ResponseEntity<Float> getLike(@PathVariable String work_book_id) throws Exception {
         return new ResponseEntity<>(service.getLike(work_book_id),HttpStatus.OK);
     }
 
