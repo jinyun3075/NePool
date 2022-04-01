@@ -28,7 +28,7 @@ const fade = keyframes`
 const Container = styled.article`
   position: absolute;
   width: 50%;
-  bottom: 25%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 36px 0;
@@ -38,18 +38,7 @@ const Container = styled.article`
   overflow: hidden;
   animation: ${fade} 0.3s ease-in-out forwards;
   /* overflow-y: scroll; */
-  &::before {
-    position: absolute;
-    content: "";
-    top: 16px;
-    left: 50%;
-    width: 50px;
-    height: 4px;
-    border-radius: 5px;
-    /* background-color: #dbdbdb; */
-    margin-top: 3px;
-    transform: translateX(-50%);
-  }
+
 `;
 
 const Div = styled.div`
