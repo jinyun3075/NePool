@@ -1,32 +1,152 @@
+import axios from "axios";
+import { useCallback, useState } from "react";
 import styled from "styled-components";
-import { COLORS } from "../../constants/index";
+import { API, COLORS } from "../../constants/index";
 
 export default function AddCont(props) {
-    const workbookid = props.workbookid
-    console.log(workbookid)
+
+  const workbookid = props.workbookid
+  const username = sessionStorage.getItem('user')
+
+  const [answer, setAnswer] = useState({
+      question: "",
+      answerA: "",
+      answerB: "",
+      answerC: "",
+      answerD: "",
+      answerE: "",
+      correct: "",
+      explanation: ""
+    })
+
+  const [error, setError] = useState("")
+
+  const [selected, setSelected] = useState(false)
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setAnswer({...answer, [name]: value})
+  };
+
+  const onClick = (e) => {
+    const {value} = e.target
+    setAnswer({...answer, correct: value})
+    setSelected(!selected)
+  }
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    const QuestionData = {
+      question: answer.question,
+      answer_a: answer.answerA,
+      answer_b: answer.answerB,
+      answer_c: answer.answerC,
+      answer_d: answer.answerD,
+      answer_e: answer.answerE,
+      correct: answer.correct,
+      explanation: answer.explanation
+    }
+    const res = await axios.post(`${API}/work/${username}/${workbookid}`, QuestionData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    if(res.data.message) setError(res.data.message)
+    else window.location.reload()
+  }
+
     return (
       <>
       <Right>
           <Myworkbook>
             <p>문제집 만들기</p>
           </Myworkbook>
-          <MakeBox>
+          <MakeBox onSubmit={onSubmit} autoComplete="off">
+            <Box>
             <LeftBox>
-              <Input placeholder="문제 입력 칸" />
+              <Input
+                name="question"
+                type="text"
+                id="question"
+                value={answer.question}
+                onChange={onChange} 
+                placeholder="문제 입력 칸" 
+              />
               <div>
-                <InputNum placeholder="보기 1" />
-                <InputNum placeholder="보기 2" />
-                <InputNum placeholder="보기 3" />
-                <InputNum placeholder="보기 4" />
-                <InputNum placeholder="보기 5" />       
+                <InputNum
+                  name="answerA"
+                  type="text"
+                  id="answerA"
+                  placeholder="보기1"
+                  value={answer.answerA}
+                  onClick={onClick}
+                  onChange={onChange}
+                  // className={!selected ? 'selected' : ""}
+                />
+                <InputNum
+                  name="answerB"
+                  type="text"
+                  id="answerB"
+                  placeholder="보기2"
+                  value={answer.answerB}
+                  onClick={onClick}
+                  onChange={onChange} 
+                /> 
+                <InputNum
+                  name="answerC"
+                  type="text"
+                  id="answerC"
+                  placeholder="보기3"
+                  value={answer.answerC}
+                  onClick={onClick}
+                  onChange={onChange} 
+                /> 
+                <InputNum
+                  name="answerD"
+                  type="text"
+                  id="answerD"
+                  placeholder="보기4"
+                  value={answer.answerD}
+                  onClick={onClick}
+                  onChange={onChange} 
+                /> 
+                <InputNum
+                  name="answerE"
+                  type="text"
+                  id="answerE"
+                  placeholder="보기5"
+                  value={answer.answerE}
+                  onClick={onClick}
+                  onChange={onChange} 
+                /> 
               </div>
-              <Input placeholder="정답 입력 칸(번호 입력)"/>
+              <div>정답: {answer.correct}</div>
+              
+              {/* <Input
+                name="correct"
+                type="text"
+                id="correct"
+                value={answer.correct}
+                onChange={onChange} 
+                placeholder="보기를 선택하세요!"
+              /> */}
             </LeftBox>
             <RightBox>
-              <InputTxt placeholder="설명 추가(선택)"/>
+              <InputTxt 
+                name="explanation"
+                type="text"
+                id="explanation"
+                value={answer.explanation}
+                onChange={onChange} 
+                placeholder="설명 추가(선택)"
+              />
             </RightBox>
+            
+            </Box>
+            <span>{error}</span>
+            
+          <Btn>추가</Btn>
           </MakeBox>
-          <Btn>수정</Btn>
         </Right>
       </>
     )
@@ -53,10 +173,19 @@ const Right = styled.article`
 //내부내용
   const MakeBox = styled.form`
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  gap: 10px;
   margin: 50px 0px;
-
+  span {
+    margin: 0 15px;
+    color: ${COLORS.error};
+  }
 `;
+
+const Box = styled.div`
+  display: flex;
+  justify-content: space-around;
+`
 const Input = styled.input`
   width: 450px;
   height: 40px;
@@ -85,6 +214,13 @@ const RightBox = styled.div`
   /* display: flex; */
   
 `
+
+// const CheckBox = styled.div`
+//   width: 30px;
+//   height: 30px;
+//   border: 1px solid black;
+// `
+
 const InputNum = styled.input`
   display: block;
   width: 368px;
@@ -101,6 +237,9 @@ const InputNum = styled.input`
   &:focus {
     outline: none;
     border: 1px solid ${COLORS.blue};
+  }
+  &.selected {
+    background: ${COLORS.alpha_gray};
   }
 `
 const InputTxt = styled.textarea`
