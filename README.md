@@ -16,6 +16,7 @@
   - [2.6 문제집 공유](#문제집-공유)
   - [2.7 문제집 수정](#문제집-수정)
   - [2.8 문제집 BEST 4](#문제집-BEST-4)
+  - [2.9 문제집 개수](#문제집-개수)
 
 - ### [3 문제](#문제)
   - [3.1 문제 만들기](#문제-만들기)
@@ -329,6 +330,19 @@
     - type: String
     - regDate: Date
     - modDate: Date
+
+### 문제집 개수
+- api
+  - /workbook/all (get)
+ 
+- headers
+  - Content-type : "application/json"
+  - Authorization : “Bearer key”
+ 
+- res
+  - :Number
+
+
 ## 문제
 ### 문제 만들기
 - api
