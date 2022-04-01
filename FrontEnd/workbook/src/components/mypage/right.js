@@ -147,7 +147,7 @@ export default function Right() {
                             return(
                                     <ExampleLi onClick={ (event) => { workbookdatausername(workbookdata.username); workbookdataid(workbookdata.id); updateboolean(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
                                         
-                                        <Link to={`/detail/${workbookdata.id}`}>
+                                        <Link to={`/detail/${workbookdata.id}`} state={{username:workbookdata.username}}>
                                             <ExampleP1 >{workbookdata.title}</ExampleP1>
                                             <ExampleP2 >마지막 수정 일시 : {workbookdata.modDate.substring(0,10)}</ExampleP2>
                                         </Link>
@@ -251,7 +251,7 @@ const ExampleLi = styled.li`
                 content:"";
                 width:100%;
                 height:100%;
-                background:url(/img/mango.jpg) no-repeat center center/cover;
+                background:url(/img/mango.png) no-repeat center center/cover;
                 opacity:0.6;
                 height:100%;
             }
