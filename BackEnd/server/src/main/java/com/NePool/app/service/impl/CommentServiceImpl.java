@@ -70,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Float getLike(String work_book_id) throws Exception {
+    public Double getLike(String work_book_id) throws Exception {
         Optional<WorkBook> workBook = workBookRepository.findById(work_book_id);
         if (!workBook.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");
@@ -82,7 +82,7 @@ public class CommentServiceImpl implements CommentService {
         for(Comments data:list) {
             allLike+=data.getComLike();
         }
-        return (Math.round(((float)allLike/list.size())*10)/10.0);
+        return (Math.round((float)allLike/list.size())*10)/10.0;
     }
 
     @Override
