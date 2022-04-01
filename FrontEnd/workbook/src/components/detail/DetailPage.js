@@ -13,7 +13,7 @@ export default function DetailPage() {
     {
       content: "",
       count: 0,
-      id: "",
+      id: "", 
       share: false,
       title: "",
       username: "",
@@ -48,8 +48,7 @@ export default function DetailPage() {
 
   const getStar = async () => {
     const token = localStorage.getItem("token");
-  
-    const res = await axios.get(`${API}/comment/like/${id}`, {
+    const res = await axios.get(`${API}/comment/like/${workbookId}`, {
         headers: {
             "Content-type" : "application/json",
             "Authorization" : `Bearer ${token}`,
@@ -57,7 +56,7 @@ export default function DetailPage() {
     });
     setAverageStar(res.data)
   };
-    
+
   useEffect(() => {
     getStar();
   }, [id]);
