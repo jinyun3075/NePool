@@ -1,11 +1,35 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { API } from "../../constants";
 
 
-export default function Slide({ ggggg, currentSlide }) {
-  // console.log(ggggg);
+export default function Slide({ ggggg, currentSlide }) {  
   
+  const [star, setStar] = useState(0)
+
+  const getStar = async () => {
+    const token = sessionStorage.getItem("token");
+
+    // console.log(workBookId);
+    const res = await axios.get(`${API}/comment/like/${ggggg.id}`, {
+        headers: {
+            "Content-type" : "application/json",
+            "Authorization" : `Bearer ${token}`,
+        },
+    });
+    setStar(res.data)
+  };
+
+  getStar()
+
+  // useEffect(() => {
+  //   getStar();
+  // }, []);
+
+  // console.log(star);
+
   return (
     <>
     <Link to={`/detail/${ggggg.id}`} state={{username:ggggg.username}}>
@@ -14,7 +38,7 @@ export default function Slide({ ggggg, currentSlide }) {
             <BestCont>
               <ItemScr size="30px">{ggggg.title}</ItemScr>
               <ItemScr size="16px">만든이:{ggggg.username}</ItemScr>
-              <ItemScr size="16px">⭐️⭐️⭐️⭐️⭐️(4.5)</ItemScr>
+              <ItemScr size="16px">⭐️⭐️⭐️⭐️⭐️({})</ItemScr>
               <ItemScr size="16px">{ggggg.content}</ItemScr>
             </BestCont>
           </WhiteBox>

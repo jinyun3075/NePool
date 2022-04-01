@@ -12,8 +12,8 @@ export default function CreateModal(props){
 
     // 문제집 생성 API (Post)
     const Workbook  = async() =>{
-        const token = localStorage.getItem('token');
-        const username = localStorage.getItem('user')
+        const token = sessionStorage.getItem('token');
+        const username = sessionStorage.getItem('user')
         const res = await axios.post(`${API}/workbook/register`,{
             username: username,
             title:createtitle,

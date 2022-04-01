@@ -59,7 +59,7 @@ export default function StudyPage() {
   ])
 
   const getTest = async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     
     try {
       const res = await axios.get(`${API}/work/${userName}/${workBookId}`, {

@@ -29,14 +29,14 @@ export default function Home() {
   ]);
 
   const getUser = async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const res = await axios.get(`${API}/user`, {
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(res);
+    // console.log(res);
     setAllUser(res.data.dtoList);
   };
 
@@ -59,14 +59,14 @@ export default function Home() {
   ]);
 
   const getPost = async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const res = await axios.get(`${API}/workbook?page=1&size=5000`, {
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(res);
+    // console.log(res);
     setPost(res.data.dtoList);
   };
 

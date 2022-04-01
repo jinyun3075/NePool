@@ -8,7 +8,7 @@ import SearchResult from "./search";
 import StatusModal from "./status";
 
 export default function HeaderSignin() {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const [search, setSearch] = useState([
     {
       content: "",
@@ -37,7 +37,7 @@ export default function HeaderSignin() {
     // console.log(res.data);
     setSearch(res.data.workBook);
   };
-  console.log(search);
+  // console.log(search);
   useEffect(() => {
     getResult();
   },[keyUp]);

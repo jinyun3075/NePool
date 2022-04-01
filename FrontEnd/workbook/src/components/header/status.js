@@ -11,10 +11,10 @@ export default function StatusModal() {
   const [userName, setUserName] = useState("");
 
   const getUser = async () => {
-    const token = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
-    console.log(token);
-    console.log(user);
+    const token = sessionStorage.getItem("token");
+    const user = sessionStorage.getItem("user");
+    // console.log(token);
+    // console.log(user);
     const res = await axios.get(`${API}/user/${user}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -22,12 +22,12 @@ export default function StatusModal() {
       },
     });
     setUserName(res.data.name);
-    console.log(res);
+    // console.log(res);
   };
 
   const logout = () => {
-    localStorage.removeItem("user")
-    localStorage.removeItem("token")
+    sessionStorage.removeItem("user")
+    sessionStorage.removeItem("token")
     window.location.reload()
   }
 
