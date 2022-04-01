@@ -1,4 +1,4 @@
-export const API = "http://www.nepool.co.kr";
+export const API = "http://www.nepool.co.kr:8080";
 
 export const COLORS = {
   blue: '#2f80ed',
