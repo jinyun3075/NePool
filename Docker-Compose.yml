@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  front:
+    build: ./FrontEnd/workbook/
+    restart: always # 컨테이너 실행시 재시작
+    container_name: "front"
+    ports:
+    - "80:3000"
+    depends_on: # 실행순서 (mongo 시작 후 실행)
+    - server
+    stdin_open: true
+    tty: true # 표준입력에 연결된 터미널의 파일 이름 인쇄?
+  server:
+    build: ./BackEnd/
+    container_name: "server"
+    restart: always
+    ports:
+    - "8080:8080"
+    stdin_open: true
+    tty: true # 표준입력에 연결된 터미널의 파일 이름 인쇄?
