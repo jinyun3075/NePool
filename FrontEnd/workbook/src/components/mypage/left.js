@@ -13,8 +13,8 @@ export default function Left() {
         username:"",
     }])
     const Mypageinfo = async ()=>{
-        const token = localStorage.getItem('token');
-        const username = localStorage.getItem('user')
+        const token = sessionStorage.getItem('token');
+        const username = sessionStorage.getItem('user')
         const res = await axios.get(`${API}/user/${username}`,{
             headers:{
                 'Content-type' : "application/json",
@@ -33,7 +33,7 @@ export default function Left() {
             <Article>
                 <Profile>
                     <div>
-                        <ProfileImage src ="/img/mango.jpg" alt = "profile"></ProfileImage>
+                        <ProfileImage src ="/img/mango.png" alt = "profile"></ProfileImage>
                     </div>
 
                 <Info>

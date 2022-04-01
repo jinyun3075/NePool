@@ -9,8 +9,8 @@ export default function Updatepage_Right() {
     const navigate = useNavigate();
     const location = useLocation();
     const workbookid = location.state.workbookid
-    const username = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
+    const username = sessionStorage.getItem('user');
+    const token = sessionStorage.getItem('token');
     const [workid,setWorkid] = useState('');
 
     const [question,setQuestion] = useState([
@@ -43,7 +43,7 @@ export default function Updatepage_Right() {
                 Authorization : `Bearer ${token}` 
             }
         })
-        console.log(res);
+        // console.log(res);
         setQuestion(res.data)
     }
 
@@ -63,7 +63,7 @@ export default function Updatepage_Right() {
                 Authorization : `Bearer ${token}` 
             }
         })
-        console.log(res);
+        // console.log(res);
         navigate('/mypage');
     }
     
@@ -87,7 +87,7 @@ export default function Updatepage_Right() {
                 Authorization : `Bearer ${token}` 
             }    
         })    
-        console.log(ress)
+        // console.log(ress)
     }    
     
 
@@ -103,7 +103,7 @@ export default function Updatepage_Right() {
 
                     <WorkbookForm onSubmit={(e)=>{e.preventDefault()}} >  
                         <Input type="file" id ="input"/>                              
-                        <Label htmlFor="input"><WorkbookImg src ="/img/mango.JPG"/></Label>
+                        <Label htmlFor="input"><WorkbookImg src ="/img/mango.png"/></Label>
                         <TextSelect>
                             <TextInput  placeholder ="문제집 이름" name = "title" value={putworkbook.title} onChange={handlingChange} type="text"></TextInput>
                             <Select defaultValue = "수능·내신" name="type" value={putworkbook.type} onChange={handlingChange}>
@@ -204,7 +204,7 @@ const Label = styled.label`
 const WorkbookImg = styled.div`
     width: 100%;
     height: 280px;
-    background: url(/img/mango.jpg) no-repeat center center/cover;
+    background: url(/img/mango.png) no-repeat center center/cover;
     opacity: 0.6;
 `;
 

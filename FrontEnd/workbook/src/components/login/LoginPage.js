@@ -29,11 +29,8 @@ export default function LoginPage() {
         'Content-Type': 'application/json',
       },
     })
-    // console.log(res);
-    // console.log(res.data.username);
-    window.localStorage.setItem('token', res.data.token)
-    window.localStorage.setItem('user', res.data.username)
-  
+    window.sessionStorage.setItem('token', res.data.token)
+    window.sessionStorage.setItem('user', res.data.username)
     navigate("/")
     } catch(err) {
       console.log(err);

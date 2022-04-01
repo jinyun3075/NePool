@@ -19,7 +19,7 @@ export default function Post() {
     },
   ]);
   const getUser = async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const res = await axios.get(`${API}/workbook?page=1&size=5000`, {
       headers: {
         "Content-type": "application/json",

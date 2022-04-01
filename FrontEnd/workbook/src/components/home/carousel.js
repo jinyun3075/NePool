@@ -33,13 +33,13 @@ export default function Carousel({ allUserCount }) {
       modDate: "",
     },
   ]);
+
   const getUser = async () => {
     const res = await axios.get(`${API}/workbook/best4`, {
       headers: {
         "Content-type": "application/json",
       },
     });
-    // console.log(res);
     setGet(res.data);
   };
 

@@ -11,14 +11,14 @@ import axios from 'axios';
 
 export default function Right() {
     let [update, setUpdate] = useState(Array(100).fill(false));
-    let [share, setShare] = useState(Array(100).fill(false));
     let [create, setCreate] = useState(false);
     let [deletemodal, setDeletemodal] = useState(false);
     let [modemodal, setModemodal] = useState(false);
     let [workbookid, setWorkbookid] = useState('');
     let [workbookUserName, setworkbookUserName] = useState('');
-    const token = localStorage.getItem('token');
-    const username = localStorage.getItem('user');
+
+    const token = sessionStorage.getItem('token');
+    const username = sessionStorage.getItem('user');
     
     const workbookdataid = (id) =>{
         setWorkbookid(id);
@@ -29,8 +29,9 @@ export default function Right() {
     }
 
     useEffect(() => {
-        ReadWorkbook();
+        ReadWorkbook()
     }, []);  
+
 
     // 문제집 data
     const [workbook,setWorkbook] = useState([
@@ -58,8 +59,8 @@ export default function Right() {
     }
     
     // 문제집 공유 API
-    const ShareWorkbook = async () =>{
-        const res = await axios.put(`${API}/workbook/share/${username}/${workbookid}`,
+    const ShareWorkbook = async (dataa) =>{
+        const res = await axios.put(`${API}/workbook/share/${username}/${dataa}`,
         {
 
         },
@@ -69,15 +70,11 @@ export default function Right() {
                 Authorization : `Bearer ${token}`,
             }}
         );  
-        console.log(res)
+        // console.log(res)
         
         // setShare()
     }
 
-
-    useEffect( ()=>{
-        ShareWorkbook();
-    },[share,workbookid])
 
     // 클릭한 문제집만 모달 보이기
     const updateboolean = (event) =>{
@@ -97,21 +94,40 @@ export default function Right() {
             setUpdate(newarray)
         }
     }
-    
+
+
+    useEffect( ()=>{
+        ReadWorkbook()
+    },[workbook])
+
     // 클릭한 공유버튼만 모달 보이기
-    const shareboolean = (event) =>{
-        if (share[event.target.dataset.index] === false){            
-            const newarr = [...share]   
-            newarr[event.target.dataset.index] = true
-            setShare(newarr)
-        }
-        else{        
-            const newarr = [...share]
-            newarr[event.target.dataset.index] = false
-            setShare(newarr)
-        }
-    }
-    
+    // const shareboolean = (i) =>{
+    //     if (share[i] === false){            
+    //         const newarr = [...share]       
+    //         newarr[i] = true
+    //         setShare(newarr)
+    //     }
+    //     else{        
+    //         const newarr = [...share]
+    //         newarr[i] = false
+    //         setShare(newarr)
+    //     }
+    // }
+
+
+    // const dd= (i) =>{
+    //     return(
+    //         <>
+    //             {
+    //                 workbook.share === false 
+    //                 ? <WhiteShare onClick = { () => { ShareWorkbook() }} /> 
+    //                 : <BlueShare  onClick = { () => { ShareWorkbook() }} /> 
+    //             }
+    //         </>
+    //     )
+    // }
+
+    // workbookdataid(workbookdata.id); ShareWorkbook();
     return(
         <>
             <Article>
@@ -127,21 +143,24 @@ export default function Right() {
  
                 <Example>
                     {
-                        workbook.map((workbookdata,i)=>{
+                        workbook.sort((a,b)=>{if(a.regDate>b.regDate){return 1}else if(a.regDate<b.regDate){return -1}else{return 0}}).map((workbookdata,i)=>{
                             return(
                                     <ExampleLi onClick={ (event) => { workbookdatausername(workbookdata.username); workbookdataid(workbookdata.id); updateboolean(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
-
-                                        <WhiteShare onClick ={ ShareWorkbook }></WhiteShare>
-
+                                        
+                                        <Link to={`/detail/${workbookdata.id}`} state={{username:workbookdata.username}}>
+                                            <ExampleP1 >{workbookdata.title}</ExampleP1>
+                                            <ExampleP2 >마지막 수정 일시 : {workbookdata.modDate.substring(0,10)}</ExampleP2>
+                                        </Link>
+                                        {
+                                            workbookdata.share === false 
+                                            ? <WhiteShare data-index ={i} onClick = { (event) => { workbookdataid(workbookdata.id); ShareWorkbook(workbookdata.id);}} /> 
+                                            : <BlueShare  data-index ={i} onClick = { (event) => { workbookdataid(workbookdata.id); ShareWorkbook(workbookdata.id);}} />
+                                        }   
+                                            
                                         {/* {
-                                            share[i] === false 
-                                            ? <WhiteShare data-index ={i} onClick = { (event) => { shareboolean(event); workbookdataid(workbookdata.id); ShareWorkbook();}} /> 
-                                            : <BlueShare  data-index ={i} onClick = { (event) => { shareboolean(event); workbookdataid(workbookdata.id); ShareWorkbook();}} />
+                                            dd(i)
                                         } */}
                                         
-                                        <ExampleP1 >{workbookdata.title}</ExampleP1>
-                                        <ExampleP2 >마지막 수정 일시 : {workbookdata.modDate.substring(0,10)}</ExampleP2>
-
                                         {
                                             update[i] === true 
                                             ? <UpdateModal workbookid = {workbookid} workworkbook ={workbook} setWorkbook={workbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
@@ -232,7 +251,7 @@ const ExampleLi = styled.li`
                 content:"";
                 width:100%;
                 height:100%;
-                background:url(/img/mango.jpg) no-repeat center center/cover;
+                background:url(/img/mango.png) no-repeat center center/cover;
                 opacity:0.6;
                 height:100%;
             }

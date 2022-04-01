@@ -2,11 +2,12 @@ import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { API, COLORS } from '../../constants';
+import PropTypes from 'prop-types';
 
-export default function Preview({workBook}) {
+export default function Preview({workBookId, userName}) {
 
-  const userName = workBook.username
-  const workBookId = workBook.id
+  // const userName = workBook.username
+  // const workBookId = workBook.id
 
   const [quiz, setQuiz] = useState([{
     id: "",
@@ -21,7 +22,7 @@ export default function Preview({workBook}) {
   }])
 
   const getQuestion = async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     try {
       const res = await axios.get(`${API}/work/${userName}/${workBookId}`, {
       headers: {
@@ -64,6 +65,12 @@ export default function Preview({workBook}) {
     </>
   )
 }
+
+
+// Preview.propTypes = {
+//   workBookId: PropTypes.string.isRequired,
+//   userName: PropTypes.string.isRequired
+// };
 
 const PrivewBoard = styled.section`
   border: 1px solid ${COLORS.light_gray};

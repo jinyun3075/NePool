@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { API } from "../../constants";
 
-export default function Banner({allUserCount,allBookCount}) {
+export default function Banner({allUserCount}) {
+
+  const [allWorkBook, setAllWorkBook] = useState("")
+
+  const getAllWorkbook = async () => {
+    const token = sessionStorage.getItem("token");
+    const res = await axios.get(`${API}/workbook/all`, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setAllWorkBook(res.data);
+  };
+
+  useEffect(() => {
+    getAllWorkbook();
+  }, []);
 
   return (
     <>
@@ -15,7 +34,7 @@ export default function Banner({allUserCount,allBookCount}) {
             </BannerText>
             의 학생 분들이
             <BannerText size="30px" weight="bold">
-              &nbsp;{allBookCount}개
+              &nbsp;{allWorkBook}개
             </BannerText>
             에 달하는 내풀 문제집을 풀고 있습니다!
           </BannerText>
