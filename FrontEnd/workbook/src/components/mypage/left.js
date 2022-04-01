@@ -33,7 +33,7 @@ export default function Left() {
             <Article>
                 <Profile>
                     <div>
-                        <ProfileImage src ="/img/mango.jpg" alt = "profile"></ProfileImage>
+                        <ProfileImage src ="/img/mango.png" alt = "profile"></ProfileImage>
                     </div>
 
                 <Info>
