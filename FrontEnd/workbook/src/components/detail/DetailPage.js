@@ -26,13 +26,13 @@ export default function DetailPage() {
   const location = useLocation()
   const userName = location.state.username
 
+  const token = sessionStorage.getItem("token");
+
   const getWorkBook = async () => {
-    const token = sessionStorage.getItem("token");
 
     const res = await axios.get(`${API}/workbook/${userName}/${workbookId}`, {
       headers: {
         "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     });
     setWorkBook(res.data)
@@ -47,11 +47,11 @@ export default function DetailPage() {
   const [averageStar, setAverageStar] = useState(0)
 
   const getStar = async () => {
-    const token = sessionStorage.getItem("token");
+    
     const res = await axios.get(`${API}/comment/like/${workbookId}`, {
         headers: {
             "Content-type" : "application/json",
-            "Authorization" : `Bearer ${token}`,
+   
         },
     });
     setAverageStar(res.data)
@@ -88,10 +88,63 @@ export default function DetailPage() {
         <Preview workBook={workBook} />
         <Star count={count} username={username} averageStar={averageStar} />
         <Comments workbookId={workbookId}/>
+        {!token && (
+          <>
+            <Blur></Blur>
+            <Modal>
+              <p>로그인하시면 문제집의 상세 설명과 리뷰를 보실 수 있습니다!</p>
+              <Link to={'/login'}>
+                <Btn>로그인 하러 가기</Btn>
+              </Link>
+            </Modal>
+          </>
+        )}
       </main>
     </>
   )
 }
+
+const Modal = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid ${COLORS.light_gray};
+  background: white;
+  font-size: 16px;
+  color: ${COLORS.gray};
+  margin: 15px 50px;
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p{
+    margin: 0 0 15px;
+  }
+`
+
+const Btn = styled.button`
+  font-size: 14px;
+  width: 150px;
+  height: 45px;
+  border: 0.5px solid #b6b6b6;
+  border-radius: 6px;
+  text-align: center;
+  background-color: ${COLORS.blue};
+  color: ${COLORS.white};
+  margin: 0 10px; 
+`
+
+const Blur = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(5px);
+  overflow: hidden;
+`
 
 const DetailBoard = styled.section`
   height: 550px;

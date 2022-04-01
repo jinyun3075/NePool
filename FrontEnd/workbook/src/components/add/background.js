@@ -4,13 +4,14 @@ import { COLORS } from "../../constants/index";
 import AddCont from "./addContent";
 
 export default function Background(props) {
+  console.log(props);
   return (
     <>
       <Section>
         <Left>
           <Profile>
             <div>
-              <ProfileImage src="/img/mango.jpg" alt="profile"></ProfileImage>
+              <ProfileImage src="/img/mango.png" alt="profile"></ProfileImage>
             </div>
 
             <Info>

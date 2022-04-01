@@ -17,7 +17,6 @@ export default function StatusModal() {
     // console.log(user);
     const res = await axios.get(`${API}/user/${user}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-type": "application/json",
       },
     });
@@ -39,7 +38,7 @@ export default function StatusModal() {
       <ProfileStatus>
         <StatusBox>
           <StatusImg>
-            <img src="/img/mango.jpg" alt="프로필 사진" />
+            <img src="/img/mango.png" alt="프로필 사진" />
           </StatusImg>
           <StatusProfile>
             <p>{userName}</p>

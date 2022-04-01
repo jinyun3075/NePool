@@ -40,7 +40,6 @@ export default function Updatepage_Right() {
         const res = await axios.get(`${API}/work/${username}/${workbookid}`,{
             headers:{
                 'Content-type' : "application/json",
-                Authorization : `Bearer ${token}` 
             }
         })
         // console.log(res);

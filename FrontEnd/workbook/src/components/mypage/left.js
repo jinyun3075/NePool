@@ -18,7 +18,6 @@ export default function Left() {
         const res = await axios.get(`${API}/user/${username}`,{
             headers:{
                 'Content-type' : "application/json",
-                'Authorization' : `Bearer ${token}`
             }
         });
         setUserinfo(res.data)

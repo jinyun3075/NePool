@@ -5,6 +5,8 @@ import { API } from '../../constants';
 
 export default function CommentList({comment, user}) {
 
+  const token = sessionStorage.getItem("token");
+
   const {content, id, like, regDate, writer} = comment
 
   const timeSet = (regDate) => {
@@ -45,16 +47,14 @@ export default function CommentList({comment, user}) {
   }, [])
 
   const deleteComment = async () => {
-    const token = sessionStorage.getItem("token");
     try {
-      const res = await axios.delete(`${API}/comment/${id}/${writer}`, {
+      await axios.delete(`${API}/comment/${id}/${writer}`, {
             headers: {
                 "Content-type" : "application/json",
                 "Authorization" : `Bearer ${token}`,
             },
         });
-        window.location.reload()
-        // console.log(res);
+      window.location.reload()
     } catch(err) {
       console.log(err);
     }
@@ -79,7 +79,7 @@ export default function CommentList({comment, user}) {
            <CommentText>{content}</CommentText>
           </ReviewBox>
           <AuthorBox>
-            <AuthorImg src="/img/mango.jpg" alt="누구님의 프로필사진" />
+            <AuthorImg src="/img/mango.png" alt="누구님의 프로필사진" />
             <AuthorNickName>{writer}</AuthorNickName>
           </AuthorBox>
         </CommentInfo>
