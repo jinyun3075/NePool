@@ -25,11 +25,10 @@ export default function MorePost() {
     const res = await axios.get(`${API}/workbook?page=1&size=15`, {
       headers: {
         "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     });
     setPost(res.data.dtoList);
-    console.log(res);
+    // console.log(res);
   };
 
   useEffect(() => {

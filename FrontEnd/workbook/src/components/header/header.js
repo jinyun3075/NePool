@@ -31,7 +31,6 @@ export default function HeaderSignin() {
     const res = await axios.get(`${API}/search/${keyUp}`, {
       headers: {
         "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     });
     // console.log(res.data);
@@ -104,7 +103,7 @@ export default function HeaderSignin() {
               {/* {noticeOn === true ? <NoticeModal /> : null} */}
               <NoticeModal noticeOn = {noticeOn} />
               <button onClick={openStatus}>
-                <ProfileImg src="/img/mango.jpg" alt="프로필 사진" />
+                <ProfileImg src="/img/mango.png" alt="프로필 사진" />
               </button>
               {statusON === true ? <StatusModal /> : null}
             </ProfileBox>

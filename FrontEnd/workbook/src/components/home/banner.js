@@ -13,7 +13,6 @@ export default function Banner({allUserCount}) {
     const res = await axios.get(`${API}/workbook/all`, {
       headers: {
         "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     });
     setAllWorkBook(res.data);

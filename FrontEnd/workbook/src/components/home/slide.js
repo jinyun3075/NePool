@@ -7,28 +7,20 @@ import { API } from "../../constants";
 
 export default function Slide({ ggggg, currentSlide }) {  
   
-  const [star, setStar] = useState(0)
+  // const [star, setStar] = useState(0)
 
-  const getStar = async () => {
-    const token = sessionStorage.getItem("token");
-
-    // console.log(workBookId);
-    const res = await axios.get(`${API}/comment/like/${ggggg.id}`, {
-        headers: {
-            "Content-type" : "application/json",
-            "Authorization" : `Bearer ${token}`,
-        },
-    });
-    setStar(res.data)
-  };
-
-  getStar()
+  // const getStar = async () => {
+  //   const res = await axios.get(`${API}/comment/like/${ggggg.id}`, {
+  //       headers: {
+  //           "Content-type" : "application/json",
+  //       },
+  //   });
+  //   setStar(res.data)
+  // };
 
   // useEffect(() => {
   //   getStar();
   // }, []);
-
-  // console.log(star);
 
   return (
     <>

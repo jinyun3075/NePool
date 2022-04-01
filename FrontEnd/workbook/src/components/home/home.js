@@ -33,7 +33,6 @@ export default function Home() {
     const res = await axios.get(`${API}/user`, {
       headers: {
         "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     });
     // console.log(res);
@@ -59,11 +58,10 @@ export default function Home() {
   ]);
 
   const getPost = async () => {
-    const token = sessionStorage.getItem("token");
+    // const token = sessionStorage.getItem("token");
     const res = await axios.get(`${API}/workbook?page=1&size=5000`, {
       headers: {
         "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     });
     // console.log(res);
