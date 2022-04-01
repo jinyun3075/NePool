@@ -26,8 +26,8 @@ export default function Comments({workbookId}) {
   })
 
   const getUser = async () => {
-    const token = localStorage.getItem("token");
-    const user = localStorage.getItem("user")
+    const token = sessionStorage.getItem("token");
+    const user = sessionStorage.getItem("user")
     const res = await axios.get(`${API}/user/${user}`, {
         headers: {
             "Content-type" : "application/json",
@@ -77,7 +77,7 @@ export default function Comments({workbookId}) {
   const onMouseLeave = () => setHoverRating(undefined);
   
   const getComment = async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     const res = await axios.get(`${API}/comment/${workbookId}?page=1&size=500`, {
         headers: {
@@ -95,7 +95,7 @@ export default function Comments({workbookId}) {
 
   const onSubmit = async (e) => {
     e.preventDefault()
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     try {
       const contentData = {
         content: text,

@@ -27,7 +27,7 @@ export default function DetailPage() {
   const userName = location.state.username
 
   const getWorkBook = async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     const res = await axios.get(`${API}/workbook/${userName}/${workbookId}`, {
       headers: {
@@ -47,7 +47,7 @@ export default function DetailPage() {
   const [averageStar, setAverageStar] = useState(0)
 
   const getStar = async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const res = await axios.get(`${API}/comment/like/${workbookId}`, {
         headers: {
             "Content-type" : "application/json",

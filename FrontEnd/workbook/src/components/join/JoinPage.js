@@ -18,24 +18,19 @@ export default function JoinPage() {
   password.current = watch("password")
 
   const onSubmit = async (data) => {
-    try {
-      const userData = {
-        username: data.id,
-        email: data.email,
-        password: data.password,
-        name: data.nickname
-      }
-    console.log(data);
+    const userData = {
+      username: data.id,
+      email: data.email,
+      password: data.password,
+      name: data.nickname
+    }
     const res = await axios.post(`${API}/user`, userData, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
-    console.log(res);
-    navigate('/login')
-    } catch(err) {
-      console.log(err);
-    }
+    if(res.data.message) setIdError(res.data.message)
+    else navigate('/login')
   }
 
   return (
@@ -59,7 +54,7 @@ export default function JoinPage() {
               />
             </label>
             {errors.id && (errors.id.type === 'minLength' || errors.id.type === 'maxLength' || errors.id.type === 'pattern') && (<Err>2-15자의 영문, 숫자만 가능합니다.</Err>)}
-            {idError && (<Err>{idError}</Err>)}
+            
             <label htmlFor="password">
               <Input
                 type="password"
@@ -122,6 +117,7 @@ export default function JoinPage() {
                 accept="image/*"
               />
             </ImgContainer> */}
+            {idError && (<Err>{idError}</Err>)}
             <Btn type="submit" disabled={!isValid}>가입하기</Btn>
           </Form>
         </LoginBox>
@@ -150,7 +146,7 @@ const Form = styled.form`
   align-items: center;
   margin-bottom: 32px;
   span {
-    font-size: 13px;
+    font-size: 14px;
   }
 `
 
@@ -175,7 +171,6 @@ const Input = styled.input`
 const Err = styled.span`
   /* display: none; */
   color: ${COLORS.error};
-  width: 400px;
 `
 
 const Btn = styled.button`

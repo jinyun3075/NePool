@@ -8,8 +8,8 @@ export default function DeleteModal(props){
     const workbookid = props.workbookid
 
     const DeleteWorkbook = async (props) => {
-        const username = localStorage.getItem('user');
-        const token = localStorage.getItem("token");
+        const username = sessionStorage.getItem('user');
+        const token = sessionStorage.getItem("token");
         const res = await axios.delete(`${API}/workbook/${username}/${workbookid}`,{
             headers:{
                 'Content-type' : "application/json",

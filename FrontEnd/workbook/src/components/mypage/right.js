@@ -17,8 +17,8 @@ export default function Right() {
     let [workbookid, setWorkbookid] = useState('');
     let [workbookUserName, setworkbookUserName] = useState('');
 
-    const token = localStorage.getItem('token');
-    const username = localStorage.getItem('user');
+    const token = sessionStorage.getItem('token');
+    const username = sessionStorage.getItem('user');
     
     const workbookdataid = (id) =>{
         setWorkbookid(id);
@@ -70,7 +70,7 @@ export default function Right() {
                 Authorization : `Bearer ${token}`,
             }}
         );  
-        console.log(res)
+        // console.log(res)
         
         // setShare()
     }

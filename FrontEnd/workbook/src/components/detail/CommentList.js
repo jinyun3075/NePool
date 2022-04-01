@@ -45,7 +45,7 @@ export default function CommentList({comment, user}) {
   }, [])
 
   const deleteComment = async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     try {
       const res = await axios.delete(`${API}/comment/${id}/${writer}`, {
             headers: {
@@ -53,8 +53,8 @@ export default function CommentList({comment, user}) {
                 "Authorization" : `Bearer ${token}`,
             },
         });
-        // window.location.reload()
-        console.log(res);
+        window.location.reload()
+        // console.log(res);
     } catch(err) {
       console.log(err);
     }

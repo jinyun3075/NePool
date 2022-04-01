@@ -9,8 +9,8 @@ export default function Updatepage_Right() {
     const navigate = useNavigate();
     const location = useLocation();
     const workbookid = location.state.workbookid
-    const username = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
+    const username = sessionStorage.getItem('user');
+    const token = sessionStorage.getItem('token');
     const [workid,setWorkid] = useState('');
 
     const [question,setQuestion] = useState([
@@ -43,7 +43,7 @@ export default function Updatepage_Right() {
                 Authorization : `Bearer ${token}` 
             }
         })
-        console.log(res);
+        // console.log(res);
         setQuestion(res.data)
     }
 
@@ -63,7 +63,7 @@ export default function Updatepage_Right() {
                 Authorization : `Bearer ${token}` 
             }
         })
-        console.log(res);
+        // console.log(res);
         navigate('/mypage');
     }
     
@@ -87,7 +87,7 @@ export default function Updatepage_Right() {
                 Authorization : `Bearer ${token}` 
             }    
         })    
-        console.log(ress)
+        // console.log(ress)
     }    
     
 
