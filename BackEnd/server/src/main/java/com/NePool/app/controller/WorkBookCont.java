@@ -54,7 +54,7 @@ public class WorkBookCont {
         return new ResponseEntity<>(service.allList(req,type),HttpStatus.OK);
     }
 
-    @DeleteMapping("{username}/{work_book_id}")
+    @DeleteMapping("/delete/{username}/{work_book_id}")
     public String delete(@PathVariable String username, @PathVariable String work_book_id) throws Exception{
         service.delete(username,work_book_id);
         return "삭제완료";

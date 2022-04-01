@@ -78,9 +78,12 @@ public class ApiCheckFilter extends OncePerRequestFilter {
         list.add("/search/*");
         list.add("/workbook/best4");
         list.add("/user");
+        list.add("/user/*");
         list.add("/workbook");
-        list.add("/user/login");
         list.add("/workbook/all");
+        list.add("/workbook/*/*");
+        list.add("/comment/like/*");
+        list.add("/work/*/*");
         return list;
     }
 }
