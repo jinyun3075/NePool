@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { API, COLORS } from '../../constants';
 import PropTypes from 'prop-types';
 
-export default function Preview({workBookId, userName}) {
+export default function Preview({workBook}) {
 
-  // const userName = workBook.username
-  // const workBookId = workBook.id
+  const workbookId = workBook.id
+  const userName = workBook.username
 
   const [quiz, setQuiz] = useState([{
     id: "",
@@ -24,7 +24,7 @@ export default function Preview({workBookId, userName}) {
   const token = sessionStorage.getItem("token");
   const getQuestion = async () => {
     try {
-      const res = await axios.get(`${API}/work/${userName}/${workBookId}`, {
+      const res = await axios.get(`${API}/work/${userName}/${workbookId}`, {
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -38,7 +38,7 @@ export default function Preview({workBookId, userName}) {
 
   useEffect(() => {
     if(token) getQuestion();
-  }, [userName])
+  }, [workbookId])
   
   return (
     <>
@@ -47,7 +47,7 @@ export default function Preview({workBookId, userName}) {
           <Icon>📖</Icon>
           <Tit>문제 미리보기</Tit>
           <List>
-            {quiz.length > 1 && (
+            {quiz.length > 0 && (
               <>
                 {quiz.slice(0, 3).map((q, index) => {
                   return (
