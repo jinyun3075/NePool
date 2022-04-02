@@ -11,6 +11,8 @@ import Result from './Result';
 
 export default function StudyPage() {
 
+  let isComponentMounted = true
+
   const navigate = useNavigate();
 
   const location = useLocation()
@@ -64,11 +66,13 @@ export default function StudyPage() {
     try {
       const res = await axios.get(`${API}/work/${userName}/${workBookId}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-type": "application/json",
       },
     });
-    setQuestionsData(res.data)
+    if (isComponentMounted) {
+      setQuestionsData(res.data)
+    }
+    
     
     } catch(err) {
       console.log(err);
@@ -79,9 +83,10 @@ export default function StudyPage() {
     
   useEffect(() => {
     getTest();
+    return () => {
+    isComponentMounted = false
+  }
   }, []);
-
-  // console.log(questionsData);
 
   const question = questionsData[currentQuestion]
 
@@ -144,7 +149,18 @@ export default function StudyPage() {
     setIsResult(true)
   }
 
-  if(isResult) {
+  if(questionsData) {
+    return (
+      <>
+      <Blur></Blur>
+      <Modal>
+        <p>아직 문제가 없어요 😥😥😥</p>
+        <Btnhh onClick={() => {navigate(-1)}}>돌아가기</Btnhh>
+      </Modal>
+      </>
+    )
+  } else {
+    if(isResult) {
     return (
       <main className="container">
         <h1 className="blind">공부 모드 결과</h1>
@@ -185,7 +201,53 @@ export default function StudyPage() {
       </main>
     )
   }
+  }
+
+  
 }
+
+
+const Modal = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid ${COLORS.light_gray};
+  background: white;
+  font-size: 16px;
+  color: ${COLORS.gray};
+  margin: 15px 50px;
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p{
+    margin: 0 0 15px;
+  }
+`
+
+const Btnhh = styled.button`
+  font-size: 14px;
+  width: 150px;
+  height: 45px;
+  border: 0.5px solid #b6b6b6;
+  border-radius: 6px;
+  text-align: center;
+  background-color: ${COLORS.blue};
+  color: ${COLORS.white};
+  margin: 0 10px; 
+`
+
+const Blur = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(5px);
+  overflow: hidden;
+`
 
 const TestBoard = styled.section`
   width: 70%;

@@ -18,12 +18,13 @@ export default function Post() {
       username: "",
     },
   ]);
+
+  const token = sessionStorage.getItem("token");
+
   const getUser = async () => {
-    const token = sessionStorage.getItem("token");
     const res = await axios.get(`${API}/workbook?page=1&size=5000`, {
       headers: {
         "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     });
     setPost(res.data.dtoList);
@@ -32,7 +33,6 @@ export default function Post() {
   useEffect(() => {
     getUser();
   }, []);
-  
   
   const [data, setData] = useState();
 

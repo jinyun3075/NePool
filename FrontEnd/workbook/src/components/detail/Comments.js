@@ -25,13 +25,12 @@ export default function Comments({workbookId}) {
     password: ""
   })
 
+  const token = sessionStorage.getItem("token");
   const getUser = async () => {
-    const token = sessionStorage.getItem("token");
     const user = sessionStorage.getItem("user")
     const res = await axios.get(`${API}/user/${user}`, {
         headers: {
             "Content-type" : "application/json",
-            "Authorization" : `Bearer ${token}`,
         },
     });
     setUser(res.data);
@@ -90,7 +89,7 @@ export default function Comments({workbookId}) {
     
   useEffect(() => {
     byteCheck(text)
-    getComment();
+    if(token) getComment();
   }, []);
 
   const onSubmit = async (e) => {

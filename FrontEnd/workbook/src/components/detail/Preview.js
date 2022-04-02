@@ -21,8 +21,8 @@ export default function Preview({workBookId, userName}) {
     explanation: "",
   }])
 
+  const token = sessionStorage.getItem("token");
   const getQuestion = async () => {
-    const token = sessionStorage.getItem("token");
     try {
       const res = await axios.get(`${API}/work/${userName}/${workBookId}`, {
       headers: {
@@ -37,7 +37,7 @@ export default function Preview({workBookId, userName}) {
   };
 
   useEffect(() => {
-    getQuestion();
+    if(token) getQuestion();
   }, [userName])
   
   return (
