@@ -1,6 +1,9 @@
 import { useLocation } from 'react-router-dom';
 import HeaderSignin from "../header/header";
 import Background from "./background";
+import Left from '../mypage/left';
+import styled from 'styled-components';
+import AddCont from './addContent';
 
 export default function Add() {
   const location = useLocation()
@@ -8,7 +11,19 @@ export default function Add() {
     return (
       <>
       <HeaderSignin />
-      <Background workbookid = {workbookid}/>
+      <Section>
+        <Left />
+        <AddCont workbookid={workbookid}/>
+      </Section>
+      
+      
       </>
     )
   }
+
+const Section = styled.article`
+    width:100%;
+    height:79vh;
+    margin-top:80px;
+    display:flex;
+`;

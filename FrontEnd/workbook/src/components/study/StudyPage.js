@@ -11,8 +11,6 @@ import Result from './Result';
 
 export default function StudyPage() {
 
-  let isComponentMounted = true
-
   const navigate = useNavigate();
 
   const location = useLocation()
@@ -69,11 +67,7 @@ export default function StudyPage() {
         "Content-type": "application/json",
       },
     });
-    if (isComponentMounted) {
       setQuestionsData(res.data)
-    }
-    
-    
     } catch(err) {
       console.log(err);
     }
@@ -83,9 +77,6 @@ export default function StudyPage() {
     
   useEffect(() => {
     getTest();
-    return () => {
-    isComponentMounted = false
-  }
   }, []);
 
   const question = questionsData[currentQuestion]
@@ -149,7 +140,7 @@ export default function StudyPage() {
     setIsResult(true)
   }
 
-  if(questionsData) {
+  if(questionsData.length === 0) {
     return (
       <>
       <Blur></Blur>
