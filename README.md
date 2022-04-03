@@ -591,8 +591,22 @@
     - user_id: String
 
 - res
-    - workbook {}
-    - user {}
+    - workBook: Object
+        - id: Number
+        - title: String
+        - content: String
+        - share: boolean
+        - username: String
+        - count: Number
+        - type: String
+        - regDate: Date
+        - modDate: Date
+    - nePoolUser: Object
+        - id: String
+        - username: String
+        - name: String
+        - email: String
+        - password: String
 
 - fail
     - 없는 work_book_id , user_id 일 때
@@ -607,8 +621,22 @@
 
 - res
     - dtoList:Array
-        - workbook {}
-        - user {}
+        - workBook: Object
+            - id: Number
+            - title: String
+            - content: String
+            - share: boolean
+            - username: String
+            - count: Number
+            - type: String
+            - regDate: Date
+            - modDate: Date
+        - nePoolUser: Object
+            - id: String
+            - username: String
+            - name: String
+            - email: String
+            - password: String
     - totalPage: Number
     - page: Number
     - size: Number
