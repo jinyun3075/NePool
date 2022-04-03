@@ -42,6 +42,23 @@ export default function DetailPage() {
     getWorkBook();
   }, [workbookId]);
 
+  const [userId, setUserId] = useState("")
+ 
+  const getUser = async () => {
+    const user = sessionStorage.getItem("user");
+    const res = await axios.get(`${API}/user/${user}`, {
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    setUserId(res.data.id);
+    // setUserName(res.data.name);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   const {content, count, id, modDate, share, title, type, username} = workBook
 
   const [averageStar, setAverageStar] = useState(0)
@@ -60,6 +77,27 @@ export default function DetailPage() {
   useEffect(() => {
     getStar();
   }, [id]);
+
+  const getShare = async (e) => {
+    e.preventDefault()
+    const token = sessionStorage.getItem("token");
+    try {
+      const shareData = {
+        work_book_id: id,
+        user_id: userId,
+      }
+      const res = await axios.post(`${API}/share/register`, shareData, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+      // window.location.reload()
+      console.log(res);
+    } catch(err) {
+      console.log(err);
+    }
+  }
 
   return (
     <>
@@ -80,7 +118,7 @@ export default function DetailPage() {
                 <Link to={`/studymode/${id}`} state={{username: username}}>
                   <button>시험모드</button>
                 </Link>
-                <button>스크랩</button>
+                <button onClick={getShare}>스크랩</button>
               </ButtonBox>
             </Info>
           </DetailInfo>
