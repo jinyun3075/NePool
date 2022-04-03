@@ -24,13 +24,12 @@ export default function MorePost() {
   const offset = (page - 1) * limit;
 
   const getUser = async () => {
-    const token = sessionStorage.getItem("token");
-    const res = await axios.get(`${API}/workbook?page=1&size=20`, {
+    const res = await axios.get(`${API}/workbook`, {
       headers: {
         "Content-type": "application/json",
       },
     });
-    setPost(res.data.dtoList);
+    setPost(res.data);
     // console.log(res);
   };
 
