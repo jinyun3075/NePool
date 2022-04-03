@@ -63,7 +63,7 @@ export default function Carousel({ allUserCount }) {
             </button>
           </BtnBox>
           <CarouselList>
-            <Slide ggggg={ggggg} currentSlide={currentSlide} />
+            <Slide get={get} ggggg={ggggg} currentSlide={currentSlide} />
           </CarouselList>
         </CarouselBox>
       </MainBox>
