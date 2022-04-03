@@ -5,22 +5,29 @@ import styled from "styled-components";
 import { API } from "../../constants";
 
 
-export default function Slide({ ggggg, currentSlide }) {  
+export default function Slide({ get, ggggg, currentSlide }) {  
+
+  // console.log();
+
+  const workBookId = ggggg.id
   
-  // const [star, setStar] = useState(0)
+  const [star, setStar] = useState(0)
 
-  // const getStar = async () => {
-  //   const res = await axios.get(`${API}/comment/like/${ggggg.id}`, {
-  //       headers: {
-  //           "Content-type" : "application/json",
-  //       },
-  //   });
-  //   setStar(res.data)
-  // };
+  const getStar = async () => {
+    const res = await axios.get(`${API}/comment/like/${workBookId}`, {
+        headers: {
+            "Content-type" : "application/json",
+        },
+    });
+    setStar(res.data)
+  };
 
-  // useEffect(() => {
-  //   getStar();
-  // }, []);
+  
+  useEffect(() => {
+    getStar();
+  }, [workBookId]);
+
+  
 
   return (
     <>
@@ -30,7 +37,7 @@ export default function Slide({ ggggg, currentSlide }) {
             <BestCont>
               <ItemScr size="30px">{ggggg.title}</ItemScr>
               <ItemScr size="16px">만든이:{ggggg.username}</ItemScr>
-              <ItemScr size="16px">⭐️⭐️⭐️⭐️⭐️({})</ItemScr>
+              {star > 0 &&  <ItemScr size="16px">⭐️⭐️⭐️⭐️⭐️({star})</ItemScr>}
               <ItemScr size="16px">{ggggg.content}</ItemScr>
             </BestCont>
           </WhiteBox>
