@@ -1,20 +1,21 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import HeaderSignin from '../header/header';
-import Left from './left';
 import Myshared from './myshared';
+import ShareLeft from './shareleft';
 
 export default function Share_page() {
-
+  const location = useLocation()
+  const userid = location.state.userid
 
   return (
     <>
       <HeaderSignin />
-      <h1>공유된 페이지 일단 샘플임 ㅎ</h1>
-      {/* <Section>
-        <Left />
-        <Myshared />
-      </Section> */}
+      <Section>
+        <ShareLeft />
+        <Myshared userid = {userid} />
+      </Section>
     </>
     )
 } 

@@ -1,4 +1,4 @@
-import Share_page from '../components/mypage/sharepage';
+import Share_page from '../components/sharepage/sharepage';
 
 export default function Sharepage() {
   return (

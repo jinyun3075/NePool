@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 
-export default function Left() {
+export default function ShareLeft() {
     const [userinfo,setUserinfo] = useState([{
         email:"",
         id:"",
@@ -22,7 +22,7 @@ export default function Left() {
         });
         setUserinfo(res.data)
     }
-    
+
     useEffect(()=>{
         Mypageinfo()
     },[])
@@ -49,16 +49,17 @@ export default function Left() {
                 <Workbook>
                     <ul>
                         <WorkbookLi>
-                            <WorkbookImg src = "/img/vector_white.svg" alt = "문제집"></WorkbookImg>
-                            <WorkbookP>나의 문제집</WorkbookP>
-                        </WorkbookLi>
-
-                        <WorkbookLi>
-                            <Link to='/sharepage' state = {{userid: userinfo.id}}>
+                            <Link to="/mypage">
                                 <WorkbookImg src = "/img/vector_gray.svg" alt = "문제집"></WorkbookImg>
-                                <WorkbookP>가져온 문제집</WorkbookP>
+                                <WorkbookP>나의 문제집</WorkbookP>
                             </Link>
                         </WorkbookLi>
+                    
+                        <WorkbookLi>
+                            <WorkbookImg src = "/img/vector_white.svg" alt = "문제집"></WorkbookImg>
+                            <WorkbookP>가져온 문제집</WorkbookP>
+                        </WorkbookLi>
+
                     </ul>
                 </Workbook>
             </Article>
@@ -136,7 +137,7 @@ const WorkbookLi = styled.li`
     display:flex;
     align-items:center;
 
-    &:first-child{
+    &:last-child{
         background-color: ${COLORS.blue};
         .vector path{
             fill:white;
