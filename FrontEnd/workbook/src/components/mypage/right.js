@@ -71,8 +71,7 @@ export default function Right() {
             }}
         );  
         // console.log(res)
-        
-        // setShare()
+
     }
 
 
@@ -95,39 +94,10 @@ export default function Right() {
         }
     }
 
-
     useEffect( ()=>{
         ReadWorkbook()
     },[workbook])
 
-    // 클릭한 공유버튼만 모달 보이기
-    // const shareboolean = (i) =>{
-    //     if (share[i] === false){            
-    //         const newarr = [...share]       
-    //         newarr[i] = true
-    //         setShare(newarr)
-    //     }
-    //     else{        
-    //         const newarr = [...share]
-    //         newarr[i] = false
-    //         setShare(newarr)
-    //     }
-    // }
-
-
-    // const dd= (i) =>{
-    //     return(
-    //         <>
-    //             {
-    //                 workbook.share === false 
-    //                 ? <WhiteShare onClick = { () => { ShareWorkbook() }} /> 
-    //                 : <BlueShare  onClick = { () => { ShareWorkbook() }} /> 
-    //             }
-    //         </>
-    //     )
-    // }
-
-    // workbookdataid(workbookdata.id); ShareWorkbook();
     return(
         <>
             <Article>
@@ -163,7 +133,7 @@ export default function Right() {
                                         
                                         {
                                             update[i] === true 
-                                            ? <UpdateModal workbookid = {workbookid} workworkbook ={workbook} setWorkbook={workbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
+                                            ? <UpdateModal workbookid = {workbookid} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
                                             : null    
                                         }
 

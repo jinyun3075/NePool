@@ -59,7 +59,7 @@ export default function Home() {
 
   const getPost = async () => {
     // const token = sessionStorage.getItem("token");
-    const res = await axios.get(`${API}/workbook?page=1&size=5000`, {
+    const res = await axios.get(`${API}/workbook/page`, {
       headers: {
         "Content-type": "application/json",
       },
