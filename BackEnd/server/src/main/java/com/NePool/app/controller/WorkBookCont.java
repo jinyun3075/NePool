@@ -44,14 +44,19 @@ public class WorkBookCont {
         return new ResponseEntity<>(service.getList(username, req), HttpStatus.OK);
     }
 
-    @GetMapping("")
-    public ResponseEntity<PageResultDTO<WorkBookRequestDTO, WorkBook>> allList(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "type", required = false) String type) throws Exception{
+    @GetMapping("/page")
+    public ResponseEntity<PageResultDTO<WorkBookRequestDTO, WorkBook>> allListPage(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "type", required = false) String type) throws Exception{
         PageRequestDTO req = new PageRequestDTO();
         if (page != null && size != null) {
             req.setSize(size);
             req.setPage(page);
         }
-        return new ResponseEntity<>(service.allList(req,type),HttpStatus.OK);
+        return new ResponseEntity<>(service.allListPage(req,type),HttpStatus.OK);
+    }
+    @GetMapping("")
+    public ResponseEntity<List<WorkBookRequestDTO>> allList(@RequestParam(value = "type", required = false) String type) throws Exception{
+
+        return new ResponseEntity<>(service.allList(type),HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{username}/{work_book_id}")
@@ -70,7 +75,7 @@ public class WorkBookCont {
         }
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
-    @PutMapping("/{username}/{work_book_id}")
+    @PutMapping("/update/{username}/{work_book_id}")
     public ResponseEntity<WorkBookRequestDTO> update(@PathVariable String username, @PathVariable String work_book_id, @RequestBody WorkBookRequestDTO req) throws Exception{
         return new ResponseEntity<>(service.update(username,work_book_id,req),HttpStatus.OK);
     }

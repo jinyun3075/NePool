@@ -15,8 +15,8 @@ public interface WorkBookService {
 
     PageResultDTO<WorkBookRequestDTO, WorkBook> getList(String username, PageRequestDTO page) throws Exception;
 
-    PageResultDTO<WorkBookRequestDTO, WorkBook> allList(PageRequestDTO page, String type) throws Exception;
-
+    PageResultDTO<WorkBookRequestDTO, WorkBook> allListPage(PageRequestDTO page, String type) throws Exception;
+    List<WorkBookRequestDTO> allList(String type) throws Exception;
     void delete(String username, String work_book_id) throws Exception;
 
     boolean share(String username, String work_book_id) throws Exception;

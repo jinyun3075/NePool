@@ -1,13 +1,9 @@
 package com.NePool.app.service;
 
-import com.NePool.app.dto.PageRequestDTO;
-import com.NePool.app.dto.PageResultDTO;
-import com.NePool.app.dto.ShareWorkBookDTO;
-import com.NePool.app.dto.ShareWorkBookResultDTO;
+import com.NePool.app.dto.*;
 import com.NePool.app.entity.NePoolUser;
 import com.NePool.app.entity.ShareWorkBook;
 import com.NePool.app.entity.WorkBook;
-import org.springframework.http.ResponseEntity;
 
 public interface ShareWorkBookService {
     ShareWorkBookResultDTO register(ShareWorkBookDTO dto) throws Exception;
@@ -21,8 +17,25 @@ public interface ShareWorkBookService {
     }
     default ShareWorkBookResultDTO entityToDto(ShareWorkBook entity) {
         return ShareWorkBookResultDTO.builder()
-                .workBook(entity.getWorkBook())
-                .nePoolUser(entity.getNePoolUser())
+                .workBook(WorkBookRequestDTO.builder()
+                        .id(entity.getWorkBook().getWno())
+                        .title(entity.getWorkBook().getTitle())
+                        .content(entity.getWorkBook().getContent())
+                        .username(entity.getWorkBook().getWriter().getUsername())
+                        .share(entity.getWorkBook().getShare())
+                        .count(entity.getWorkBook().getCount())
+                        .type(entity.getWorkBook().getType())
+                        .modDate(entity.getWorkBook().getModDate())
+                        .regDate(entity.getWorkBook().getRegDate())
+                        .build())
+                .user(UserDTO.builder()
+                        .id(entity.getNePoolUser().getUno())
+                        .password(entity.getNePoolUser().getPassword())
+                        .name(entity.getNePoolUser().getName())
+                        .username(entity.getNePoolUser().getUsername())
+                        .email(entity.getNePoolUser().getEmail())
+                        .password(entity.getNePoolUser().getPassword())
+                        .build())
                 .build();
     }
 }
