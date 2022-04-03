@@ -312,7 +312,7 @@
 ### 문제집 수정
 
 - api
-    - /workbook/:username/:work_book_id (put)
+    - /workbook/update/:username/:work_book_id (put)
 
 - headers
     - Content-type : "application/json"
