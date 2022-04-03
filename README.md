@@ -601,7 +601,7 @@
         - type: String
         - regDate: Date
         - modDate: Date
-    - nePoolUser: Object
+    - user: Object
         - id: String
         - username: String
         - name: String
@@ -631,7 +631,7 @@
             - type: String
             - regDate: Date
             - modDate: Date
-        - nePoolUser: Object
+        - user: Object
             - id: String
             - username: String
             - name: String
