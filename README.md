@@ -11,7 +11,7 @@
   - [2.1 문제집 만들기](#문제집-만들기)
   - [2.2 문제집 정보](#문제집-정보)
   - [2.3 내 문제집 리스트](#내-문제집-리스트)
-  - [2.4 공유된 문제집](#-문제집)
+  - [2.4 공유된 문제집](#공유된-문제집)
   - [2.5 문제집 삭제](#문제집-삭제)
   - [2.6 문제집 공유](#문제집-공유)
   - [2.7 문제집 수정](#문제집-수정)
@@ -93,7 +93,6 @@
     
 - headers
     - Content-type : "application/json"
-    - Authorization : “Bearer key”
     
 - res
     - id: String
@@ -112,7 +111,6 @@
 
 - headers
     - Content-type : "application/json"
-    - Authorization : “Bearer key”
 
 - res
     - dtoList:Array
@@ -169,7 +167,6 @@
 
 - headers
     - Content-type : "application/json"
-    - Authorization : “Bearer key”
     
 - res
     - id: Number
@@ -221,7 +218,7 @@
 - fail
     - username 존재하지 않을 때
     
-###  문제집
+### 공유된 문제집
 - api
     - /workbook/ (get)
     - /workbook?page=Number&size=Number&type=String (get)
@@ -337,7 +334,6 @@
  
 - headers
   - Content-type : "application/json"
-  - Authorization : “Bearer key”
  
 - res
   - :Number
@@ -406,7 +402,6 @@
 
 - headers
   - Content-type : "application/json"
-  - Authorization : “Bearer key”
 
 - res
   - 순서 랜덤 배치
@@ -562,7 +557,6 @@
 
 - headers
     - Content-type : "application/json"
-    - Authorization : “Bearer key”
 
 - res
     - :Number
@@ -597,8 +591,22 @@
     - user_id: String
 
 - res
-    - workbook {}
-    - user {}
+    - workBook: Object
+        - id: Number
+        - title: String
+        - content: String
+        - share: boolean
+        - username: String
+        - count: Number
+        - type: String
+        - regDate: Date
+        - modDate: Date
+    - user: Object
+        - id: String
+        - username: String
+        - name: String
+        - email: String
+        - password: String
 
 - fail
     - 없는 work_book_id , user_id 일 때
@@ -613,8 +621,22 @@
 
 - res
     - dtoList:Array
-        - workbook {}
-        - user {}
+        - workBook: Object
+            - id: Number
+            - title: String
+            - content: String
+            - share: boolean
+            - username: String
+            - count: Number
+            - type: String
+            - regDate: Date
+            - modDate: Date
+        - user: Object
+            - id: String
+            - username: String
+            - name: String
+            - email: String
+            - password: String
     - totalPage: Number
     - page: Number
     - size: Number
@@ -652,7 +674,6 @@
 
 - headers
     - Content-type : "application/json"
-    - Authorization : “Bearer key”
 
 - res
   - workbook: Array
