@@ -18,38 +18,27 @@ export default function Myshared(props) {
     let [modemodal, setModemodal] = useState(false);
     const [sharedworkbook,setSharedworkbook] = useState([
         {
-            dtoList: [
-                {
-                    workBook: {
-                        regDate: "",
-                        modDate: "",
-                        id: "",
-                        title: "",
-                        content: "",
-                        type: "",
-                        share: "",
-                        writer: {
-                            regDate: "",
-                            modDate: "",
-                            uno: "",
-                            username: "",
-                            email: "",
-                            name: "",
-                            password: ""
-                        },
-                        count: ""
-                    },
-                    nePoolUser: {
-                        regDate: "",
-                        modDate: "",
-                        uno: "",
-                        username: "",
-                        email: "",
-                        name: "",
-                        password: ""
-                    }
-                }
-    ]}]);
+            workBook: {
+                id:"",
+                title:"",
+                content:"",
+                share:"",
+                username:"",
+                count:"",
+                type:"",
+                regDate:"",
+                modDate:"",
+            },
+            user: {
+                id:"",
+                username: "",
+                name: "",
+                email: "",
+                password: ""
+            }
+        } 
+        
+    ])
 
     // const workbook = sharedworkbook.dtoList.workBook
     // const username = sharedworkbook[0].dtoList[0].workBook.writer.username
@@ -71,9 +60,7 @@ export default function Myshared(props) {
         ReadShared();
     }, []);
 
-    useEffect(() => {
-        ReadShared();
-    }, [userid]);
+
     return(
         <>
             <Article>
@@ -85,15 +72,14 @@ export default function Myshared(props) {
                     <p>가져온 문제집</p>
                 </Myworkbook>
                 
-
-                {/* <Example>
+                <Example>
                     {
                         sharedworkbook.map((workbookdata) => {
                             return(
                                     <ExampleLi onClick ={() => { setUpdate(!update) }} key = { workbookdata.workBook.id}> 
-                                        <Link to={`/detail/${workbookdata.workBook.id}`} state={{username:workbookdata.workBook.writer.username}}>
+                                        <Link to={`/detail/${workbookdata.workBook.id}`} state={{username:workbookdata.workBook.username}}>
                                             <ExampleP1 >{workbookdata.workBook.title}</ExampleP1>
-                                            <ExampleP2 >마지막 수정 일시 : {workbookdata.workBook.writer.modDate.substring(0,10)}</ExampleP2>
+                                            <ExampleP2 >마지막 수정 일시 : {workbookdata.workBook.modDate.substring(0,10)}</ExampleP2>
                                         </Link>
                                         {
                                             update === true ? 
@@ -117,9 +103,7 @@ export default function Myshared(props) {
                         :null
                     }
 
-                </Example> */}
-
-                <CreateBtn onClick ={ ()=>{setCreate(create=true);}}>+</CreateBtn>
+                </Example>
             </Article>
         </>
     )
