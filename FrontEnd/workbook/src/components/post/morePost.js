@@ -9,20 +9,23 @@ export default function MorePost() {
   const [post, setPost] = useState([
     {
       content: "",
-      count: 0,
+      count: "",
       id: "",
       mogDate: "",
       regDate: "",
-      share: false,
+      share: "",
       title: "",
       type: "",
       username: "",
     },
   ]);
+  const [limit, setLimit] = useState(20);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
 
   const getUser = async () => {
     const token = sessionStorage.getItem("token");
-    const res = await axios.get(`${API}/workbook?page=1&size=15`, {
+    const res = await axios.get(`${API}/workbook?page=1&size=20`, {
       headers: {
         "Content-type": "application/json",
       },
@@ -118,7 +121,12 @@ export default function MorePost() {
           )}
         </Items>
       </ItemBox>
-      <PostBtn />
+      <PostBtn
+      total = {post.length}
+      limit = {limit}
+      page = {page} 
+      setPage={setPage}
+      />
     </>
   );
 }
@@ -146,7 +154,7 @@ const ItemBox = styled.div`
 const Items = styled.ul`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  /* justify-content: center; */
   width: 1010px;
   li {
     width: 190px;
