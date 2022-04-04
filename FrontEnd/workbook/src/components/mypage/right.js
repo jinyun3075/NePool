@@ -126,10 +126,6 @@ export default function Right() {
                                             ? <WhiteShare data-index ={i} onClick = { (event) => { workbookdataid(workbookdata.id); ShareWorkbook(workbookdata.id);}} /> 
                                             : <BlueShare  data-index ={i} onClick = { (event) => { workbookdataid(workbookdata.id); ShareWorkbook(workbookdata.id);}} />
                                         }   
-                                            
-                                        {/* {
-                                            dd(i)
-                                        } */}
                                         
                                         {
                                             update[i] === true 
