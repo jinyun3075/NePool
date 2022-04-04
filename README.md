@@ -12,11 +12,12 @@
   - [2.2 문제집 정보](#문제집-정보)
   - [2.3 내 문제집 리스트](#내-문제집-리스트)
   - [2.4 공유된 문제집](#공유된-문제집)
-  - [2.5 문제집 삭제](#문제집-삭제)
-  - [2.6 문제집 공유](#문제집-공유)
-  - [2.7 문제집 수정](#문제집-수정)
-  - [2.8 문제집 BEST 4](#문제집-BEST-4)
-  - [2.9 문제집 개수](#문제집-개수)
+  - [2.5 공유된 문제집 Paging](#공유된-문제집-Paging)
+  - [2.6 문제집 삭제](#문제집-삭제)
+  - [2.7 문제집 공유](#문제집-공유)
+  - [2.8 문제집 수정](#문제집-수정)
+  - [2.9 문제집 BEST 4](#문제집-BEST-4)
+  - [2.10 문제집 개수](#문제집-개수)
 
 - ### [3 문제](#문제)
   - [3.1 문제 만들기](#문제-만들기)
@@ -220,9 +221,39 @@
     
 ### 공유된 문제집
 - api
-    - /workbook/ (get)
-    - /workbook?page=Number&size=Number&type=String (get)
-    - (설명) 모든 문제집을 가져올때는 type을 지우고 카테고리별로 가져올때는 type에 
+    - /workbook (get)
+    - /workbook?type=String (get)
+    - (설명) 모든 문제집을 가져올때는 type을 지우고 카테고리별로 가져올때는 type 에 
+
+- headers
+    - Content-type : "application/json"
+
+- res
+    - dtoList:Array
+        - id: Number
+        - title: String
+        - content: String
+        - share: boolean
+        - username: String
+        - count: Number
+        - type: String
+        - regDate: Date
+        - modDate: Date
+
+    - totalPage: Number
+    - page: Number
+    - size: Number
+    - prev: boolean
+    - next: boolean
+    - start: Number
+    - end: Number
+    - pageList: Array
+    
+### 공유된 문제집 Paging
+- api
+    - /workbook/page (get)
+    - /workbook/page?page=Number&size=Number&type=String (get)
+    - (설명) 모든 문제집을 가져올때는 type을 지우고 카테고리별로 가져올때는 type 에 입력
 
 - headers
     - Content-type : "application/json"
@@ -282,7 +313,7 @@
 ### 문제집 수정
 
 - api
-    - /workbook/:username/:work_book_id (put)
+    - /workbook/update/:username/:work_book_id (put)
 
 - headers
     - Content-type : "application/json"
