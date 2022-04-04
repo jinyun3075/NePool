@@ -697,6 +697,7 @@
   
 - fail
     - 없는 work_book_id , user_id 일 때
+    - 이미 
  
 ## 검색
 ### 문제집 및 유저 검색
