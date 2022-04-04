@@ -641,6 +641,7 @@
 
 - fail
     - 없는 work_book_id , user_id 일 때
+    - 이미 스크립이 되어있을 때
 
 ### 공유 문제집 가져오기
 - api
@@ -697,7 +698,6 @@
   
 - fail
     - 없는 work_book_id , user_id 일 때
-    - 이미 
  
 ## 검색
 ### 문제집 및 유저 검색
