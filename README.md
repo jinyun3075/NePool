@@ -223,37 +223,28 @@
 - api
     - /workbook (get)
     - /workbook?type=String (get)
-    - (설명) 모든 문제집을 가져올때는 type을 지우고 카테고리별로 가져올때는 type 에 
+    - (설명) 모든 문제집을 가져올때는 type을 지우거나 혹은 "all" 값을 보내주고 카테고리별로 가져올때는 type 에 키워드 입력
 
 - headers
     - Content-type : "application/json"
 
 - res
-    - dtoList:Array
-        - id: Number
-        - title: String
-        - content: String
-        - share: boolean
-        - username: String
-        - count: Number
-        - type: String
-        - regDate: Date
-        - modDate: Date
-
-    - totalPage: Number
-    - page: Number
-    - size: Number
-    - prev: boolean
-    - next: boolean
-    - start: Number
-    - end: Number
-    - pageList: Array
+    - Array
+      - id: Number
+      - title: String
+      - content: String
+      - share: boolean
+      - username: String
+      - count: Number
+      - type: String
+      - regDate: Date
+      - modDate: Date
     
 ### 공유된 문제집 Paging
 - api
     - /workbook/page (get)
     - /workbook/page?page=Number&size=Number&type=String (get)
-    - (설명) 모든 문제집을 가져올때는 type을 지우고 카테고리별로 가져올때는 type 에 입력
+    - (설명) 모든 문제집을 가져올때는 type을 지우거나 혹은 "all" 값을 보내주고 카테고리별로 가져올때는 type 에 키워드 입력
 
 - headers
     - Content-type : "application/json"
