@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { API } from "../../constants";
@@ -40,48 +40,53 @@ export default function HeaderSignin() {
   useEffect(() => {
     getResult();
   },[keyUp]);
+  
+  //모달 관련
+  const searchRef = useRef();
+  const noticeRef = useRef();
+  const statusRef = useRef();
 
- 
+  useEffect(()=>{
+    window.addEventListener("click",openSearch);
+    window.addEventListener("click",openNotice);
+    window.addEventListener("click",openStatus);
+    return()=>{
+      window.removeEventListener("click",openSearch);
+      window.removeEventListener("click",openNotice);
+      window.removeEventListener("click",openStatus);
+    }
+  },[]);
   //검색창 모달
   const [searchOn, setSearchOn] = useState(false);
-  const openSearch = () => {
-    setSearchOn(!searchOn);
+  const openSearch = (e) => {
+    setSearchOn(true);
+    if(searchRef.current !==e.target) setSearchOn(false)
   }
-  // const closeSearch = () => {
-  //   setSearchOn(false);
-  // }
   //알림창 모달
   const [noticeOn, setNoticeOn] = useState(false);
-  const openNotice = () => {
-    setNoticeOn(!noticeOn);
+  const openNotice = (e) => {
+    setNoticeOn(true);
+    if(noticeRef.current !==e.target) setNoticeOn(false)
   };
-  // const closeNotice = () => {
-  //   setNoticeOn(false);
-  // };
 
   //프로필 창 모달
   const [statusON, setStatusON] = useState(false);
-  const openStatus = () => {
-    setStatusON(!statusON);
+  const openStatus = (e) => {
+    setStatusON(true);
+    if(statusRef.current !==e.target) setStatusON(false)
   };
-  // const closeStatus = () => {
-  //   setStatusON(false);
-  // };
 
   return (
     <>
-      <header onClick={ () =>{
-          // closeNotice()
-          // closeSearch()
-          // closeStatus()
-        }}>
+      <header>
         <HeaderWrap>
           <SearchBox>
             <SearchBtn>
               <img src="/img/search.svg" alt="돋보기" />
             </SearchBtn>
-            <SearchInp onClick={openSearch} 
+            <SearchInp onFocus={openSearch} 
             onChange={onKeyUp}
+            ref={searchRef}
               type="text"
               placeholder="문제집을 검색해 보세요!"
             />
@@ -98,12 +103,11 @@ export default function HeaderSignin() {
           {token !== null ? (
             <ProfileBox>
               <button onClick={openNotice}>
-                <NoticeImg src="/img/notice.svg" alt="알림" />
+                <NoticeImg src="/img/notice.svg" alt="알림" ref={noticeRef}/>
               </button>
-              {/* {noticeOn === true ? <NoticeModal /> : null} */}
               <NoticeModal noticeOn = {noticeOn} />
               <button onClick={openStatus}>
-                <ProfileImg src="/img/mango.png" alt="프로필 사진" />
+                <ProfileImg ref={statusRef} src="/img/mango.png" alt="프로필 사진"  />
               </button>
               {statusON === true ? <StatusModal /> : null}
             </ProfileBox>
