@@ -40,8 +40,11 @@ public class ShareWorkBookServiceImpl implements ShareWorkBookService {
         if (!workBook.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
-
-        return entityToDto(shareRepository.save(dtoToEntity(workBook.get(),nePoolUser.get())));
+        Optional<ShareWorkBook> check = shareRepository.findByWorkBookWnoAndNePoolUserUno(dto.getWork_book_id(),dto.getUser_id());
+        if(!check.isPresent()){
+            return entityToDto(shareRepository.save(dtoToEntity(workBook.get(),nePoolUser.get())));
+        }
+        throw new Exception("이미 스크랩했습니다.");
     }
 
     @Override

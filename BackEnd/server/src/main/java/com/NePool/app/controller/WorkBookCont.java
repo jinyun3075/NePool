@@ -55,7 +55,6 @@ public class WorkBookCont {
     }
     @GetMapping("")
     public ResponseEntity<List<WorkBookRequestDTO>> allList(@RequestParam(value = "type", required = false) String type) throws Exception{
-
         return new ResponseEntity<>(service.allList(type),HttpStatus.OK);
     }
 
