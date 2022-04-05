@@ -8,21 +8,19 @@ export default function Post() {
   const [post, setPost] = useState([
     {
       content: "",
-      count: 0,
+      count: "",
       id: "",
       mogDate: "",
       regDate: "",
-      share: false,
+      share: "",
       title: "",
       type: "",
       username: "",
     },
   ]);
 
-  const token = sessionStorage.getItem("token");
-
   const getUser = async () => {
-    const res = await axios.get(`${API}/workbook/page`, {
+    const res = await axios.get(`${API}/workbook/page?type=${clickType}`, {
       headers: {
         "Content-type": "application/json",
       },
@@ -30,106 +28,66 @@ export default function Post() {
     setPost(res.data.dtoList);
   };
   
-  useEffect(() => {
-    getUser();
-  }, []);
-  
-  const [data, setData] = useState();
-
-
-  // const category = () => {
-  //   post.filter((data) => data.type === "어학");
-  // };
-  const onClick = (e) => {
-    if(e.target.name === '전체') {
-      setData(post)
-    } else {
-      setData(post.filter(item => item.type === e.target.name))
-    }
-    // post.filter(data => post.type === e.target.name)
-    // setData(post);
-    // console.log(data);
+  //카테고리별 게시글
+  const [clickType, setClickType] = useState("all");
+  const onClickType = (e) => {
+    setClickType(e.target.name);
   };
   
+  useEffect(() => {
+    getUser();
+  }, [clickType]);
   return (
     <>
       <Category>
         <CategoryItem>
-          <button onClick={onClick} name="전체">
+          <button onClick={onClickType} name="all">
             전체
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClick} name="수능·내신">
+          <button onClick={onClickType} name="수능·내신">
             수능·내신
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClick} name="어학">
+          <button onClick={onClickType} name="어학">
             어학
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClick} name="자격증">
+          <button onClick={onClickType} name="자격증">
             자격증
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClick} name="시사·상식">
+          <button onClick={onClickType} name="시사·상식">
             시사·상식
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClick} name="기타">
+          <button onClick={onClickType} name="기타">
             기타
           </button>
         </CategoryItem>
       </Category>
       <ItemBox>
         <Items>
-          {data === undefined ? (
-            <>
-              {post.slice(0, 10).map((a) => {
-                //map이 순환을 함
-                return (
-                  <li key={a.id}>
-                    <Link
-                      to={`/detail/${a.id}`}
-                      state={{ username: a.username }}
-                    >
-                      <ItemImg></ItemImg>
-                      <TextBox>
-                        <ItemScr size="20px">{a.title}</ItemScr>
-                        <ItemScr size="13px">만든이: {a.username}</ItemScr>
-                        <ItemTxt size="12px">{a.content}</ItemTxt>
-                      </TextBox>
-                    </Link>
-                  </li>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              {data.slice(0, 10).map((a) => {
-                //map이 순환을 함
-                return (
-                  <li key={a.id}>
-                    <Link
-                      to={`/detail/${a.id}`}
-                      state={{ username: a.username }}
-                    >
-                      <ItemImg></ItemImg>
-                      <TextBox>
-                        <ItemScr size="20px">{a.title}</ItemScr>
-                        <ItemScr size="13px">만든이: {a.username}</ItemScr>
-                        <ItemTxt size="12px">{a.content}</ItemTxt>
-                      </TextBox>
-                    </Link>
-                  </li>
-                );
-              })}
-            </>
-          )}
+          {post.slice(0, 10).map((a) => {
+            //map이 순환을 함
+            return (
+              <li key={a.id}>
+                <Link to={`/detail/${a.id}`} state={{ username: a.username }}>
+                  <ItemImg></ItemImg>
+                  <TextBox>
+                    <ItemScr size="20px">{a.title}</ItemScr>
+                    <ItemScr size="13px">만든이: {a.username}</ItemScr>
+                    <ItemTxt size="12px">{a.content}</ItemTxt>
+                  </TextBox>
+                </Link>
+              </li>
+            );
+          })}
         </Items>
       </ItemBox>
       <MoreBtn href="/Allpost">더보기</MoreBtn>
