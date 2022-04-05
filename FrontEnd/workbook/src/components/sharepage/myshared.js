@@ -2,20 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { COLORS, API } from '../../constants/index';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
-import DeleteModal from '../mypage/delete_modal';
-import CreateModal from '../mypage/create_modal';
-import UpdateModal from '../mypage/update_modal';
-import ModeModal from '../mypage/mode_modal';
+import ShareDeleteModal from './share_deletemodal';
+import ShareUpdateModal from './share_updatemodal';
+import ShareModeModal from './share_modemodal';
 import axios from 'axios'; 
-
-// array = [{dtoList:[{worbook:hey}]}]
 
 export default function Myshared(props) {
     const userid = props.userid
-    let [create, setCreate] = useState(false);
-    let [update, setUpdate] = useState(false);
-    let [deletemodal, setDeletemodal] = useState(false);
-    let [modemodal, setModemodal] = useState(false);
+    let [shareupdate, setShareupdate] = useState(Array(100).fill(false));
+    let [sharedeletemodal, setSharedeletemodal] = useState(false);
+    let [sharemodemodal, setSharemodemodal] = useState(false);
+    let [shareworkbookid,setShareworkbookid] = useState("")
     const [sharedworkbook,setSharedworkbook] = useState([
         {
             workBook: {
@@ -61,29 +58,49 @@ export default function Myshared(props) {
     }, []);
 
 
+    // 클릭한 문제집만 모달 보이기
+    const shareupdateboolean = (event) =>{
+        if (shareupdate[event.target.value] === true){            
+            const newarray = [...shareupdate]
+            newarray[event.target.value] = false
+            setShareupdate(newarray)
+        }
+        else{        
+            const newarray = [...shareupdate]
+            for(let i=0;i<newarray.length;i++){
+                if(i === event.target.value){
+                    newarray[i] = true
+                }
+                else{newarray[i] = false}
+            }
+            setShareupdate(newarray)
+        }
+    }
+    const workbookId = (id) =>{
+        setShareworkbookid(id)
+    }
+
     return(
         <>
             <Article>
-                {
-                    create === true ? <CreateModal create = {create} setCreate = {setCreate} /> : null
-                }
                 
                 <Myworkbook>
                     <p>가져온 문제집</p>
                 </Myworkbook>
                 
+
                 <Example>
                     {
-                        sharedworkbook.map((workbookdata) => {
+                        sharedworkbook.map((workbookdata,i) => {
                             return(
-                                    <ExampleLi onClick ={() => { setUpdate(!update) }} key = { workbookdata.workBook.id}> 
+                                    <ExampleLi onClick ={(event) => { setShareupdate(!shareupdate); shareupdateboolean(event); workbookId(workbookdata.workBook.id); }} value={i} key = { workbookdata.workBook.id}> 
                                         <Link to={`/detail/${workbookdata.workBook.id}`} state={{username:workbookdata.workBook.username}}>
                                             <ExampleP1 >{workbookdata.workBook.title}</ExampleP1>
                                             <ExampleP2 >마지막 수정 일시 : {workbookdata.workBook.modDate.substring(0,10)}</ExampleP2>
                                         </Link>
                                         {
-                                            update === true ? 
-                                            <UpdateModal workbook ={workbookdata} setWorkbook={setSharedworkbook} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
+                                            shareupdate[i] === true ? 
+                                            <ShareUpdateModal workbookId ={workbookdata.id} setSharedWorkbook={setSharedworkbook} setSharedeletemodal = {setSharedeletemodal} sharedeletemodal = {sharedeletemodal} sharemodemodal = {sharemodemodal} setSharemodemodal = {setSharemodemodal}/>
                                             : null    
                                         }
                                     </ExampleLi>
@@ -92,18 +109,19 @@ export default function Myshared(props) {
                     }
 
                     {
-                        deletemodal === true ? 
-                        <DeleteModal deletemodal = {deletemodal} setDeletemodal ={setDeletemodal}/>
+                        sharedeletemodal === true ? 
+                        <ShareDeleteModal workbookid = {shareworkbookid} userid = {userid} sharedeletemodal = {sharedeletemodal} setSharedeletemodal ={setSharedeletemodal}/>
                         :null   
                     }
 
                     {    
-                        modemodal === true ?
-                        <ModeModal modemodal = {modemodal} setModemodal = {setModemodal} />
+                        sharemodemodal === true ?
+                        <ShareModeModal sharemodemodal = {sharemodemodal} setSharemodemodal = {setSharemodemodal} />
                         :null
                     }
 
                 </Example>
+
             </Article>
         </>
     )
