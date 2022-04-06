@@ -2,22 +2,23 @@ import React from "react";
 import styled from "styled-components";
 import { COLORS } from "../../constants";
 
-export default function PostBtn({page, onClickNum, next, prev}) {
+export default function PostBtn({page, onClickNum, next, prev, onClickNext, onClickPrev}) {
 
   return (
     <>
       <Nav>
-        <Button disabled={prev === false} >
+        <Button onClick={onClickPrev}disabled={prev === false} >
           &lt;
         </Button>
         {page.map((number)=>{
           return (
-        <Button key={number} value={number} onClick={onClickNum}>
+        <Button key={number} value={number} onClick={onClickNum}
+        aria-current={number}>
           {number}
         </Button>
           )
         })}
-        <Button disabled={next === false}>
+        <Button onClick={onClickNext} disabled={next === false}>
           &gt;
         </Button>
       </Nav>

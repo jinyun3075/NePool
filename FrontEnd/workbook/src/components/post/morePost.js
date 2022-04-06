@@ -28,10 +28,17 @@ export default function MorePost() {
   const onClickNum = (e) => {
     setNumber(e.target.value)
   }
-
+  const onClickNext = () => {
+    setNumber(parseInt((number-1)/5)*5+6);
+  }
+  const onClickPrev = () => {
+    setNumber(parseInt((number-1)/5)*5-4);
+  }
+  console.log(parseInt((number-1)/5)*5-4);
+  console.log(1);
 
   const getUser = async () => {
-    const res = await axios.get(`${API}/workbook/page?page=${number}&size=20&type=${clickType}`, {
+    const res = await axios.get(`${API}/workbook/page?page=${number}&size=3&type=${clickType}`, {
       headers: {
         "Content-type": "application/json",
       },
@@ -40,6 +47,7 @@ export default function MorePost() {
     setPage(res.data.pageList);
     setNext(res.data.next);
     setPrev(res.data.prev);
+    console.log(res);
   };
   //카테고리별 게시글
   const [clickType, setClickType] = useState("all");
@@ -106,7 +114,7 @@ export default function MorePost() {
             })}
         </Items>
       </ItemBox>
-      <PostBtn page={page} onClickNum={onClickNum} next={next} prev={prev} />
+      <PostBtn page={page} onClickNum={onClickNum} next={next} prev={prev} onClickNext={onClickNext} onClickPrev={onClickPrev}/>
     </>
   );
 }
