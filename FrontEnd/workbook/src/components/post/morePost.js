@@ -19,70 +19,84 @@ export default function MorePost() {
       username: "",
     },
   ]);
-  const [limit, setLimit] = useState(20);
-  const [page, setPage] = useState(1);
-  const offset = (page - 1) * limit;
+
+  //페이징처리
+  const [page, setPage] = useState([])
+  const [number, setNumber] = useState(1)
+  const [next, setNext] = useState(false);
+  const [prev, setPrev] = useState(false);
+  const onClickNum = (e) => {
+    setNumber(e.target.value)
+  }
+  const onClickNext = () => {
+    setNumber(parseInt((number-1)/5)*5+6);
+  }
+  const onClickPrev = () => {
+    setNumber(parseInt((number-1)/5)*5-4);
+  }
+  console.log(parseInt((number-1)/5)*5-4);
+  console.log(1);
 
   const getUser = async () => {
-    const res = await axios.get(`${API}/workbook`, {
+    const res = await axios.get(`${API}/workbook/page?page=${number}&size=3&type=${clickType}`, {
       headers: {
         "Content-type": "application/json",
       },
     });
-    setPost(res.data);
-    // console.log(res);
+    setPost(res.data.dtoList);
+    setPage(res.data.pageList);
+    setNext(res.data.next);
+    setPrev(res.data.prev);
+    console.log(res);
   };
+  //카테고리별 게시글
+  const [clickType, setClickType] = useState("all");
+  const onClickType = (e) => {
+    setClickType(e.target.name)
+    setNumber(1)
+  }
 
+  //페이지별 나누기
   useEffect(() => {
     getUser();
-  }, []);
+  }, [clickType,number]);
   
-  const [data, setData] = useState();
-  const onClick = (e) => {
-    if(e.target.name === '전체') {
-      setData(post)
-    } else {
-      setData(post.filter(item => item.type === e.target.name))
-    }
-  };
   return (
     <>
      <Category>
         <CategoryItem>
-          <button onClick={onClick} name="전체">
+          <button name="all" onClick={onClickType}>
             전체
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClick} name="수능·내신">
+          <button name="수능·내신" onClick={onClickType}>
             수능·내신
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClick} name="어학">
+          <button name="어학" onClick={onClickType}>
             어학
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClick} name="자격증">
+          <button name="자격증" onClick={onClickType}>
             자격증
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClick} name="시사·상식">
+          <button name="시사·상식" onClick={onClickType}>
             시사·상식
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClick} name="기타">
+          <button name="기타" onClick={onClickType}>
             기타
           </button>
         </CategoryItem>
       </Category>
       <ItemBox>
         <Items>
-          {data === undefined ? (
-            <>
             {post.map((postData) => {
               return (
                 <li key={postData.id}>
@@ -98,34 +112,9 @@ export default function MorePost() {
                 </li>
               );
             })}
-            </>
-          ) : (
-            <>
-            {data.map((postData) => {
-              return (
-                <li key={postData.id}>
-                  <Link to={`/detail/${postData.id}`} state={{username: postData.username}}>
-                    <ItemImg>
-                    </ItemImg>
-                    <TextBox>
-                      <ItemScr size="20px">{postData.title}</ItemScr>
-                      <ItemScr size="13px">만든이: {postData.username}</ItemScr>
-                      <ItemTxt size="12px">{postData.content}</ItemTxt>
-                    </TextBox>
-                  </Link>
-                </li>
-              );
-            })}
-            </>
-          )}
         </Items>
       </ItemBox>
-      <PostBtn
-      total = {post.length}
-      limit = {limit}
-      page = {page} 
-      setPage={setPage}
-      />
+      <PostBtn page={page} onClickNum={onClickNum} next={next} prev={prev} onClickNext={onClickNext} onClickPrev={onClickPrev}/>
     </>
   );
 }
