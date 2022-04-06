@@ -1,6 +1,10 @@
 # NePool API
-## 목차
 ### URL www.nepool.co.kr
+### Front REPO https://github.com/jinyun3075/NePool/tree/frontDev
+## DB 관계도
+![image](https://user-images.githubusercontent.com/64072136/161748627-5f073265-146b-4653-ac44-a2fd24b97aa3.png)
+
+## API 명세 목차
 - ### [1 유저](#유저)
   - [1.1 회원가입](#회원가입)
   - [1.2 로그인](#로그인)
@@ -223,37 +227,28 @@
 - api
     - /workbook (get)
     - /workbook?type=String (get)
-    - (설명) 모든 문제집을 가져올때는 type을 지우고 카테고리별로 가져올때는 type 에 
+    - (설명) 모든 문제집을 가져올때는 type을 지우거나 혹은 "all" 값을 보내주고 카테고리별로 가져올때는 type 에 키워드 입력
 
 - headers
     - Content-type : "application/json"
 
 - res
-    - dtoList:Array
-        - id: Number
-        - title: String
-        - content: String
-        - share: boolean
-        - username: String
-        - count: Number
-        - type: String
-        - regDate: Date
-        - modDate: Date
-
-    - totalPage: Number
-    - page: Number
-    - size: Number
-    - prev: boolean
-    - next: boolean
-    - start: Number
-    - end: Number
-    - pageList: Array
+    - Array
+      - id: Number
+      - title: String
+      - content: String
+      - share: boolean
+      - username: String
+      - count: Number
+      - type: String
+      - regDate: Date
+      - modDate: Date
     
 ### 공유된 문제집 Paging
 - api
     - /workbook/page (get)
     - /workbook/page?page=Number&size=Number&type=String (get)
-    - (설명) 모든 문제집을 가져올때는 type을 지우고 카테고리별로 가져올때는 type 에 입력
+    - (설명) 모든 문제집을 가져올때는 type을 지우거나 혹은 "all" 값을 보내주고 카테고리별로 가져올때는 type 에 키워드 입력
 
 - headers
     - Content-type : "application/json"
@@ -641,6 +636,7 @@
 
 - fail
     - 없는 work_book_id , user_id 일 때
+    - 이미 스크립이 되어있을 때
 
 ### 공유 문제집 가져오기
 - api
