@@ -29,6 +29,7 @@ export default function MorePost() {
     setNumber(e.target.value)
   }
 
+
   const getUser = async () => {
     const res = await axios.get(`${API}/workbook/page?page=${number}&size=20&type=${clickType}`, {
       headers: {
@@ -105,7 +106,7 @@ export default function MorePost() {
             })}
         </Items>
       </ItemBox>
-      <PostBtn page={page} onClickNum={onClickNum} />
+      <PostBtn page={page} onClickNum={onClickNum} next={next} prev={prev} />
     </>
   );
 }

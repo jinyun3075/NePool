@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { COLORS } from "../../constants";
 
-export default function PostBtn({page, onClickNum}) {
+export default function PostBtn({page, onClickNum, next, prev}) {
 
   return (
     <>
       <Nav>
-        <Button >
+        <Button disabled={prev === false} >
           &lt;
         </Button>
         {page.map((number)=>{
@@ -17,7 +17,7 @@ export default function PostBtn({page, onClickNum}) {
         </Button>
           )
         })}
-        <Button>
+        <Button disabled={next === false}>
           &gt;
         </Button>
       </Nav>
