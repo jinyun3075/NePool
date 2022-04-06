@@ -51,10 +51,16 @@ public class WorkBookCont {
             req.setSize(size);
             req.setPage(page);
         }
+        if (type!=null && type.equals("all")){
+            type = null;
+        }
         return new ResponseEntity<>(service.allListPage(req,type),HttpStatus.OK);
     }
     @GetMapping("")
     public ResponseEntity<List<WorkBookRequestDTO>> allList(@RequestParam(value = "type", required = false) String type) throws Exception{
+        if (type!=null &&type.equals("all")){
+            type = null;
+        }
         return new ResponseEntity<>(service.allList(type),HttpStatus.OK);
     }
 
