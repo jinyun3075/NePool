@@ -41,6 +41,7 @@
   - [5.1 공유 문제집 추가](#공유-문제집-추가)
   - [5.2 공유 문제집 가져오기](#공유-문제집-가져오기)
   - [5.3 공유 문제집 삭제](#공유-문제집-삭제)
+  - [5.4 스크랩 횟수](#스크랩-횟수)
 
 - ### [6 검색](#검색)
   - [6.1 문제집 및 유저 검색](#문제집-및-유저-검색)
@@ -693,6 +694,17 @@
   
 - fail
     - 없는 work_book_id , user_id 일 때
+
+### 스크랩 횟수
+- api
+  - /share/count/:work_book_id (get)
+  
+- headers
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+
+- res
+  - :Number
  
 ## 검색
 ### 문제집 및 유저 검색
