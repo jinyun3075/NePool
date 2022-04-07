@@ -20,7 +20,7 @@ export default function Slide({ get, ggggg, currentSlide }) {
     setStar(res.data);
   };
 
-  const starView = star * 15;
+  const starView = parseInt(star * 15);
 
   useEffect(() => {
     getStar();
@@ -34,10 +34,11 @@ export default function Slide({ get, ggggg, currentSlide }) {
             <BestCont>
               <ItemScr size="30px">{ggggg.title}</ItemScr>
               <ItemScr size="16px">만든이:{ggggg.username}</ItemScr>
-              {/* {star > 0 &&  <ItemScr size="16px">⭐️⭐️⭐️⭐️⭐️({star})</ItemScr>} */}
+              {star > 0 &&  
               <StarBox style ={{width: starView}}>
                 <FiveStarf src="/img/fiveStarf.svg" alt="체크별점" />
-              </StarBox>
+              </StarBox>   
+              }
               <FiveStar src="/img/fiveStar.svg" alt="별점" />
               <ItemCont size="16px">{ggggg.content}</ItemCont>
             </BestCont>
@@ -97,5 +98,5 @@ const FiveStar = styled.img`
   position: absolute;
   width: 75px;
   height: 15px;
-  margin-top: 13px;
+  margin-top: 23px;
 `;
