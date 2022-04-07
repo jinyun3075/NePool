@@ -13,6 +13,8 @@ public interface ShareWorkBookRepository extends JpaRepository<ShareWorkBook,Lon
     Page<ShareWorkBook> findByNePoolUserUno(String user_id, Pageable req);
 
     Optional<ShareWorkBook> findByWorkBookWnoAndNePoolUserUno(String wno,String uno);
+
+    Long countByWorkBookWno(String wno);
     @Transactional
     Long deleteByWorkBookWnoAndNePoolUserUno(String work_book_id, String user_id);
 }

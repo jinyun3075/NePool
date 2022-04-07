@@ -39,4 +39,9 @@ public class ShareWorkBookCont {
         service.delete(dto);
         return "삭제 완료";
     }
+
+    @GetMapping("/count/{work_book_id}")
+    public Long getCount(@PathVariable String work_book_id) throws Exception {
+        return service.getCount(work_book_id);
+    }
 }

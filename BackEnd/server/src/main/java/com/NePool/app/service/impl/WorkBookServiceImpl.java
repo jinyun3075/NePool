@@ -142,8 +142,7 @@ public class WorkBookServiceImpl implements WorkBookService {
 
     @Override
     public Long all() {
-        long workbook = workBookRepository.findAll().size();
-        return workbook;
+        return workBookRepository.count();
     }
 
     private WorkBook check(String username, String work_book_id) throws Exception {

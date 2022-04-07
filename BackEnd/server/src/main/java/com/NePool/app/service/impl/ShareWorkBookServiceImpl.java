@@ -69,4 +69,9 @@ public class ShareWorkBookServiceImpl implements ShareWorkBookService {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
     }
+
+    @Override
+    public Long getCount(String work_book_id) throws Exception {
+        return shareRepository.countByWorkBookWno(work_book_id);
+    }
 }

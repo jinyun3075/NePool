@@ -8,7 +8,8 @@ import com.NePool.app.entity.WorkBook;
 public interface ShareWorkBookService {
     ShareWorkBookResultDTO register(ShareWorkBookDTO dto) throws Exception;
     PageResultDTO<ShareWorkBookResultDTO, ShareWorkBook> getList(String user_id, PageRequestDTO req) throws Exception;
-    void delete(ShareWorkBookDTO dto) throws  Exception;
+    void delete(ShareWorkBookDTO dto) throws Exception;
+    Long getCount (String work_book_id)throws Exception;
     default ShareWorkBook dtoToEntity(WorkBook workBook, NePoolUser user) {
         return ShareWorkBook.builder()
                 .workBook(workBook)
