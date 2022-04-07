@@ -65,19 +65,20 @@ export default function Updatepage_Right() {
         // console.log(res);
         navigate('/mypage');
     }
-    
-    useEffect(() => {
-        GetQuestion();
-        DeleteQuestion();
-    },[workid]);    
-    
 
-    const QuestionId = (id) =>{
+    useEffect(()=>{
+        GetQuestion()
+    },[workid])
+    
+    const QuestionId =(id) =>{
         setWorkid(id);
     }
 
     // 문제 삭제
-    const DeleteQuestion = async ()=> {
+    const DeleteQuestion = async (workid)=> {
+        console.log(workid)
+        console.log(user)
+        console.log(workbookid)
         const ress = await axios(`${API}/work/${user}/${workbookid}/${workid}`,
         {
             method:'delete',
@@ -86,8 +87,8 @@ export default function Updatepage_Right() {
                 Authorization : `Bearer ${token}` 
             }    
         })    
-        console.log(ress)
-        // window.location.reload();
+        // console.log(ress)
+        window.location.reload();
     }    
     
 
@@ -106,7 +107,7 @@ export default function Updatepage_Right() {
                         <Label htmlFor="input"><WorkbookImg src ="/img/mango.png"/></Label>
                         <TextSelect>
                             <TextInput  placeholder ="문제집 이름" name = "title" value={putworkbook.title} onChange={handlingChange} type="text"></TextInput>
-                            <Select defaultValue = "수능·내신" name="type" value={putworkbook.type} onChange={handlingChange}>
+                            <Select name="type" value={putworkbook.type} onChange={handlingChange}>
                                 <option value="수능·내신">수능·내신</option>
                                 <option value="어학">어학</option>
                                 <option value="자격증">자격증</option>
@@ -130,7 +131,7 @@ export default function Updatepage_Right() {
                                             <Link to={"/updatequestion"} state={{workbookid:workbookid,workid:questiondata.id}}>
                                                 <Update onClick = { () => { QuestionId(questiondata.id)} }>수정</Update>
                                             </Link>
-                                            <Delete onClick = { () => { QuestionId(questiondata.id); DeleteQuestion();} }>삭제</Delete>
+                                            <Delete onClick = { () => { DeleteQuestion(questiondata.id);} }>삭제</Delete>
                                         </ButtonDiv>
                                     </QuestionLi>
                                 )

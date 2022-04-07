@@ -13,6 +13,7 @@ export default function Myshared(props) {
     let [sharedeletemodal, setSharedeletemodal] = useState(false);
     let [sharemodemodal, setSharemodemodal] = useState(false);
     let [shareworkbookid,setShareworkbookid] = useState("")
+    let [shareusername,setShareusername] = useState("");
     const [sharedworkbook,setSharedworkbook] = useState([
         {
             workBook: {
@@ -80,6 +81,10 @@ export default function Myshared(props) {
         setShareworkbookid(id)
     }
 
+    const username = (username) => {
+        setShareusername(username)
+    }
+
     return(
         <>
             <Article>
@@ -93,14 +98,14 @@ export default function Myshared(props) {
                     {
                         sharedworkbook.map((workbookdata,i) => {
                             return(
-                                    <ExampleLi onClick ={(event) => { setShareupdate(!shareupdate); shareupdateboolean(event); workbookId(workbookdata.workBook.id); }} value={i} key = { workbookdata.workBook.id}> 
+                                    <ExampleLi onClick ={(event) => { setShareupdate(!shareupdate); shareupdateboolean(event); workbookId(workbookdata.workBook.id); username(workbookdata.workBook.username)}} value={i} key = { workbookdata.workBook.id}> 
                                         <Link to={`/detail/${workbookdata.workBook.id}`} state={{username:workbookdata.workBook.username}}>
                                             <ExampleP1 >{workbookdata.workBook.title}</ExampleP1>
                                             <ExampleP2 >마지막 수정 일시 : {workbookdata.workBook.modDate.substring(0,10)}</ExampleP2>
                                         </Link>
                                         {
                                             shareupdate[i] === true ? 
-                                            <ShareUpdateModal workbookId ={workbookdata.id} setSharedWorkbook={setSharedworkbook} setSharedeletemodal = {setSharedeletemodal} sharedeletemodal = {sharedeletemodal} sharemodemodal = {sharemodemodal} setSharemodemodal = {setSharemodemodal}/>
+                                            <ShareUpdateModal  workbookId ={workbookdata.id} setSharedWorkbook={setSharedworkbook} setSharedeletemodal = {setSharedeletemodal} sharedeletemodal = {sharedeletemodal} sharemodemodal = {sharemodemodal} setSharemodemodal = {setSharemodemodal}/>
                                             : null    
                                         }
                                     </ExampleLi>
@@ -110,13 +115,13 @@ export default function Myshared(props) {
 
                     {
                         sharedeletemodal === true ? 
-                        <ShareDeleteModal workbookid = {shareworkbookid} userid = {userid} sharedeletemodal = {sharedeletemodal} setSharedeletemodal ={setSharedeletemodal}/>
+                        <ShareDeleteModal  workbookid = {shareworkbookid} userid = {userid} sharedeletemodal = {sharedeletemodal} setSharedeletemodal ={setSharedeletemodal}/>
                         :null   
                     }
 
                     {    
                         sharemodemodal === true ?
-                        <ShareModeModal sharemodemodal = {sharemodemodal} setSharemodemodal = {setSharemodemodal} />
+                        <ShareModeModal shareusername ={shareusername} shareworkbookid={shareworkbookid} sharemodemodal = {sharemodemodal} setSharemodemodal = {setSharemodemodal} />
                         :null
                     }
 
