@@ -2,17 +2,16 @@ import { useLocation } from 'react-router-dom';
 import HeaderSignin from "../header/header";
 import Left from '../mypage/left';
 import styled from 'styled-components';
-import AddCont from './addContent';
+import UpdateCont from './updateContent';
 
-export default function Add() {
-  const location = useLocation()
-  const workbookid = location.state.workbookid
+export default function UpdateQuestion({workbookid,workid}) {
+    
     return (
       <>
         <HeaderSignin />
         <Section>
           <Left />
-          <AddCont workbookid={workbookid}/>
+          <UpdateCont workbookid={workbookid} workid={workid}/>
         </Section>
       </>
     )

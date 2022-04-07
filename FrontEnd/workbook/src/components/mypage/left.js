@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import { COLORS, API } from '../../constants/index';
 import styled from 'styled-components';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 
 export default function Left() {
+
     const [userinfo,setUserinfo] = useState([{
         email:"",
         id:"",
