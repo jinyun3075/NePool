@@ -24,8 +24,8 @@ export default function ShareDeleteModal(props){
                 Authorization : `Bearer ${token}` 
             }
         })
-        // window.location.reload();
-        console.log(res)
+        window.location.reload();
+        // console.log(res)
     }
 
 

@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
+import { Navigate, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { API, COLORS } from "../../constants/index";
 
 export default function AddCont(props) {
-
+  const navigate = useNavigate();
   const workbookid = props.workbookid
   const username = sessionStorage.getItem('user')
 
@@ -52,7 +53,7 @@ export default function AddCont(props) {
       },
     })
     if(res.data.message) setError(res.data.message)
-    else window.location.reload()
+    else navigate(-1)
   }
 
     return (

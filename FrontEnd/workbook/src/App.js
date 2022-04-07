@@ -12,6 +12,7 @@ import Notice from './pages/Notice';
 import Sharepage from './pages/Sharepage';
 import UpdatePage from './pages/Update';
 import NotFound from './pages/NotFound';
+import UpdateWork from './pages/Updatework';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/studymode/:id" element={<Study />} />
         <Route path="/allpost" element={<AllPost />} />
         <Route path="/add" element={<AddPage />} />
+        <Route path="/updatequestion" element={<UpdateWork />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/update" element={<UpdatePage />} />

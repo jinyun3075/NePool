@@ -9,7 +9,7 @@ export default function Updatepage_Right() {
     const navigate = useNavigate();
     const location = useLocation();
     const workbookid = location.state.workbookid
-    const username = sessionStorage.getItem('user');
+    const user = sessionStorage.getItem('user');
     const token = sessionStorage.getItem('token');
     const [workid,setWorkid] = useState('');
 
@@ -37,7 +37,7 @@ export default function Updatepage_Right() {
 
     // 문제 보이기 (Get)
     const GetQuestion = async () =>{
-        const res = await axios.get(`${API}/work/${username}/${workbookid}`,{
+        const res = await axios.get(`${API}/work/${user}/${workbookid}`,{
             headers:{
                 'Content-type' : "application/json",
             }
@@ -50,9 +50,9 @@ export default function Updatepage_Right() {
         setPutworkbook({...putworkbook,[e.target.name]: e.target.value})
     }
 
-    // 문제 수정
+    // 문제집 수정
     const UpdateWorkbook = async () =>{
-        const res = await axios.put(`${API}/workbook/${username}/${workbookid}`,{
+        const res = await axios.put(`${API}/workbook/update/${user}/${workbookid}`,{
             title: putworkbook.title,
             content: putworkbook.content,
             type: putworkbook.type,
@@ -66,27 +66,28 @@ export default function Updatepage_Right() {
         navigate('/mypage');
     }
     
-
-    
     useEffect(() => {
         GetQuestion();
-    }, [workid]);    
-   
+        DeleteQuestion();
+    },[workid]);    
+    
 
     const QuestionId = (id) =>{
-        setWorkid(id)
+        setWorkid(id);
     }
-    
+
     // 문제 삭제
     const DeleteQuestion = async ()=> {
-        const ress = await axios.delete(`${API}/work/${username}/${workbookid}/${workid}`,
+        const ress = await axios(`${API}/work/${user}/${workbookid}/${workid}`,
         {
+            method:'delete',
             headers:{
                 'Content-type' : "application/json",
                 Authorization : `Bearer ${token}` 
             }    
         })    
-        // console.log(ress)
+        console.log(ress)
+        // window.location.reload();
     }    
     
 
@@ -126,7 +127,9 @@ export default function Updatepage_Right() {
                                         <Answer>[정답 : {questiondata.correct}]</Answer>
                                         <Answers>{questiondata.explanation}</Answers>
                                         <ButtonDiv>
-                                            <Update>수정</Update>
+                                            <Link to={"/updatequestion"} state={{workbookid:workbookid,workid:questiondata.id}}>
+                                                <Update onClick = { () => { QuestionId(questiondata.id)} }>수정</Update>
+                                            </Link>
                                             <Delete onClick = { () => { QuestionId(questiondata.id); DeleteQuestion();} }>삭제</Delete>
                                         </ButtonDiv>
                                     </QuestionLi>
