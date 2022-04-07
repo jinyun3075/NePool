@@ -35,7 +35,7 @@ export default function ShareDeleteModal(props){
                 <ImgDiv>
                     <Img onClick = { ()=>{ props.setSharedeletemodal(false) } } src="/img/x.svg" alt="x" />
                 </ImgDiv>
-                <Text>예시 문제집을 삭제하시겠습니까?</Text>
+                <Text>가져오기를 해제 하시겠습니까?</Text>
                 <BtnDiv>
                     <NoBtn onClick={()=>{props.setSharedeletemodal(false)}}>아니오</NoBtn>
                     <YesBtn onClick = { Sharedeleteworkbook } >예</YesBtn>
