@@ -70,9 +70,6 @@ export default function Updatepage_Right() {
         GetQuestion()
     },[workid])
     
-    const QuestionId =(id) =>{
-        setWorkid(id);
-    }
 
     // 문제 삭제
     const DeleteQuestion = async (workid)=> {
@@ -128,8 +125,8 @@ export default function Updatepage_Right() {
                                         <Answer>[정답 : {questiondata.correct}]</Answer>
                                         <Answers>{questiondata.explanation}</Answers>
                                         <ButtonDiv>
-                                            <Link to={"/updatequestion"} state={{workbookid:workbookid,workid:questiondata.id}}>
-                                                <Update onClick = { () => { QuestionId(questiondata.id)} }>수정</Update>
+                                            <Link to={"/updatequestion"} state={{workbookid:workbookid,question:questiondata}}>
+                                                <Update>수정</Update>
                                             </Link>
                                             <Delete onClick = { () => { DeleteQuestion(questiondata.id);} }>삭제</Delete>
                                         </ButtonDiv>
