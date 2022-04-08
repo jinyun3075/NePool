@@ -12,8 +12,7 @@ export default function PostBtn({page, onClickNum, next, prev, onClickNext, onCl
         </Button>
         {page.map((number)=>{
           return (
-        <Button key={number} value={number} onClick={onClickNum}
-        aria-current={number}>
+        <Button key={number} value={number} onClick={onClickNum}>
           {number}
         </Button>
           )
