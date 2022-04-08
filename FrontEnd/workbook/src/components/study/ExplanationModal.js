@@ -7,9 +7,11 @@ export const ExplanationModal = ({modal, question}) => {
     <>
       {modal && (
         <Container>
-           <Div>
-            {question.explanation}
-          </Div>
+          {question.explanation ? (
+            <Div>{question.explanation}</Div>
+          ) : (
+            <Div>🔍 아직 해설이 없어요</Div>
+          )}
         </Container>
       )}
     </>
