@@ -52,7 +52,6 @@ export default function DetailPage() {
       },
     });
     setUserId(res.data.id);
-    // setUserName(res.data.name);
   };
 
   useEffect(() => {
@@ -68,7 +67,6 @@ export default function DetailPage() {
     const res = await axios.get(`${API}/comment/like/${workbookId}`, {
         headers: {
             "Content-type" : "application/json",
-   
         },
     });
     setAverageStar(res.data)
@@ -77,6 +75,10 @@ export default function DetailPage() {
   useEffect(() => {
     getStar();
   }, [id]);
+
+  const [shareModal, setShareModal] = useState(false)
+
+  const [err, setErr] = useState("")
 
   const getShare = async (e) => {
     e.preventDefault()
@@ -92,8 +94,9 @@ export default function DetailPage() {
         Authorization: `Bearer ${token}`,
       },
     });
-      // window.location.reload()
-      console.log(res);
+      setErr(res.data.message)
+      setShareModal(true)
+      setTimeout(() => {setShareModal(false)}, 2000)
     } catch(err) {
       console.log(err);
     }
@@ -113,12 +116,21 @@ export default function DetailPage() {
               <Explain>{content}</Explain>
               <ButtonBox>
                 <Link to={`/studymode/${id}`} state={{username: username}}>
-                  <button>공부모드</button>
+                  <ModeBtn>공부모드</ModeBtn>
                 </Link>
-                <Link to={`/studymode/${id}`} state={{username: username}}>
-                  <button>시험모드</button>
+                <Link to={`/exammode/${id}`} state={{username: username}}>
+                  <ModeBtn>시험모드</ModeBtn>
                 </Link>
-                <button onClick={getShare}>스크랩</button>
+                <ModeBtn onClick={getShare}>스크랩</ModeBtn>
+                {shareModal && (
+                  <Modal>
+                    {!err ? <p>스크랩 되었습니다. 마이 페이지에서 확인해 주세요!</p> : <p>{err}</p>}
+                    <CloseSvg onClick={() => {setShareModal(false)}}/>
+                    <Link to={'/sharepage'} state={{userid: userId}}>
+                      <Btn>마이 페이지에서 확인하기</Btn>
+                    </Link>
+                  </Modal>
+                )}
               </ButtonBox>
             </Info>
           </DetailInfo>
@@ -152,25 +164,37 @@ const Modal = styled.div`
   font-size: 16px;
   color: ${COLORS.gray};
   margin: 15px 50px;
-  padding: 50px 40px;
+  padding: 50px 40px 30px;
+  min-width: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   p{
-    margin: 0 0 15px;
+    margin: 0 0 30px;
   }
 `
 
 const Btn = styled.button`
   font-size: 14px;
-  width: 150px;
+  width: 210px;
   height: 45px;
-  border: 0.5px solid #b6b6b6;
   border-radius: 6px;
   text-align: center;
   background-color: ${COLORS.blue};
   color: ${COLORS.white};
-  margin: 0 10px; 
+  margin: 0 0 10px;
+`
+
+const CloseSvg = styled.div`
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  top: 15px;
+  right: 15px;
+  background: url('/img/x.svg') center no-repeat;
+  cursor: pointer;
 `
 
 const Blur = styled.div`
@@ -227,18 +251,14 @@ const Explain = styled.p`
 
 const ButtonBox = styled.div`
   display: flex;
-  button {
-    font-size: 14px;
-    width: 160px;
-    height: 45px;
-    margin: 20px 15px 20px 0;
-    color: #fff;
-    background-color: ${COLORS.blue};
-    border: none;
-    border-radius: 5px;
-    /* display: none; */
-    &:disabled {
-      opacity: 0.5;
-    }
-  }
+`
+const ModeBtn = styled.button`
+  font-size: 14px;
+  width: 160px;
+  height: 45px;
+  margin: 20px 15px 20px 0;
+  color: #fff;
+  background-color: ${COLORS.blue};
+  border: none;
+  border-radius: 5px;
 `
