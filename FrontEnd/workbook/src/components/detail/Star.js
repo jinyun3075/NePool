@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { COLORS } from '../../constants';
 
-export default function Star({count, averageStar}) {
-
+export default function Star({count, averageStar, shareCount}) {
   return (
     <>
       <ViewBoard>
@@ -21,9 +20,9 @@ export default function Star({count, averageStar}) {
           </TextBox>
         </Item>
         <Item>
-          <Icon src={'/img/star.svg'}></Icon>
+          <Icon src={'/img/share.svg'}></Icon>
           <TextBox>
-            <Num>4</Num>
+            <Num>{shareCount}</Num>
             <Tit>공유된 횟수</Tit>
           </TextBox>
         </Item>

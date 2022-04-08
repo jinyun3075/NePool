@@ -13,7 +13,7 @@ export default function ModeModal(props){
                 <Text>예시 문제집을 푸시겠습니까?</Text>
                 <BtnDiv>
                     <StudyMode><Link to ={`/studymode/${props.workbookid}`} state={{username: props.username}}>공부모드</Link></StudyMode>
-                    <TestMode><Link to ={`/studymode/${props.workbookid}`} state={{username: props.username}}>시험모드</Link></TestMode>
+                    <TestMode><Link to ={`/exammode/${props.workbookid}`} state={{username: props.username}}>시험모드</Link></TestMode>
                 </BtnDiv>
             </Modal>
         </>

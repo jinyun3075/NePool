@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { API, COLORS } from '../../constants';
-import PropTypes from 'prop-types';
 
 export default function Preview({workBook}) {
 
@@ -65,12 +64,6 @@ export default function Preview({workBook}) {
     </>
   )
 }
-
-
-// Preview.propTypes = {
-//   workBookId: PropTypes.string.isRequired,
-//   userName: PropTypes.string.isRequired
-// };
 
 const PrivewBoard = styled.section`
   border: 1px solid ${COLORS.light_gray};
