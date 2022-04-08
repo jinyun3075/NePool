@@ -1,13 +1,15 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { API, COLORS } from "../../constants/index";
 
-export default function UpdateCont({workbookid,workid}) {
+export default function UpdateCont({workbookid}) {
     const navigate= useNavigate();
+    const location = useLocation()
     const username = sessionStorage.getItem('user');
     const token = sessionStorage.getItem('token');
+    const question = location.state.question
 
     const [answer, setAnswer] = useState({
         question: "",
@@ -47,7 +49,7 @@ export default function UpdateCont({workbookid,workid}) {
         correct: answer.correct,
         explanation: answer.explanation
     }
-    const res = await axios.put(`${API}/work/${username}/${workbookid}/${workid}`, QuestionData, {
+    const res = await axios.put(`${API}/work/${username}/${workbookid}/${question.id}`, QuestionData, {
         headers: {
         'Content-Type': 'application/json',
         Authorization : `Bearer ${token}`
@@ -72,14 +74,14 @@ export default function UpdateCont({workbookid,workid}) {
                 id="question"
                 value={answer.question}
                 onChange={onChange} 
-                placeholder="문제 입력 칸" 
+                placeholder={question.question} 
                 />
                 <div>
                 <InputNum
                     name="answerA"
                     type="text"
                     id="answerA"
-                    placeholder="보기1"
+                    placeholder={question.answer_a}
                     value={answer.answerA}
                     onClick={onClick}
                     onChange={onChange}
@@ -89,7 +91,7 @@ export default function UpdateCont({workbookid,workid}) {
                     name="answerB"
                     type="text"
                     id="answerB"
-                    placeholder="보기2"
+                    placeholder={question.answer_b}
                     value={answer.answerB}
                     onClick={onClick}
                     onChange={onChange} 
@@ -98,7 +100,7 @@ export default function UpdateCont({workbookid,workid}) {
                     name="answerC"
                     type="text"
                     id="answerC"
-                    placeholder="보기3"
+                    placeholder={question.answer_c}
                     value={answer.answerC}
                     onClick={onClick}
                     onChange={onChange} 
@@ -107,7 +109,7 @@ export default function UpdateCont({workbookid,workid}) {
                     name="answerD"
                     type="text"
                     id="answerD"
-                    placeholder="보기4"
+                    placeholder={question.answer_d}
                     value={answer.answerD}
                     onClick={onClick}
                     onChange={onChange} 
@@ -116,7 +118,7 @@ export default function UpdateCont({workbookid,workid}) {
                     name="answerE"
                     type="text"
                     id="answerE"
-                    placeholder="보기5"
+                    placeholder={question.answer_e}
                     value={answer.answerE}
                     onClick={onClick}
                     onChange={onChange} 
@@ -140,14 +142,14 @@ export default function UpdateCont({workbookid,workid}) {
                 id="explanation"
                 value={answer.explanation}
                 onChange={onChange} 
-                placeholder="설명 추가(선택)"
+                placeholder={question.explanation}
                 />
             </RightBox>
             
             </Box>
             <span>{error}</span>
             
-            <Btn>추가</Btn>
+            <Btn>수정</Btn>
             </MakeBox>
         </Right>
         </>
