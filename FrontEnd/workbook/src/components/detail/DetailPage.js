@@ -26,11 +26,36 @@ export default function DetailPage() {
   const location = useLocation()
   const userName = location.state.username
 
+
+  
+  const [countUp, setCountUp] = useState(false)
+  
+
   const token = sessionStorage.getItem("token");
+  const user = sessionStorage.getItem("user");
+
+  const [userData, setUserData] = useState("")
+
+  const [userId, setUserId] = useState("")
+ 
+  const getUser = async () => {
+    const res = await axios.get(`${API}/user/${user}`, {
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    setUserData(res.data)
+    setUserId(res.data.id);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
 
   const getWorkBook = async () => {
 
-    const res = await axios.get(`${API}/workbook/${userName}/${workbookId}`, {
+    const res = await axios.get(`${API}/workbook/${userName}/${workbookId}?check=${userData.username !== user ? `${countUp}`: true}`, {
       headers: {
         "Content-type": "application/json",
       },
@@ -40,23 +65,8 @@ export default function DetailPage() {
 
   useEffect(() => {
     getWorkBook();
+    
   }, [workbookId]);
-
-  const [userId, setUserId] = useState("")
- 
-  const getUser = async () => {
-    const user = sessionStorage.getItem("user");
-    const res = await axios.get(`${API}/user/${user}`, {
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-    setUserId(res.data.id);
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
 
   const {content, count, id, modDate, share, title, type, username} = workBook
 
@@ -102,6 +112,24 @@ export default function DetailPage() {
     }
   }
 
+  const [shareCount, getShareCount] = useState(0)
+
+   const getShareCouont = async () => {
+
+    const res = await axios.get(`${API}/share/count/${workbookId}`, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization : `Bearer ${token}`
+      },
+    });
+    getShareCount(res.data);
+  };
+
+  useEffect(() => {
+    getShareCouont();
+    
+  }, []);
+
   return (
     <>
       <main className="container">
@@ -136,7 +164,7 @@ export default function DetailPage() {
           </DetailInfo>
         </DetailBoard>
         <Preview workBook={workBook} />
-        <Star count={count} username={username} averageStar={averageStar} />
+        <Star count={count} username={username} averageStar={averageStar} shareCount={shareCount}/>
         <Comments workbookId={workbookId}/>
         {!token && (
           <>

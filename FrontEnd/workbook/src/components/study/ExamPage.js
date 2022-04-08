@@ -8,8 +8,10 @@ import axios from 'axios';
 import Answers from './Answers';
 import { ExplanationModal } from './ExplanationModal';
 import Result from './Result';
+import ExamQuestion from './ExamQuestion';
+import ExamResult from './ExamResult';
 
-export default function StudyPage() {
+export default function ExamPage() {
 
   const navigate = useNavigate();
 
@@ -20,29 +22,14 @@ export default function StudyPage() {
   const workBookId = params.id
 
   const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [currentAnswer, setCurrentAnswer] = useState("")
 
   const [answers, setAnswers] = useState([])
-  
-  const [error, setError] = useState(false)
-  const [correct, setCorrect] = useState(false)
-  const [check, setCheck] = useState(false)
 
   const [btnVisible, setBtnVisible] = useState(false)
 
   const [isResult, setIsResult] = useState(false)
 
   const [isAnswer, setIsAnswer] = useState(false)
-
-  const [modal, setModal] = useState(false)
-
- 
-  const openExModal = () => {
-    setModal(true);
-  };
-  const closeExModal = () => {
-    setModal(false);
-  };
 
   const [questionsData, setQuestionsData] = useState([
     {
@@ -60,7 +47,6 @@ export default function StudyPage() {
 
   const getTest = async () => {
     const token = sessionStorage.getItem("token");
-    
     try {
       const res = await axios.get(`${API}/work/${userName}/${workBookId}`, {
       headers: {
@@ -71,76 +57,81 @@ export default function StudyPage() {
     } catch(err) {
       console.log(err);
     }
-    
   };
 
-    
   useEffect(() => {
     getTest();
   }, []);
 
-  const question = questionsData[currentQuestion]
 
-  const [aa, setAA ] = useState([])
-  const [bb, setBB] = useState([])
- 
-  const click = e => {
-    const { value } = e.target
-    e.preventDefault()
-    setCurrentAnswer(value)
-    setCheck(false)
-    setError(false)
+
+  const [selectQuestion, setSelectQuestion] = useState(false)
+
+  // const [questionCheck, setQuestionCheck] = useState(false)
+
+  const getSelectQuestion = (selectQuestion) => {
+    setSelectQuestion(selectQuestion)
   }
 
-  const answerCheck = () => {
-    const answer = {questionId: question.id, answer: currentAnswer}
+  const [answerArray, setAnswerArray] = useState([])
 
-    if(currentAnswer === '') {
-      setCheck(!check)
-    }
+  const getAnswerArray = (aaaa) => {
+    if(aaaa !== undefined) {
+      if(aaaa.correct !== "") {
+        setAnswerArray([...answerArray, aaaa])
+      }
+    } 
+  }
 
-    if(currentAnswer !== undefined) {
-      setAA([...aa, currentAnswer])
-    }
+  const [resultErr, setResultErr] = useState(false)
 
-    let point = 0
-    if(currentAnswer === question.correct) {
-      setBtnVisible(true)
-      setError(false)
-      setCorrect(true)
-      setIsAnswer(true)
-      point = point + 1
+  const [score, setScore] = useState(0)
+  const [totalScore, setTotalScore] = useState(0)
+
+  const [resultData, setResultData] = useState([{
+    question: "",
+    answer_a: "",
+    answer_b: "",
+    answer_c: "",
+    answer_d: "",
+    answer_e: "",
+    choice: "",
+    correct: "",
+    explanation: "",
+    result: false
+  }])
+
+  const answerCheck = async() => {  
+    const result = answerArray.reverse().filter((v, i, c) => i === c.findIndex(t => t.id === v.id))
+
+    if(result.length !== questionsData.length) {
+      setResultErr(true)
     } else {
-      setError(true)
-      setCorrect(false)
+      setResultErr(false)
+      setIsResult(true)
+    }
+
+    const token = sessionStorage.getItem("token");
+    try {
+      const res = await axios.post(`${API}/work/${workBookId}`, result, {
+      headers: {
+        "Content-type": "application/json",
+        Authorization : `Bearer ${token}`
+      },
+    });
+      setResultData(res.data.val);
+      setScore(res.data.score);
+      setTotalScore(res.data.totalScore);
+    } catch(err) {
+      console.log(err);
     }
   }
 
-  const [mode, setMode] = useState(false)
+  const mode = true
 
-  const [questionsAndAnswers, setQuestionsAndAnswers] = useState([]);
+  const percent = (score/totalScore * 100).toFixed(1)
+  
 
-  const nextQuestion = () => {
-    const answer = {questionId: question.id, answer: currentAnswer}
-
-    setBB([...bb, aa[0]])
-    setAA([])
-
-    answers.push(answer)
-    setAnswers(answers)
-    setCurrentAnswer('')
-
-    setCorrect(false)
-    setBtnVisible(false)
-    setIsAnswer(false)
-
-    if(currentQuestion + 1 < questionsData.length) {
-      setCurrentQuestion(currentQuestion + 1)
-      return
-    }
-
-    setIsResult(true)
-  }
 
   if(questionsData.length === 0) {
     return (
@@ -156,9 +147,23 @@ export default function StudyPage() {
     if(isResult) {
     return (
       <main className="container">
-        <h1 className="blind">공부 모드 결과</h1>
+        <h1 className="blind">시험 모드 결과</h1>
         <ResultBoard>
-          <Result questionsData={questionsData} bb={bb}/>
+          <Progress mode={mode} total={questionsData.length} currentQuestion={currentQuestion}/>
+          <ResultBox>
+            <p>{percent} 점</p>
+            <span>{score} / {totalScore}</span>
+            {/* <LineBox></LineBox> */}
+          </ResultBox>
+          <Test>
+          {resultData && resultData.reverse().map((item, i) => {
+            return(
+              <QuestionBox key={i}>
+                  <ExamResult i={i} item={item} />
+              </QuestionBox>
+            )
+          })}
+          </Test>
           <BtnBox>
             <Btn onClick={() => {window.location.reload()}}>다시 풀기</Btn>
             <Btn onClick={() =>  navigate(-1)}>완료</Btn>
@@ -169,36 +174,28 @@ export default function StudyPage() {
   } else {
     return (
       <main className="container">
-        <h1 className="blind">공부 모드</h1>
+        <h1 className="blind">시험 모드</h1>
         <TestBoard>
           <Progress total={questionsData.length} currentQuestion={currentQuestion}/>
           <Test>
-            <div>
-              <Question question={question.question}/>
-              <Line />
-              {check && <Err>✅ 답을 선택해주세요</Err>}
-              <Answers mode={mode} question={question} currentAnswer={currentAnswer} click={click} error={error} correct={correct}/>
-              <Line />
-            </div>
+            {questionsData.map((question, i) => {
+              return (
+                <QuestionBox key={question.id}>
+                  <ExamQuestion resultErr={resultErr} i={i} question={question} getSelectQuestion={getSelectQuestion} getAnswerArray={getAnswerArray} workBookId={workBookId} userName={userName}/>
+                </QuestionBox>
+              )
+            })}
           </Test>
           <BtnBox>
-            {btnVisible && <Btn onClick={openExModal}>정답 해설</Btn>}
-            {!btnVisible ? <Btn onClick={answerCheck}>정답 확인</Btn> : <Btn onClick={nextQuestion}>다음 문제</Btn> }
+            {resultErr && <Err>문제를 모두 풀어주세요!</Err>}
+            <Btn onClick={answerCheck}>제출</Btn>
           </BtnBox>
-          <Background
-            className={`${modal}`}
-            onClick={closeExModal}
-          ></Background>
-          <ExplanationModal modal={modal} question={question} />
         </TestBoard>
       </main>
     )
   }
   }
-
-  
 }
-
 
 const Modal = styled.div`
   position: absolute;
@@ -250,6 +247,7 @@ const TestBoard = styled.section`
   border-radius: 7px;
   margin: 40px auto;
   padding: 0 0 30px;
+  overflow: hidden;
   &::after {
     content: '';
     position: absolute;
@@ -262,7 +260,7 @@ const TestBoard = styled.section`
 
 const ResultBoard = styled.section`
   width: 70%;
-  min-width: 600px;
+  min-width: 1000px;
   position: relative;
   border: 1.5px solid ${COLORS.light_gray};
   border-radius: 7px;
@@ -283,6 +281,34 @@ const Test = styled.article`
   margin: 0 20px;
 `
 
+const ResultBox = styled.div`
+  /* width: 500px; */
+  display: flex;
+  flex-direction: column;
+  margin: 45px 55px 0;
+  span {
+    display: block;
+    font-size: 20px;
+    text-align: right;
+    color: ${COLORS.light_gray};
+  }
+  p{
+    font-size: 40px;
+    text-align: right;
+  }
+`
+
+const LineBox = styled.div`
+  /* width: 50px; */
+  height: 5px;
+  
+  background: ${COLORS.alpha_blue};
+`
+
+const QuestionBox = styled.div`
+  margin-bottom: 50px;
+`
+
 const Line = styled.div`
   border-bottom: 1px solid ${COLORS.white_gray};
   margin:  30px 30px 0;
@@ -292,6 +318,7 @@ const BtnBox = styled.div`
   margin: 0 20px;
   display: flex;
   justify-content: end;
+  align-items: center;
 `
 
 const Btn = styled.button`
@@ -311,7 +338,7 @@ const Btn = styled.button`
 const Err = styled.p`
   font-size: 14px;
   text-align: center;
-  margin: 15px 0;
+  margin: 20px 30px 0px 0px;
   color: ${COLORS.wrong};
 `
 

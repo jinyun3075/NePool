@@ -13,6 +13,7 @@ import Sharepage from './pages/Sharepage';
 import UpdatePage from './pages/Update';
 import NotFound from './pages/NotFound';
 import UpdateWork from './pages/Updatework';
+import Exam from './pages/Exam';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/join" element={<Join />} />
         <Route path="/studymode/:id" element={<Study />} />
+        <Route path="/Exammode/:id" element={<Exam />} />
         <Route path="/allpost" element={<AllPost />} />
         <Route path="/add" element={<AddPage />} />
         <Route path="/updatequestion" element={<UpdateWork />} />
