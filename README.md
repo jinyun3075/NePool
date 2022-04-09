@@ -296,13 +296,13 @@ URL : 🔗 https://www.nepool.co.kr/
   - 서버
 ### 🙋🏻‍♂️ 정시찬
   - 🔗[github/sichan1301](https://github.com/sichan1301)
-  - 마이페이지| 나의 문제집, 가져온 문제집
+  - 마이페이지 - 나의 문제집, 가져온 문제집
 ### 🙋🏻‍♀️ 최성이
   - 🔗[github/choisung2](https://github.com/choisung2)
-  - 디자인 총괄, 로그인, 회원가입, 문제, 공지사항, 상세페이지
+  - 전체 디자인, 로그인, 회원가입, 문제, 공지사항, 상세 페이지
 ### 🙋🏻‍ 유현세
   - 🔗[github/Mangopapa1](https://github.com/Mangopapa1)
-  - 메인페이지, 전체문제집, 프로필 변경
+  - 메인 페이지, 전체 문제집, 프로필 변경 페이지
 
 <p align="right"><a href="#top">(Top)</a></p>
 
