@@ -38,7 +38,7 @@ export default function MorePost() {
   console.log(1);
 
   const getUser = async () => {
-    const res = await axios.get(`${API}/workbook/page?page=${number}&size=3&type=${clickType}`, {
+    const res = await axios.get(`${API}/workbook/page?page=${number}&size=10&type=${clickType}`, {
       headers: {
         "Content-type": "application/json",
       },
@@ -169,6 +169,9 @@ const TextBox = styled.div`
 `;
 const ItemScr = styled.p`
   margin-bottom: 7px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: ${(props) => props.size};
 `;
 const ItemTxt = styled.p`

@@ -146,6 +146,9 @@ const TextBox = styled.div`
 `;
 const ItemScr = styled.p`
   margin-bottom: 7px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: ${(props) => props.size};
 `;
 const ItemTxt = styled.p`
