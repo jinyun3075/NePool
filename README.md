@@ -333,17 +333,14 @@ URL : 🔗 https://www.nepool.co.kr/
 
 ### 1) 홈
 
-|캐러셀|문제집 카테고리|
+|캐러셀|검색|
 |:-:|:-:|
-|![캐러셀](https://user-images.githubusercontent.com/92600646/162561433-7cde483c-9177-40a3-b26a-ac0100c4fac2.gif)|![분류-메인](https://user-images.githubusercontent.com/92600646/162562023-c93cded0-ce39-4187-86e6-1b5303c2e85b.gif)|
+|![캐러셀](https://user-images.githubusercontent.com/92600646/162561433-7cde483c-9177-40a3-b26a-ac0100c4fac2.gif)|![검색-123](https://user-images.githubusercontent.com/92600646/162562024-c353990d-9dfc-4a2b-b859-e798c8d52662.gif)|
 |로그인|회원가입|
-|![로그인](https://user-images.githubusercontent.com/92600646/162561424-5e6ce203-da89-4208-91b3-43e622251ffe.gif)|![회원가입](https://user-images.githubusercontent.com/92600646/162561429-50d7b62a-b1c4-4f9e-a105-598230e9bbfc.gif)|
+|![로그인](https://user-images.githubusercontent.com/92600646/162564188-5ce868db-a046-4a62-9a2e-580e1d9fec33.gif)|![회원가입](https://user-images.githubusercontent.com/92600646/162564183-eb892d85-e75f-46ef-82e7-9339c9528f5f.gif)|
+|문제집 카테고리|문제집 페이징|
+|![분류-메인](https://user-images.githubusercontent.com/92600646/162562023-c93cded0-ce39-4187-86e6-1b5303c2e85b.gif)|![페이징](https://user-images.githubusercontent.com/92600646/162564190-deb7807b-0c15-423e-af43-99184702e068.gif)|
 
-<br/>
-
-|검색|
-|:-:|
-|![검색-123](https://user-images.githubusercontent.com/92600646/162562024-c353990d-9dfc-4a2b-b859-e798c8d52662.gif)|
 
 ### 2) 마이 페이지
 
