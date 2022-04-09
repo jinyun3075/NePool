@@ -32,14 +32,14 @@ export default function Slide({ get, ggggg, currentSlide }) {
         <CarouselItem>
           <WhiteBox>
             <BestCont>
-              <ItemScr size="30px">{ggggg.title}</ItemScr>
-              <ItemScr size="16px">만든이:{ggggg.username}</ItemScr>
-              {star > 0 &&  
-              <StarBox style ={{width: starView}}>
-                <FiveStarf src="/img/fiveStarf.svg" alt="체크별점" />
-              </StarBox>   
-              }
-              <FiveStar src="/img/fiveStar.svg" alt="별점" />
+              <ItemTitle size="30px">{ggggg.title}</ItemTitle>
+              <ItemUser size="16px">만든이:{ggggg.username}</ItemUser>
+             <Star>
+                {star > 0 &&  
+                <StarBox style ={{width: starView}}>
+                </StarBox>   
+                }
+             </Star>
               <ItemCont size="16px">{ggggg.content}</ItemCont>
             </BestCont>
           </WhiteBox>
@@ -70,33 +70,28 @@ const WhiteBox = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
 `;
 const BestCont = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
   margin: 30px 30px;
-  font-size: ${(props) => props.size};
-`;
-const ItemScr = styled.p`
-  margin-bottom: 15px;
-  font-size: ${(props) => props.size};
-`;
-const ItemCont = styled.p`
-  margin-top: 50px;
-  font-size: ${(props) => props.size};
-`;
-
+`
+const ItemTitle = styled.p`
+  font-size: 30px;
+`
+const ItemUser = styled.p`
+  margin: 15px 0;
+`
+const Star = styled.div`
+  width: 75px;
+  height: 15px;
+  background-image: url(/img/fiveStar.svg);
+  background-size: 75px 15px;
+`
 const StarBox = styled.div`
+  height: 15px;
   z-index: 100;
   overflow: hidden;
-`;
-const FiveStarf = styled.img`
-  z-index: 10;
-  width: 75px;
-  height: 15px;
-`;
-const FiveStar = styled.img`
-  position: absolute;
-  width: 75px;
-  height: 15px;
-  margin-top: 23px;
-`;
+  background-image: url(/img/fiveStarf.svg);
+  background-size: 75px 15px;
+`
+
+const ItemCont = styled.p`
+  margin-top: 50px;
+`
