@@ -1,5 +1,5 @@
 # <span id="top">📘NEPOOL</span>
-[🔗 배포 URL](https://www.nepool.co.kr/)
+[🔗 배포 URL](https://www.nepool.co.kr)
 
 ## 팀원 구성
 
