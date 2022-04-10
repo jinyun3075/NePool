@@ -10,6 +10,7 @@
   - [1.2 로그인](#로그인)
   - [1.3 유저 정보](#유저-정보)
   - [1.4 모든 유저](#모든-유저)
+  - [1.5 프로필 변경](#프로필-변경)
 
 - ### [2 문제집](#문제집)
   - [2.1 문제집 만들기](#문제집-만들기)
@@ -48,7 +49,6 @@
 
 - ### [7 이미지](#이미지)
   - [7.1 이미지 업로드](#이미지-업로드)
-  - [7.2 이미지 가져오기](#이미지-가져오기)
 
 ## 유저
 ### 회원가입
@@ -63,12 +63,14 @@
     - email: String
     - password: String
     - name: String
+    - image: String
 - res
     - id: String
     - username: String
     - name: String
     - email: String
     - password: String
+    - image: String
 - fail
     - id, email, password, name 중 하나라도 작성하지 않을 경우
     - password 가 6-16자의 영문 숫자가 아닐 경우 
@@ -110,6 +112,7 @@
     - name: String
     - email: String
     - password: String
+    - image: String
     
 - fail
     - username 존재하지 않을 때
@@ -129,6 +132,7 @@
         - name: String
         - email: String
         - password: String
+        - image: String
         
     - totalPage: Number
     - page: Number
@@ -138,7 +142,34 @@
     - start: Number
     - end: Number
     - pageList: Array
-    
+### 프로필 변경
+- api
+    -/user/update/to (put)
+ 
+ - headers
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+ 
+- req
+    - id: String
+    - password: String (확인용 비밀번호)
+    - name: String
+    - image: String
+  
+- res
+    - id: String
+    - username: String
+    - password: String
+    - name: String
+    - email: String
+    - image: String
+
+- fail
+    - 존재하지 않는 아이디 일 때
+    - name에 값이 없을 때
+    - 비밀번호가 일치하지 않을 때
+
+
 ## 문제집
 ### 문제집 만들기
 - api
@@ -153,6 +184,7 @@
     - title: String
     - content: String
     - type: String
+    - image: String
     
 - res
     - id: Number
@@ -162,6 +194,7 @@
     - username: String
     - count: Number
     - type: String
+    - image: String
     - regDate: Date
     - modDate: Date
 - fail
@@ -186,6 +219,7 @@
     - username: String
     - count: Number
     - type: String
+    - image: String
     - regDate: Date
     - modDate: Date
 
@@ -211,6 +245,7 @@
         - content: String
         - share: boolean
         - username: String
+        - image: String
         - count: Number
         - type: String
         - regDate: Date
@@ -244,6 +279,7 @@
       - content: String
       - share: boolean
       - username: String
+      - image: String
       - count: Number
       - type: String
       - regDate: Date
@@ -265,6 +301,7 @@
         - content: String
         - share: boolean
         - username: String
+        - image: String
         - count: Number
         - type: String
         - regDate: Date
@@ -292,7 +329,7 @@
 
 - fail
     - username 존재하지 않을 때
-  - 해당 계정의 문제집이 아니거나 혹은 없는 work_book_id 일 경우
+    - 해당 계정의 문제집이 아니거나 혹은 없는 work_book_id 일 경우
     
 ### 문제집 공유
 - api
@@ -323,6 +360,7 @@
     - title: String
     - content: String
     - type: String
+    - image: String
     
 - res
     - id: Number
@@ -330,6 +368,7 @@
     - content: String
     - share: boolean
     - username: String
+    - image: String
     - count: Number
     - type: String
     - regDate: Date
@@ -354,6 +393,7 @@
     - content: String
     - share: boolean
     - username: String
+    - image: String
     - count: Number
     - type: String
     - regDate: Date
@@ -729,6 +769,7 @@
       - type: String
       - regDate: Date
       - modDate: Date
+
   - user: Array
       - id: String
       - username: String
@@ -736,3 +777,24 @@
       - email: String
       - password: String
     
+## 이미지
+### 이미지 업로드
+- api
+    - /upload (post)
+
+- headers
+    - Content-type : "multipart/form-data"
+    - Authorization : “Bearer key”
+
+- res
+    - uploadFiles:Array
+       - FormData
+
+- req
+    - fileName: String
+    - uuid: String
+    - folderPath: String
+    - imageUrl: String
+
+- fail
+    - 이미지 
