@@ -797,4 +797,4 @@
     - imageUrl: String
 
 - fail
-    - 이미지 
+    - 이미지 파일이 아닌 경우
