@@ -36,7 +36,7 @@ public class UserCont {
         }
         return new ResponseEntity<>(service.getList(req),HttpStatus.OK);
     }
-    @PutMapping("/update")
+    @PutMapping("/update/to")
     public ResponseEntity<UserDTO> update(@RequestBody UserDTO req) throws Exception{
         return new ResponseEntity<>(service.update(req),HttpStatus.OK);
     }

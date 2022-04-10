@@ -34,6 +34,7 @@ public interface WorkBookService {
                 .share(false)
                 .count(0L)
                 .type(dto.getType())
+                .image(dto.getImage())
                 .content(dto.getContent()).build();
     }
 
@@ -46,6 +47,7 @@ public interface WorkBookService {
                 .count(entity.getCount())
                 .type(entity.getType())
                 .share(entity.getShare())
+                .image(entity.getImage())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .build();

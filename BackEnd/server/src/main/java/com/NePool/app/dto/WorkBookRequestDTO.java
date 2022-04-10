@@ -11,6 +11,7 @@ public class WorkBookRequestDTO {
     private String id;
     private String title;
     private String content;
+    private String image;
     private Boolean share;
     private String username;
     private Long count;

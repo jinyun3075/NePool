@@ -129,7 +129,7 @@ public class WorkBookServiceImpl implements WorkBookService {
         }
         WorkBook workBook = check(username, work_book_id);
 
-        workBook.update(dto.getTitle(), dto.getContent(),dto.getType());
+        workBook.update(dto.getTitle(), dto.getContent(),dto.getType(),dto.getImage());
         return entityToDto(workBookRepository.save(workBook));
     }
 
