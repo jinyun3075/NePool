@@ -27,4 +27,7 @@ public class NePoolUser extends BaseEntity {
 
     @Column(length = 300, nullable = false)
     private String password;
+
+    @Column(length = 300, nullable = false)
+    private String image;
 }

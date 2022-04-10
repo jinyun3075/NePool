@@ -15,7 +15,9 @@ public interface UserService {
                 .name(dto.getName())
                 .password(dto.getPassword())
                 .email(dto.getEmail())
-                .username(dto.getUsername()).build();
+                .username(dto.getUsername())
+                .image(dto.getImage())
+                .build();
     }
     default UserDTO entityToDto(NePoolUser entity) {
         return UserDTO.builder()
@@ -23,6 +25,8 @@ public interface UserService {
                 .name(entity.getName())
                 .password(entity.getPassword())
                 .email(entity.getEmail())
-                .username(entity.getUsername()).build();
+                .username(entity.getUsername())
+                .image(entity.getImage())
+                .build();
     }
 }
