@@ -30,4 +30,9 @@ public class NePoolUser extends BaseEntity {
 
     @Column(length = 300, nullable = false)
     private String image;
+
+    public void update(String name, String image) {
+        this.name = name;
+        this.image = image;
+    }
 }

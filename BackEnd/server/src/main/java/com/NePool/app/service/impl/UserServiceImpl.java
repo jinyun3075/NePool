@@ -61,4 +61,21 @@ public class UserServiceImpl implements UserService {
         Function<NePoolUser,UserDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
     }
+
+    @Override
+    public UserDTO update(UserDTO dto) throws Exception {
+        if(dto.getName().equals("")){
+            throw new Exception("이름을 입력해주세요");
+        }
+        Optional<NePoolUser> entity = repository.findById(dto.getId());
+        if(!entity.isPresent()) {
+            throw new Exception("존재하지 않는 ID입니다");
+        }
+        log.info(pw.matches(dto.getPassword(),entity.get().getPassword()));
+        if(pw.matches(dto.getPassword(),entity.get().getPassword())) {
+            entity.get().update(dto.getName(),dto.getImage());
+            return entityToDto(repository.save(entity.get()));
+        }
+        throw new Exception("Password 가 틀립니다.");
+    }
 }

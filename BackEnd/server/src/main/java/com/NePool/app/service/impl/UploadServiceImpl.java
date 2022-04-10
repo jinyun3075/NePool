@@ -46,7 +46,7 @@ public class UploadServiceImpl implements UploadService {
             objectMetadata.setContentType(file.getContentType());
 
             String fileName = file.getOriginalFilename();
-            String folderPath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+            String folderPath = LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd"));
             String uuid = UUID.randomUUID().toString();
 
             String saveName = folderPath + "/" + uuid + "_" + fileName;

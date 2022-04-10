@@ -21,11 +21,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UploadCont {
 
-    private final UploadService uploadService;
+    private final UploadService service;
 
     @PostMapping("")
     public ResponseEntity<List<UploadResultDTO>> uploadFile(MultipartFile[] uploadFiles) throws Exception {
-        return new ResponseEntity<>(uploadService.upload(uploadFiles), HttpStatus.OK);
+        return new ResponseEntity<>(service.upload(uploadFiles), HttpStatus.OK);
     }
 
 }
