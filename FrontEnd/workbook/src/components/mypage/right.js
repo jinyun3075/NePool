@@ -129,7 +129,7 @@ export default function Right() {
                                         
                                         {
                                             update[i] === true 
-                                            ? <UpdateModal workbookid = {workbookid} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
+                                            ? <UpdateModal workbookdata = {workbookdata} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
                                             : null    
                                         }
 

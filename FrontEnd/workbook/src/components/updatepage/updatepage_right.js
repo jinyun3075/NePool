@@ -8,7 +8,7 @@ import axios from 'axios';
 export default function Updatepage_Right() {
     const navigate = useNavigate();
     const location = useLocation();
-    const workbookid = location.state.workbookid
+    const workbookdata = location.state.workbookdata
     const user = sessionStorage.getItem('user');
     const token = sessionStorage.getItem('token');
     const [workid,setWorkid] = useState('');
@@ -37,7 +37,7 @@ export default function Updatepage_Right() {
 
     // 문제 보이기 (Get)
     const GetQuestion = async () =>{
-        const res = await axios.get(`${API}/work/${user}/${workbookid}`,{
+        const res = await axios.get(`${API}/work/${user}/${workbookdata.id}`,{
             headers:{
                 'Content-type' : "application/json",
             }
@@ -52,7 +52,7 @@ export default function Updatepage_Right() {
 
     // 문제집 수정
     const UpdateWorkbook = async () =>{
-        const res = await axios.put(`${API}/workbook/update/${user}/${workbookid}`,{
+        const res = await axios.put(`${API}/workbook/update/${user}/${workbookdata.id}`,{
             title: putworkbook.title,
             content: putworkbook.content,
             type: putworkbook.type,
@@ -75,8 +75,8 @@ export default function Updatepage_Right() {
     const DeleteQuestion = async (workid)=> {
         console.log(workid)
         console.log(user)
-        console.log(workbookid)
-        const ress = await axios(`${API}/work/${user}/${workbookid}/${workid}`,
+        console.log(workbookdata.id)
+        const ress = await axios(`${API}/work/${user}/${workbookdata.id}/${workid}`,
         {
             method:'delete',
             headers:{
@@ -103,15 +103,15 @@ export default function Updatepage_Right() {
                         <Input type="file" id ="input"/>                              
                         <Label htmlFor="input"><WorkbookImg src ="/img/mango.png"/></Label>
                         <TextSelect>
-                            <TextInput  placeholder ="문제집 이름" name = "title" value={putworkbook.title} onChange={handlingChange} type="text"></TextInput>
-                            <Select name="type" value={putworkbook.type} onChange={handlingChange}>
+                            <TextInput  placeholder = {workbookdata.title} name = "title" value={putworkbook.title} onChange={handlingChange} type="text"></TextInput>
+                            <Select placeholder = {workbookdata.type} name="type" value={putworkbook.type} onChange={handlingChange}>
                                 <option value="수능·내신">수능·내신</option>
                                 <option value="어학">어학</option>
                                 <option value="자격증">자격증</option>
                                 <option value="시사·상식">시사·상식</option>
                                 <option value="기타">기타</option>
                             </Select>
-                            <Explain rows="5" placeholder='문제집 설명' name="content" value={putworkbook.content} onChange={handlingChange}></Explain>
+                            <Explain rows="5" placeholder={workbookdata.content} name="content" value={putworkbook.content} onChange={handlingChange}></Explain>
                             <Workbookupdate type="submit" onClick ={UpdateWorkbook}>수정</Workbookupdate>
                         </TextSelect>    
                     </WorkbookForm>
@@ -125,7 +125,7 @@ export default function Updatepage_Right() {
                                         <Answer>[정답 : {questiondata.correct}]</Answer>
                                         <Answers>{questiondata.explanation}</Answers>
                                         <ButtonDiv>
-                                            <Link to={"/updatequestion"} state={{workbookid:workbookid,question:questiondata}}>
+                                            <Link to={"/updatequestion"} state={{workbookid:workbookdata.id,question:questiondata}}>
                                                 <Update>수정</Update>
                                             </Link>
                                             <Delete onClick = { () => { DeleteQuestion(questiondata.id);} }>삭제</Delete>
@@ -136,7 +136,7 @@ export default function Updatepage_Right() {
                         }
                     </QuestionUl>
 
-                    <Link to ='/add' state= {{workbookid: workbookid}}><CreateBtn>+</CreateBtn></Link>
+                    <Link to ='/add' state= {{workbookid: workbookdata.id}}><CreateBtn>+</CreateBtn></Link>
 
                 </ScrollbarSection>
             </Article>
