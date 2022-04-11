@@ -34,8 +34,6 @@ export default function MorePost() {
   const onClickPrev = () => {
     setNumber(parseInt((number-1)/5)*5-4);
   }
-  console.log(parseInt((number-1)/5)*5-4);
-  console.log(1);
 
   const getUser = async () => {
     const res = await axios.get(`${API}/workbook/page?page=${number}&size=10&type=${clickType}`, {

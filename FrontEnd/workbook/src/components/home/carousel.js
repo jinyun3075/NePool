@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../constants";
 import Slide from "./slide";
-import { Link } from "react-router-dom";
 
 export default function Carousel({ allUserCount }) {
   const totalSlide = 3;
