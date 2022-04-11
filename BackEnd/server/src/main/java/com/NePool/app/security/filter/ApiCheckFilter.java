@@ -38,6 +38,25 @@ public class ApiCheckFilter extends OncePerRequestFilter {
                 return;
             }
         }
+        if(antPathMatcher.match("/announcement/*",request.getRequestURI())) {
+            String user_id = request.getRequestURI().split("/")[2];
+            log.info(user_id);
+            if(user_id.equals("NEPOOLADMIN")){
+                filterChain.doFilter(request, response);
+                return;
+            }else {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.setContentType("application/json;charset=utf-8");
+                ArrayList<String> data = new ArrayList<>();
+                data.add("code:401");
+                data.add("운영자 권한 입니다.");
+                ObjectMapper mapper = new ObjectMapper();
+                JSONPObject json = new JSONPObject("Error", data);
+                PrintWriter out = response.getWriter();
+                out.print(mapper.writeValueAsString(json));
+                return;
+            }
+        }
         boolean checkHeader = checkAuthHeader(request);
         if (checkHeader) {
             filterChain.doFilter(request, response);
@@ -84,6 +103,7 @@ public class ApiCheckFilter extends OncePerRequestFilter {
         list.add("/workbook/*/*");
         list.add("/comment/like/*");
         list.add("/work/*/*");
+        list.add("/announcement");
         return list;
     }
 }
