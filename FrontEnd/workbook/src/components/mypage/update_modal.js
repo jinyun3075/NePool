@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import { COLORS } from '../../constants';
 
 export default function UpdateModal(props){
-    const workbookid = props.workbookid
+    const workbookdata = props.workbookdata
     return(
         <> 
             <Modal className="updatemodal">
                 <Try onClick = { ()=>{props.setModemodal(true); props.setDeletemodal(false);} }>풀기</Try>
-                <Update><Link to='/update' state={{workbookid:workbookid}}>수정</Link></Update>
+                <Update><Link to='/update' state={{workbookdata:workbookdata}}>수정</Link></Update>
                 <Delete onClick = { ()=>{props.setDeletemodal(true); props.setModemodal(false);}} >삭제</Delete>
             </Modal>
         </>
