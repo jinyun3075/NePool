@@ -45,7 +45,6 @@ export default function MorePost() {
     setPage(res.data.pageList);
     setNext(res.data.next);
     setPrev(res.data.prev);
-    console.log(res);
   };
   //카테고리별 게시글
   const [clickType, setClickType] = useState("all");
