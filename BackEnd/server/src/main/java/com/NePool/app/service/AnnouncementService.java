@@ -6,13 +6,15 @@ import com.NePool.app.dto.PageResultDTO;
 import com.NePool.app.entity.Announcement;
 
 public interface AnnouncementService {
-    AnnouncementDTO register(AnnouncementDTO dto) throws Exception;
+    AnnouncementDTO register(AnnouncementDTO dto);
 
     PageResultDTO<AnnouncementDTO, Announcement> getList(PageRequestDTO dto);
 
     AnnouncementDTO update(AnnouncementDTO dto);
 
     Long delete(Long id) throws Exception;
+
+    AnnouncementDTO getAnnouncement(Long announcement_id);
 
     default Announcement dtoToEntity(AnnouncementDTO dto) {
         return Announcement.builder()

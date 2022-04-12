@@ -23,13 +23,18 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final AnnouncementRepository repository;
 
     @Override
-    public AnnouncementDTO register(AnnouncementDTO dto) throws Exception{
+    public AnnouncementDTO register(AnnouncementDTO dto){
         return entityToDto(repository.save(dtoToEntity(dto)));
     }
 
     @Override
+    public AnnouncementDTO getAnnouncement(Long announcement_id) {
+        return entityToDto(repository.findById(announcement_id).get());
+    }
+
+    @Override
     public PageResultDTO<AnnouncementDTO, Announcement> getList(PageRequestDTO dto) {
-        Page<Announcement> entity = repository.findAll(dto.getPageable(Sort.by("modDate").ascending()));
+        Page<Announcement> entity = repository.findAll(dto.getPageable(Sort.by("modDate").descending()));
         Function<Announcement,AnnouncementDTO> fn = (data->entityToDto(data));
         return new PageResultDTO<>(entity,fn);
     }

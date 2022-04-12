@@ -20,8 +20,13 @@ public class AnnouncementCont {
     private final AnnouncementService service;
 
     @PostMapping("/{user_id}")
-    public ResponseEntity<AnnouncementDTO> register(@RequestBody AnnouncementDTO dto) throws Exception{
+    public ResponseEntity<AnnouncementDTO> register(@RequestBody AnnouncementDTO dto){
         return new ResponseEntity<>(service.register(dto), HttpStatus.OK);
+    }
+
+    @GetMapping("/show/{announcement_id}")
+    public ResponseEntity<AnnouncementDTO> getAnnouncement(@PathVariable Long announcement_id) {
+        return new ResponseEntity<>(service.getAnnouncement(announcement_id),HttpStatus.OK);
     }
 
     @GetMapping("")

@@ -104,6 +104,7 @@ public class ApiCheckFilter extends OncePerRequestFilter {
         list.add("/comment/like/*");
         list.add("/work/*/*");
         list.add("/announcement");
+        list.add("/announcement/*/*");
         return list;
     }
 }
