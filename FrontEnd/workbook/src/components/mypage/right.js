@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { COLORS, API } from '../../constants/index';
 import {Link} from 'react-router-dom';
-import styled from 'styled-components';
+import styled,{css} from 'styled-components';
 import DeleteModal from '../mypage/delete_modal';
 import CreateModal from './create_modal';
 import UpdateModal from './update_modal';
@@ -17,6 +17,7 @@ export default function Right() {
     let [workbookid, setWorkbookid] = useState('');
     let [workbookUserName, setworkbookUserName] = useState('');
 
+
     const token = sessionStorage.getItem('token');
     const username = sessionStorage.getItem('user');
     
@@ -28,24 +29,24 @@ export default function Right() {
         setworkbookUserName(username)
     }
 
-    useEffect(() => {
-        ReadWorkbook()
-    }, []);  
-
 
     // 문제집 data
     const [workbook,setWorkbook] = useState([
         {
-            content:"",
-            count:"",
             id:"",
-            share:"",
             title:"",
+            content:"",
+            share:"",
             username:"",
-            regDate: "",
-            modDate: "",
+            image:"",   
+            count:"",
+            type: "",
+            regDate:"",
+            modDate:""
         },
     ]);
+
+
 
     // 문제집 리스트 API (Get)
     const ReadWorkbook = async () => {
@@ -56,6 +57,7 @@ export default function Right() {
             }}
         );
         setWorkbook(res.data.dtoList);
+        // console.log(res.data.dtoList);
     }
     
     // 문제집 공유 API
@@ -94,9 +96,14 @@ export default function Right() {
         }
     }
 
-    useEffect( ()=>{
+    
+    useEffect(() => {
         ReadWorkbook()
-    },[workbook])
+    }, [workbook]);  
+
+    // useEffect(() => {
+    //     ReadWorkbook()
+    // }, [workbook]);  
 
     return(
         <>
@@ -115,7 +122,7 @@ export default function Right() {
                     {
                         workbook.sort((a,b)=>{if(a.regDate>b.regDate){return 1}else if(a.regDate<b.regDate){return -1}else{return 0}}).map((workbookdata,i)=>{
                             return(
-                                    <ExampleLi onClick={ (event) => { workbookdatausername(workbookdata.username); workbookdataid(workbookdata.id); updateboolean(event); }} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
+                                    <ExampleLi onClick={ (event) => { workbookdatausername(workbookdata.username); workbookdataid(workbookdata.id); updateboolean(event); }} imageurl={workbookdata.image} data-workbookid={workbookdata.id} value={i} key={workbookdata.id}>
                                         
                                         <Link to={`/detail/${workbookdata.id}`} state={{username:workbookdata.username}}>
                                             <ExampleP1 >{workbookdata.title}</ExampleP1>
@@ -218,6 +225,13 @@ const ExampleLi = styled.li`
                 width:100%;
                 height:100%;
                 background:url(/img/mango.png) no-repeat center center/cover;
+                
+                ${props => props.imageurl &&
+                    css`
+                        background: url(${props=>props.imageurl}) no-repeat center center/cover;
+                    `
+                }
+
                 opacity:0.6;
                 height:100%;
             }
