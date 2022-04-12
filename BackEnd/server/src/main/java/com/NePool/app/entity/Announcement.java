@@ -17,6 +17,7 @@ public class Announcement extends BaseEntity {
 
     private String title;
 
+    @Column(length = 3000)
     private String contents;
 
     public void update(String title, String contents) {

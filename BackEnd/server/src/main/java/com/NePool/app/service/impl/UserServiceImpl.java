@@ -3,9 +3,12 @@ package com.NePool.app.service.impl;
 import com.NePool.app.dto.PageRequestDTO;
 import com.NePool.app.dto.PageResultDTO;
 import com.NePool.app.dto.UserDTO;
+import com.NePool.app.dto.UserLoginDTO;
 import com.NePool.app.entity.NePoolUser;
 import com.NePool.app.repository.UserRepository;
+import com.NePool.app.security.util.JWTUtil;
 import com.NePool.app.service.UserService;
+import com.nimbusds.jose.shaded.json.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,5 +90,39 @@ public class UserServiceImpl implements UserService {
         }
         repository.deleteById(user_id);
         return "삭제 완료";
+    }
+
+    @Override
+    public UserLoginDTO googleLogin(JSONObject dto) throws Exception {
+        Optional<NePoolUser> entity = repository.findById(dto.getAsString("sub"));
+        JWTUtil jwtUtil = new JWTUtil();
+        if(!entity.isPresent()) {
+
+            NePoolUser nePoolUser =  repository.save(
+                    NePoolUser.builder()
+                            .uno(dto.getAsString("sub"))
+                            .username(dto.getAsString("email"))
+                            .name(dto.getAsString("name"))
+                            .password(pw.encode("nepool"))
+                            .email(dto.getAsString("email"))
+                            .image("")
+                            .build()
+            );
+            return UserLoginDTO.builder()
+                    .id(nePoolUser.getUno())
+                    .username(nePoolUser.getUsername())
+                    .email(nePoolUser.getEmail())
+                    .name(nePoolUser.getName())
+                    .Token(jwtUtil.generateToken("123"))
+                    .build();
+        }
+
+        return UserLoginDTO.builder()
+                .id(entity.get().getUno())
+                .username(entity.get().getUsername())
+                .email(entity.get().getEmail())
+                .name(entity.get().getName())
+                .Token(jwtUtil.generateToken("123"))
+                .build();
     }
 }
