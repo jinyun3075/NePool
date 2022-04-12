@@ -153,7 +153,7 @@
  
 ### 프로필 변경
 - api
-    -/user/update/to (put)
+    - /user/update/to (put)
  
  - headers
     - Content-type : "application/json"
@@ -180,7 +180,7 @@
 
 ### 프로필 삭제
 - api
-    -/user/delete/:user_id (delete)
+    - /user/delete/:user_id (delete)
  
  - headers
     - Content-type : "application/json"
