@@ -9,7 +9,6 @@ export default function Banner({allUserCount}) {
   const [allWorkBook, setAllWorkBook] = useState("")
 
   const getAllWorkbook = async () => {
-    const token = sessionStorage.getItem("token");
     const res = await axios.get(`${API}/workbook/all`, {
       headers: {
         "Content-type": "application/json",

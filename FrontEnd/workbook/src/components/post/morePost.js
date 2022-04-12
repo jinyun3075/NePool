@@ -34,8 +34,6 @@ export default function MorePost() {
   const onClickPrev = () => {
     setNumber(parseInt((number-1)/5)*5-4);
   }
-  console.log(parseInt((number-1)/5)*5-4);
-  console.log(1);
 
   const getUser = async () => {
     const res = await axios.get(`${API}/workbook/page?page=${number}&size=10&type=${clickType}`, {
@@ -47,7 +45,6 @@ export default function MorePost() {
     setPage(res.data.pageList);
     setNext(res.data.next);
     setPrev(res.data.prev);
-    console.log(res);
   };
   //카테고리별 게시글
   const [clickType, setClickType] = useState("all");

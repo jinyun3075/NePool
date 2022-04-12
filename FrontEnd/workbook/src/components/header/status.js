@@ -2,19 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API } from "../../constants";
-import { Link, useNavigate } from 'react-router-dom';
 
 export default function StatusModal() {
-
-  const navigate = useNavigate()
-  
   const [userName, setUserName] = useState("");
 
   const getUser = async () => {
-    const token = sessionStorage.getItem("token");
     const user = sessionStorage.getItem("user");
-    // console.log(token);
-    // console.log(user);
     const res = await axios.get(`${API}/user/${user}`, {
       headers: {
         "Content-type": "application/json",
@@ -25,10 +18,10 @@ export default function StatusModal() {
   };
 
   const logout = () => {
-    sessionStorage.removeItem("user")
-    sessionStorage.removeItem("token")
-    window.location.reload()
-  }
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    window.location.reload();
+  };
 
   useEffect(() => {
     getUser();
@@ -57,7 +50,7 @@ export default function StatusModal() {
 const ProfileStatus = styled.div`
   z-index: 99;
   position: absolute;
-  width:  280px;
+  width: 280px;
   height: 220px;
   border: 1px solid #b6b6b6;
   border-radius: 6px;

@@ -10,7 +10,7 @@ export default function SetProfile() {
         <P>대표 프로필 이미지와 별명을 수정 하실 수 있습니다.</P>
         <CurrentProfile>
           <ProfileImg>
-            <img src="/img/mango.png" alt="프로필 사진" />
+            <img src="/img/profile.svg" alt="프로필 사진" />
           </ProfileImg>
           <ImgBtn>
             <img src="/img/photo.svg" alt="이미지 변경 버튼" />
@@ -19,6 +19,8 @@ export default function SetProfile() {
         <InputForm>
           <Label htmlFor="nickname">닉네임</Label>
           <Input id="nickname" placeholder="닉네임을 입력해 주세요" />
+          <Label htmlFor="nickname">비밀번호 확인</Label>
+          <Input id="nickname" placeholder="비밀번호를 입력해 주세요" />
         </InputForm>
         <BtnBox>
           <SaveBtn>저장</SaveBtn>
@@ -66,15 +68,17 @@ const CurrentProfile = styled.div`
   width: 150px;
 `;
 const ProfileImg = styled.div`
+  border: 4px solid ${COLORS.alpha_blue};
+  border-radius: 6px;
   img {
     width: 150px;
     height: 150px;
-    border-radius: 6px;
+    /* border-radius: 6px; */
   }
 `;
 const ImgBtn = styled.div`
   position: absolute;
-  margin: -24px 0 0 130px;
+  margin: -25px 0 0 129px;
 `;
 
 
@@ -84,12 +88,16 @@ const InputForm = styled.form`
 `;
 const Label = styled.label`
   display: block;
+  font-size: 15px;
+  color: ${COLORS.gray}
 `;
 const Input = styled.input`
   width: 400px;
-  height: 40px;
+  height: 35px;
+  font-size: 15px;
   color: ${COLORS.black};
   margin-bottom: 22px;
+  padding-left: 0;
   border: none;
   border-bottom: 1px solid ${COLORS.light_gray};
   background: none;
@@ -111,7 +119,7 @@ const BtnBox = styled.div`
 const SaveBtn = styled.button`
   width: 60px;
   height: 30px;
-  font-size: 10px;
+  font-size: 13px;
   margin: 15px 0 0;
   color: ${COLORS.blue};
   background-color: #fff;
@@ -121,7 +129,7 @@ const SaveBtn = styled.button`
 const DelBtn = styled.button`
   width: 60px;
   height: 30px;
-  font-size: 10px;
+  font-size: 13px;
   margin: 15px 0 0;
   color: ${COLORS.error};
   background-color: #fff;
