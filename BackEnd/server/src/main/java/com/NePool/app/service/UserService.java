@@ -7,10 +7,16 @@ import com.NePool.app.entity.NePoolUser;
 
 public interface UserService {
     UserDTO register(UserDTO dto) throws Exception;
+
     UserDTO getUser(String dto);
+
     PageResultDTO<UserDTO, NePoolUser> getList(PageRequestDTO dto);
+
     UserDTO update(UserDTO dto) throws Exception;
-    default NePoolUser dtoToEntity(UserDTO dto,String id) {
+
+    String delete(String user_id) throws Exception;
+
+    default NePoolUser dtoToEntity(UserDTO dto, String id) {
         return NePoolUser.builder()
                 .uno(id)
                 .name(dto.getName())
@@ -20,6 +26,7 @@ public interface UserService {
                 .image(dto.getImage())
                 .build();
     }
+
     default UserDTO entityToDto(NePoolUser entity) {
         return UserDTO.builder()
                 .id(entity.getUno())

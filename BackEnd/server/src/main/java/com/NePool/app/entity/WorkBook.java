@@ -1,6 +1,8 @@
 package com.NePool.app.entity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -27,6 +29,7 @@ public class WorkBook extends BaseEntity {
     private Boolean share;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private NePoolUser writer;
 
     private Long count;

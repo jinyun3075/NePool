@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
         }
         Optional<NePoolUser> entity = repository.findById(dto.getId());
         if(!entity.isPresent()) {
-            throw new Exception("존재하지 않는 ID입니다");
+            throw new Exception("존재하지 않는 ID입니다.");
         }
         log.info(pw.matches(dto.getPassword(),entity.get().getPassword()));
         if(pw.matches(dto.getPassword(),entity.get().getPassword())) {
@@ -77,5 +77,15 @@ public class UserServiceImpl implements UserService {
             return entityToDto(repository.save(entity.get()));
         }
         throw new Exception("Password 가 틀립니다.");
+    }
+
+    @Override
+    public String delete(String user_id) throws Exception {
+        Optional<NePoolUser> entity = repository.findById(user_id);
+        if(!entity.isPresent()) {
+            throw new Exception("존재하지 않는 ID입니다.");
+        }
+        repository.deleteById(user_id);
+        return "삭제 완료";
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 @Log4j2
-@RequiredArgsConstructor // 자동주입
+@RequiredArgsConstructor
 public class UserCont {
     private final UserService service;
     @PostMapping("")
@@ -39,5 +39,10 @@ public class UserCont {
     @PutMapping("/update/to")
     public ResponseEntity<UserDTO> update(@RequestBody UserDTO req) throws Exception{
         return new ResponseEntity<>(service.update(req),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{user_id}")
+    public ResponseEntity<String> delete(@PathVariable String user_id) throws Exception{
+        return new ResponseEntity<>(service.delete(user_id),HttpStatus.OK);
     }
 }

@@ -22,7 +22,10 @@ public class Comments extends BaseEntity{
 
     private Long comLike;
 
-    @ManyToOne
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private NePoolUser writer;
 
     @ManyToOne(
