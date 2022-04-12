@@ -4,21 +4,33 @@ import { COLORS, API } from '../../constants/index';
 import axios from 'axios';
 
 export default function CreateModal(props){
-    const [createname, setCreatename] = useState("")
-    const [createtitle, setCreatetitle] = useState("")
-    const [createcontent, setCreatecontent] = useState("")
-    const [createtype, setCreatetype] = useState("정보처리기사")
+    const [imageurl,setImageurl] = useState('');
 
+    const token = sessionStorage.getItem('token');
+    const username = sessionStorage.getItem('user')
+
+    const [postworkbook,setPostworkbook] = useState(
+        {
+            username:username,
+            title:'',
+            content:'',
+            type:'수능·내신',
+        }
+    )
+
+    const Change = (e) =>{
+        setPostworkbook({...postworkbook,[e.target.name]: e.target.value})
+    }
 
     // 문제집 생성 API (Post)
-    const Workbook  = async() =>{
-        const token = sessionStorage.getItem('token');
-        const username = sessionStorage.getItem('user')
+    const Workbook  = async () =>{    
+        console.log(imageurl)
         const res = await axios.post(`${API}/workbook/register`,{
-            username: username,
-            title:createtitle,
-            content:createcontent,
-            type:createtype,
+            username: postworkbook.username,
+            title:postworkbook.title,
+            content:postworkbook.content,
+            type:postworkbook.type,
+            image:imageurl
         },{
             headers: {
                 'Content-type' : 'application/json',
@@ -26,48 +38,53 @@ export default function CreateModal(props){
             },
         })
         window.location.reload()
+        console.log(res.data)
     }
 
-    function Change(e){ 
-        const {
-            target:{name,value}
-        } = e
-        if(name === 'title'){
-            setCreatetitle(value)
-        }
-        else if(name ==='content'){
-            setCreatecontent(value)
-        }
-        else if(name ==='type'){
-            setCreatetype(value)
-        }
+    const ChangeImg = async (e) =>{
+        const uploadFiles = e.target.files[0]
+        console.log(uploadFiles)
+        const formData = new FormData()
+        formData.append('uploadFiles',uploadFiles)
+        
+        const ress = await axios.post(`${API}/upload`,    
+            formData,
+            {
+                headers: {
+                    'Content-type' : 'multipart/form-data',
+                    Authorization : `Bearer ${token}`,
+                },
+            }
+        )
+        console.log(ress)
+        setImageurl(ress.data[0].imageUrl)
     }
-
+    
 
     return(
         <>
-            <Modal action ={`${API}/workbook`} method = "POST" onSubmit={function(e){
+            <Modal onSubmit={function(e){
                 e.preventDefault();
             }.bind(this)}>
                 <ImgDiv>
-                    <img onClick = { ()=>{props.setCreate(props.create === false)} } src ="./img/x.svg" alt = "x"></img>
+                    <img onClick = { ()=>{props.setCreate(props.create === false)} }  src ="./img/x.svg" alt = "x" ></img>
                 </ImgDiv>
 
-                <InputLabel>
-                    <Input type="file" id ="input"/>
+                <InputLabel> 
+                    <Input type="file" id ="input" name = "image"  onChange = {ChangeImg} />
                     <Label htmlFor="input"><img src ="./img/+.svg"></img></Label>
                 </InputLabel>
 
                 <TextSelect>
-                    <TextInput onChange = { Change } value = {createtitle} name = "title" placeholder ="문제집 이름" type="text"></TextInput>
-                    <Select defaultValue ="수능·내신" onChange = { Change } value = {createtype} name="type">
+                    <TextInput onChange = { Change } name = "title" value = {postworkbook.title} placeholder ="문제집 이름" type="text"></TextInput>
+                    <Select defaultValue ="수능·내신" onChange = { Change } name="type" value = {postworkbook.type} >
                         <option value="수능·내신">수능·내신</option>
                         <option value="어학">어학</option>
                         <option value="자격증">자격증</option>
                         <option value="시사·상식">시사·상식</option>
                         <option value="기타">기타</option>
                     </Select>
-                    <Explain onChange = { Change } value = {createcontent} name="content" rows="5" placeholder='문제집 설명'></Explain>
+                    <Explain onChange = { Change } name="content" value = {postworkbook.content} rows="5" placeholder='문제집 설명'></Explain>
                 </TextSelect>
 
                 <Create onClick = {Workbook}>문제집 생성</Create>
