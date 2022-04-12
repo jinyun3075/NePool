@@ -11,6 +11,7 @@
   - [1.3 유저 정보](#유저-정보)
   - [1.4 모든 유저](#모든-유저)
   - [1.5 프로필 변경](#프로필-변경)
+  - [1.6 프로필 삭제](#프로필-삭제)
 
 - ### [2 문제집](#문제집)
   - [2.1 문제집 만들기](#문제집-만들기)
@@ -52,7 +53,8 @@
 
 - ### [8 공지사항](#공지사항)
   - [8.1 공지사항 만들기](#공지사항-만들기)
-  - [8.2 공지사항 가져오기](#공지사항-가져오기)
+  - [8.2 공지사항 정보](#공지사항-정보)
+  - [8.3 공지사항 리스트 가져오기](#공지사항-리스트-가져오기)
   - [8.3 공지사항 수정](#공지사항-수정)
   - [8.4 공지사항 삭제](#공지사항-삭제)
 
@@ -148,6 +150,7 @@
     - start: Number
     - end: Number
     - pageList: Array
+ 
 ### 프로필 변경
 - api
     -/user/update/to (put)
@@ -175,6 +178,19 @@
     - name에 값이 없을 때
     - 비밀번호가 일치하지 않을 때
 
+### 프로필 삭제
+- api
+    -/user/delete/:user_id (delete)
+ 
+ - headers
+    - Content-type : "application/json"
+    - Authorization : “Bearer key”
+  
+- res
+    - "삭제 완료"
+
+- fail
+    - user_id가 존재하지 않을 때
 
 ## 문제집
 ### 문제집 만들기
@@ -827,7 +843,24 @@
 - fail
     - ADMIN이 아닐 경우
 
-### 공지사항 가져오기
+### 공지사항 정보
+- api
+    - /announcement/show/:announcement_id (get)
+   
+- headers
+    - Content-type : "application/json"
+
+- res
+    - id: Number
+    - title: String
+    - contents: String 
+    - regDate: Date
+    - modDate: Date  
+
+- fail
+    - announcement_id가 존재하지 않을 때
+
+### 공지사항 리스트 가져오기
 - api
     - /announcement (get)
     - /announcement?page=Number&size=Number (get)
