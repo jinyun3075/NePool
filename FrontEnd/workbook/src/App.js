@@ -14,8 +14,8 @@ import UpdatePage from './pages/Update';
 import NotFound from './pages/NotFound';
 import UpdateWork from './pages/Updatework';
 import Exam from './pages/Exam';
-import Profile from './pages/Profile';
-
+import NoticeEditor from './pages/NoticeEditor';
+import NoticeDetail from './pages/NoticeDetail';
 
 function App() {
   return (
@@ -33,8 +33,10 @@ function App() {
         <Route path="/updatequestion" element={<UpdateWork />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/notice" element={<Notice />} />
+        <Route path="/notice/:id" element={<NoticeDetail />} />
+        <Route path="/notice/editor" element={<NoticeEditor />} />
+        <Route path="/notice/editor/:id" element={<NoticeEditor />} />
         <Route path="/update" element={<UpdatePage />} />
-        <Route path="/profile" element={<Profile/>} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </>
