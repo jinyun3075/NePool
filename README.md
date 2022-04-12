@@ -50,6 +50,12 @@
 - ### [7 이미지](#이미지)
   - [7.1 이미지 업로드](#이미지-업로드)
 
+- ### [8 공지사항](#공지사항)
+  - [8.1 공지사항 만들기](#공지사항-만들기)
+  - [8.2 공지사항 가져오기](#공지사항-가져오기)
+  - [8.3 공지사항 수정](#공지사항-수정)
+  - [8.4 공지사항 삭제](#공지사항-삭제)
+
 ## 유저
 ### 회원가입
 - api
@@ -786,11 +792,11 @@
     - Content-type : "multipart/form-data"
     - Authorization : “Bearer key”
 
-- res
+- req
     - uploadFiles:Array
        - FormData
 
-- req
+- res
     - fileName: String
     - uuid: String
     - folderPath: String
@@ -798,3 +804,89 @@
 
 - fail
     - 이미지 파일이 아닌 경우
+
+## 공지사항
+### 공지사항 만들기
+- api
+    - /announcement/:user_id (post)
+
+- headers
+    - Content-type : "application/json"
+
+- req
+    - title: String
+    - contents: String 
+
+- res
+    - id: Number
+    - title: String
+    - contents: String 
+    - regDate: Date
+    - modDate: Date
+
+- fail
+    - ADMIN이 아닐 경우
+
+### 공지사항 가져오기
+- api
+    - /announcement (get)
+    - /announcement?page=Number&size=Number (get)
+
+- headers
+    - Content-type : "application/json"
+
+- res
+     - dtoList:Array
+        - id: Number
+        - title: String
+        - contents: String 
+        - regDate: Date
+        - modDate: Date    
+    - totalPage: Number
+    - page: Number
+    - size: Number
+    - prev: boolean
+    - next: boolean
+    - start: Number
+    - end: Number
+    - pageList: Array
+
+
+### 공지사항 수정
+- api
+    - /announcement/:user_id (put)
+
+- headers
+    - Content-type : "application/json"
+
+- req
+    - id: Number
+    - title: String
+    - contents: String 
+  
+- res
+    - id: Number
+    - title: String
+    - contents: String 
+    - regDate: Date
+    - modDate: Date    
+
+- fail
+    - ADMIN이 아닐 경우
+
+### 공지사항 삭제
+- api
+    - /announcement/:user_id (delete)
+
+- headers
+    - Content-type : "application/json"
+
+- req (공지사항 아이디만 보내면됩니다.)
+    :announcement_id(Number)
+  
+- res
+    - "삭제 완료"
+
+- fail
+    - ADMIN이 아닐 경우
+    - 없는 아이디 일 경우
