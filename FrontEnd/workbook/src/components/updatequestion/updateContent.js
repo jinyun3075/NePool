@@ -12,14 +12,14 @@ export default function UpdateCont({workbookid}) {
     const question = location.state.question
 
     const [answer, setAnswer] = useState({
-        question: "",
-        answerA: "",
-        answerB: "",
-        answerC: "",
-        answerD: "",
-        answerE: "",
-        correct: "",
-        explanation: ""
+        question: question.question,
+        answerA: question.answer_a,
+        answerB: question.answer_b,
+        answerC: question.answer_c,
+        answerD: question.answer_d,
+        answerE: question.answer_e,
+        correct: question.correct,
+        explanation: question.explanation
     })
 
     const [error, setError] = useState("")
@@ -81,7 +81,6 @@ export default function UpdateCont({workbookid}) {
                     name="answerA"
                     type="text"
                     id="answerA"
-                    placeholder={question.answer_a}
                     value={answer.answerA}
                     onClick={onClick}
                     onChange={onChange}
@@ -91,7 +90,6 @@ export default function UpdateCont({workbookid}) {
                     name="answerB"
                     type="text"
                     id="answerB"
-                    placeholder={question.answer_b}
                     value={answer.answerB}
                     onClick={onClick}
                     onChange={onChange} 
@@ -100,7 +98,6 @@ export default function UpdateCont({workbookid}) {
                     name="answerC"
                     type="text"
                     id="answerC"
-                    placeholder={question.answer_c}
                     value={answer.answerC}
                     onClick={onClick}
                     onChange={onChange} 
@@ -109,7 +106,6 @@ export default function UpdateCont({workbookid}) {
                     name="answerD"
                     type="text"
                     id="answerD"
-                    placeholder={question.answer_d}
                     value={answer.answerD}
                     onClick={onClick}
                     onChange={onChange} 
@@ -118,22 +114,13 @@ export default function UpdateCont({workbookid}) {
                     name="answerE"
                     type="text"
                     id="answerE"
-                    placeholder={question.answer_e}
                     value={answer.answerE}
                     onClick={onClick}
                     onChange={onChange} 
-                /> 
+                ></InputNum> 
                 </div>
                 <div>정답: {answer.correct}</div>
                 
-                {/* <Input
-                name="correct"
-                type="text"
-                id="correct"
-                value={answer.correct}
-                onChange={onChange} 
-                placeholder="보기를 선택하세요!"
-                /> */}
             </LeftBox>
             <RightBox>
                 <InputTxt 
