@@ -16,6 +16,7 @@ export default function Post() {
       title: "",
       type: "",
       username: "",
+      image: "",
     },
   ]);
 
@@ -78,7 +79,7 @@ export default function Post() {
             return (
               <li key={a.id}>
                 <Link to={`/detail/${a.id}`} state={{ username: a.username }}>
-                  <ItemImg></ItemImg>
+                  <ItemImg><img src={a.image} alt="" /></ItemImg>
                   <TextBox>
                     <ItemScr size="20px">{a.title}</ItemScr>
                     <ItemScr size="13px">만든이: {a.username}</ItemScr>
@@ -140,6 +141,10 @@ const ItemImg = styled.div`
   height: 177px;
   border-bottom: 1px solid #b6b6b6;
   background: url(/img/example.svg) no-repeat center/103%;
+  img {
+    width: 190px;
+  height: 177px;
+  }
 `;
 const TextBox = styled.div`
   margin: 10px 10px;

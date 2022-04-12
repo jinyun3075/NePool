@@ -99,6 +99,7 @@ export default function MorePost() {
                 <li key={postData.id}>
                   <Link to={`/detail/${postData.id}`} state={{username: postData.username}}>
                     <ItemImg>
+                      <img src={postData.image} alt="문제집 이미지" />
                     </ItemImg>
                     <TextBox>
                       <ItemScr size="20px">{postData.title}</ItemScr>
@@ -160,6 +161,10 @@ const ItemImg = styled.div`
   height: 177px;
   border-bottom: 1px solid #b6b6b6;
   background: url(/img/example.svg) no-repeat center/103% ;
+  img{
+    width: 190px;
+    height: 177px;
+  }
 `
 const TextBox = styled.div`
   margin: 10px 10px;
