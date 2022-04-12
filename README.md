@@ -809,8 +809,7 @@
     - Authorization : “Bearer key”
 
 - req
-    - uploadFiles:Array
-       - FormData
+    - FormData
 
 - res
     - fileName: String
