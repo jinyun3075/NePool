@@ -2,7 +2,7 @@
 ### URL www.nepool.co.kr
 ### Front REPO https://github.com/jinyun3075/NePool/tree/frontDev
 ## DB 관계도
-![image](https://user-images.githubusercontent.com/64072136/163111540-504daa5a-3fdf-42bf-8225-606bd17449e2.png)
+![image](https://user-images.githubusercontent.com/64072136/163166319-ce4bd54a-fa7e-4513-acfd-605d0ba1f950.png)
 
 ## API 명세 목차
 - ### [1 유저](#유저)
