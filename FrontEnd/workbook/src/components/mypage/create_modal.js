@@ -41,6 +41,8 @@ export default function CreateModal(props){
         console.log(res.data)
     }
 
+
+    // 이미지 업로드 API
     const ChangeImg = async (e) =>{
         const uploadFiles = e.target.files[0]
         console.log(uploadFiles)

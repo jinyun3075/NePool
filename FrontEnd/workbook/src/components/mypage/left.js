@@ -12,6 +12,7 @@ export default function Left() {
         name:"",
         password:"",
         username:"",
+        image:"",
     }])
     const Mypageinfo = async ()=>{
         const token = sessionStorage.getItem('token');

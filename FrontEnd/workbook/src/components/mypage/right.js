@@ -29,7 +29,6 @@ export default function Right() {
         setworkbookUserName(username)
     }
 
-
     // 문제집 data
     const [workbook,setWorkbook] = useState([
         {
@@ -95,15 +94,11 @@ export default function Right() {
             setUpdate(newarray)
         }
     }
-
     
     useEffect(() => {
         ReadWorkbook()
     }, [workbook]);  
 
-    // useEffect(() => {
-    //     ReadWorkbook()
-    // }, [workbook]);  
 
     return(
         <>
@@ -136,7 +131,7 @@ export default function Right() {
                                         
                                         {
                                             update[i] === true 
-                                            ? <UpdateModal workbookdata = {workbookdata} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
+                                            ? <UpdateModal imageurl={workbookdata.image} workbookdata = {workbookdata} setDeletemodal = {setDeletemodal} deletemodal = {deletemodal} modemodal = {modemodal} setModemodal = {setModemodal}/>
                                             : null    
                                         }
 
