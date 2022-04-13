@@ -26,6 +26,7 @@ export default function Carousel({ allUserCount }) {
       content: "",
       share: "",
       username: "",
+      image: "",
       count: "",
       type: "",
       regDate: "",
