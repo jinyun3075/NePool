@@ -1,29 +1,29 @@
 package com.NePool.app.service;
 
-import com.NePool.app.dto.CommentRequestDTO;
-import com.NePool.app.dto.PageRequestDTO;
-import com.NePool.app.dto.PageResultDTO;
-import com.NePool.app.entity.Comments;
-import com.NePool.app.entity.NePoolUser;
-import com.NePool.app.entity.WorkBook;
-
-import java.util.List;
+import com.NePool.app.domain.comment.dto.CommentRequestDTO;
+import com.NePool.app.util.dto.PageRequestDTO;
+import com.NePool.app.util.dto.PageResultDTO;
+import com.NePool.app.domain.comment.entity.Comment;
+import com.NePool.app.domain.user.entity.NePoolUser;
+import com.NePool.app.domain.workbook.entity.WorkBook;
 
 public interface CommentService {
-    CommentRequestDTO register(String username, String work_book_id, CommentRequestDTO dto) throws Exception;
+    CommentRequestDTO insertComment(String username, String work_book_id, CommentRequestDTO dto) throws Exception;
 
-    PageResultDTO<CommentRequestDTO,Comments> getList(String work_book_id, PageRequestDTO dto) throws Exception;
-    Double getLike(String work_book_id) throws Exception;
+    PageResultDTO<CommentRequestDTO, Comment> selectCommentList(String work_book_id, PageRequestDTO dto) throws Exception;
 
-    String delete(String comment_id,String writer) throws Exception;
-    default Comments dtoToEntity(CommentRequestDTO dto, String workBook_id, String user_id,String id) {
+    Double selectCommentLikeCount(String work_book_id) throws Exception;
+
+    String deleteComment(String comment_id, String writer) throws Exception;
+
+    default Comment dtoToEntity(CommentRequestDTO dto, String workBook_id, String user_id, String id) {
         WorkBook workBook = WorkBook.builder()
                 .wno(workBook_id)
                 .build();
         NePoolUser user = NePoolUser.builder()
                 .uno(user_id)
                 .build();
-        return Comments.builder()
+        return Comment.builder()
                 .com_no(id)
                 .content(dto.getContent())
                 .comLike(dto.getLike())
@@ -31,7 +31,8 @@ public interface CommentService {
                 .writer(user)
                 .build();
     }
-    default CommentRequestDTO entityToDto(Comments entity) {
+
+    default CommentRequestDTO entityToDto(Comment entity) {
         return CommentRequestDTO.builder()
                 .id(entity.getCom_no())
                 .content(entity.getContent())

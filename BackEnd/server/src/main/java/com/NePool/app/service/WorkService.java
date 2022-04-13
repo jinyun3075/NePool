@@ -1,27 +1,25 @@
 package com.NePool.app.service;
 
-import com.NePool.app.dto.WorkDTO;
-import com.NePool.app.dto.WorkResultRealResponseDTO;
-import com.NePool.app.dto.WorkResultRequestDTO;
-import com.NePool.app.dto.WorkResultResponseDTO;
-import com.NePool.app.entity.NePoolUser;
-import com.NePool.app.entity.Work;
-import com.NePool.app.entity.WorkBook;
+import com.NePool.app.domain.work.dto.WorkDTO;
+import com.NePool.app.domain.work.dto.WorkResultRealResponseDTO;
+import com.NePool.app.domain.work.dto.WorkResultRequestDTO;
+import com.NePool.app.domain.work.entity.Work;
+import com.NePool.app.domain.workbook.entity.WorkBook;
 
 import java.util.List;
 
 public interface WorkService {
-    WorkDTO register(WorkDTO dto, String username, String work_book_id) throws Exception;
+    WorkDTO insertWork(WorkDTO dto, String username, String work_book_id) throws Exception;
 
-    WorkDTO getWork(String username, String work_book_id, String work_id) throws Exception;
+    WorkDTO selectWork(String username, String work_book_id, String work_id) throws Exception;
 
-    List<WorkDTO> getList(String username, String work_book_id) throws Exception;
+    List<WorkDTO> selectWorkList(String username, String work_book_id) throws Exception;
 
-    WorkResultRealResponseDTO checkResult(List<WorkResultRequestDTO> result, String work_id) throws Exception;
+    WorkResultRealResponseDTO selectWorkResult(List<WorkResultRequestDTO> result, String work_id) throws Exception;
 
-    void delete(String username, String work_book_id, String work_id) throws Exception;
+    void deleteWork(String username, String work_book_id, String work_id) throws Exception;
 
-    WorkDTO update(String username, String work_book_id, String work_id, WorkDTO dto) throws Exception;
+    WorkDTO updateWork(String username, String work_book_id, String work_id, WorkDTO dto) throws Exception;
 
     default Work dtoToEntity(WorkDTO dto, WorkBook workBook, String id) {
         return Work.builder()

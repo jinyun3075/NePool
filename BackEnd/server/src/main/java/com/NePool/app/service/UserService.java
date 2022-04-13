@@ -1,22 +1,22 @@
 package com.NePool.app.service;
 
-import com.NePool.app.dto.PageRequestDTO;
-import com.NePool.app.dto.PageResultDTO;
-import com.NePool.app.dto.UserDTO;
-import com.NePool.app.dto.UserLoginDTO;
-import com.NePool.app.entity.NePoolUser;
+import com.NePool.app.util.dto.PageRequestDTO;
+import com.NePool.app.util.dto.PageResultDTO;
+import com.NePool.app.domain.user.dto.UserDTO;
+import com.NePool.app.domain.user.dto.UserLoginDTO;
+import com.NePool.app.domain.user.entity.NePoolUser;
 import com.nimbusds.jose.shaded.json.JSONObject;
 
 public interface UserService {
-    UserDTO register(UserDTO dto) throws Exception;
+    UserDTO insertUser(UserDTO dto) throws Exception;
 
-    UserDTO getUser(String dto);
+    UserDTO selectUser(String dto);
 
-    PageResultDTO<UserDTO, NePoolUser> getList(PageRequestDTO dto);
+    PageResultDTO<UserDTO, NePoolUser> selectUserList(PageRequestDTO dto);
 
-    UserDTO update(UserDTO dto) throws Exception;
+    UserDTO updateUser(UserDTO dto) throws Exception;
 
-    String delete(String user_id) throws Exception;
+    String deleteUser(String user_id) throws Exception;
 
     UserLoginDTO googleLogin(JSONObject dto) throws Exception;
 

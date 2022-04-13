@@ -1,15 +1,20 @@
 package com.NePool.app.service;
 
-import com.NePool.app.dto.*;
-import com.NePool.app.entity.NePoolUser;
-import com.NePool.app.entity.ShareWorkBook;
-import com.NePool.app.entity.WorkBook;
+import com.NePool.app.domain.shareworkbook.dto.ShareWorkBookDTO;
+import com.NePool.app.domain.shareworkbook.dto.ShareWorkBookResultDTO;
+import com.NePool.app.domain.user.dto.UserDTO;
+import com.NePool.app.domain.workbook.dto.WorkBookRequestDTO;
+import com.NePool.app.domain.user.entity.NePoolUser;
+import com.NePool.app.domain.shareworkbook.entity.ShareWorkBook;
+import com.NePool.app.domain.workbook.entity.WorkBook;
+import com.NePool.app.util.dto.PageRequestDTO;
+import com.NePool.app.util.dto.PageResultDTO;
 
 public interface ShareWorkBookService {
-    ShareWorkBookResultDTO register(ShareWorkBookDTO dto) throws Exception;
-    PageResultDTO<ShareWorkBookResultDTO, ShareWorkBook> getList(String user_id, PageRequestDTO req) throws Exception;
-    void delete(ShareWorkBookDTO dto) throws Exception;
-    Long getCount (String work_book_id)throws Exception;
+    ShareWorkBookResultDTO insertShareWorkBook(ShareWorkBookDTO dto) throws Exception;
+    PageResultDTO<ShareWorkBookResultDTO, ShareWorkBook> selectShareWorkBookList(String user_id, PageRequestDTO req) throws Exception;
+    void deleteShareWorkBook(ShareWorkBookDTO dto) throws Exception;
+    Long selectShareWorkBookCount (String work_book_id)throws Exception;
     default ShareWorkBook dtoToEntity(WorkBook workBook, NePoolUser user) {
         return ShareWorkBook.builder()
                 .workBook(workBook)

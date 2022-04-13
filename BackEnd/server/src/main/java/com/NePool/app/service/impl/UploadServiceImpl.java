@@ -1,6 +1,6 @@
 package com.NePool.app.service.impl;
 
-import com.NePool.app.dto.UploadResultDTO;
+import com.NePool.app.util.dto.UploadResultDTO;
 import com.NePool.app.service.UploadService;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -32,7 +32,7 @@ public class UploadServiceImpl implements UploadService {
 
     private final AmazonS3Client amazonS3Client;
     @Override
-    public List<UploadResultDTO> upload(MultipartFile[] uploadFiles) throws Exception {
+    public List<UploadResultDTO> uploadFile(MultipartFile[] uploadFiles) throws Exception {
         List<UploadResultDTO> resultDTOList = new ArrayList<>();
         for (MultipartFile file : uploadFiles) {
             if (file.getContentType().startsWith("image") == false) {

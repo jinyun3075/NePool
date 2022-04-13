@@ -1,20 +1,20 @@
 package com.NePool.app.service;
 
-import com.NePool.app.dto.AnnouncementDTO;
-import com.NePool.app.dto.PageRequestDTO;
-import com.NePool.app.dto.PageResultDTO;
-import com.NePool.app.entity.Announcement;
+import com.NePool.app.domain.announcement.dto.AnnouncementDTO;
+import com.NePool.app.util.dto.PageRequestDTO;
+import com.NePool.app.util.dto.PageResultDTO;
+import com.NePool.app.domain.announcement.entity.Announcement;
 
 public interface AnnouncementService {
-    AnnouncementDTO register(AnnouncementDTO dto);
+    AnnouncementDTO insertAnnouncement(AnnouncementDTO dto);
 
-    PageResultDTO<AnnouncementDTO, Announcement> getList(PageRequestDTO dto);
+    AnnouncementDTO selectAnnouncement(Long announcement_id);
 
-    AnnouncementDTO update(AnnouncementDTO dto);
+    PageResultDTO<AnnouncementDTO, Announcement> selectAnnouncementList(PageRequestDTO dto);
 
-    Long delete(Long id) throws Exception;
+    AnnouncementDTO updateAnnouncement(AnnouncementDTO dto);
 
-    AnnouncementDTO getAnnouncement(Long announcement_id);
+    Long deleteAnnouncement(Long id) throws Exception;
 
     default Announcement dtoToEntity(AnnouncementDTO dto) {
         return Announcement.builder()

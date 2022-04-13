@@ -1,31 +1,34 @@
 package com.NePool.app.service;
 
-import com.NePool.app.dto.PageRequestDTO;
-import com.NePool.app.dto.PageResultDTO;
-import com.NePool.app.dto.WorkBookRequestDTO;
-import com.NePool.app.entity.NePoolUser;
-import com.NePool.app.entity.WorkBook;
+import com.NePool.app.util.dto.PageRequestDTO;
+import com.NePool.app.util.dto.PageResultDTO;
+import com.NePool.app.domain.workbook.dto.WorkBookRequestDTO;
+import com.NePool.app.domain.user.entity.NePoolUser;
+import com.NePool.app.domain.workbook.entity.WorkBook;
 
 import java.util.List;
 
 public interface WorkBookService {
-    WorkBookRequestDTO register(WorkBookRequestDTO dto) throws Exception;
+    WorkBookRequestDTO insertWorkBook(WorkBookRequestDTO dto) throws Exception;
 
-    WorkBookRequestDTO getWorkBook(String username, String work_book_id, Boolean check) throws Exception;
+    WorkBookRequestDTO selectWorkBook(String username, String work_book_id, Boolean check) throws Exception;
 
-    PageResultDTO<WorkBookRequestDTO, WorkBook> getList(String username, PageRequestDTO page) throws Exception;
+    PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookMyList(String username, PageRequestDTO page) throws Exception;
 
-    PageResultDTO<WorkBookRequestDTO, WorkBook> allListPage(PageRequestDTO page, String type) throws Exception;
-    List<WorkBookRequestDTO> allList(String type) throws Exception;
-    void delete(String username, String work_book_id) throws Exception;
+    PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookPageList(PageRequestDTO page, String type) throws Exception;
 
-    boolean share(String username, String work_book_id) throws Exception;
+    List<WorkBookRequestDTO> selectWorkBookList(String type) throws Exception;
 
-    WorkBookRequestDTO update(String username, String work_book_id, WorkBookRequestDTO dto) throws Exception;
+    void deleteWorkBook(String username, String work_book_id) throws Exception;
 
-    Long all();
+    boolean updateWorkBookShare(String username, String work_book_id) throws Exception;
 
-    List<WorkBookRequestDTO> best4() throws Exception;
+    WorkBookRequestDTO updateWorkBook(String username, String work_book_id, WorkBookRequestDTO dto) throws Exception;
+
+    Long selectWorkBookCount();
+
+    List<WorkBookRequestDTO> selectWorkBookBest4() throws Exception;
+
     default WorkBook dtoToEntity(WorkBookRequestDTO dto, NePoolUser user, String id) {
         return WorkBook.builder()
                 .wno(id)

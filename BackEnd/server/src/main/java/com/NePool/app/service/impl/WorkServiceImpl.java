@@ -1,15 +1,15 @@
 package com.NePool.app.service.impl;
 
-import com.NePool.app.dto.WorkDTO;
-import com.NePool.app.dto.WorkResultRealResponseDTO;
-import com.NePool.app.dto.WorkResultRequestDTO;
-import com.NePool.app.dto.WorkResultResponseDTO;
-import com.NePool.app.entity.NePoolUser;
-import com.NePool.app.entity.Work;
-import com.NePool.app.entity.WorkBook;
-import com.NePool.app.repository.UserRepository;
-import com.NePool.app.repository.WorkBookRepository;
-import com.NePool.app.repository.WorkRepository;
+import com.NePool.app.domain.work.dto.WorkDTO;
+import com.NePool.app.domain.work.dto.WorkResultRealResponseDTO;
+import com.NePool.app.domain.work.dto.WorkResultRequestDTO;
+import com.NePool.app.domain.work.dto.WorkResultResponseDTO;
+import com.NePool.app.domain.user.entity.NePoolUser;
+import com.NePool.app.domain.work.entity.Work;
+import com.NePool.app.domain.workbook.entity.WorkBook;
+import com.NePool.app.domain.user.repository.UserRepository;
+import com.NePool.app.domain.workbook.repository.WorkBookRepository;
+import com.NePool.app.domain.work.repository.WorkRepository;
 import com.NePool.app.service.WorkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -32,7 +32,7 @@ public class WorkServiceImpl implements WorkService {
     @Autowired
     private PasswordEncoder pw;
     @Override
-    public WorkDTO register(WorkDTO dto,String username,String work_book_id) throws Exception {
+    public WorkDTO insertWork(WorkDTO dto,String username,String work_book_id) throws Exception {
         if(dto.getAnswer_a().equals("")||dto.getAnswer_b().equals("")||dto.getAnswer_c().equals("")||dto.getAnswer_d().equals("")||dto.getAnswer_e().equals("")||dto.getQuestion().equals("")||dto.getCorrect().equals("")){
             throw new Exception("모든 요구사항을 입력해주세요.");
         }
@@ -41,7 +41,7 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public WorkDTO getWork(String username, String work_book_id, String work_id) throws Exception {
+    public WorkDTO selectWork(String username, String work_book_id, String work_id) throws Exception {
         check(username,work_book_id);
         Optional<Work> work = workRepository.findByQnoAndWorkBookWno(work_id,work_book_id);
         if (!work.isPresent()) {
@@ -51,7 +51,7 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public List<WorkDTO> getList(String username, String work_book_id) throws Exception {
+    public List<WorkDTO> selectWorkList(String username, String work_book_id) throws Exception {
         check(username,work_book_id);
         List<Work> res = workRepository.findByWorkBookWno(work_book_id);
         Collections.shuffle(res);
@@ -59,7 +59,7 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public WorkResultRealResponseDTO checkResult(List<WorkResultRequestDTO> result, String work_book_id) throws Exception {
+    public WorkResultRealResponseDTO selectWorkResult(List<WorkResultRequestDTO> result, String work_book_id) throws Exception {
         List<Work> work = workRepository.findByWorkBookWno(work_book_id);
         if(work.size()==0) {
             throw new Exception("존재하지 않는 문제집입니다.");
@@ -101,7 +101,7 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public void delete(String username, String work_book_id, String work_id) throws Exception {
+    public void deleteWork(String username, String work_book_id, String work_id) throws Exception {
         check(username,work_book_id);
         Long res = workRepository.deleteByQnoAndWorkBookWno(work_id,work_book_id);
         if (res == 0) {
@@ -110,7 +110,7 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public WorkDTO update(String username, String work_book_id, String work_id, WorkDTO dto) throws Exception {
+    public WorkDTO updateWork(String username, String work_book_id, String work_id, WorkDTO dto) throws Exception {
         check(username,work_book_id);
         Optional<Work> work = workRepository.findByQnoAndWorkBookWno(work_id,work_book_id);
         if(!work.isPresent()){

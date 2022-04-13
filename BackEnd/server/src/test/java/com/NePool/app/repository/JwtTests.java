@@ -1,6 +1,6 @@
 package com.NePool.app.repository;
 
-import com.NePool.app.security.util.JWTUtil;
+import com.NePool.app.util.jwt.JWTUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

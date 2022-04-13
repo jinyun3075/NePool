@@ -1,15 +1,14 @@
 package com.NePool.app.service.impl;
 
-import com.NePool.app.dto.CommentRequestDTO;
-import com.NePool.app.dto.PageRequestDTO;
-import com.NePool.app.dto.PageResultDTO;
-import com.NePool.app.dto.UserDTO;
-import com.NePool.app.entity.Comments;
-import com.NePool.app.entity.NePoolUser;
-import com.NePool.app.entity.WorkBook;
-import com.NePool.app.repository.CommentRepository;
-import com.NePool.app.repository.UserRepository;
-import com.NePool.app.repository.WorkBookRepository;
+import com.NePool.app.domain.comment.dto.CommentRequestDTO;
+import com.NePool.app.util.dto.PageRequestDTO;
+import com.NePool.app.util.dto.PageResultDTO;
+import com.NePool.app.domain.comment.entity.Comment;
+import com.NePool.app.domain.user.entity.NePoolUser;
+import com.NePool.app.domain.workbook.entity.WorkBook;
+import com.NePool.app.domain.comment.repository.CommentRepository;
+import com.NePool.app.domain.user.repository.UserRepository;
+import com.NePool.app.domain.workbook.repository.WorkBookRepository;
 import com.NePool.app.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -23,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -39,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
     private PasswordEncoder pw;
 
     @Override
-    public CommentRequestDTO register(String user_id, String work_book_id, CommentRequestDTO dto) throws Exception {
+    public CommentRequestDTO insertComment(String user_id, String work_book_id, CommentRequestDTO dto) throws Exception {
         if(dto.getContent().equals("")){
             throw new Exception("내용을 입력해 주세요");
         }
@@ -51,43 +49,43 @@ public class CommentServiceImpl implements CommentService {
         if (!workBook.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
-        Comments entity = commentRepository.save(dtoToEntity(dto,work_book_id,user_id,(pw.encode(random.nextInt(600)+"").replace("/",""))));
+        Comment entity = commentRepository.save(dtoToEntity(dto,work_book_id,user_id,(pw.encode(random.nextInt(600)+"").replace("/",""))));
         return entityToDto(entity);
     }
 
     @Override
-    public PageResultDTO<CommentRequestDTO,Comments> getList(String work_book_id, PageRequestDTO dto) throws Exception {
+    public PageResultDTO<CommentRequestDTO, Comment> selectCommentList(String work_book_id, PageRequestDTO dto) throws Exception {
         Optional<WorkBook> workBook = workBookRepository.findById(work_book_id);
         if (!workBook.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
-        Page<Comments> entity = commentRepository.findByWorkbookWno(work_book_id,dto.getPageable(Sort.by("modDate").descending()));
+        Page<Comment> entity = commentRepository.findByWorkbookWno(work_book_id,dto.getPageable(Sort.by("modDate").descending()));
         if(entity.getTotalElements()==0){
             throw new Exception("만들어져있는 문제가 없습니다.");
         }
-        Function<Comments, CommentRequestDTO> fn = (data -> entityToDto(data));
+        Function<Comment, CommentRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
     }
 
     @Override
-    public Double getLike(String work_book_id) throws Exception {
+    public Double selectCommentLikeCount(String work_book_id) throws Exception {
         Optional<WorkBook> workBook = workBookRepository.findById(work_book_id);
         if (!workBook.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
         log.info(workBook);
-        List<Comments> list = commentRepository.findByWorkbookWno(work_book_id);
+        List<Comment> list = commentRepository.findByWorkbookWno(work_book_id);
         log.info(list);
         int allLike=0;
-        for(Comments data:list) {
+        for(Comment data:list) {
             allLike+=data.getComLike();
         }
         return (Math.round((float)allLike/list.size())*10)/10.0;
     }
 
     @Override
-    public String delete(String comment_id, String writer) throws Exception {
-        Optional<Comments> comments= commentRepository.findById(comment_id);
+    public String deleteComment(String comment_id, String writer) throws Exception {
+        Optional<Comment> comments= commentRepository.findById(comment_id);
         if (!comments.isPresent()) {
             throw new Exception("존재하지 않는 리뷰입니다.");
         }

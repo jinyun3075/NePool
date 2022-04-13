@@ -1,11 +1,9 @@
 package com.NePool.app.exception;
 
-import com.NePool.app.dto.ErrorResult;
+import com.NePool.app.util.dto.ErrorResult;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.sql.SQLException;

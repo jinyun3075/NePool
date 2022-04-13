@@ -1,10 +1,10 @@
 package com.NePool.app.service.impl;
 
-import com.NePool.app.dto.SearchDTO;
-import com.NePool.app.entity.NePoolUser;
-import com.NePool.app.entity.WorkBook;
-import com.NePool.app.repository.UserRepository;
-import com.NePool.app.repository.WorkBookRepository;
+import com.NePool.app.util.dto.SearchDTO;
+import com.NePool.app.domain.user.entity.NePoolUser;
+import com.NePool.app.domain.workbook.entity.WorkBook;
+import com.NePool.app.domain.user.repository.UserRepository;
+import com.NePool.app.domain.workbook.repository.WorkBookRepository;
 import com.NePool.app.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,7 +21,7 @@ public class SearchServiceImpl implements SearchService {
     private final WorkBookRepository workBookRepository;
 
     @Override
-    public SearchDTO search(String keyword) {
+    public SearchDTO selectUserAndWorkBook(String keyword) {
         List<WorkBook> workBooks = workBookRepository.findByTitleLike("%" + keyword + "%");
         List<NePoolUser> user = userRepository.findByNameLike("%" + keyword + "%");
         return SearchDTO.builder()

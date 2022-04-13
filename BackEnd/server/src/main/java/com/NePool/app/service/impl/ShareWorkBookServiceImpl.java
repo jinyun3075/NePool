@@ -1,15 +1,15 @@
 package com.NePool.app.service.impl;
 
-import com.NePool.app.dto.PageRequestDTO;
-import com.NePool.app.dto.PageResultDTO;
-import com.NePool.app.dto.ShareWorkBookDTO;
-import com.NePool.app.dto.ShareWorkBookResultDTO;
-import com.NePool.app.entity.NePoolUser;
-import com.NePool.app.entity.ShareWorkBook;
-import com.NePool.app.entity.WorkBook;
-import com.NePool.app.repository.ShareWorkBookRepository;
-import com.NePool.app.repository.UserRepository;
-import com.NePool.app.repository.WorkBookRepository;
+import com.NePool.app.util.dto.PageRequestDTO;
+import com.NePool.app.util.dto.PageResultDTO;
+import com.NePool.app.domain.shareworkbook.dto.ShareWorkBookDTO;
+import com.NePool.app.domain.shareworkbook.dto.ShareWorkBookResultDTO;
+import com.NePool.app.domain.user.entity.NePoolUser;
+import com.NePool.app.domain.shareworkbook.entity.ShareWorkBook;
+import com.NePool.app.domain.workbook.entity.WorkBook;
+import com.NePool.app.domain.shareworkbook.repository.ShareWorkBookRepository;
+import com.NePool.app.domain.user.repository.UserRepository;
+import com.NePool.app.domain.workbook.repository.WorkBookRepository;
 import com.NePool.app.service.ShareWorkBookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,7 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -31,7 +30,7 @@ public class ShareWorkBookServiceImpl implements ShareWorkBookService {
     private final UserRepository userRepository;
 
     @Override
-    public ShareWorkBookResultDTO register(ShareWorkBookDTO dto) throws Exception{
+    public ShareWorkBookResultDTO insertShareWorkBook(ShareWorkBookDTO dto) throws Exception{
         Optional<NePoolUser> nePoolUser = userRepository.findById(dto.getUser_id());
         if(!nePoolUser.isPresent()) {
             throw new Exception("존재하지 않는 유저입니다.");
@@ -48,7 +47,7 @@ public class ShareWorkBookServiceImpl implements ShareWorkBookService {
     }
 
     @Override
-    public PageResultDTO<ShareWorkBookResultDTO, ShareWorkBook> getList(String user_id, PageRequestDTO req) throws Exception {
+    public PageResultDTO<ShareWorkBookResultDTO, ShareWorkBook> selectShareWorkBookList(String user_id, PageRequestDTO req) throws Exception {
         Optional<NePoolUser> nePoolUser = userRepository.findById(user_id);
         if(!nePoolUser.isPresent()) {
             throw new Exception("존재하지 않는 유저입니다.");
@@ -59,7 +58,7 @@ public class ShareWorkBookServiceImpl implements ShareWorkBookService {
     }
 
     @Override
-    public void delete(ShareWorkBookDTO dto) throws Exception {
+    public void deleteShareWorkBook(ShareWorkBookDTO dto) throws Exception {
         Optional<NePoolUser> user = userRepository.findById(dto.getUser_id());
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
@@ -71,7 +70,7 @@ public class ShareWorkBookServiceImpl implements ShareWorkBookService {
     }
 
     @Override
-    public Long getCount(String work_book_id) throws Exception {
+    public Long selectShareWorkBookCount(String work_book_id) throws Exception {
         return shareRepository.countByWorkBookWno(work_book_id);
     }
 }

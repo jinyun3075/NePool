@@ -1,14 +1,14 @@
 package com.NePool.app.service;
 
-import com.NePool.app.dto.SearchDTO;
-import com.NePool.app.dto.UserDTO;
-import com.NePool.app.dto.WorkBookRequestDTO;
-import com.NePool.app.entity.NePoolUser;
-import com.NePool.app.entity.WorkBook;
+import com.NePool.app.util.dto.SearchDTO;
+import com.NePool.app.domain.user.dto.UserDTO;
+import com.NePool.app.domain.workbook.dto.WorkBookRequestDTO;
+import com.NePool.app.domain.user.entity.NePoolUser;
+import com.NePool.app.domain.workbook.entity.WorkBook;
 
 public interface SearchService {
 
-    SearchDTO search(String keyword);
+    SearchDTO selectUserAndWorkBook(String keyword);
     default UserDTO userEntityToDto(NePoolUser entity) {
         return UserDTO.builder()
                 .id(entity.getUno())

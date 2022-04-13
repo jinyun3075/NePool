@@ -1,14 +1,14 @@
 package com.NePool.app.service.impl;
 
-import com.NePool.app.dto.PageRequestDTO;
-import com.NePool.app.dto.PageResultDTO;
-import com.NePool.app.dto.WorkBookRequestDTO;
-import com.NePool.app.entity.NePoolUser;
-import com.NePool.app.entity.WorkBook;
-import com.NePool.app.repository.CommentRepository;
-import com.NePool.app.repository.UserRepository;
-import com.NePool.app.repository.WorkBookRepository;
-import com.NePool.app.repository.WorkRepository;
+import com.NePool.app.util.dto.PageRequestDTO;
+import com.NePool.app.util.dto.PageResultDTO;
+import com.NePool.app.domain.workbook.dto.WorkBookRequestDTO;
+import com.NePool.app.domain.user.entity.NePoolUser;
+import com.NePool.app.domain.workbook.entity.WorkBook;
+import com.NePool.app.domain.comment.repository.CommentRepository;
+import com.NePool.app.domain.user.repository.UserRepository;
+import com.NePool.app.domain.workbook.repository.WorkBookRepository;
+import com.NePool.app.domain.work.repository.WorkRepository;
 import com.NePool.app.service.WorkBookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -40,7 +40,7 @@ public class WorkBookServiceImpl implements WorkBookService {
     private PasswordEncoder pw;
 
     @Override
-    public WorkBookRequestDTO register(WorkBookRequestDTO dto) throws Exception {
+    public WorkBookRequestDTO insertWorkBook(WorkBookRequestDTO dto) throws Exception {
         if (dto.getTitle().equals("") || dto.getContent().equals("")) {
             throw new Exception("제목과 설명을 입력해주세요.");
         }
@@ -53,7 +53,7 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-    public WorkBookRequestDTO getWorkBook(String username, String work_book_id, Boolean check) throws Exception {
+    public WorkBookRequestDTO selectWorkBook(String username, String work_book_id, Boolean check) throws Exception {
         WorkBook workBook = check(username, work_book_id);
 
         if (check) {
@@ -64,7 +64,7 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-    public PageResultDTO<WorkBookRequestDTO, WorkBook> getList(String username, PageRequestDTO page) throws Exception {
+    public PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookMyList(String username, PageRequestDTO page) throws Exception {
         Optional<NePoolUser> user = userRepository.findByUsername(username);
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
@@ -75,7 +75,7 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-    public PageResultDTO<WorkBookRequestDTO, WorkBook> allListPage(PageRequestDTO page, String type) throws Exception {
+    public PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookPageList(PageRequestDTO page, String type) throws Exception {
         Page<WorkBook> entity;
         if(type==null) {
             entity = workBookRepository.findByShare(true,page.getPageable(Sort.by("modDate").descending()));
@@ -87,7 +87,7 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-    public List<WorkBookRequestDTO> allList(String type) throws Exception {
+    public List<WorkBookRequestDTO> selectWorkBookList(String type) throws Exception {
         List<WorkBook> entity;
         if(type==null) {
             entity = workBookRepository.findByShare(true);
@@ -98,7 +98,7 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-    public void delete(String username, String work_book_id) throws Exception {
+    public void deleteWorkBook(String username, String work_book_id) throws Exception {
         Optional<NePoolUser> user = userRepository.findByUsername(username);
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
@@ -110,7 +110,7 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-    public boolean share(String username, String work_book_id) throws Exception {
+    public boolean updateWorkBookShare(String username, String work_book_id) throws Exception {
         WorkBook workBook = check(username, work_book_id);
         if (workBook.getShare() == false) {
             workBook.setShare(true);
@@ -123,7 +123,7 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-    public WorkBookRequestDTO update(String username, String work_book_id, WorkBookRequestDTO dto) throws Exception {
+    public WorkBookRequestDTO updateWorkBook(String username, String work_book_id, WorkBookRequestDTO dto) throws Exception {
         if (dto.getTitle().equals("") || dto.getContent().equals("")||dto.getType().equals("")) {
             throw new Exception("제목,설명, 타입 을 입력해주세요.");
         }
@@ -134,14 +134,14 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-    public List<WorkBookRequestDTO> best4() throws Exception {
+    public List<WorkBookRequestDTO> selectWorkBookBest4() throws Exception {
         Pageable pageable = PageRequest.of(0, 4,Sort.by("count").descending());
         Page<WorkBook> res = workBookRepository.findByShare(true,pageable);
         return res.stream().map(workBook -> entityToDto(workBook)).collect(Collectors.toList());
     }
 
     @Override
-    public Long all() {
+    public Long selectWorkBookCount() {
         return workBookRepository.count();
     }
 
