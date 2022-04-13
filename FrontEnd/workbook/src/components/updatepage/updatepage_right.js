@@ -34,7 +34,8 @@ export default function Updatepage_Right() {
         {
             title: workbookdata.title,
             content: workbookdata.content,
-            type:'수능·내신'
+            type:'수능·내신',
+            image:workbookdata.image
         }
     );
 
@@ -125,7 +126,7 @@ export default function Updatepage_Right() {
 
                     <WorkbookForm onSubmit={(e)=>{e.preventDefault()}} >  
                         <Input type="file" id ="input" onChange = {ChangeImg}/>                              
-                        <Label htmlFor="input"><WorkbookImg imgurl ={imgurl} /></Label>
+                        <Label htmlFor="input"><WorkbookImg src= {imageurl ? imageurl : (putworkbook.image ? putworkbook.image : './img/basic.png' )} /></Label>
                         <TextSelect>
                             <TextInput  name = "title" value={putworkbook.title} onChange={handlingChange} type="text"></TextInput>
                             <Select placeholder = {workbookdata.type} name="type" value={putworkbook.type} onChange={handlingChange}>
@@ -225,15 +226,10 @@ const Label = styled.label`
     width:20%;
     height:100%;
 `;
-const WorkbookImg = styled.div`
+const WorkbookImg = styled.img`
     width: 100%;
     height: 280px;
-    background: url(/img/mango.png) no-repeat center center/cover;
-    ${props => props.imgurl &&
-                    css`
-                        background: url(${props=>props.imgurl}) no-repeat center center/cover;
-                    `
-                }
+
     opacity: 0.6;
 `;
 
