@@ -1,10 +1,20 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { API } from "../../constants";
 
 export default function StatusModal() {
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState(
+    {
+      id: "",
+      username: "",
+      name: "",
+      email: "",
+      password: "",
+      image: "",
+    }
+  );
 
   const getUser = async () => {
     const user = sessionStorage.getItem("user");
@@ -13,7 +23,7 @@ export default function StatusModal() {
         "Content-type": "application/json",
       },
     });
-    setUserName(res.data.name);
+    setUserName(res.data);
     // console.log(res);
   };
 
@@ -31,11 +41,11 @@ export default function StatusModal() {
       <ProfileStatus>
         <StatusBox>
           <StatusImg>
-            <img src="/img/mango.png" alt="프로필 사진" />
+            <img src={userName.image} alt="프로필 사진" />
           </StatusImg>
           <StatusProfile>
-            <p>{userName}</p>
-            <button>프로필 변경하기</button>
+            <p>{userName.name}</p>
+           <Link to="/profile" state={{userInfo : userName}}> <button>프로필 변경하기</button></Link>
           </StatusProfile>
         </StatusBox>
         <StatusMenu>

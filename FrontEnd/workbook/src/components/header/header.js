@@ -8,6 +8,28 @@ import SearchResult from "./search";
 import StatusModal from "./status";
 
 export default function HeaderSignin() {
+  //유저정보 API
+  const [userName, setUserName] = useState(
+    {
+      id: "",
+      username: "",
+      name: "",
+      email: "",
+      password: "",
+      image: "",
+    }
+  );
+
+  const getUser = async () => {
+    const user = sessionStorage.getItem("user");
+    const res = await axios.get(`${API}/user/${user}`, {
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    setUserName(res.data);
+    // console.log(res);
+  };
   const token = sessionStorage.getItem("token");
   const [search, setSearch] = useState([
     {
@@ -37,6 +59,10 @@ export default function HeaderSignin() {
     setSearch(res.data.workBook);
   };
   // console.log(search);
+  useEffect(() => {
+    getUser();
+  },[]);
+  
   useEffect(() => {
     getResult();
   },[keyUp]);
@@ -107,7 +133,7 @@ export default function HeaderSignin() {
               </button>
               <NoticeModal noticeOn = {noticeOn} />
               <button onClick={openStatus}>
-                <ProfileImg ref={statusRef} src="/img/mango.png" alt="프로필 사진"  />
+                <ProfileImg ref={statusRef} src={userName.image} alt="프로필 사진"  />
               </button>
               {statusON === true ? <StatusModal /> : null}
             </ProfileBox>

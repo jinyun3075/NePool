@@ -16,6 +16,7 @@ import UpdateWork from './pages/Updatework';
 import Exam from './pages/Exam';
 import NoticeEditor from './pages/NoticeEditor';
 import NoticeDetail from './pages/NoticeDetail';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/notice/editor" element={<NoticeEditor />} />
         <Route path="/notice/editor/:id" element={<NoticeEditor />} />
         <Route path="/update" element={<UpdatePage />} />
+        <Route path="/profile" element={<Profile/>} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </>
