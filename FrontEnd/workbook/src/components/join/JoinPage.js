@@ -4,8 +4,11 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { API, COLORS } from '../../constants'
 import { useNavigate } from 'react-router-dom';
+import { FileUpload } from './FileUpload';
 
 export default function JoinPage() {
+
+  const token = localStorage.getItem("token")
 
   const navigate = useNavigate()
 
@@ -17,12 +20,26 @@ export default function JoinPage() {
   const password = useRef();
   password.current = watch("password")
 
+  // (notice !== undefined ? `${notice.title}` : "");
+
+  const [image, setImage] = useState("/img/basic.png")
+  const [isImage, setIsImage] = useState(false)
+
+  const getImage = (src) => {
+    setImage(src)
+  }
+
+  const getIsImage = (img) => {
+    setIsImage(img)
+  }
+
   const onSubmit = async (data) => {
     const userData = {
       username: data.id,
       email: data.email,
       password: data.password,
-      name: data.nickname
+      name: data.nickname,
+      image: image,
     }
     const res = await axios.post(`${API}/user`, userData, {
       headers: {
@@ -38,8 +55,9 @@ export default function JoinPage() {
       <main>
         <h1 className="blind">로그인 또는 회원가입</h1>
         <LoginBox>
-          <img src="/img/logo.svg" alt="logo" />
+          <Logo src="/img/logo.svg" alt="logo" />
           <Form onSubmit={handleSubmit(onSubmit)}>
+            <FileUpload image={image} getImage={getImage} isImage={isImage} getIsImage={getIsImage} />
             <label htmlFor="id">
               <Input
                 id="id"
@@ -108,15 +126,6 @@ export default function JoinPage() {
               />
             </label>
             {errors.email && (errors.email.type === 'pattern') && (<Err>이메일 형식에 맞지 않습니다.</Err>)}
-            {/* <OrLine>선택</OrLine> */}
-            {/* <ImgContainer>
-              <ImgPreview src="/img/logo.svg" />
-              <ImgInput 
-                type="file"
-                id="img"
-                accept="image/*"
-              />
-            </ImgContainer> */}
             {idError && (<Err>{idError}</Err>)}
             <Btn type="submit" disabled={!isValid}>가입하기</Btn>
           </Form>
@@ -127,17 +136,18 @@ export default function JoinPage() {
 }
 
 const LoginBox = styled.article`
-  margin: 80px auto 10px;
+  margin: 70px auto 10px;
   max-width: 450px;
   width: 100%;
   /* border: 1px solid ${COLORS.light_gray}; */
   border-radius: 10px;
   padding: 40px 20px;
-  img {
-    display: block;
-    margin: 18px auto 50px;
-    width: 250px;
-  }
+`
+
+const Logo = styled.img`
+  display: block;
+  margin: 18px auto 50px;
+  width: 250px;
 `
 
 const Form = styled.form`
@@ -186,41 +196,4 @@ const Btn = styled.button`
   &:disabled {
     opacity: 0.5;
   }
-`
-
-const OrLine = styled.span`
-  width: 400px;
-  margin: 0 auto;
-  font-size: 13px;
-  display: block;
-  text-align: center;
-  position: relative;
-  margin-bottom: 20px;
-  color: ${COLORS.gray};
-  &::before, &::after {
-    position: absolute;
-    content: "";
-    width: 178px;
-    top: 50%;
-    left: 0;
-    border-top: 1px solid ${COLORS.light_gray};
-  }
-  &::after {
-    left: 220px;
-  }
-`
-
-const ImgContainer = styled.label`
-  border: 1px solid black;
-  width: 50px;
-  height: 50px;
-
-`
-const ImgInput = styled.input`
-  display: none;
-`
-const ImgPreview = styled.img`
-  width: 50px;
-  height: 50px;
-
 `
