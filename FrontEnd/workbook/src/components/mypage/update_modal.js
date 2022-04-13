@@ -9,7 +9,7 @@ export default function UpdateModal(props){
         <> 
             <Modal className="updatemodal">
                 <Try onClick = { ()=>{props.setModemodal(true); props.setDeletemodal(false);} }>풀기</Try>
-                <Update><Link to='/update' state={{workbookdata:workbookdata}}>수정</Link></Update>
+                <Update><Link to='/update' state={{workbookdata:workbookdata,imageurl:props.imageurl}}>수정</Link></Update>
                 <Delete onClick = { ()=>{props.setDeletemodal(true); props.setModemodal(false);}} >삭제</Delete>
             </Modal>
         </>

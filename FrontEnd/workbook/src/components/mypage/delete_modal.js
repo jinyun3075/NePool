@@ -44,7 +44,7 @@ const Modal = styled.div`
     left:50%;
     transform:translate(-50%,-50%);
     border-radius: 5px;
-    z-index:2;
+    z-index:3;
     width:30%;
     height:26%;
     border:1px solid ${COLORS.light_gray};

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { COLORS, API } from '../../constants/index';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
-import styled from 'styled-components';
+import styled,{css} from 'styled-components';
 import axios from 'axios'; 
 
 
@@ -9,9 +9,12 @@ export default function Updatepage_Right() {
     const navigate = useNavigate();
     const location = useLocation();
     const workbookdata = location.state.workbookdata
+    const imgurl = location.state.imageurl
+    console.log(imgurl)
     const user = sessionStorage.getItem('user');
     const token = sessionStorage.getItem('token');
     const [workid,setWorkid] = useState('');
+    const [imageurl,setImageurl] = useState('');
 
     const [question,setQuestion] = useState([
         {
@@ -29,8 +32,8 @@ export default function Updatepage_Right() {
     
     const [putworkbook,setPutworkbook] = useState(
         {
-            title: '',
-            content: '',
+            title: workbookdata.title,
+            content: workbookdata.content,
             type:'수능·내신'
         }
     );
@@ -56,6 +59,7 @@ export default function Updatepage_Right() {
             title: putworkbook.title,
             content: putworkbook.content,
             type: putworkbook.type,
+            image:imageurl
         },{
             headers:{
                 'Content-type' : "application/json",
@@ -70,6 +74,26 @@ export default function Updatepage_Right() {
         GetQuestion()
     },[workid])
     
+
+    // 이미지 업로드 API
+    const ChangeImg = async (e) =>{
+        const uploadFiles = e.target.files[0]
+        console.log(uploadFiles)
+        const formData = new FormData()
+        formData.append('uploadFiles',uploadFiles)
+        
+        const ress = await axios.post(`${API}/upload`,    
+            formData,
+            {
+                headers: {
+                    'Content-type' : 'multipart/form-data',
+                    Authorization : `Bearer ${token}`,
+                },
+            }
+        )
+        console.log(ress)
+        setImageurl(ress.data[0].imageUrl)
+    }
 
     // 문제 삭제
     const DeleteQuestion = async (workid)=> {
@@ -100,10 +124,10 @@ export default function Updatepage_Right() {
                 <ScrollbarSection>
 
                     <WorkbookForm onSubmit={(e)=>{e.preventDefault()}} >  
-                        <Input type="file" id ="input"/>                              
-                        <Label htmlFor="input"><WorkbookImg src ="/img/mango.png"/></Label>
+                        <Input type="file" id ="input" onChange = {ChangeImg}/>                              
+                        <Label htmlFor="input"><WorkbookImg imgurl ={imgurl} /></Label>
                         <TextSelect>
-                            <TextInput  placeholder = {workbookdata.title} name = "title" value={putworkbook.title} onChange={handlingChange} type="text"></TextInput>
+                            <TextInput  name = "title" value={putworkbook.title} onChange={handlingChange} type="text"></TextInput>
                             <Select placeholder = {workbookdata.type} name="type" value={putworkbook.type} onChange={handlingChange}>
                                 <option value="수능·내신">수능·내신</option>
                                 <option value="어학">어학</option>
@@ -205,6 +229,11 @@ const WorkbookImg = styled.div`
     width: 100%;
     height: 280px;
     background: url(/img/mango.png) no-repeat center center/cover;
+    ${props => props.imgurl &&
+                    css`
+                        background: url(${props=>props.imgurl}) no-repeat center center/cover;
+                    `
+                }
     opacity: 0.6;
 `;
 
