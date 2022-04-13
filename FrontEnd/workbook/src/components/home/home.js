@@ -54,6 +54,7 @@ export default function Home() {
       share: false,
       title: "",
       username: "",
+      image: "",
     },
   ]);
 
