@@ -1,8 +1,8 @@
-package com.NePool.app.domain.security;
+package com.NePool.app.security;
 
-import com.NePool.app.domain.security.filter.ApiCheckFilter;
-import com.NePool.app.domain.security.filter.ApiLoginFilter;
-import com.NePool.app.domain.security.handler.ApiLoginFailHandler;
+import com.NePool.app.security.filter.ApiCheckFilter;
+import com.NePool.app.security.filter.ApiLoginFilter;
+import com.NePool.app.security.handler.ApiLoginFailHandler;
 import com.NePool.app.util.jwt.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

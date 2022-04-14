@@ -1,4 +1,4 @@
-package com.NePool.app.domain.security;
+package com.NePool.app.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

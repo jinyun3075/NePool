@@ -1,6 +1,6 @@
-package com.NePool.app.domain.security.service;
+package com.NePool.app.security.service;
 
-import com.NePool.app.domain.security.dto.NePoolAuthDTO;
+import com.NePool.app.security.dto.NePoolAuthDTO;
 import com.NePool.app.domain.user.entity.NePoolUser;
 import com.NePool.app.util.entity.UserRole;
 import com.NePool.app.domain.user.repository.UserRepository;

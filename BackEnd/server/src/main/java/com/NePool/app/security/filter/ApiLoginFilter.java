@@ -1,6 +1,6 @@
-package com.NePool.app.domain.security.filter;
+package com.NePool.app.security.filter;
 
-import com.NePool.app.domain.security.dto.NePoolAuthDTO;
+import com.NePool.app.security.dto.NePoolAuthDTO;
 import com.NePool.app.domain.user.dto.UserLoginDTO;
 import com.NePool.app.domain.user.dto.UserLoginRequestDTO;
 import com.NePool.app.util.jwt.JWTUtil;

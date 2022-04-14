@@ -1,4 +1,4 @@
-package com.NePool.app.domain.security.filter;
+package com.NePool.app.security.filter;
 
 import com.NePool.app.util.jwt.JWTUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;

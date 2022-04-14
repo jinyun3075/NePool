@@ -1,4 +1,4 @@
-package com.NePool.app.domain.security.dto;
+package com.NePool.app.security.dto;
 
 import lombok.Getter;
 import lombok.Setter;

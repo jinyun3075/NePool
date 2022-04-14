@@ -1,4 +1,4 @@
-package com.NePool.app.domain.security.handler;
+package com.NePool.app.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
