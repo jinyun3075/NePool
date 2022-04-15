@@ -74,7 +74,7 @@ export default function CreateModal(props){
 
                 <InputLabel> 
                     <Input type="file" id ="input" name = "image"  onChange = {ChangeImg} />
-                    <Label htmlFor="input"><img src ="./img/+.svg"></img></Label>
+                    <Label htmlFor="input"><img src = { imageurl ? imageurl : './img/basic.png'}></img></Label>
                 </InputLabel>
 
                 <TextSelect>
@@ -155,8 +155,8 @@ const Label = styled.label`
     transform:translate(-50%,-50%);
     color:${COLORS.light_gray};
     img{
-        width:20%;
-        height:20%;
+        width:100%;
+        height:100%;
     }
 `;
 

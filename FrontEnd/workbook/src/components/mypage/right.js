@@ -219,7 +219,7 @@ const ExampleLi = styled.li`
                 content:"";
                 width:100%;
                 height:100%;
-                background:url(/img/mango.png) no-repeat center center/cover;
+                background:url(/img/basic.png) no-repeat center center/cover;
                 
                 ${props => props.imageurl &&
                     css`
