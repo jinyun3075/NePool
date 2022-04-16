@@ -6,6 +6,8 @@ import { API } from "../../constants";
 
 export default function Banner({allUserCount}) {
 
+  const user = sessionStorage.getItem("user")
+
   const [allWorkBook, setAllWorkBook] = useState("")
 
   const getAllWorkbook = async () => {
@@ -17,8 +19,37 @@ export default function Banner({allUserCount}) {
     setAllWorkBook(res.data);
   };
 
+  const [userId, setUserId] = useState("");
+
+  const getUser = async () => {
+    const res = await axios.get(`${API}/user/${user}`, {
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    setUserId(res.data.id);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+
+
+  const [notice, setNotice] = useState("")
+
+  const getNotice = async () => {
+    const res = await axios.get(`${API}/announcement `, {
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+    setNotice(res.data.dtoList[0])
+  };
+
   useEffect(() => {
     getAllWorkbook();
+    getNotice()
   }, []);
 
   return (
@@ -55,9 +86,11 @@ export default function Banner({allUserCount}) {
       </BannerBox>
       <NotionBox>
         <Notion>
-          <MainNotion href="#">
-            [안내] 정보처리기사 자격증 관련 서비스 안내
-          </MainNotion>
+          {notice && (
+            <Link to={`/notice/${notice.id}`} state={{item: notice, userId: userId}}>
+              <MainNotion>{notice.title}</MainNotion>
+            </Link>
+          )}
           <Link to="/notice">
             <WholeBtn>전체보기</WholeBtn>
           </Link>
@@ -109,10 +142,11 @@ const Notion = styled.div`
   background-color: #2f80ed;
   text-align: center;
 `;
-const MainNotion = styled.a`
+const MainNotion = styled.span`
   display: inline-block;
   color: white;
   line-height: 50px;
+  font-size: 15px;
 `;
 const WholeBtn = styled.span`
   position: absolute;

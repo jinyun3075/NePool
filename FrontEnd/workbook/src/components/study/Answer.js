@@ -43,7 +43,6 @@ export default function Answer({ mode, answerCheck, letter, answer, selected, cl
 const Button = styled.button`
   padding: 20px 30px;
   text-align: start;
-  
   box-shadow: ${props => !(props.mode) && `0 0 0 1px rgb(34 36 38 / 15%) inset, 0 2px 3px 0 rgb(34 36 38 / 4%)`};
   word-wrap: break-word;
   &:hover {
@@ -78,6 +77,9 @@ const Button = styled.button`
         border: 1px solid ${COLORS.wrong};
         color: ${props => (props.correct || props.error) && COLORS.error};
       `}
-    
+  }
+  span {
+    display: block;
+    width: 95%;
   }
 `
