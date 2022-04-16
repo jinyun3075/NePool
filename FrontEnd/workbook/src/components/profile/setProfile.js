@@ -47,10 +47,10 @@ export default function SetProfile() {
   const [files, setFiles] = useState("");
 
   //이미지 업로드 API
+  const token = sessionStorage.getItem("token");
   const UploadImg = async (e) => {
     const formData = new FormData();
     const uploadFiles = e.target.files[0];
-    const token = sessionStorage.getItem("token");
     console.log(uploadFiles);
     formData.append("uploadFiles", uploadFiles);
 
@@ -63,6 +63,17 @@ export default function SetProfile() {
     console.log(res);
     setFiles(res.data[0].imageUrl);
   };
+
+  //프로필 삭제 API
+  const DeleteProfile = async(e) => {
+    const res = await axios.delete(`${API}/user/delete/${userInfo.id}`,{
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(res);
+  }
   return (
     <ProfileBoard>
       <h1>프로필 설정</h1>
@@ -102,7 +113,7 @@ export default function SetProfile() {
           />
           <BtnBox>
             <SaveBtn onClick={getUser}>저장</SaveBtn>
-            <DelBtn>계정삭제</DelBtn>
+            <DelBtn onClick={DeleteProfile}>계정삭제</DelBtn>
           </BtnBox>
         </InputForm>
       </ProfileBox>
@@ -141,7 +152,7 @@ const ProfileBox = styled.article`
   padding: 15px 0 0;
   margin: 0 20px;
 `;
-const CurrentProfile = styled.form`
+const CurrentProfile = styled.div`
   text-align: center;
   margin: 40px auto;
   width: 150px;
