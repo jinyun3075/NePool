@@ -33,6 +33,9 @@ public class ErrorHandle {
                 return new ErrorResult("505", "중복 이메일입니다.");
             }
         }
+        if(e.getErrorCode()==1406) {
+            return new ErrorResult("505","제목 혹은 문제가 너무 길어요");
+        }
         return new ErrorResult("503", e.getMessage());
     }
 }
