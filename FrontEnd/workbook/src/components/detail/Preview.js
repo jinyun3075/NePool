@@ -116,6 +116,8 @@ const Span = styled.div`
 const Item = styled.li`
   margin: 0 auto;
   font-size: 15px;
+  text-align: center;
+  width: 650px;
   overflow: hidden;
   word-wrap: break-word;
   white-space: nowrap;

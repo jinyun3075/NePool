@@ -5,9 +5,44 @@ import { API } from '../../constants';
 
 export default function CommentList({comment, user}) {
 
+  const {content, id, like, regDate, writer} = comment
+
   const token = sessionStorage.getItem("token");
 
-  const {content, id, like, regDate, writer} = comment
+  const [allUser, setAllUser] = useState([
+    {
+      email: "",
+      id: "",
+      image: "",
+      name: "",
+      password: "",
+      username: "",
+    }
+  ])
+
+  const getAllUser = async () => {
+
+    const res = await axios.get(`${API}/user`, {
+        headers: {
+            "Content-type" : "application/json",
+        },
+    });
+    setAllUser(res.data.dtoList);
+  };
+
+  useEffect(() => {
+    getAllUser()
+  }, [])
+
+  const [writerImg, setWriterImg] = useState("")
+
+  const userFind = () => {
+    allUser.map((v) => {v.name === writer && setWriterImg(v.image)})
+  } 
+
+  useEffect(() => {
+    userFind()
+  }, [allUser, writerImg])
 
   const timeSet = (regDate) => {
     const today = new Date()
@@ -79,7 +114,7 @@ export default function CommentList({comment, user}) {
            <CommentText>{content}</CommentText>
           </ReviewBox>
           <AuthorBox>
-            <AuthorImg src="/img/mango.png" alt="누구님의 프로필사진" />
+            <AuthorImg src={writerImg} alt="프로필사진" />
             <AuthorNickName>{writer}</AuthorNickName>
           </AuthorBox>
         </CommentInfo>
@@ -143,7 +178,7 @@ span {
 const AuthorBox = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
 `
 
 const Star = styled.img`
@@ -155,11 +190,17 @@ const Star = styled.img`
 
 const AuthorNickName = styled.strong`
   font-weight: 500;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 18px;
   text-align: center;
+  width: 60px;
   /* display: block; */
   margin: 3px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `;
 
 const CommentDate = styled.span`

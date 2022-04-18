@@ -6,9 +6,10 @@ import { useState } from 'react';
 import axios from 'axios';
 
 export default function LoginPage() {
+
   const navigate = useNavigate()
 
-  const [loginErr, setLoginErr] = useState("아이디 또는 비밀번호가 일치하지 않습니다.")
+  const [loginErr, setLoginErr] = useState("")
 
   const {
     register,
@@ -19,21 +20,21 @@ export default function LoginPage() {
   })
 
   const onSubmit = async (data) => {
-    try {
-      const userData = {
+    const userData = {
         username: data.id,
         password: data.password
       }
-    const res = await axios.post(`${API}/user/login`, userData, {
+    try {
+      const res = await axios.post(`${API}/user/login`, userData, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
-    window.sessionStorage.setItem('token', res.data.token)
-    window.sessionStorage.setItem('user', res.data.username)
-    navigate("/")
-    } catch(err) {
-      console.log(err);
+      window.sessionStorage.setItem('token', res.data.token)
+      window.sessionStorage.setItem('user', res.data.username)
+      navigate("/")
+    } catch (err) {
+      setLoginErr("아이디 또는 비밀번호가 일치하지 않습니다.");
     }
   }
 
@@ -51,7 +52,9 @@ export default function LoginPage() {
                 placeholder="아이디"
                 {...register("id", {
                   required: true,
-                  pattern: /^[a-zA-Z0-9]*$/
+                  minLength: 2,
+                  maxLength: 15,
+                  pattern: /^[a-zA-Z0-9]*$/,
                 })}
                 />
             <label htmlFor="password"></label>
@@ -62,11 +65,14 @@ export default function LoginPage() {
                 placeholder="비밀번호"
                 {...register("password", {
                   required: true,
-                  // pattern: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9])$/
+                  minLength: 6,
+                  maxLength: 16,
+                  pattern: /^[-!@#a-z0-9]+$/gi,
                 })}
                 />
-                {errors.id && errors.id.type === 'pattern' && (<Err>아이디 또는 비밀번호가 일치하지 않습니다.</Err>)}
-                {errors.password && errors.password.type === 'pattern' && (<Err>아이디 또는 비밀번호가 일치하지 않습니다.</Err>)}
+                {errors.id && (errors.id.type === 'minLength' || errors.id.type === 'maxLength' || errors.id.type === 'pattern') && (<Err>아이디는 2-15자의 영문, 숫자로 입력해주세요.</Err>)}
+                {errors.password && (errors.password.type === 'minLength' || errors.password.type === 'maxLength' || errors.password.type === 'pattern') && (<Err>비밀번호는 6-16자의 영문, 숫자, @,#,! 로 입력해주세요.</Err>)}
+                {loginErr.length > 1 && (<Err>{loginErr}</Err>)}
                 <Btn className="loginBtn" disabled={!isValid} type="submit">로그인</Btn>
           </Form>
           <OrLine>또는</OrLine>
@@ -78,7 +84,6 @@ export default function LoginPage() {
             <Link to='/join'>
               <li>회원가입</li>
             </Link>
-            
             <li>아이디/비밀번호 찾기</li>
           </Signup>
         </LoginBox>

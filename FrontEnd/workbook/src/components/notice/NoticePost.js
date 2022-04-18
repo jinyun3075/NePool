@@ -53,7 +53,7 @@ export default function NoticePost() {
       <NoticeForm>
         <NoticeTitle>{item.title}</NoticeTitle>
         <InfoBox>
-          <Info>작성자: {userId}</Info>
+          <Info>작성자: NEPOOLADMIN</Info>
           <InfoData>
             {/* <Info>수정 일시 : {item.modDate.slice(0, 10)}</Info> */}
             <Info>작성 일시 : {item.regDate.slice(0, 10)}</Info>

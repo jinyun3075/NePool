@@ -20,8 +20,6 @@ export default function JoinPage() {
   const password = useRef();
   password.current = watch("password")
 
-  // (notice !== undefined ? `${notice.title}` : "");
-
   const [image, setImage] = useState("/img/basic.png")
   const [isImage, setIsImage] = useState(false)
 
