@@ -94,4 +94,7 @@ const StarBox = styled.div`
 
 const ItemCont = styled.p`
   margin-top: 50px;
+  /* white-space: nowrap; */
+  text-overflow: ellipsis;
+  overflow: hidden;
 `
