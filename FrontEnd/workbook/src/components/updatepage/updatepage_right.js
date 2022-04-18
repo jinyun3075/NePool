@@ -14,7 +14,7 @@ export default function Updatepage_Right() {
     const user = sessionStorage.getItem('user');
     const token = sessionStorage.getItem('token');
     const [workid,setWorkid] = useState('');
-    const [imageurl,setImageurl] = useState('');
+    const [imageurl,setImageurl] = useState(workbookdata.image);
 
     const [question,setQuestion] = useState([
         {
@@ -34,7 +34,7 @@ export default function Updatepage_Right() {
         {
             title: workbookdata.title,
             content: workbookdata.content,
-            type:'수능·내신',
+            type:workbookdata.type,
             image:workbookdata.image
         }
     );
