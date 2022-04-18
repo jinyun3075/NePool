@@ -691,6 +691,7 @@
         - share: boolean
         - username: String
         - count: Number
+        - image: String
         - type: String
         - regDate: Date
         - modDate: Date
@@ -698,6 +699,7 @@
         - id: String
         - username: String
         - name: String
+        - image: String
         - email: String
         - password: String
 
@@ -722,6 +724,7 @@
             - share: boolean
             - username: String
             - count: Number
+            - image:String
             - type: String
             - regDate: Date
             - modDate: Date
@@ -729,6 +732,7 @@
             - id: String
             - username: String
             - name: String
+            - image: String
             - email: String
             - password: String
     - totalPage: Number
