@@ -11,6 +11,7 @@ export default function ShareLeft() {
         name:"",
         password:"",
         username:"",
+        image:"",
     }])
     const Mypageinfo = async ()=>{
         const token = sessionStorage.getItem('token');
@@ -32,7 +33,7 @@ export default function ShareLeft() {
             <Article>
                 <Profile>
                     <div>
-                        <ProfileImage src ="/img/mango.png" alt = "profile"></ProfileImage>
+                        <ProfileImage src ={userinfo.image} alt = "profile"></ProfileImage>
                     </div>
 
                 <Info>

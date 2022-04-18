@@ -24,7 +24,7 @@ export default function CreateModal(props){
 
     // 문제집 생성 API (Post)
     const Workbook  = async () =>{    
-        console.log(imageurl)
+        // console.log(imageurl)
         const res = await axios.post(`${API}/workbook/register`,{
             username: postworkbook.username,
             title:postworkbook.title,
@@ -38,14 +38,14 @@ export default function CreateModal(props){
             },
         })
         window.location.reload()
-        console.log(res.data)
+        // console.log(res.data)
     }
 
 
     // 이미지 업로드 API
     const ChangeImg = async (e) =>{
         const uploadFiles = e.target.files[0]
-        console.log(uploadFiles)
+        // console.log(uploadFiles)
         const formData = new FormData()
         formData.append('uploadFiles',uploadFiles)
         
@@ -58,7 +58,7 @@ export default function CreateModal(props){
                 },
             }
         )
-        console.log(ress)
+        // console.log(ress)
         setImageurl(ress.data[0].imageUrl)
     }
     

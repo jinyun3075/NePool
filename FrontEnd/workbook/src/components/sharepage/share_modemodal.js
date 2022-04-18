@@ -14,7 +14,7 @@ export default function ShareModeModal(props){
                 <Text>예시 문제집을 푸시겠습니까?</Text>
                 <BtnDiv>
                     <StudyMode><Link to ={`/studymode/${props.shareworkbookid}`} state={{username: props.shareusername}}>공부모드</Link></StudyMode>
-                    <TestMode><Link to ={`/studymode/${props.shareworkbookid}`} state={{username: props.shareusername}}>시험모드</Link></TestMode>
+                    <TestMode><Link to ={`/exammode/${props.shareworkbookid}`} state={{username: props.shareusername}}>시험모드</Link></TestMode>
                 </BtnDiv>
             </Modal>
         </>
