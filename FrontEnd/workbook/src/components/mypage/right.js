@@ -264,7 +264,11 @@ const ExampleP1 = styled.p`
     margin-top:25%;
     z-index:2;
     padding: 0 0.5em;
-    word-break: break-all;
+    /* word-break: break-all; */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
 `;
 
 const ExampleP2 =styled.p`

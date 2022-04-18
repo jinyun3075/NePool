@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { COLORS, API } from '../../constants/index';
 import {Link} from 'react-router-dom';
-import styled from 'styled-components';
+import styled,{css} from 'styled-components';
 import ShareDeleteModal from './share_deletemodal';
 import ShareUpdateModal from './share_updatemodal';
 import ShareModeModal from './share_modemodal';
@@ -24,6 +24,7 @@ export default function Myshared(props) {
                 username:"",
                 count:"",
                 type:"",
+                image:"",
                 regDate:"",
                 modDate:"",
             },
@@ -32,11 +33,13 @@ export default function Myshared(props) {
                 username: "",
                 name: "",
                 email: "",
-                password: ""
+                password: "",
+                image:""
             }
         } 
         
     ])
+    
 
     // const workbook = sharedworkbook.dtoList.workBook
     // const username = sharedworkbook[0].dtoList[0].workBook.writer.username
@@ -49,7 +52,7 @@ export default function Myshared(props) {
                 Authorization : `Bearer ${token}`
             }}
         );
-        console.log(res);
+        // console.log(res);
         // console.log(sharedworkbook)
         setSharedworkbook(res.data.dtoList);
     }
@@ -77,6 +80,7 @@ export default function Myshared(props) {
             setShareupdate(newarray)
         }
     }
+
     const workbookId = (id) =>{
         setShareworkbookid(id)
     }
@@ -98,7 +102,7 @@ export default function Myshared(props) {
                     {
                         sharedworkbook.map((workbookdata,i) => {
                             return(
-                                    <ExampleLi onClick ={(event) => { setShareupdate(!shareupdate); shareupdateboolean(event); workbookId(workbookdata.workBook.id); username(workbookdata.workBook.username)}} value={i} key = { workbookdata.workBook.id}> 
+                                    <ExampleLi onClick ={(event) => { console.log(workbookdata.workBook); setShareupdate(!shareupdate); shareupdateboolean(event); workbookId(workbookdata.workBook.id); username(workbookdata.workBook.username)}} imageurl={workbookdata.workBook.image} value={i} key = { workbookdata.workBook.id}> 
                                         <Link to={`/detail/${workbookdata.workBook.id}`} state={{username:workbookdata.workBook.username}}>
                                             <ExampleP1 >{workbookdata.workBook.title}</ExampleP1>
                                             <ExampleP2 >마지막 수정 일시 : {workbookdata.workBook.modDate.substring(0,10)}</ExampleP2>
@@ -188,7 +192,13 @@ const ExampleLi = styled.li`
                 content:"";
                 width:100%;
                 height:100%;
-                background:url(/img/mango.png) no-repeat center center/cover;
+                background:url(/img/basic.png) no-repeat center center/cover;
+                
+                ${props => props.imageurl &&
+                    css`
+                        background: url(${props=>props.imageurl}) no-repeat center center/cover;
+                    `
+                }
                 opacity:0.6;
                 height:100%;
             }

@@ -302,6 +302,10 @@ const QuestionLi = styled.li`
 const Question = styled.p`
     font-size:16px;
     font-weight:bold;
+    white-space: no-wrap;
+    overflow: hidden;
+    width:900px;
+    text-overflow: ellipsis;
 `;
 
 const Answer = styled.p`
@@ -317,6 +321,10 @@ const Answers = styled.p`
     margin-left:6px;
     font-weight:400;
     font-size:13px;
+    white-space: no-wrap;
+    overflow: hidden;
+    width:900px;
+    text-overflow: ellipsis;
     color:${COLORS.light_gray};
 
 `;
