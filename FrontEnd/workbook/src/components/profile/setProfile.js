@@ -86,7 +86,7 @@ export default function SetProfile() {
         >
           <CurrentProfile>
             <ProfileImg>
-              <img src={files} alt="프로필 사진" />
+              <img src={files ? files : (user.image ? user.image : './img/basic.png')} alt="프로필 사진" />
             </ProfileImg>
             <ImgBtn>
               <InputImg type="file" id="file" onChange={UploadImg} />
