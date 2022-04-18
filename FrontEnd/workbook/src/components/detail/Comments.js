@@ -22,7 +22,8 @@ export default function Comments({workbookId}) {
     id: "",
     name: "",
     email: "",
-    password: ""
+    password: "",
+    image: ""
   })
 
   const token = sessionStorage.getItem("token");

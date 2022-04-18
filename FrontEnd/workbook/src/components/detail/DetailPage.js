@@ -106,7 +106,7 @@ export default function DetailPage() {
     });
       setErr(res.data.message)
       setShareModal(true)
-      setTimeout(() => {setShareModal(false)}, 2000)
+      setTimeout(() => {setShareModal(false)}, 3000)
     } catch(err) {
       console.log(err);
     }
