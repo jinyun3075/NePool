@@ -1,6 +1,7 @@
 # <span id="top">📘NEPOOL</span>
 [🔗 배포 URL](http://www.nepool.co.kr)
-[🔗 서버 리포](https://github.com/jinyun3075/NePool)
+
+[🔗 서버 리포](https://github.com/jinyun3075/NePool/tree/server)
 
 
 ## 팀원 구성
@@ -47,60 +48,100 @@
 
 ```bash
 \---NePool
+    |   .dockerignore
     |   .gitignore
     |   README.md
     |
     +---BackEnd
     |   |   build.gradle
     |   |   Dockerfile
+    |   |   README.md
     |   |
     |   \---src
     |       +---java
     |       |   |   NePoolServerApplication.java
     |       |   |
     |       |   +---controller
-    |       |   |       CommentCont.java
-    |       |   |       SearchCont.java
-    |       |   |       ShareWorkBookCont.java
-    |       |   |       UserCont.java
-    |       |   |       WorkBookCont.java
-    |       |   |       WorkCont.java
-    |       |   |       
-    |       |   +---dto
-    |       |   |       CommentRequestDTO.java
-    |       |   |       ErrorResult.java
-    |       |   |       PageRequestDTO.java
-    |       |   |       PageResultDTO.java
-    |       |   |       SearchDTO.java
-    |       |   |       ShareWorkBookDTO.java
-    |       |   |       ShareWorkBookResultDTO.java
-    |       |   |       UserDTO.java
-    |       |   |       UserLoginDTO.java
-    |       |   |       UserLoginRequestDTO.java
-    |       |   |       WorkBookRequestDTO.java
-    |       |   |       WorkDTO.java
-    |       |   |       WorkResultRealResponseDTO.java
-    |       |   |       WorkResultRequestDTO.java
-    |       |   |       WorkResultResponseDTO.java
+    |       |   |       AnnouncementApiController.java
+    |       |   |       CommentApiController.java
+    |       |   |       GoogleApiController.java
+    |       |   |       SearchApiController.java
+    |       |   |       ShareWorkBookApiController.java
+    |       |   |       UploadApiController.java
+    |       |   |       UserApiController.java
+    |       |   |       WorkApiController.java
+    |       |   |       WorkBookApiController.java
     |       |   |
-    |       |   +---entity
-    |       |   |       BaseEntity.java
-    |       |   |       Comments.java
-    |       |   |       NePoolUser.java
-    |       |   |       ShareWorkBook.java
-    |       |   |       UserRole.java
-    |       |   |       Work.java
-    |       |   |       WorkBook.java
+    |       |   +---domain
+    |       |   |   +---announcement
+    |       |   |   |   +---dto
+    |       |   |   |   |       AnnouncementDTO.java
+    |       |   |   |   |
+    |       |   |   |   +---entity
+    |       |   |   |   |       Announcement.java
+    |       |   |   |   |
+    |       |   |   |   \---repository
+    |       |   |   |           AnnouncementRepository.java
+    |       |   |   |
+    |       |   |   +---comment
+    |       |   |   |   +---dto
+    |       |   |   |   |       CommentRequestDTO.java
+    |       |   |   |   |
+    |       |   |   |   +---entity
+    |       |   |   |   |       Comment.java
+    |       |   |   |   |
+    |       |   |   |   \---repository
+    |       |   |   |           CommentRepository.java
+    |       |   |   |
+    |       |   |   +---shareworkbook
+    |       |   |   |   +---dto
+    |       |   |   |   |       ShareWorkBookDTO.java
+    |       |   |   |   |       ShareWorkBookResultDTO.java
+    |       |   |   |   |
+    |       |   |   |   +---entity
+    |       |   |   |   |       ShareWorkBook.java
+    |       |   |   |   |
+    |       |   |   |   \---repository
+    |       |   |   |           ShareWorkBookRepository.java
+    |       |   |   |
+    |       |   |   +---user
+    |       |   |   |   +---dto
+    |       |   |   |   |       GoogleLoginDTO.java
+    |       |   |   |   |       UserDTO.java
+    |       |   |   |   |       UserLoginDTO.java
+    |       |   |   |   |       UserLoginRequestDTO.java
+    |       |   |   |   |
+    |       |   |   |   +---entity
+    |       |   |   |   |       NePoolUser.java
+    |       |   |   |   |
+    |       |   |   |   \---repository
+    |       |   |   |           UserRepository.java
+    |       |   |   |
+    |       |   |   +---work
+    |       |   |   |   +---dto
+    |       |   |   |   |       WorkDTO.java
+    |       |   |   |   |       WorkResultRealResponseDTO.java
+    |       |   |   |   |       WorkResultRequestDTO.java
+    |       |   |   |   |       WorkResultResponseDTO.java
+    |       |   |   |   |
+    |       |   |   |   +---entity
+    |       |   |   |   |       Work.java
+    |       |   |   |   |
+    |       |   |   |   \---repository
+    |       |   |   |           WorkRepository.java
+    |       |   |   |
+    |       |   |   \---workbook
+    |       |   |       +---dto
+    |       |   |       |       WorkBookRequestDTO.java
+    |       |   |       |
+    |       |   |       +---entity
+    |       |   |       |       WorkBook.java
+    |       |   |       |
+    |       |   |       \---repository
+    |       |   |               WorkBookRepository.java
     |       |   |
     |       |   +---exception
     |       |   |       ErrorHandle.java
-    |       |   |
-    |       |   +---repository
-    |       |   |       CommentRepository.java
-    |       |   |       ShareWorkBookRepository.java
-    |       |   |       UserRepository.java
-    |       |   |       WorkBookRepository.java
-    |       |   |       WorkRepository.java
     |       |   |
     |       |   +---security
     |       |   |   |   CorsConfig.java
@@ -108,7 +149,7 @@
     |       |   |   |
     |       |   |   +---dto
     |       |   |   |       NePoolAuthDTO.java
-    |       |   |   |       
+    |       |   |   |
     |       |   |   +---filter
     |       |   |   |       ApiCheckFilter.java
     |       |   |   |       ApiLoginFilter.java
@@ -116,170 +157,221 @@
     |       |   |   +---handler
     |       |   |   |       ApiLoginFailHandler.java
     |       |   |   |
-    |       |   |   +---service
-    |       |   |   |       NePoolUserDetailsService.java
-    |       |   |   |       
-    |       |   |   \---util
-    |       |   |           JWTUtil.java
+    |       |   |   \---service
+    |       |   |           NePoolUserDetailsService.java
     |       |   |
-    |       |   \---service
-    |       |       |   CommentService.java
-    |       |       |   SearchService.java
-    |       |       |   ShareWorkBookService.java
-    |       |       |   UserService.java
-    |       |       |   WorkBookService.java
-    |       |       |   WorkService.java
+    |       |   +---service
+    |       |   |   |   AnnouncementService.java
+    |       |   |   |   CommentService.java
+    |       |   |   |   SearchService.java
+    |       |   |   |   ShareWorkBookService.java
+    |       |   |   |   UploadService.java
+    |       |   |   |   UserService.java
+    |       |   |   |   WorkBookService.java
+    |       |   |   |   WorkService.java
+    |       |   |   |
+    |       |   |   \---impl
+    |       |   |           AnnouncementServiceImpl.java
+    |       |   |           CommentServiceImpl.java
+    |       |   |           SearchServiceImpl.java
+    |       |   |           ShareWorkBookServiceImpl.java
+    |       |   |           UploadServiceImpl.java
+    |       |   |           UserServiceImpl.java
+    |       |   |           WorkBookServiceImpl.java
+    |       |   |           WorkServiceImpl.java
+    |       |   |
+    |       |   \---util
+    |       |       +---dto
+    |       |       |       ErrorResult.java
+    |       |       |       PageRequestDTO.java
+    |       |       |       PageResultDTO.java
+    |       |       |       SearchDTO.java
+    |       |       |       UploadResultDTO.java
     |       |       |
-    |       |       \---impl
-    |       |               CommentServiceImpl.java
-    |       |               SearchServiceImpl.java
-    |       |               ShareWorkBookServiceImpl.java
-    |       |               UserServiceImpl.java
-    |       |               WorkBookServiceImpl.java
-    |       |               WorkServiceImpl.java
+    |       |       +---entity
+    |       |       |       BaseEntity.java
+    |       |       |       UserRole.java
+    |       |       |       
+    |       |       \---jwt
+    |       |               JWTUtil.java
     |       |
     |       \---resources
-    |               application-db.properties
     |               application.properties
     |
     \---FrontEnd
         |   Dockerfile
-        |   package.json
-        |   yarn.lock
         |
-        +---public
-        |   |   favicon.ico
-        |   |
-        |   \---img
-        |           +.svg
-        |           background.svg
-        |           blueshare.svg
-        |           book.svg
-        |           check.svg
-        |           close.svg
-        |           example.svg
-        |           kakao.svg
-        |           logo.svg
-        |           mango.png
-        |           naver.svg
-        |           next.svg
-        |           notice.svg
-        |           person.svg
-        |           prev.svg
-        |           profileupdate.png
-        |           search.svg
-        |           slide1.svg
-        |           slide2.svg
-        |           slide3.svg
-        |           slide4.svg
-        |           slide5.svg
-        |           star.svg
-        |           starCheck.svg
-        |           top.svg
-        |           topHover.svg
-        |           vector.svg
-        |           vector_gray.svg
-        |           vector_white.svg
-        |           whiteshare.svg
-        |           workbookdetail.png
-        |           x.svg
-        |
-        \---src
-            |   App.js
-            |   index.js
+        \---workbook
+            |   package.json
+            |   README.md
             |
-            +---components
-            |   +---add
-            |   |       add.js
-            |   |       addContent.js
-            |   |       background.js
+            +---public
+            |   |   favicon.ico
+            |   |   index.html
             |   |
-            |   +---detail
-            |   |       CommentList.js
-            |   |       Comments.js
-            |   |       DetailPage.js
-            |   |       Preview.js
-            |   |       Star.js
-            |   |
-            |   +---header
-            |   |       header.js
-            |   |       notice.js
-            |   |       search.js
-            |   |       status.js
-            |   |
-            |   +---home
-            |   |       banner.js
-            |   |       carousel.js
-            |   |       footer.js
-            |   |       home.js
-            |   |       post.js
-            |   |       slide.js
-            |   |
-            |   +---join
-            |   |       JoinPage.js
-            |   |
-            |   +---login
-            |   |       LoginPage.js
-            |   |
-            |   +---mypage
-            |   |       create_modal.js
-            |   |       delete_modal.js
-            |   |       left.js
-            |   |       mode_modal.js
-            |   |       mypage.js
-            |   |       right.js
-            |   |       update_modal.js
-            |   |
-            |   +---notice
-            |   |       NoticePage.js
-            |   |
-            |   +---post
-            |   |       allPost.js
-            |   |       morePost.js
-            |   |       postButton.js
-            |   |
-            |   +---sharepage
-            |   |       myshared.js
-            |   |       shareleft.js
-            |   |       sharepage.js
-            |   |
-            |   +---study
-            |   |       Answer.js
-            |   |       Answers.js
-            |   |       ExplanationModal.js
-            |   |       Progress.js
-            |   |       Question.js
-            |   |       Result.js
-            |   |       StudyPage.js
-            |   |
-            |   \---updatepage
-            |           updatepage.js
-            |           updatepage_right.js
+            |   \---img
+            |           +.svg
+            |           arrowBack.svg
+            |           background.svg
+            |           basic.png
+            |           blueshare.svg
+            |           book.svg
+            |           check.svg
+            |           close.svg
+            |           example.svg
+            |           fiveStar.svg
+            |           fiveStarf.svg
+            |           kakao.svg
+            |           logo.svg
+            |           mango.png
+            |           naver.svg
+            |           next.svg
+            |           notice.svg
+            |           person.svg
+            |           photo.svg
+            |           plus.svg
+            |           prev.svg
+            |           profile.svg
+            |           profileupdate.png
+            |           QuestionCheck.svg
+            |           QuestionError.svg
+            |           search.svg
+            |           share.svg
+            |           slide1.svg
+            |           slide2.svg
+            |           slide3.svg
+            |           slide4.svg
+            |           slide5.svg
+            |           star.svg
+            |           starCheck.svg
+            |           top.svg
+            |           topHover.svg
+            |           vector.svg
+            |           vector_gray.svg
+            |           vector_white.svg
+            |           whiteshare.svg
+            |           workbookdetail.png
+            |           x.svg
             |
-            +---constants
-            |       index.js
-            |
-            +---pages
-            |       Add.js
-            |       Allpost.js
-            |       Detail.js
-            |       Join.js
-            |       Login.js
-            |       Main.js
-            |       Mypage.js
-            |       NotFound.js
-            |       Notice.js
-            |       Sharepage.js
-            |       Study.js
-            |       Update.js
-            |
-            +---style
-            |       globals.css
-            |       reset.css
-            |
-            \---utils
-                    getLetter.js
-                    shuffle.js
+            \---src
+                |   App.js
+                |   index.css
+                |   index.js
+                |   reportWebVitals.js
+                |
+                +---components
+                |   +---add
+                |   |       add.js
+                |   |       addContent.js
+                |   |
+                |   +---detail
+                |   |       CommentList.js
+                |   |       Comments.js
+                |   |       DetailPage.js
+                |   |       Preview.js
+                |   |       Star.js
+                |   |
+                |   +---header
+                |   |       header.js
+                |   |       notice.js
+                |   |       search.js
+                |   |       status.js
+                |   |
+                |   +---home
+                |   |       banner.js
+                |   |       carousel.js
+                |   |       footer.js
+                |   |       home.js
+                |   |       post.js
+                |   |       slide.js
+                |   |
+                |   +---join
+                |   |       FileUpload.js
+                |   |       JoinPage.js
+                |   |
+                |   +---login
+                |   |       LoginPage.js
+                |   |
+                |   +---mypage
+                |   |       create_modal.js
+                |   |       delete_modal.js
+                |   |       mode_modal.js
+                |   |       mypage.js
+                |   |       myworkbook.js
+                |   |       update_modal.js
+                |   |       workbookcontent.js
+                |   |
+                |   +---notice
+                |   |       NoticeEditorPage.js
+                |   |       NoticePage.js
+                |   |       NoticePost.js
+                |   |
+                |   +---post
+                |   |       allPost.js
+                |   |       morePost.js
+                |   |       postButton.js
+                |   |
+                |   +---profile
+                |   |       profilePage.js
+                |   |       setProfile.js
+                |   |
+                |   +---sharepage
+                |   |       sharepage.js
+                |   |       share_content.js
+                |   |       share_deletemodal.js
+                |   |       share_modemodal.js
+                |   |       share_myworkbook.js
+                |   |       share_updatemodal.js
+                |   |
+                |   +---study
+                |   |       Answer.js
+                |   |       Answers.js
+                |   |       ExamPage.js
+                |   |       ExamQuestion.js
+                |   |       ExamResult.js
+                |   |       ExplanationModal.js
+                |   |       Progress.js
+                |   |       Question.js
+                |   |       Result.js
+                |   |       StudyPage.js
+                |   |       
+                |   +---updatepage
+                |   |       updatepage.js
+                |   |       updatepage_content.js
+                |   |
+                |   \---updatequestion
+                |           updateContent.js
+                |           updatequetion.js
+                |
+                +---constants
+                |       index.js
+                |
+                +---pages
+                |       Add.js
+                |       Allpost.js
+                |       Detail.js
+                |       Exam.js
+                |       Join.js
+                |       Login.js
+                |       Main.js
+                |       Mypage.js
+                |       NotFound.js
+                |       Notice.js
+                |       NoticeDetail.js
+                |       NoticeEditor.js
+                |       Profile.js
+                |       Sharepage.js
+                |       Study.js
+                |       Update.js
+                |       Updatework.js
+                |
+                +---style
+                |       globals.css
+                |       reset.css
+                |
+                \---utils
+                        getLetter.js
+                        shuffle.js
 ```
 
 <p align="right"><a href="#top">(Top)</a></p>
