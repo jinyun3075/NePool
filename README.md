@@ -1,5 +1,5 @@
 # <span id="top">📘NEPOOL</span>
-[🔗 배포 URL](http://www.nepool.co.kr)
+[🔗 www.nepool.co.kr](http://www.nepool.co.kr)
 
 [🔗 API 명세](https://github.com/jinyun3075/NePool/tree/main/BackEnd)
 
