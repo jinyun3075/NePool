@@ -5,5 +5,5 @@ export default function AddPage() {
     <>
       <Add /> 
     </>
-    )
+  )
 }

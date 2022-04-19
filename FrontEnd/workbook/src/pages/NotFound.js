@@ -4,6 +4,7 @@ import { COLORS } from '../constants';
 
 export default function NotFound() {
   const navigate = useNavigate()
+  
   return (
     <Container>
       <Div>
@@ -12,32 +13,32 @@ export default function NotFound() {
         <PrevBtn onClick={() => {navigate(-1)}}>이전 페이지</PrevBtn>
       </Div>
     </Container>
-    )
+  )
 }
 
 const Container = styled.section`
-  width: 700px;
   margin: 180px auto;
+  width: 700px;
   border: 1px solid ${COLORS.light_gray};
-`
+`;
 
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 40px;
   align-items: center;
+  gap: 40px;
   margin: 100px 0 80px;
   div {
     width: 500px;
-    font-size: 15px;
     color: ${COLORS.black};
+    font-size: 15px;
   }
-`
+`;
 
 const Tit404 = styled.p`
   color: ${COLORS.black};
   font-size: 35px;
-`
+`;
 
 const PrevBtn = styled.button`
   width: 150px;
@@ -45,7 +46,4 @@ const PrevBtn = styled.button`
   border-radius: 30px;
   background: ${COLORS.blue};
   color: ${COLORS.white};
-`
-
-
-
+`;
