@@ -1,23 +1,11 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { API } from "../../constants";
 import Slide from "./slide";
+import styled from "styled-components";
+import axios from "axios";
+import { API } from "../../constants";
 
 export default function Carousel({ allUserCount }) {
   const totalSlide = 3;
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const Next = () => {
-    currentSlide >= totalSlide
-      ? setCurrentSlide(0)
-      : setCurrentSlide(currentSlide + 1);
-  };
-  //prev 버튼 클릭
-  const Prev = () => {
-    currentSlide === 0
-      ? setCurrentSlide(totalSlide)
-      : setCurrentSlide(currentSlide - 1);
-  };
 
   const [get, setGet] = useState([
     {
@@ -34,6 +22,8 @@ export default function Carousel({ allUserCount }) {
     },
   ]);
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+
   const getUser = async () => {
     const res = await axios.get(`${API}/workbook/best4`, {
       headers: {
@@ -43,11 +33,22 @@ export default function Carousel({ allUserCount }) {
     setGet(res.data);
   };
 
+  const Next = () => {
+    currentSlide >= totalSlide
+      ? setCurrentSlide(0)
+      : setCurrentSlide(currentSlide + 1);
+  };
+  const Prev = () => {
+    currentSlide === 0
+      ? setCurrentSlide(totalSlide)
+      : setCurrentSlide(currentSlide - 1);
+  };
+  const getSlide = get[currentSlide];
+
   useEffect(() => {
     getUser();
   }, []);
 
-  const ggggg = get[currentSlide];
 
   return (
     <>
@@ -63,7 +64,7 @@ export default function Carousel({ allUserCount }) {
             </button>
           </BtnBox>
           <CarouselList>
-            <Slide get={get} ggggg={ggggg} currentSlide={currentSlide} />
+            <Slide get={get} getSlide={getSlide} currentSlide={currentSlide} />
           </CarouselList>
         </CarouselBox>
       </MainBox>
@@ -77,6 +78,7 @@ const MainBox = styled.div`
   height: 500px;
   background-color: rgba(47, 128, 237, 0.27);
 `;
+
 const MainTitle = styled.h3`
   color: #000000;
   font-size: 33px;
@@ -92,6 +94,7 @@ const CarouselBox = styled.div`
   overflow: hidden;
   width: 830px;
 `;
+
 const CarouselList = styled.ul`
   display: flex;
   /* justify-content: center; */

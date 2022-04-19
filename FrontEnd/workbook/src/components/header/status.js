@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { API } from "../../constants";
+import axios from "axios";
+import { API, COLORS } from "../../constants";
 
 export default function StatusModal() {
   const [userName, setUserName] = useState(
@@ -24,7 +24,6 @@ export default function StatusModal() {
       },
     });
     setUserName(res.data);
-    // console.log(res);
   };
 
   const logout = () => {
@@ -36,6 +35,7 @@ export default function StatusModal() {
   useEffect(() => {
     getUser();
   }, []);
+  
   return (
     <>
       <ProfileStatus>
@@ -58,24 +58,26 @@ export default function StatusModal() {
 }
 
 const ProfileStatus = styled.div`
-  z-index: 99;
   position: absolute;
-  width: 280px;
-  height: 220px;
-  border: 1px solid #b6b6b6;
-  border-radius: 6px;
-  background-color: white;
   margin-top: 46px;
   margin-right: 5px;
+  width: 280px;
+  height: 220px;
+  border: 1px solid ${COLORS.light_gray};
+  border-radius: 6px;
+  background-color: white;
+  z-index: 99;
 `;
+
 const StatusBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  height: 110px;
   padding: 0 25px;
+  height: 110px;
   border-bottom: 1px solid #f5f5f5;
 `;
+
 const StatusImg = styled.div`
   img {
     width: 73px;
@@ -83,6 +85,7 @@ const StatusImg = styled.div`
     border-radius: 6px;
   }
 `;
+
 const StatusProfile = styled.div`
   display: flex;
   flex-direction: column;
@@ -90,17 +93,18 @@ const StatusProfile = styled.div`
   height: 110px;
   p {
     margin-bottom: 7px;
+    color: ${COLORS.gray};
     font-size: 16px;
     font-weight: 400;
-    color: #767676;
   }
   button {
     padding: 0;
+    color: ${COLORS.blue};
     font-size: 14px;
     font-weight: 400;
-    color: #2f80ed;
   }
 `;
+
 const StatusMenu = styled.div`
   display: flex;
   flex-direction: column;
@@ -108,7 +112,7 @@ const StatusMenu = styled.div`
   align-items: center;
   height: 110px;
   a {
-    color: #767676;
+    color: ${COLORS.gray};
     cursor: pointer;
   }
 `;

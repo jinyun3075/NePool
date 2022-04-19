@@ -1,11 +1,17 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { API } from "../../constants";
 import { Link } from 'react-router-dom';
 import PostBtn from "./postButton";
+import styled from "styled-components";
+import axios from "axios";
+import { API, COLORS } from "../../constants";
 
 export default function MorePost() {
+  const [page, setPage] = useState([])
+  const [number, setNumber] = useState(1)
+  const [next, setNext] = useState(false);
+  const [prev, setPrev] = useState(false);
+  const [clickType, setClickType] = useState("all");
+
   const [post, setPost] = useState([
     {
       content: "",
@@ -20,21 +26,6 @@ export default function MorePost() {
     },
   ]);
 
-  //페이징처리
-  const [page, setPage] = useState([])
-  const [number, setNumber] = useState(1)
-  const [next, setNext] = useState(false);
-  const [prev, setPrev] = useState(false);
-  const onClickNum = (e) => {
-    setNumber(e.target.value)
-  }
-  const onClickNext = () => {
-    setNumber(parseInt((number-1)/5)*5+6);
-  }
-  const onClickPrev = () => {
-    setNumber(parseInt((number-1)/5)*5-4);
-  }
-
   const getUser = async () => {
     const res = await axios.get(`${API}/workbook/page?page=${number}&size=10&type=${clickType}`, {
       headers: {
@@ -46,14 +37,21 @@ export default function MorePost() {
     setNext(res.data.next);
     setPrev(res.data.prev);
   };
-  //카테고리별 게시글
-  const [clickType, setClickType] = useState("all");
+
+  const onClickNum = (e) => {
+    setNumber(e.target.value)
+  };
   const onClickType = (e) => {
     setClickType(e.target.name)
     setNumber(1)
-  }
+  };
+  const onClickNext = () => {
+    setNumber(parseInt((number-1)/5)*5+6);
+  };
+  const onClickPrev = () => {
+    setNumber(parseInt((number-1)/5)*5-4);
+  };
 
-  //페이지별 나누기
   useEffect(() => {
     getUser();
   }, [clickType,number]);
@@ -112,19 +110,25 @@ export default function MorePost() {
             })}
         </Items>
       </ItemBox>
-      <PostBtn page={page} onClickNum={onClickNum} next={next} prev={prev} onClickNext={onClickNext} onClickPrev={onClickPrev}/>
+      <PostBtn 
+        page={page} 
+        onClickNum={onClickNum} 
+        next={next} prev={prev} 
+        onClickNext={onClickNext} 
+        onClickPrev={onClickPrev}
+        />
     </>
   );
 }
 
-//네브바
 const Category = styled.ul`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 80px;
-  border-bottom: 1px solid #b6b6b6;
+  border-bottom: 1px solid ${COLORS.light_gray};
 `;
+
 const CategoryItem = styled.li`
   margin: 0 40px;
   button {
@@ -137,16 +141,16 @@ const ItemBox = styled.div`
   justify-content: center;
   margin-top: 10px;
 `;
+
 const Items = styled.ul`
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
   width: 1010px;
   li {
+    margin: 0 5px 10px;
     width: 190px;
     height: 290px;
-    border: 1px solid #b6b6b6;
-    margin: 0 5px 10px;
+    border: 1px solid ${COLORS.light_gray};
     border-radius: 6px;
     overflow: hidden;
     a {
@@ -156,32 +160,36 @@ const Items = styled.ul`
     }
   }
 `;
+
 const ItemImg = styled.div`
   width: 190px;
   height: 177px;
-  border-bottom: 1px solid #b6b6b6;
+  border-bottom: 1px solid ${COLORS.light_gray};
   background: url(/img/example.svg) no-repeat center/103% ;
   img{
     width: 190px;
     height: 177px;
   }
 `
+
 const TextBox = styled.div`
   margin: 10px 10px;
 `;
+
 const ItemScr = styled.p`
   margin-bottom: 7px;
-  white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
   font-size: ${(props) => props.size};
+  white-space: nowrap;
+  overflow: hidden;
 `;
+
 const ItemTxt = styled.p`
+  margin: 20px 10px 15px 0;
   display: inline-block;
+  width: 170px;
+  font-size: ${(props) => props.size};
+  text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  width: 170px;
-  margin: 20px 10px 15px 0;
-  font-size: ${(props) => props.size};
 `;
