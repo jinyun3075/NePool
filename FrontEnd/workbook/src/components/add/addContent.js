@@ -1,14 +1,14 @@
-import axios from "axios";
-import { useCallback, useState } from "react";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
+import axios from "axios";
 import { API, COLORS } from "../../constants/index";
 
-export default function AddCont(props) {
-  const navigate = useNavigate();
-  const workbookid = props.workbookid
-  const username = sessionStorage.getItem('user')
+export default function AddCont({workbookid}) {
+  const username = sessionStorage.getItem('user');
 
+  const navigate = useNavigate();
+  
   const [answer, setAnswer] = useState({
       question: "",
       answerA: "",
@@ -18,25 +18,12 @@ export default function AddCont(props) {
       answerE: "",
       correct: "",
       explanation: ""
-    })
+    });
 
-  const [error, setError] = useState("")
-
-  const [selected, setSelected] = useState(false)
-
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setAnswer({...answer, [name]: value})
-  };
-
-  const onClick = (e) => {
-    const {value} = e.target
-    setAnswer({...answer, correct: value})
-    setSelected(!selected)
-  }
+  const [error, setError] = useState("");
 
   const onSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const QuestionData = {
       question: answer.question,
       answer_a: answer.answerA,
@@ -46,43 +33,68 @@ export default function AddCont(props) {
       answer_e: answer.answerE,
       correct: answer.correct,
       explanation: answer.explanation
-    }
+    };
     const res = await axios.post(`${API}/work/${username}/${workbookid}`, QuestionData, {
       headers: {
         'Content-Type': 'application/json',
       },
-    })
-    if(res.data.message) setError(res.data.message)
-    else navigate(-1)
-  }
+    });
+    if(res.data.message) setError(res.data.message);
+    else navigate(-1);
+  };
 
-    return (
-      <>
-      <Right>
-          <Myworkbook>
-            <p>문제집 만들기</p>
-          </Myworkbook>
-          <MakeBox onSubmit={onSubmit} autoComplete="off">
-            <Box>
-            <LeftBox>
-              <Input
-                name="question"
-                type="text"
-                id="question"
-                value={answer.question}
-                onChange={onChange} 
-                placeholder="문제 입력 칸" 
-              />
-              <div>
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setAnswer({...answer, [name]: value});
+  };
+
+  const onClick = (e) => {
+    const {value} = e.target;
+    setAnswer({...answer, correct: value});
+  };
+
+  return (
+    <Right>
+      <Myworkbook>
+        <button onClick={() => navigate(-1)}></button>
+        <p>문제 만들기</p>
+      </Myworkbook>
+      <MakeBox onSubmit={onSubmit} autoComplete="off">
+        <Box>
+          <LeftBox>
+            <Input
+              name="question"
+              type="text"
+              id="question"
+              value={answer.question}
+              onChange={onChange} 
+              placeholder="문제 입력" 
+            />
+            <div>
+              <InputBox htmlFor="answerA">
+                <input
+                  name="answer"
+                  type="radio"
+                  id="answerA"
+                  value={answer.answerA}
+                  onClick={onClick}
+                />
                 <InputNum
                   name="answerA"
                   type="text"
                   id="answerA"
                   placeholder="보기1"
                   value={answer.answerA}
-                  onClick={onClick}
                   onChange={onChange}
-                  // className={!selected ? 'selected' : ""}
+                />
+              </InputBox>
+              <InputBox htmlFor="answerB">
+                <input
+                  name="answer"
+                  type="radio"
+                  id="answerB"
+                  value={answer.answerB}
+                  onClick={onClick}
                 />
                 <InputNum
                   name="answerB"
@@ -90,8 +102,16 @@ export default function AddCont(props) {
                   id="answerB"
                   placeholder="보기2"
                   value={answer.answerB}
+                  onChange={onChange}
+                />
+              </InputBox>
+              <InputBox htmlFor="answerC">
+                <input
+                  name="answer"
+                  type="radio"
+                  id="answerC"
+                  value={answer.answerC}
                   onClick={onClick}
-                  onChange={onChange} 
                 /> 
                 <InputNum
                   name="answerC"
@@ -99,8 +119,16 @@ export default function AddCont(props) {
                   id="answerC"
                   placeholder="보기3"
                   value={answer.answerC}
-                  onClick={onClick}
                   onChange={onChange} 
+                /> 
+              </InputBox>
+              <InputBox htmlFor="answerD">
+                <input
+                  name="answer"
+                  type="radio"
+                  id="answerD"
+                  value={answer.answerD}
+                  onClick={onClick}
                 /> 
                 <InputNum
                   name="answerD"
@@ -108,8 +136,16 @@ export default function AddCont(props) {
                   id="answerD"
                   placeholder="보기4"
                   value={answer.answerD}
-                  onClick={onClick}
                   onChange={onChange} 
+                /> 
+              </InputBox>
+              <InputBox htmlFor="answerE">
+                <input
+                  name="answer"
+                  type="radio"
+                  id="answerE"
+                  value={answer.answerE}
+                  onClick={onClick}
                 /> 
                 <InputNum
                   name="answerE"
@@ -117,156 +153,170 @@ export default function AddCont(props) {
                   id="answerE"
                   placeholder="보기5"
                   value={answer.answerE}
-                  onClick={onClick}
                   onChange={onChange} 
                 /> 
-              </div>
-              <div>정답: {answer.correct}</div>
-              
-              {/* <Input
-                name="correct"
-                type="text"
-                id="correct"
-                value={answer.correct}
-                onChange={onChange} 
-                placeholder="보기를 선택하세요!"
-              /> */}
-            </LeftBox>
-            <RightBox>
-              <InputTxt 
-                name="explanation"
-                type="text"
-                id="explanation"
-                value={answer.explanation}
-                onChange={onChange} 
-                placeholder="설명 추가(선택)"
-              />
-            </RightBox>
-            
-            </Box>
-            <span>{error}</span>
-            
-          <Btn>추가</Btn>
-          </MakeBox>
-        </Right>
-      </>
-    )
-  }
-  const Myworkbook = styled.div`
-  border-bottom: 3px solid ${COLORS.light_gray};
+              </InputBox>
+            </div>
+          </LeftBox>
+          <div>
+            <InputTxt 
+              name="explanation"
+              type="text"
+              id="explanation"
+              value={answer.explanation}
+              onChange={onChange} 
+              placeholder="설명 추가(선택)"
+            />
+            <BtnBox>
+              <span>{error}</span>
+              <Btn>추가</Btn>
+            </BtnBox>
+          </div>
+        </Box>
+      </MakeBox>
+    </Right>
+  )
+}
+  
+const Myworkbook = styled.div`
+  display: flex;
+  align-items: center;
   height: 6%;
+  border-bottom: 2px solid ${COLORS.light_gray};
+  button {
+    margin-left: 15px;
+    width: 24px;
+    height: 24px;
+    background: url('/img/arrowBack.svg') center no-repeat;
+  }
   p {
+    margin-left: 10px;
     font-size: 1.1rem;
     font-weight: 700;
     line-height: 3rem;
-    margin-left: 20px;
   }
 `;
 
 const Right = styled.article`
+  flex-basis: 70%;
   position: relative;
   margin: 0 auto;
-  border: 3px solid ${COLORS.light_gray};
+  min-height: 700px;
+  border: 2px solid ${COLORS.light_gray};
   border-radius: 15px;
-  flex-basis: 70%;
 `;
 
-//내부내용
-  const MakeBox = styled.form`
+const MakeBox = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin: 50px 0px;
-  span {
-    margin: 0 15px;
-    color: ${COLORS.error};
-  }
+  margin: 80px 0px 0;
+  min-width: 1000px;
 `;
 
 const Box = styled.div`
   display: flex;
   justify-content: space-around;
-`
+`;
+
 const Input = styled.input`
-  width: 450px;
-  height: 40px;
-  color: ${COLORS.black};
+  padding: 10px 5px;
   margin-bottom: 22px;
+  width: 400px;
+  height: 40px;
   border: none;
   border-bottom: 1px solid ${COLORS.light_gray};
   background: none;
+  color: ${COLORS.black};
+  font-size: 15px;
   &::placeholder {
     color: #767676;
   }
   &:focus {
-    outline: none;
     border-bottom: 1px solid ${COLORS.blue};
+    outline: none;
   }
 `;
+
 const LeftBox = styled.div`
   display: flex;
   flex-direction: column;
-  height: 525px;
   div{
-      margin: 20px 0 40px;
+    margin: 20px 0 40px;
   }
-`
-const RightBox = styled.div`
-  /* display: flex; */
-  
-`
+`;
 
-// const CheckBox = styled.div`
-//   width: 30px;
-//   height: 30px;
-//   border: 1px solid black;
-// `
+const InputBox = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  input[type="radio"] {
+    width: 20px;
+    height: 20px;
+  }
+`;
 
 const InputNum = styled.input`
   display: block;
-  width: 368px;
+  position: relative;
+  padding: 3px;
+  margin: 14px 0;
+  width: 370px;
   height: 40px;
-  color: ${COLORS.black};
-  margin: 14px 0 12px;
-  padding: 3px 16px;
-  border: 2px solid ${COLORS.light_gray};
-  border-radius: 5px;
+  border: none;
   background: none;
+  color: ${COLORS.black};
+  box-sizing: border-box;
+  transition: all;
   &::placeholder {
-    color: #767676;
+    color: ${COLORS.gray};
+  }
+  &:hover {
+    border-bottom: 1px solid ${COLORS.light_gray};
   }
   &:focus {
+    border-bottom: 2px solid ${COLORS.blue};
     outline: none;
-    border: 1px solid ${COLORS.blue};
   }
-  &.selected {
-    background: ${COLORS.alpha_gray};
-  }
-`
+`;
+
 const InputTxt = styled.textarea`
   display: block;
+  padding: 15px;
   width: 450px;
-  height: 479px;
-  color: ${COLORS.black};
-  /* margin: 14px 0 12px; */
-  padding: 10px 10px;
+  height: 450px;
   border: 1px solid ${COLORS.light_gray};
   border-radius: 5px;
   background: none;
+  color: ${COLORS.black};
+  font-family: "Noto Sans KR";
+  box-sizing: border-box;
   resize: none;
   &::placeholder {
-    color: #767676;
+    color: ${COLORS.gray};
   }
   &:focus {
+    border: 2px solid ${COLORS.blue};
     outline: none;
-    border: 1px solid ${COLORS.blue};
   }
-`
+`;
+
+const BtnBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+  span {
+    color: ${COLORS.error};
+    font-size: 14px;
+  }
+`;
+
 const Btn = styled.button`
   width: 80px;
   height: 40px;
-  color: white;
-  background-color: ${COLORS.blue};
   border-radius: 6px;
-  margin-left: 40px;
-`
+  background: ${COLORS.blue};
+  color: ${COLORS.white};
+`;
