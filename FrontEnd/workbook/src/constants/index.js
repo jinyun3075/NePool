@@ -10,5 +10,6 @@ export const COLORS = {
   black: '#051619',
   wrong: '#e1180b',
   white_gray: '#e8e8e8',
-  white: '#fff'
+  white: '#fff',
+  text_gray: '#333333'
 };
