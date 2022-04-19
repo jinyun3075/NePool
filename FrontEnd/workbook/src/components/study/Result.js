@@ -2,13 +2,12 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { COLORS } from '../../constants'
 
-export default function Result({questionsData, bb}) {
-
+export default function Result({questionsData, oneShotAnswer}) {
   const [resultIndex, setResultIndex] = useState(0)
 
   const prev = () => {
-    if(resultIndex === 0) return
-    setResultIndex(resultIndex - 1)
+    if(resultIndex === 0) return;
+    setResultIndex(resultIndex - 1);
   }
 
   const next = () => {
@@ -29,8 +28,8 @@ export default function Result({questionsData, bb}) {
               <span>정답</span>
               <Strong>{q.correct}</Strong>
               <span>선택한 답</span>
-              <Strong>{bb[i]}</Strong>
-              <Calc>{q.correct === bb[i] && count++}</Calc>
+              <Strong>{oneShotAnswer[i]}</Strong>
+              <Calc>{q.correct === oneShotAnswer[i] && count++}</Calc>
             </Card>
           )
         })}
@@ -47,28 +46,28 @@ export default function Result({questionsData, bb}) {
 }
 
 const QuizList = styled.article`
+  display: flex;
+  position: relative;
+  margin: 60px auto 30px;
+  width: 320px;
+  color: ${COLORS.gray};
   font-size: 14px;
   text-align: center;
-  color: ${COLORS.gray};
-  margin: 60px auto 30px;
-  display: flex;
-  width: 320px;
   overflow: hidden;
-  position: relative;
-`
+`;
 
 const Card = styled.article`
-  min-width: 300px;
-  width: 300px;
-  height: 250px;
-  padding: 50px 10px;
-  position: relative;
-  border-radius: 5px;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  box-shadow: 0 0 0 1px rgb(34 36 38 / 15%) inset, 0 2px 3px 0 rgb(34 36 38 / 4%);
+  position: relative;
   transform: translateX(${props => -320 * (props.index)}px);
+  padding: 50px 10px;
+  width: 300px;
+  min-width: 300px;
+  height: 250px;
+  border-radius: 5px;
+  box-shadow: 0 0 0 1px rgb(34 36 38 / 15%) inset, 0 2px 3px 0 rgb(34 36 38 / 4%);
   transition: all 0.5s ease-in-out;
   span {
     color: ${COLORS.light_gray};
@@ -77,20 +76,18 @@ const Card = styled.article`
 
 const Strong = styled.strong`
   padding: 0 30px;
-  word-wrap: break-word;
   color: ${COLORS.gray};
-  /* text-align: start; */
+  word-wrap: break-word;
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
-`
+  overflow: hidden;
+`;
 
 const Calc = styled.p`
   display: none;
-`
+`;
 
 const Prev = styled.div`
-  /* background: red; */
   position: absolute;
   left: 0;
   bottom: 0;
@@ -98,14 +95,13 @@ const Prev = styled.div`
   height: 30%;
   cursor: pointer;
   span {
-    color: ${COLORS.light_gray};
-    margin: 50px 0;
     display: block;
+    margin: 50px 0;
+    color: ${COLORS.light_gray};
   }
-`
+`;
 
 const Next = styled.div`
-  /* background: blue; */
   position: absolute;
   right: 0;
   bottom: 0;
@@ -113,17 +109,17 @@ const Next = styled.div`
   height: 30%;
   cursor: pointer;
   span {
-    color: ${COLORS.light_gray};
-    margin: 50px 0;
     display: block;
+    margin: 50px 0;
+    color: ${COLORS.light_gray};
   }
-`
+`;
 
 const Box = styled.li`
-  font-size: 15px;
-  width: 70%;
   padding: 20px 30px;
   margin: 20px auto;
+  width: 70%;
+  font-size: 15px;
   text-align: center;
   box-shadow: 0 0 0 1px rgb(34 36 38 / 15%) inset, 0 2px 3px 0 rgb(34 36 38 / 4%);
-`
+`;

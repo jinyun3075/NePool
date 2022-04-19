@@ -2,7 +2,6 @@ import styled, { keyframes } from 'styled-components';
 import { COLORS } from "../../constants";
 
 export const ExplanationModal = ({modal, question}) => {
-
   return (
     <>
       {modal && (
@@ -25,28 +24,27 @@ const fade = keyframes`
   100% {
     opacity: 1;
   }
-`
+`;
 
 const Container = styled.article`
   position: absolute;
-  width: 50%;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 36px 0;
-  background-color: #fff;
+  width: 50%;
   border-radius: 3px;
-  z-index: 10;
+  background: ${COLORS.white};
   overflow: hidden;
-  animation: ${fade} 0.3s ease-in-out forwards;
   /* overflow-y: scroll; */
-
+  animation: ${fade} 0.3s ease-in-out forwards;
+  z-index: 10;
 `;
 
 const Div = styled.div`
-  border: 1px solid ${COLORS.light_gray};
-  font-size: 14px;
-  color: ${COLORS.gray};
-  margin: 15px 50px;
   padding: 30px 30px;
-`
+  margin: 15px 50px;
+  border: 1px solid ${COLORS.light_gray};
+  color: ${COLORS.gray};
+  font-size: 14px;
+`;
