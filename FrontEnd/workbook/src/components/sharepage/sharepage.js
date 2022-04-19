@@ -1,30 +1,28 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-import HeaderSignin from '../header/header';
-import Myshared from './myshared';
-import ShareLeft from './shareleft';
+import React from "react";
+import { useLocation } from "react-router-dom";
+import HeaderSignin from "../header/header";
+import styled from "styled-components";
+import ShareMyworkbook from "./share_myworkbook";
+import ShareContent from "./share_content";
 
 export default function Share_page() {
-  const location = useLocation()
-  const userid = location.state.userid
+  const location = useLocation();
+  const userid = location.state.userid;
 
   return (
     <>
       <HeaderSignin />
       <Section>
-        <ShareLeft />
-        <Myshared userid = {userid} />
+        <ShareMyworkbook />
+        <ShareContent userid={userid} />
       </Section>
     </>
-    )
-} 
-
+  );
+}
 
 const Section = styled.article`
-    width:100%;
-    height:79vh;
-    margin-top:80px;
-    display:flex;
+  display: flex;
+  margin-top: 80px;
+  width: 100%;
+  height: 79vh;
 `;
-
