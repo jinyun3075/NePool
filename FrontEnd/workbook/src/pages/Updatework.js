@@ -1,14 +1,13 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import UpdateQuestion from "../components/updatequestion/updatequetion";
 
 export default function UpdateWork() {
-  const location = useLocation()
+  const location = useLocation();
   const workbookid = location.state.workbookid;
 
-  
-  return (  
+  return (
     <>
-      <UpdateQuestion workbookid={workbookid} /> 
+      <UpdateQuestion workbookid={workbookid} />
     </>
-    )
+  );
 }

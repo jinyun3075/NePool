@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import axios from "axios";
-import { API } from "../../constants";
+import { API, COLORS } from "../../constants";
 
 export default function Post() {
   const [post, setPost] = useState([
@@ -19,6 +19,7 @@ export default function Post() {
       image: "",
     },
   ]);
+  const [clickType, setClickType] = useState("all");
 
   const getUser = async () => {
     const res = await axios.get(`${API}/workbook/page?type=${clickType}`, {
@@ -28,16 +29,15 @@ export default function Post() {
     });
     setPost(res.data.dtoList);
   };
-  
-  //카테고리별 게시글
-  const [clickType, setClickType] = useState("all");
+
   const onClickType = (e) => {
     setClickType(e.target.name);
   };
-  
+
   useEffect(() => {
     getUser();
   }, [clickType]);
+
   return (
     <>
       <Category>
@@ -79,7 +79,9 @@ export default function Post() {
             return (
               <li key={a.id}>
                 <Link to={`/detail/${a.id}`} state={{ username: a.username }}>
-                  <ItemImg><img src={a.image} alt="" /></ItemImg>
+                  <ItemImg>
+                    <img src={a.image} alt="" />
+                  </ItemImg>
                   <TextBox>
                     <ItemScr size="20px">{a.title}</ItemScr>
                     <ItemScr size="13px">만든이: {a.username}</ItemScr>
@@ -102,31 +104,31 @@ const Category = styled.ul`
   justify-content: center;
   align-items: center;
   height: 80px;
-  border-bottom: 1px solid #b6b6b6;
+  border-bottom: 1px solid ${COLORS.light_gray};
 `;
+
 const CategoryItem = styled.li`
   margin: 0 40px;
   button {
     font-size: 17px;
   }
 `;
-
 //리스트
 const ItemBox = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 10px;
 `;
+
 const Items = styled.ul`
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
   width: 1010px;
   li {
+    margin: 0 5px 10px;
     width: 190px;
     height: 290px;
-    border: 1px solid #b6b6b6;
-    margin: 0 5px 10px;
+    border: 1px solid ${COLORS.light_gray};
     border-radius: 6px;
     overflow: hidden;
     a {
@@ -136,6 +138,7 @@ const Items = styled.ul`
     }
   }
 `;
+
 const ItemImg = styled.div`
   width: 190px;
   height: 177px;
@@ -143,37 +146,39 @@ const ItemImg = styled.div`
   background: url(/img/example.svg) no-repeat center/103%;
   img {
     width: 190px;
-  height: 177px;
+    height: 177px;
   }
 `;
+
 const TextBox = styled.div`
   margin: 10px 10px;
 `;
+
 const ItemScr = styled.p`
   margin-bottom: 7px;
+  font-size: ${(props) => props.size};
+  text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: ${(props) => props.size};
-`;
-const ItemTxt = styled.p`
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 170px;
-  margin: 20px 10px 15px 0;
-  font-size: ${(props) => props.size};
 `;
 
+const ItemTxt = styled.p`
+  display: inline-block;
+  margin: 20px 10px 15px 0;
+  width: 170px;
+  font-size: ${(props) => props.size};
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+`;
 //더보기 버튼
 const MoreBtn = styled.a`
   display: block;
+  margin: 35px auto 50px;
   width: 230px;
   height: 45px;
-  margin: 35px auto 50px;
   border: 0.5px solid #b6b6b6;
-  text-align: center;
   font-size: 15px;
+  text-align: center;
   line-height: 45px;
 `;

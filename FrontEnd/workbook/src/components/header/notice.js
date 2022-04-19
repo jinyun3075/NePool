@@ -25,20 +25,21 @@ export default function NoticeModal({noticeOn}) {
 }
 
 const NoticeBox = styled.div`
-  z-index: 99;
   position: absolute;
   width: 500px;
   margin-top: 46px;
   margin-right: 60px;
+  z-index: 99;
   div {
     width: 500px;
     height: 200px;
     border: 1px solid #b6b6b6;
     border-radius: 6px;
-    color: #767676;
     background-color: white;
+    color: #767676;
   }
 `;
+
 const NoticeCont = styled.li`
   display: flex;
   flex-direction: column;
@@ -47,11 +48,11 @@ const NoticeCont = styled.li`
   height: 100px;
   margin-left: 20px;
   &::after {
-    position: absolute;
     content: "";
-    width: 500px;
-    border-top: 1px solid #f5f5f5;
+    position: absolute;
     top: 100px;
     right: -1px;
+    width: 500px;
+    border-top: 1px solid #f5f5f5;
   }
 `;

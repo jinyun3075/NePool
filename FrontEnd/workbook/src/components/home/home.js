@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import HeaderSignin from "../header/header";
-import Carousel from "./carousel";
 import Banner from "./banner";
+import Carousel from "./carousel";
 import Footer from "./footer";
+import HeaderSignin from "../header/header";
 import Post from "./post";
+import styled from "styled-components";
 import axios from "axios";
 import { API } from "../../constants";
 
 export default function Home() {
+  const [scrollY, setScrollY] = useState(0);
+  const [BtnOFF, setBtnOff] = useState(false);
+
   const [allUser, setAllUser] = useState([
     {
       dtoList: {
@@ -27,25 +30,6 @@ export default function Home() {
       pageList: "",
     },
   ]);
-
-  const getUser = async () => {
-    const token = sessionStorage.getItem("token");
-    const res = await axios.get(`${API}/user`, {
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-    // console.log(res);
-    setAllUser(res.data.dtoList);
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
-  const allUserCount = allUser.length;
-  // console.log(allUserCount);
-
   const [post, setPost] = useState([
     {
       content: "",
@@ -58,26 +42,25 @@ export default function Home() {
     },
   ]);
 
+  const getUser = async () => {
+    const res = await axios.get(`${API}/user`, {
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    setAllUser(res.data.dtoList);
+  };
   const getPost = async () => {
-    // const token = sessionStorage.getItem("token");
     const res = await axios.get(`${API}/workbook/page`, {
       headers: {
         "Content-type": "application/json",
       },
     });
-    // console.log(res);
     setPost(res.data.dtoList);
   };
 
-  useEffect(() => {
-    getPost();
-  }, []);
-
+  const allUserCount = allUser.length;
   const allBookCount = post.length;
-
-  const [scrollY, setScrollY] = useState(0);
-  const [BtnOFF, setBtnOff] = useState(false);
-
   const handleScroll = () => {
     setScrollY(window.pageYOffset);
     if (scrollY > 30) {
@@ -95,6 +78,12 @@ export default function Home() {
     setBtnOff(false);
   };
 
+  useEffect(() => {
+    getUser();
+  }, []);
+  useEffect(() => {
+    getPost();
+  }, []);
   useEffect(() => {
     const watch = () => {
       window.addEventListener("scroll", handleScroll);
@@ -125,18 +114,18 @@ export default function Home() {
 const TopBtn = styled.div`
   .topOn {
     position: fixed;
+    bottom: 5%;
+    right: 3%;
     width: 40px;
     height: 40px;
     background: url(/img/top.svg) center/100%;
-    bottom: 5%;
-    right: 3%;
     :hover {
       position: fixed;
+      bottom: 5%;
+      right: 3%;
       width: 40px;
       height: 40px;
       background: url(/img/topHover.svg) center/100%;
-      bottom: 5%;
-      right: 3%;
     }
   }
   .active {

@@ -7,7 +7,6 @@ export default function AllPost() {
     <>
       <HeaderSignin />
       <MorePost />
-      {/* <PostBtn /> */}
     </>
   );
 }

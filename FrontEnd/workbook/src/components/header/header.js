@@ -1,14 +1,20 @@
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { API } from "../../constants";
 import NoticeModal from "./notice";
 import SearchResult from "./search";
 import StatusModal from "./status";
+import styled from "styled-components";
+import axios from "axios";
+import { API, COLORS } from "../../constants";
 
 export default function HeaderSignin() {
-  //유저정보 API
+  const user = sessionStorage.getItem("user");
+  const token = sessionStorage.getItem("token");
+
+  const searchRef = useRef();
+  const noticeRef = useRef();
+  const statusRef = useRef();
+  //통신 API
   const [userName, setUserName] = useState(
     {
       id: "",
@@ -19,18 +25,6 @@ export default function HeaderSignin() {
       image: "",
     }
   );
-
-  const getUser = async () => {
-    const user = sessionStorage.getItem("user");
-    const res = await axios.get(`${API}/user/${user}`, {
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-    setUserName(res.data);
-    // console.log(res);
-  };
-  const token = sessionStorage.getItem("token");
   const [search, setSearch] = useState([
     {
       content: "",
@@ -44,34 +38,51 @@ export default function HeaderSignin() {
       username: "",
     },
   ]);
-  const [keyUp, setKeyUp] = useState()
-  const onKeyUp = (e) => {
-    setKeyUp(e.target.value);
-  }
-  // console.log(keyUp);
+  
+  const [keyUp, setKeyUp] = useState();
+  const [searchOn, setSearchOn] = useState(false);
+  const [noticeOn, setNoticeOn] = useState(false);
+  const [statusON, setStatusON] = useState(false);
+
+  const getUser = async () => {
+    const res = await axios.get(`${API}/user/${user}`, {
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    setUserName(res.data);
+  };
   const getResult = async() => {
     const res = await axios.get(`${API}/search/${keyUp}`, {
       headers: {
         "Content-type": "application/json",
       },
     });
-    // console.log(res.data);
     setSearch(res.data.workBook);
   };
-  // console.log(search);
+  
+  const onKeyUp = (e) => {
+    setKeyUp(e.target.value);
+  };
+  const openSearch = (e) => {
+    setSearchOn(true);
+    if(searchRef.current !==e.target) setSearchOn(false)
+  };
+  const openNotice = (e) => {
+    setNoticeOn(true);
+    if(noticeRef.current !==e.target) setNoticeOn(false)
+  };
+  const openStatus = (e) => {
+    setStatusON(true);
+    if(statusRef.current !==e.target) setStatusON(false)
+  };
+  
   useEffect(() => {
     getUser();
   },[]);
-  
   useEffect(() => {
     getResult();
   },[keyUp]);
-  
-  //모달 관련
-  const searchRef = useRef();
-  const noticeRef = useRef();
-  const statusRef = useRef();
-
   useEffect(()=>{
     window.addEventListener("click",openSearch);
     window.addEventListener("click",openNotice);
@@ -82,25 +93,6 @@ export default function HeaderSignin() {
       window.removeEventListener("click",openStatus);
     }
   },[]);
-  //검색창 모달
-  const [searchOn, setSearchOn] = useState(false);
-  const openSearch = (e) => {
-    setSearchOn(true);
-    if(searchRef.current !==e.target) setSearchOn(false)
-  }
-  //알림창 모달
-  const [noticeOn, setNoticeOn] = useState(false);
-  const openNotice = (e) => {
-    setNoticeOn(true);
-    if(noticeRef.current !==e.target) setNoticeOn(false)
-  };
-
-  //프로필 창 모달
-  const [statusON, setStatusON] = useState(false);
-  const openStatus = (e) => {
-    setStatusON(true);
-    if(statusRef.current !==e.target) setStatusON(false)
-  };
 
   return (
     <>
@@ -110,9 +102,10 @@ export default function HeaderSignin() {
             <SearchBtn>
               <img src="/img/search.svg" alt="돋보기" />
             </SearchBtn>
-            <SearchInp onFocus={openSearch} 
-            onChange={onKeyUp}
-            ref={searchRef}
+            <SearchInp 
+              onFocus={openSearch} 
+              onChange={onKeyUp}
+              ref={searchRef}
               type="text"
               placeholder="문제집을 검색해 보세요!"
             />
@@ -158,55 +151,58 @@ export default function HeaderSignin() {
 const HeaderWrap = styled.div`
   display: flex;
   justify-content: space-around;
+  align-items: center;
   margin-top: 18px;
   padding-bottom: 18px;
-  align-items: center;
-  border-bottom: 3px solid #c1c1c1;
+  border-bottom: 1px solid ${COLORS.light_gray};
 `;
-// 검색창
+
 const SearchBox = styled.form`
-  /* z-index: 999; */
   display: flex;
   align-items: center;
   width: 360px;
 `;
+
 const SearchBtn = styled.button`
   position: relative;
-  z-index: 2;
   width: 40px;
   height: 40px;
   border-radius: 6px;
+  z-index: 2;
 `;
+
 const CloseBtn = styled.button`
   position: absolute;
+  margin-left: 321px;
   width: 40px;
   height: 40px;
   border-radius: 6px;
-  margin-left: 321px;
 `;
+
 const SearchInp = styled.input`
   position: absolute;
   width: 280px;
   height: 40px;
-  border: 0.5px solid #b6b6b6;
-  border-radius: 6px;
   padding: 0 40px 0 40px;
+  border: 0.5px solid ${COLORS.light_gray};
+  border-radius: 6px;
   font-size: 15px;
   transition: 500ms width ease-in-out;
   ::placeholder {
+    color: ${COLORS.light_gray};
     font-size: 15px;
     line-height: 40px;
-    color: #b6b6b6;
   }
   :focus {
+    border: 2px solid ${COLORS.blue};
     outline: none;
-    border: 2px solid #2f80ed;
   }
 `;
 
 const Logo = styled.img`
   width: 180px;
 `;
+
 const BtnBox = styled.div`
   display: flex;
   justify-content: center;
@@ -214,16 +210,16 @@ const BtnBox = styled.div`
 `;
 
 const Btn = styled.button`
-  font-size: 14px;
+  margin: 0 10px;
   width: 100px;
   height: 45px;
-  border: 0.5px solid #b6b6b6;
+  border: 0.5px solid ${COLORS.light_gray};
   border-radius: 6px;
-  text-align: center;
-  line-height: 45px;
   background-color: ${(props) => props.color};
   color: ${(props) => props.font};
-  margin: 0 10px;
+  font-size: 14px;
+  text-align: center;
+  line-height: 45px;
 `;
 
 const ProfileBox = styled.div`

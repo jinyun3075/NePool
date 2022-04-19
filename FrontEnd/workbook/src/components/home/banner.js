@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import axios from "axios";
-import { API } from "../../constants";
+import { API, COLORS } from "../../constants";
 
 export default function Banner({allUserCount}) {
-
-  const user = sessionStorage.getItem("user")
-
-  const [allWorkBook, setAllWorkBook] = useState("")
+  const user = sessionStorage.getItem("user");
 
   const getAllWorkbook = async () => {
     const res = await axios.get(`${API}/workbook/all`, {
@@ -18,9 +15,6 @@ export default function Banner({allUserCount}) {
     });
     setAllWorkBook(res.data);
   };
-
-  const [userId, setUserId] = useState("");
-
   const getUser = async () => {
     const res = await axios.get(`${API}/user/${user}`, {
       headers: {
@@ -29,15 +23,6 @@ export default function Banner({allUserCount}) {
     });
     setUserId(res.data.id);
   };
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
-
-
-  const [notice, setNotice] = useState("")
-
   const getNotice = async () => {
     const res = await axios.get(`${API}/announcement `, {
       headers: {
@@ -47,6 +32,13 @@ export default function Banner({allUserCount}) {
     setNotice(res.data.dtoList[0])
   };
 
+  const [allWorkBook, setAllWorkBook] = useState("");
+  const [userId, setUserId] = useState("");
+  const [notice, setNotice] = useState("")
+
+  useEffect(() => {
+    getUser();
+  }, []);
   useEffect(() => {
     getAllWorkbook();
     getNotice()
@@ -100,7 +92,6 @@ export default function Banner({allUserCount}) {
   );
 }
 
-//배너
 const BannerBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -109,49 +100,54 @@ const BannerBox = styled.div`
   height: 300px;
   background: url(/img/background.svg) center/100% no-repeat;
 `;
+
 const BannerText = styled.span`
   font-size: ${(props) => props.size};
   font-weight: ${(props) => props.weight};
 `;
+
 const ButtonBox = styled.button`
   display: flex;
 `;
+
 const Btn = styled.div`
   display: block;
+  margin: 0 10px;
   width: 265px;
   height: 50px;
-  background-color: ${(props) => props.bg};
-  color: ${(props) => props.color};
   border: ${(props) => props.border};
   border-radius: 6px;
+  background-color: ${(props) => props.bg};
+  color: ${(props) => props.color};
   font-size: 17px;
   line-height: 50px;
-  margin: 0 10px;
 `;
 
-//공지사항
 const NotionBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 170px;
 `;
+
 const Notion = styled.div`
   width: 1000px;
   height: 50px;
-  background-color: #2f80ed;
+  background-color: ${COLORS.blue};
   text-align: center;
 `;
+
 const MainNotion = styled.span`
   display: inline-block;
   color: white;
-  line-height: 50px;
   font-size: 15px;
+  line-height: 50px;
 `;
+
 const WholeBtn = styled.span`
   position: absolute;
+  margin-left: 230px;
   color: white;
   line-height: 50px;
   text-decoration: underline;
-  margin-left: 230px;
 `;
