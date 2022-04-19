@@ -12,7 +12,11 @@ export default function PostBtn({page, onClickNum, next, prev, onClickNext, onCl
         </Button>
         {page.map((number)=>{
           return (
-        <Button key={number} value={number} onClick={onClickNum}>
+        <Button 
+          key={number} 
+          value={number} 
+          onClick={onClickNum}
+          >
           {number}
         </Button>
           )
@@ -29,33 +33,29 @@ const Nav = styled.nav`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 4px;
   margin: 16px;
+  gap: 4px;
   `
-  
+
   const Button = styled.button`
-  border: none;
-  border-radius: 6px;
-  width: 30px;
-  height: 30px;
-  /* padding: 8px; */
   margin: 0;
+  border: none;
+  height: 30px;
+  width: 30px;
+  border-radius: 6px;
   background: ${COLORS.blue};
   color: white;
   font-size: 15px;
-
   &:hover {
     background: ${COLORS.gray};
     cursor: pointer;
     transform: translateY(-2px);
   }
-
   &[disabled] {
     background: ${COLORS.light_gray};
     cursor: revert;
     transform: revert;
   }
-
   &[aria-current] {
     background: ${COLORS.blue};
     font-weight: bold;
