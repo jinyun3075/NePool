@@ -1,5 +1,6 @@
 # <span id="top">📘NEPOOL</span>
-[🔗 배포 URL](https://www.nepool.co.kr)
+[🔗 배포 URL](http://www.nepool.co.kr)
+[🔗 서버 리포](https://github.com/jinyun3075/NePool)
 
 ## 팀원 구성
 
@@ -38,8 +39,6 @@
 - DevOps: Github, Docker, AWS
 - Design: Figma
 - 버전 관리 및 이슈 : 🔗[GitHub Project](https://github.com/jinyun3075/NePool/projects/1)
-### 배포 URL
-URL : 🔗 https://www.nepool.co.kr/
 
 <p align="right"><a href="#top">(Top)</a></p>
 
@@ -311,7 +310,7 @@ URL : 🔗 https://www.nepool.co.kr/
 - 전체 개발 기간 : 2022-02-25 ~ 2022-04-01
 - 기획 디자인 : 2022-02-25 ~ 2022-03-02
 - UI 구현 : 2022-03-03 ~ 2022-03-13
-- 기능 개발 : 2022-03-14 ~ 2022-04-01 
+- 기능 개발 : 2022-03-14 ~ 2022-04-01
 ### 작업 관리
 - 🔗[GitHub Projects](https://github.com/jinyun3075/NePool/projects/1)를 사용하여 진행도와 상황을 꾸준히 공유하였습니다.
 <img src="https://user-images.githubusercontent.com/92600646/161484642-ad2f0726-a867-4dd9-b69d-717a9cd49998.png">

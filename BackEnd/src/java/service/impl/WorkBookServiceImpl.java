@@ -1,6 +1,5 @@
 package com.NePool.app.service.impl;
 
-<<<<<<< HEAD:BackEnd/server/src/main/java/com/NePool/app/service/impl/WorkBookServiceImpl.java
 import com.NePool.app.util.dto.PageRequestDTO;
 import com.NePool.app.util.dto.PageResultDTO;
 import com.NePool.app.domain.workbook.dto.WorkBookRequestDTO;
@@ -10,17 +9,7 @@ import com.NePool.app.domain.comment.repository.CommentRepository;
 import com.NePool.app.domain.user.repository.UserRepository;
 import com.NePool.app.domain.workbook.repository.WorkBookRepository;
 import com.NePool.app.domain.work.repository.WorkRepository;
-=======
-import com.NePool.app.dto.PageRequestDTO;
-import com.NePool.app.dto.PageResultDTO;
-import com.NePool.app.dto.WorkBookRequestDTO;
-import com.NePool.app.entity.NePoolUser;
-import com.NePool.app.entity.WorkBook;
-import com.NePool.app.repository.CommentRepository;
-import com.NePool.app.repository.UserRepository;
-import com.NePool.app.repository.WorkBookRepository;
-import com.NePool.app.repository.WorkRepository;
->>>>>>> 97a1d5ddf13aaac982c147c1a78db9479655dd2e:BackEnd/src/java/service/impl/WorkBookServiceImpl.java
+
 import com.NePool.app.service.WorkBookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -87,11 +76,8 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-<<<<<<< HEAD:BackEnd/server/src/main/java/com/NePool/app/service/impl/WorkBookServiceImpl.java
     public PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookPageList(PageRequestDTO page, String type) throws Exception {
-=======
-    public PageResultDTO<WorkBookRequestDTO, WorkBook> allListPage(PageRequestDTO page, String type) throws Exception {
->>>>>>> 97a1d5ddf13aaac982c147c1a78db9479655dd2e:BackEnd/src/java/service/impl/WorkBookServiceImpl.java
+
         Page<WorkBook> entity;
         if(type==null) {
             entity = workBookRepository.findByShare(true,page.getPageable(Sort.by("modDate").descending()));
@@ -103,11 +89,8 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-<<<<<<< HEAD:BackEnd/server/src/main/java/com/NePool/app/service/impl/WorkBookServiceImpl.java
     public List<WorkBookRequestDTO> selectWorkBookList(String type) throws Exception {
-=======
-    public List<WorkBookRequestDTO> allList(String type) throws Exception {
->>>>>>> 97a1d5ddf13aaac982c147c1a78db9479655dd2e:BackEnd/src/java/service/impl/WorkBookServiceImpl.java
+
         List<WorkBook> entity;
         if(type==null) {
             entity = workBookRepository.findByShare(true);
@@ -118,11 +101,8 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-<<<<<<< HEAD:BackEnd/server/src/main/java/com/NePool/app/service/impl/WorkBookServiceImpl.java
     public void deleteWorkBook(String username, String work_book_id) throws Exception {
-=======
-    public void delete(String username, String work_book_id) throws Exception {
->>>>>>> 97a1d5ddf13aaac982c147c1a78db9479655dd2e:BackEnd/src/java/service/impl/WorkBookServiceImpl.java
+
         Optional<NePoolUser> user = userRepository.findByUsername(username);
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
@@ -158,25 +138,15 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-<<<<<<< HEAD:BackEnd/server/src/main/java/com/NePool/app/service/impl/WorkBookServiceImpl.java
     public List<WorkBookRequestDTO> selectWorkBookBest4() throws Exception {
-=======
-    public List<WorkBookRequestDTO> best4() throws Exception {
->>>>>>> 97a1d5ddf13aaac982c147c1a78db9479655dd2e:BackEnd/src/java/service/impl/WorkBookServiceImpl.java
         Pageable pageable = PageRequest.of(0, 4,Sort.by("count").descending());
         Page<WorkBook> res = workBookRepository.findByShare(true,pageable);
         return res.stream().map(workBook -> entityToDto(workBook)).collect(Collectors.toList());
     }
 
     @Override
-<<<<<<< HEAD:BackEnd/server/src/main/java/com/NePool/app/service/impl/WorkBookServiceImpl.java
     public Long selectWorkBookCount() {
         return workBookRepository.count();
-=======
-    public Long all() {
-        long workbook = workBookRepository.findAll().size();
-        return workbook;
->>>>>>> 97a1d5ddf13aaac982c147c1a78db9479655dd2e:BackEnd/src/java/service/impl/WorkBookServiceImpl.java
     }
 
     private WorkBook check(String username, String work_book_id) throws Exception {

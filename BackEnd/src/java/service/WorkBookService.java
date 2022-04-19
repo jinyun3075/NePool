@@ -23,15 +23,10 @@ public interface WorkBookService {
 
     void deleteWorkBook(String username, String work_book_id) throws Exception;
 
-<<<<<<< HEAD:BackEnd/server/src/main/java/com/NePool/app/service/WorkBookService.java
     boolean updateWorkBookShare(String username, String work_book_id) throws Exception;
 
     WorkBookRequestDTO updateWorkBook(String username, String work_book_id, WorkBookRequestDTO dto) throws Exception;
-=======
-    PageResultDTO<WorkBookRequestDTO, WorkBook> allListPage(PageRequestDTO page, String type) throws Exception;
-    List<WorkBookRequestDTO> allList(String type) throws Exception;
-    void delete(String username, String work_book_id) throws Exception;
->>>>>>> 97a1d5ddf13aaac982c147c1a78db9479655dd2e:BackEnd/src/java/service/WorkBookService.java
+
 
     Long selectWorkBookCount();
 
@@ -61,10 +56,7 @@ public interface WorkBookService {
                 .count(entity.getCount())
                 .type(entity.getType())
                 .share(entity.getShare())
-<<<<<<< HEAD:BackEnd/server/src/main/java/com/NePool/app/service/WorkBookService.java
                 .image(entity.getImage())
-=======
->>>>>>> 97a1d5ddf13aaac982c147c1a78db9479655dd2e:BackEnd/src/java/service/WorkBookService.java
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .build();
