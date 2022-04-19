@@ -1,29 +1,24 @@
-import React from 'react';
-import styled from 'styled-components';
-import HeaderSignin from '../header/header';
-import Left from '../mypage/left';
-import Updatepage_Right from './updatepage_right';
+import React from "react";
+import HeaderSignin from "../header/header";
+import styled from "styled-components";
+import MyWorkbook from "../mypage/myworkbook";
+import UpdatepageContent from "./updatepage_content";
 
 export default function Update_page() {
-
-
   return (
     <>
       <HeaderSignin />
-
       <Section>
-        <Left />
-        <Updatepage_Right />
+        <MyWorkbook />
+        <UpdatepageContent />
       </Section>
     </>
-    )
-} 
-
+  );
+}
 
 const Section = styled.article`
-    width:100%;
-    height:79vh;
-    margin-top:80px;
-    display:flex;
+  display: flex;
+  margin-top: 80px;
+  width: 100%;
+  height: 79vh;
 `;
-
