@@ -1,13 +1,13 @@
 import { useLocation } from "react-router-dom";
 import HeaderSignin from "../header/header";
 import AddCont from "./addContent";
-import MyWorkbook from "../mypage/myworkbook";
+import MyWorkbook from "../mypage/MyWorkbook";
 import styled from "styled-components";
 
 export default function Add() {
   const location = useLocation();
   const workbookid = location.state.workbookid;
-  
+
   return (
     <>
       <HeaderSignin />

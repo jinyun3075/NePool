@@ -1,10 +1,10 @@
 import React from "react";
 import HeaderSignin from "../header/header";
-import WorkbookContent from "./workbookcontent";
+import MyWorkbook from "./MyWorkbook";
+import WorkbookContent from "./WorkbookContent";
 import styled from "styled-components";
-import MyWorkbook from "./myworkbook";
 
-export default function My_page() {
+export default function MyPageContent() {
   return (
     <>
       <HeaderSignin />

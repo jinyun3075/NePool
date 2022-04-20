@@ -5,14 +5,14 @@ import { API, COLORS } from "../../constants/index";
 export default function ShareDeleteModal(props) {
   const token = sessionStorage.getItem("token");
 
-  const workbookid = props.workbookid;
-  const userid = props.userid;
+  const workbookId = props.workbookid;
+  const userId = props.userid;
 
-  const Sharedeleteworkbook = async () => {
+  const shareDeleteWorkbook = async () => {
     await axios.delete(`${API}/share`, {
       data: {
-        work_book_id: workbookid,
-        user_id: userid,
+        work_book_id: workbookId,
+        user_id: userId,
       },
       headers: {
         "Content-type": "application/json",
@@ -43,7 +43,7 @@ export default function ShareDeleteModal(props) {
           >
             아니오
           </NoBtn>
-          <YesBtn onClick={Sharedeleteworkbook}>예</YesBtn>
+          <YesBtn onClick={shareDeleteWorkbook}>예</YesBtn>
         </BtnDiv>
       </Modal>
     </>
@@ -61,7 +61,7 @@ const Modal = styled.div`
   border: 1px solid ${COLORS.light_gray};
   border-radius: 5px;
   background-color: #fff;
-  z-index: 2;
+  z-index: 20;
 `;
 
 const ImgDiv = styled.div`
@@ -95,12 +95,12 @@ const NoBtn = styled.div`
   margin-right: 0.3em;
   width: 28%;
   height: 2.5em;
+  border: 1px solid ${COLORS.light_gray};
+  border-radius: 5px;
   color: ${COLORS.gray};
   font-size: 1rem;
   line-height: 2.5rem;
   text-align: center;
-  border: 1px solid ${COLORS.light_gray};
-  border-radius: 5px;
   cursor: pointer;
 `;
 
@@ -108,11 +108,11 @@ const YesBtn = styled.div`
   margin-left: 0.3em;
   width: 28%;
   height: 2.5em;
-  color: #fff;
+  border-radius: 5px;
+  background-color: ${COLORS.blue};
+  color: ${COLORS.white};
   font-size: 1rem;
   text-align: center;
   line-height: 2.5rem;
-  border-radius: 5px;
-  background-color: ${COLORS.blue};
   cursor: pointer;
 `;

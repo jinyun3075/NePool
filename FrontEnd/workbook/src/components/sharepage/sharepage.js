@@ -2,10 +2,10 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import HeaderSignin from "../header/header";
 import styled from "styled-components";
-import ShareMyworkbook from "./share_myworkbook";
-import ShareContent from "./share_content";
+import ShareMyworkbook from "./ShareMyWorkbook";
+import ShareContent from "./ShareContent";
 
-export default function Share_page() {
+export default function SharePage() {
   const location = useLocation();
   const userid = location.state.userid;
 

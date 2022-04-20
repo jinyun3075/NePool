@@ -1,34 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { COLORS } from "../../constants";
 
-export default function UpdateModal(props) {
-  const workbookdata = props.workbookdata;
-
+export default function ShareUpdateModal(props) {
   return (
     <>
       <Modal className="updatemodal">
         <Try
           onClick={() => {
-            props.setModemodal(true);
-            props.setDeletemodal(false);
+            props.setSharemodemodal(true);
+            props.setSharedeletemodal(false);
           }}
         >
           풀기
         </Try>
-        <Update>
-          <Link
-            to="/update"
-            state={{ workbookdata: workbookdata, imageurl: props.imageurl }}
-          >
-            수정
-          </Link>
-        </Update>
         <Delete
           onClick={() => {
-            props.setDeletemodal(true);
-            props.setModemodal(false);
+            props.setSharedeletemodal(true);
+            props.setSharemodemodal(false);
           }}
         >
           삭제
@@ -67,8 +56,8 @@ const Try = styled.button`
 const Delete = styled.button`
   width: 27%;
   height: 40%;
-  color: white;
   background-color: ${COLORS.blue};
+  color: white;
 `;
 
 const Update = styled.button`

@@ -2,15 +2,15 @@ import { useLocation } from "react-router-dom";
 import HeaderSignin from "../header/header";
 import UpdateCont from "./updateContent";
 import styled from "styled-components";
-import MyWorkbook from "../mypage/myworkbook";
+import MyWorkbook from "../mypage/MyWorkbook";
 
-export default function UpdateQuestion({ workbookid, workid }) {
+export default function UpdateQuestion({ workbookid }) {
   return (
     <>
       <HeaderSignin />
       <Section>
         <MyWorkbook />
-        <UpdateCont workbookid={workbookid} workid={workid} />
+        <UpdateCont workbookid={workbookid} />
       </Section>
     </>
   );
