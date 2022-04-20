@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
-import PostBtn from "./postButton";
+import PostBtn from "./PostButton";
 import styled from "styled-components";
 import axios from "axios";
 import { API, COLORS } from "../../constants";
 
 export default function MorePost() {
-  const [page, setPage] = useState([])
-  const [number, setNumber] = useState(1)
-  const [next, setNext] = useState(false);
-  const [prev, setPrev] = useState(false);
-  const [clickType, setClickType] = useState("all");
-
   const [post, setPost] = useState([
     {
       content: "",
@@ -25,6 +19,13 @@ export default function MorePost() {
       username: "",
     },
   ]);
+
+  const [page, setPage] = useState([])
+  const [number, setNumber] = useState(1)
+  const [next, setNext] = useState(false);
+  const [prev, setPrev] = useState(false);
+  const [clickType, setClickType] = useState("all");
+  
 
   const getUser = async () => {
     const res = await axios.get(`${API}/workbook/page?page=${number}&size=10&type=${clickType}`, {
@@ -113,7 +114,8 @@ export default function MorePost() {
       <PostBtn 
         page={page} 
         onClickNum={onClickNum} 
-        next={next} prev={prev} 
+        next={next}
+        prev={prev} 
         onClickNext={onClickNext} 
         onClickPrev={onClickPrev}
         />

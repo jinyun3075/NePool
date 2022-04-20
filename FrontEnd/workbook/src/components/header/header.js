@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import NoticeModal from "./notice";
-import SearchResult from "./search";
-import StatusModal from "./status";
+import NoticeModal from "./Notice";
+import SearchResult from "./Search";
+import StatusModal from "./Status";
 import styled from "styled-components";
 import axios from "axios";
 import { API, COLORS } from "../../constants";
@@ -53,12 +53,14 @@ export default function HeaderSignin() {
     setUserName(res.data);
   };
   const getResult = async() => {
-    const res = await axios.get(`${API}/search/${keyUp}`, {
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-    setSearch(res.data.workBook);
+    if(keyUp) {
+      const res = await axios.get(`${API}/search/${keyUp}`, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+      setSearch(res.data.workBook);
+    }
   };
   
   const onKeyUp = (e) => {
@@ -168,7 +170,7 @@ const SearchBtn = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 6px;
-  z-index: 2;
+  z-index: 20;
 `;
 
 const CloseBtn = styled.button`
@@ -181,9 +183,9 @@ const CloseBtn = styled.button`
 
 const SearchInp = styled.input`
   position: absolute;
+  padding: 0 40px 0 40px;
   width: 280px;
   height: 40px;
-  padding: 0 40px 0 40px;
   border: 0.5px solid ${COLORS.light_gray};
   border-radius: 6px;
   font-size: 15px;
@@ -227,10 +229,12 @@ const ProfileBox = styled.div`
   justify-content: right;
   width: 360px;
 `;
+
 const NoticeImg = styled.img`
   width: 40px;
   height: 40px;
 `;
+
 const ProfileImg = styled.img`
   width: 40px;
   height: 40px;

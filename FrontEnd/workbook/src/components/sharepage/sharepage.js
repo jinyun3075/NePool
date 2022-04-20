@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import HeaderSignin from "../header/header";
+import HeaderSignin from "../header/Header";
 import styled from "styled-components";
 import ShareMyworkbook from "./ShareMyWorkbook";
 import ShareContent from "./ShareContent";

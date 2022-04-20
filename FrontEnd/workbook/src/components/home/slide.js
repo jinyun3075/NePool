@@ -5,9 +5,10 @@ import axios from "axios";
 import { API } from "../../constants";
 
 export default function Slide({ getSlide, currentSlide }) {
+  const workBookId = getSlide.id;
+  
   const [star, setStar] = useState(0);
 
-  const workBookId = getSlide.id;
   const starView = parseInt(star * 15);
 
   const getStar = async () => {

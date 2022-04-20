@@ -13,12 +13,15 @@ export default function SearchResult({ search }) {
               <>
                 {search.map((data) => {
                   return (
-                      <Link to={`/detail/${data.id}`}
-                      state={{username: data.username}}>
-                          <NoticeCont key={data.id}>
-                            <p>만든이: {data.username}</p>
-                            <p>{data.title}</p>
-                          </NoticeCont>
+                      <Link 
+                      to={`/detail/${data.id}`}
+                      state={{username: data.username}}
+                      key={data.id}
+                      >
+                        <NoticeCont >
+                          <p>만든이: {data.username}</p>
+                          <p>{data.title}</p>
+                        </NoticeCont>
                       </Link>
                   );
                 })}
