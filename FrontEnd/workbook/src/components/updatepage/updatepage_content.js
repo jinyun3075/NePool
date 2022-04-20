@@ -11,11 +11,10 @@ export default function UpdatepageContent() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const workbookdata = location.state.workbookdata;
-  const imgurl = location.state.imageurl;
+  const workbookData = location.state.workbookdata;
 
-  const [workid, setWorkid] = useState("");
-  const [imageurl, setImageurl] = useState(workbookdata.image);
+  const [workId, setWorkId] = useState("");
+  const [imageUrl, setImageUrl] = useState(workbookData.image);
 
   const [question, setQuestion] = useState([
     {
@@ -31,16 +30,16 @@ export default function UpdatepageContent() {
     },
   ]);
 
-  const [putworkbook, setPutworkbook] = useState({
-    title: workbookdata.title,
-    content: workbookdata.content,
-    type: workbookdata.type,
-    image: workbookdata.image,
+  const [putWorkbook, setPutWorkbook] = useState({
+    title: workbookData.title,
+    content: workbookData.content,
+    type: workbookData.type,
+    image: workbookData.image,
   });
 
   // 문제 보이기 (Get)
   const GetQuestion = async () => {
-    const res = await axios.get(`${API}/work/${user}/${workbookdata.id}`, {
+    const res = await axios.get(`${API}/work/${user}/${workbookData.id}`, {
       headers: {
         "Content-type": "application/json",
       },
@@ -52,12 +51,12 @@ export default function UpdatepageContent() {
   // 문제집 수정
   const UpdateWorkbook = async () => {
     await axios.put(
-      `${API}/workbook/update/${user}/${workbookdata.id}`,
+      `${API}/workbook/update/${user}/${workbookData.id}`,
       {
-        title: putworkbook.title,
-        content: putworkbook.content,
-        type: putworkbook.type,
-        image: imageurl,
+        title: putWorkbook.title,
+        content: putWorkbook.content,
+        type: putWorkbook.type,
+        image: imageUrl,
       },
       {
         headers: {
@@ -82,12 +81,12 @@ export default function UpdatepageContent() {
         Authorization: `Bearer ${token}`,
       },
     });
-    setImageurl(ress.data[0].imageUrl);
+    setImageUrl(ress.data[0].imageUrl);
   };
 
   // 문제 삭제
-  const DeleteQuestion = async (workid) => {
-    await axios(`${API}/work/${user}/${workbookdata.id}/${workid}`, {
+  const DeleteQuestion = async (workId) => {
+    await axios(`${API}/work/${user}/${workbookData.id}/${workId}`, {
       method: "delete",
       headers: {
         "Content-type": "application/json",
@@ -98,12 +97,12 @@ export default function UpdatepageContent() {
   };
 
   const handlingChange = (e) => {
-    setPutworkbook({ ...putworkbook, [e.target.name]: e.target.value });
+    setPutWorkbook({ ...putWorkbook, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
     GetQuestion();
-  }, [workid]);
+  }, [workId]);
 
   return (
     <>
@@ -122,10 +121,10 @@ export default function UpdatepageContent() {
             <Label htmlFor="input">
               <WorkbookImg
                 src={
-                  imageurl
-                    ? imageurl
-                    : putworkbook.image
-                    ? putworkbook.image
+                  imageUrl
+                    ? imageUrl
+                    : putWorkbook.image
+                    ? putWorkbook.image
                     : "./img/basic.png"
                 }
               />
@@ -133,14 +132,14 @@ export default function UpdatepageContent() {
             <TextSelect>
               <TextInput
                 name="title"
-                value={putworkbook.title}
+                value={putWorkbook.title}
                 onChange={handlingChange}
                 type="text"
               ></TextInput>
               <Select
-                placeholder={workbookdata.type}
+                placeholder={workbookData.type}
                 name="type"
-                value={putworkbook.type}
+                value={putWorkbook.type}
                 onChange={handlingChange}
               >
                 <option value="수능·내신">수능·내신</option>
@@ -151,9 +150,9 @@ export default function UpdatepageContent() {
               </Select>
               <Explain
                 rows="5"
-                placeholder={workbookdata.content}
+                placeholder={workbookData.content}
                 name="content"
-                value={putworkbook.content}
+                value={putWorkbook.content}
                 onChange={handlingChange}
               ></Explain>
               <Workbookupdate type="submit" onClick={UpdateWorkbook}>
@@ -175,7 +174,7 @@ export default function UpdatepageContent() {
                     <Link
                       to={"/updatequestion"}
                       state={{
-                        workbookid: workbookdata.id,
+                        workbookid: workbookData.id,
                         question: questiondata,
                       }}
                     >
@@ -194,7 +193,7 @@ export default function UpdatepageContent() {
             })}
           </QuestionUl>
 
-          <Link to="/add" state={{ workbookid: workbookdata.id }}>
+          <Link to="/add" state={{ workbookid: workbookData.id }}>
             <CreateBtn src="/img/plus.svg"></CreateBtn>
           </Link>
         </ScrollbarSection>
@@ -206,8 +205,7 @@ export default function UpdatepageContent() {
 const Article = styled.article`
   flex-basis: 70%;
   position: relative;
-  margin: 0 auto;
-  margin-right: 4%;
+  margin: 0 4% 0 auto;
   border: 3px solid ${COLORS.light_gray};
   border-radius: 15px;
   box-sizing: border-box;
@@ -253,8 +251,7 @@ const Input = styled.input`
   height: 100%;
 `;
 const Label = styled.label`
-  margin-left: 18%;
-  margin-right: 50px;
+  margin: 0 50px 0 250px;
   width: 20%;
   height: 100%;
   cursor: pointer;
@@ -280,10 +277,10 @@ const TextInput = styled.input`
   margin-top: 36px;
   width: 95%;
   height: 30px;
-  color: ${COLORS.black};
-  font-weight: bold;
   border-radius: 5px;
   border: 2px solid ${COLORS.light_gray};
+  color: ${COLORS.black};
+  font-weight: bold;
   &:focus {
     border-color: ${COLORS.blue};
   }
@@ -294,10 +291,10 @@ const Select = styled.select`
   margin-top: 20px;
   width: 100%;
   height: 35px;
-  color: ${COLORS.black};
-  font-weight: bold;
   border: 2px solid ${COLORS.light_gray};
   border-radius: 5px;
+  color: ${COLORS.black};
+  font-weight: bold;
 `;
 
 const Explain = styled.textarea`
@@ -306,10 +303,10 @@ const Explain = styled.textarea`
   margin-top: 20px;
   width: 93%;
   height: 80px;
-  color: ${COLORS.black};
-  font-weight: bold;
   border: 2px solid ${COLORS.light_gray};
   border-radius: 5px;
+  color: ${COLORS.black};
+  font-weight: bold;
   resize: none;
 `;
 
@@ -317,11 +314,11 @@ const Workbookupdate = styled.button`
   margin-top: 20px;
   width: 40%;
   height: 32px;
-  color: #fff;
-  font-size: 12px;
   border: none;
   border-radius: 5px;
   background-color: ${COLORS.blue};
+  color: ${COLORS.white};
+  font-size: 12px;
 `;
 const QuestionUl = styled.ul`
   width: 100%;
@@ -341,16 +338,14 @@ const Question = styled.p`
 `;
 
 const Answer = styled.p`
-  margin-top: 7px;
-  margin-left: 6px;
+  margin: 7px 0 0 6px;
   color: ${COLORS.gray};
   font-weight: 600;
   font-size: 13px;
 `;
 
 const Answers = styled.p`
-  margin-top: 7px;
-  margin-left: 6px;
+  margin: 7px 0 0 6px;
   width: 900px;
   color: ${COLORS.light_gray};
   font-weight: 400;
@@ -362,29 +357,28 @@ const Answers = styled.p`
 
 const ButtonDiv = styled.div`
   display: flex;
-  margin-left: 6px;
-  margin-top: 15px;
+  margin: 15px 0 0 6px;
 `;
 
 const Update = styled.button`
   margin-right: 10px;
   width: 60px;
   height: 32px;
-  color: #fff;
-  font-size: 12px;
   border: none;
   border-radius: 5px;
   background-color: ${COLORS.blue};
+  color: ${COLORS.white};
+  font-size: 12px;
 `;
 
 const Delete = styled.button`
   width: 60px;
   height: 32px;
-  color: #fff;
-  font-size: 12px;
   border: none;
   border-radius: 5px;
   background-color: ${COLORS.blue};
+  color: ${COLORS.white};
+  font-size: 12px;
 `;
 
 const CreateBtn = styled.img`

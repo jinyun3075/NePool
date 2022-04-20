@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { COLORS, API } from "../../constants/index";
 
 export default function ShareMyworkbook() {
-  const [userinfo, setUserinfo] = useState([
+  const [userInfo, setUserInfo] = useState([
     {
       email: "",
       id: "",
@@ -16,7 +16,7 @@ export default function ShareMyworkbook() {
     },
   ]);
 
-  const Mypageinfo = async () => {
+  const mypageInfo = async () => {
     const token = sessionStorage.getItem("token");
     const username = sessionStorage.getItem("user");
     const res = await axios.get(`${API}/user/${username}`, {
@@ -24,11 +24,11 @@ export default function ShareMyworkbook() {
         "Content-type": "application/json",
       },
     });
-    setUserinfo(res.data);
+    setUserInfo(res.data);
   };
 
   useEffect(() => {
-    Mypageinfo();
+    mypageInfo();
   }, []);
 
   return (
@@ -36,14 +36,14 @@ export default function ShareMyworkbook() {
       <Article>
         <Profile>
           <div>
-            <ProfileImage src={userinfo.image} alt="profile"></ProfileImage>
+            <ProfileImage src={userInfo.image} alt="profile"></ProfileImage>
           </div>
           <Info>
             <div>
-              <Name>{userinfo.name}</Name>
+              <Name>{userInfo.name}</Name>
               <InfoImg src="/img/profileupdate.png"></InfoImg>
             </div>
-            <Email>{userinfo.email}</Email>
+            <Email>{userInfo.email}</Email>
           </Info>
         </Profile>
 
@@ -137,9 +137,6 @@ const WorkbookLi = styled.li`
 
   &:last-child {
     background-color: ${COLORS.blue};
-    .vector path {
-      fill: white;
-    }
     p {
       color: white;
     }
@@ -149,9 +146,6 @@ const WorkbookLi = styled.li`
 const WorkbookImg = styled.img`
   width: 1.1rem;
   height: 1.1rem;
-  path {
-    fill: #fff;
-  }
 `;
 
 const WorkbookP = styled.p`

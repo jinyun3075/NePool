@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import CreateModal from "./create_modal";
-import ModeModal from "./mode_modal";
-import DeleteModal from "./delete_modal";
-import UpdateModal from "./update_modal";
+import CreateModal from "./CreateModal";
+import ModeModal from "./ModeModal";
+import DeleteModal from "./DeleteModal";
+import UpdateModal from "./UpdateModal";
 import styled, { css } from "styled-components";
 import axios from "axios";
 import { COLORS, API } from "../../constants/index";
@@ -13,7 +13,7 @@ export default function WorkbookContent() {
   const username = sessionStorage.getItem("user");
 
   // 문제집 data
-  const [workbook, setWorkbook] = useState([
+  const [Workbook, setWorkbook] = useState([
     {
       id: "",
       title: "",
@@ -28,12 +28,12 @@ export default function WorkbookContent() {
     },
   ]);
 
-  let [update, setUpdate] = useState(Array(100).fill(false));
-  let [create, setCreate] = useState(false);
-  let [deletemodal, setDeletemodal] = useState(false);
-  let [modemodal, setModemodal] = useState(false);
-  let [workbookid, setWorkbookid] = useState("");
-  let [workbookUserName, setworkbookUserName] = useState("");
+  const [update, setUpdate] = useState(Array(100).fill(false));
+  const [create, setCreate] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [modeModal, setModeModal] = useState(false);
+  const [workbookId, setWorkbookId] = useState("");
+  const [workbookUsername, setWorkbookUsername] = useState("");
 
   // 문제집 리스트 API (Get)
   const ReadWorkbook = async () => {
@@ -48,9 +48,9 @@ export default function WorkbookContent() {
   };
 
   // 문제집 공유 API
-  const ShareWorkbook = async (dataa) => {
+  const shareWorkbook = async (data) => {
     await axios.put(
-      `${API}/workbook/share/${username}/${dataa}`,
+      `${API}/workbook/share/${username}/${data}`,
       {},
       {
         headers: {
@@ -62,16 +62,16 @@ export default function WorkbookContent() {
     // console.log(res)
   };
 
-  const workbookdataid = (id) => {
-    setWorkbookid(id);
+  const workbookDataId = (id) => {
+    setWorkbookId(id);
   };
 
-  const workbookdatausername = (username) => {
-    setworkbookUserName(username);
+  const workbookDataUsername = (username) => {
+    setWorkbookUsername(username);
   };
 
   // 클릭한 문제집만 모달 보이기
-  const updateboolean = (e) => {
+  const updateBoolean = (e) => {
     if (update[e.target.value] === true) {
       const newarray = [...update];
       newarray[e.target.value] = false;
@@ -91,7 +91,7 @@ export default function WorkbookContent() {
 
   useEffect(() => {
     ReadWorkbook();
-  }, [workbook]);
+  }, [Workbook]);
 
   return (
     <>
@@ -104,94 +104,90 @@ export default function WorkbookContent() {
           <p>나의 문제집</p>
         </Myworkbook>
 
-        {/* onClick ={() => { setUpdate(!update) } } */}
-
         <Example>
-          {workbook
-            .sort((a, b) => {
-              if (a.regDate > b.regDate) {
-                return 1;
-              } else if (a.regDate < b.regDate) {
-                return -1;
-              } else {
-                return 0;
-              }
-            })
-            .map((workbookdata, i) => {
-              return (
-                <ExampleLi
-                  onClick={(e) => {
-                    workbookdatausername(workbookdata.username);
-                    workbookdataid(workbookdata.id);
-                    updateboolean(e);
-                  }}
-                  imageurl={workbookdata.image}
-                  data-workbookid={workbookdata.id}
-                  value={i}
-                  key={workbookdata.id}
+          {Workbook.sort((a, b) => {
+            if (a.regDate > b.regDate) {
+              return 1;
+            } else if (a.regDate < b.regDate) {
+              return -1;
+            } else {
+              return 0;
+            }
+          }).map((workbookdata, i) => {
+            return (
+              <ExampleLi
+                onClick={(e) => {
+                  workbookDataUsername(workbookdata.username);
+                  workbookDataId(workbookdata.id);
+                  updateBoolean(e);
+                }}
+                imageurl={workbookdata.image}
+                data-workbookid={workbookdata.id}
+                value={i}
+                key={workbookdata.id}
+              >
+                <Link
+                  to={`/detail/${workbookdata.id}`}
+                  state={{ username: workbookdata.username }}
                 >
-                  <Link
-                    to={`/detail/${workbookdata.id}`}
-                    state={{ username: workbookdata.username }}
-                  >
-                    <ExampleP1>{workbookdata.title}</ExampleP1>
-                    <ExampleP2>
-                      마지막 수정 일시 : {workbookdata.modDate.substring(0, 10)}
-                    </ExampleP2>
-                  </Link>
-                  {workbookdata.share === false ? (
-                    <WhiteShare
-                      data-index={i}
-                      onClick={(e) => {
-                        workbookdataid(workbookdata.id);
-                        ShareWorkbook(workbookdata.id);
-                      }}
-                    />
-                  ) : (
-                    <BlueShare
-                      data-index={i}
-                      onClick={(e) => {
-                        workbookdataid(workbookdata.id);
-                        ShareWorkbook(workbookdata.id);
-                      }}
-                    />
-                  )}
+                  <ExampleP1>{workbookdata.title}</ExampleP1>
+                  <ExampleP2>
+                    마지막 수정 일시 : {workbookdata.modDate.substring(0, 10)}
+                  </ExampleP2>
+                </Link>
+                {workbookdata.share === false ? (
+                  <WhiteShare
+                    data-index={i}
+                    onClick={(e) => {
+                      workbookDataId(workbookdata.id);
+                      shareWorkbook(workbookdata.id);
+                    }}
+                  />
+                ) : (
+                  <BlueShare
+                    data-index={i}
+                    onClick={(e) => {
+                      workbookDataId(workbookdata.id);
+                      shareWorkbook(workbookdata.id);
+                    }}
+                  />
+                )}
 
-                  {update[i] === true ? (
-                    <UpdateModal
-                      imageurl={workbookdata.image}
-                      workbookdata={workbookdata}
-                      setDeletemodal={setDeletemodal}
-                      deletemodal={deletemodal}
-                      modemodal={modemodal}
-                      setModemodal={setModemodal}
-                    />
-                  ) : null}
-                </ExampleLi>
-              );
-            })}
+                {update[i] === true ? (
+                  <UpdateModal
+                    imageurl={workbookdata.image}
+                    workbookdata={workbookdata}
+                    setDeletemodal={setDeleteModal}
+                    deletemodal={deleteModal}
+                    modemodal={modeModal}
+                    setModemodal={setModeModal}
+                  />
+                ) : null}
+              </ExampleLi>
+            );
+          })}
 
-          {deletemodal === true ? (
+          {deleteModal === true ? (
             <DeleteModal
-              workbookid={workbookid}
-              deletemodal={deletemodal}
-              setDeletemodal={setDeletemodal}
+              workbookid={workbookId}
+              deletemodal={deleteModal}
+              setDeletemodal={setDeleteModal}
             />
           ) : null}
 
-          {modemodal === true ? (
+          {modeModal === true ? (
             <ModeModal
-              workbookid={workbookid}
-              username={workbookUserName}
-              modemodal={modemodal}
-              setModemodal={setModemodal}
+              workbookid={workbookId}
+              username={workbookUsername}
+              modemodal={modeModal}
+              setModemodal={setModeModal}
             />
           ) : null}
         </Example>
 
         <CreateBtn
           onClick={() => {
-            setCreate((create = true));
+            setCreate(true);
           }}
           src="/img/plus.svg"
         ></CreateBtn>
@@ -255,7 +251,7 @@ const ExampleLi = styled.li`
     height: 100%;
     border-radius: 6px;
     background: url(/img/basic.png) no-repeat center center/cover;
-    z-index: -1;
+    z-index: -10;
     opacity: 0.6;
     ${(props) =>
       props.imageurl &&

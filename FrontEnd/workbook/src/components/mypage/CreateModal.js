@@ -1,36 +1,36 @@
 import React, { useState } from "react";
-import { COLORS, API } from "../../constants/index";
 import styled from "styled-components";
 import axios from "axios";
+import { COLORS, API } from "../../constants/index";
 
 export default function CreateModal(props) {
   const token = sessionStorage.getItem("token");
   const username = sessionStorage.getItem("user");
 
-  const [postworkbook, setPostworkbook] = useState({
+  const [postWorkbook, setPostWorkbook] = useState({
     username: username,
     title: "",
     content: "",
     type: "수능·내신",
   });
 
-  const [imageurl, setImageurl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
-  const Change = (e) => {
-    setPostworkbook({ ...postworkbook, [e.target.name]: e.target.value });
+  const change = (e) => {
+    setPostWorkbook({ ...postWorkbook, [e.target.name]: e.target.value });
   };
 
   // 문제집 생성 API (Post)
-  const Workbook = async () => {
-    // console.log(imageurl)
+  const workbook = async () => {
+    // console.log(imageUrl)
     await axios.post(
       `${API}/workbook/register`,
       {
-        username: postworkbook.username,
-        title: postworkbook.title,
-        content: postworkbook.content,
-        type: postworkbook.type,
-        image: imageurl,
+        username: postWorkbook.username,
+        title: postWorkbook.title,
+        content: postWorkbook.content,
+        type: postWorkbook.type,
+        image: imageUrl,
       },
       {
         headers: {
@@ -43,57 +43,58 @@ export default function CreateModal(props) {
   };
 
   // 이미지 업로드 API
-  const ChangeImg = async (e) => {
+  const changeImg = async (e) => {
     const uploadFiles = e.target.files[0];
     const formData = new FormData();
     formData.append("uploadFiles", uploadFiles);
 
-    const ress = await axios.post(`${API}/upload`, formData, {
+    const res = await axios.post(`${API}/upload`, formData, {
       headers: {
         "Content-type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     });
-    setImageurl(ress.data[0].imageUrl);
+    setImageUrl(res.data[0].imageUrl);
   };
 
   return (
     <>
-      <Modal onSubmit={function (e) {e.preventDefault();}.bind(this)}>
-
+      <Modal
+        onSubmit={function (e) {
+          e.preventDefault();
+        }.bind(this)}
+      >
         <ImgDiv>
-          <img onClick={ () => {props.setCreate(props.create === false); }}
+          <img
+            onClick={() => {
+              props.setCreate(props.create === false);
+            }}
             src="./img/x.svg"
             alt="x"
           ></img>
         </ImgDiv>
 
         <InputLabel>
-          <Input 
-          type="file" 
-          id="input" 
-          name="image" 
-          onChange={ChangeImg} 
-          />
+          <Input type="file" id="input" name="image" onChange={changeImg} />
           <Label htmlFor="input">
-            <img src={imageurl ? imageurl : "./img/basic.png"}></img>
+            <img src={imageUrl ? imageUrl : "./img/basic.png"}></img>
           </Label>
         </InputLabel>
 
         <TextSelect>
           <TextInput
-            onChange={Change}
+            onChange={change}
             name="title"
-            value={postworkbook.title}
+            value={postWorkbook.title}
             placeholder="문제집 이름"
             type="text"
           ></TextInput>
 
           <Select
             defaultValue="수능·내신"
-            onChange={Change}
+            onChange={change}
             name="type"
-            value={postworkbook.type}
+            value={postWorkbook.type}
           >
             <option value="수능·내신">수능·내신</option>
             <option value="어학">어학</option>
@@ -103,15 +104,15 @@ export default function CreateModal(props) {
           </Select>
 
           <Explain
-            onChange={Change}
+            onChange={change}
             name="content"
-            value={postworkbook.content}
+            value={postWorkbook.content}
             rows="5"
             placeholder="문제집 설명"
           ></Explain>
         </TextSelect>
 
-        <Create onClick={Workbook}>문제집 생성</Create>
+        <Create onClick={workbook}>문제집 생성</Create>
       </Modal>
     </>
   );
@@ -129,7 +130,7 @@ const Modal = styled.form`
   border-radius: 8px;
   background-color: white;
   box-sizing: border-box;
-  z-index: 4;
+  z-index: 40;
 `;
 
 const ImgDiv = styled.div`
@@ -147,13 +148,11 @@ const InputLabel = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  margin-top: 1em;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 1em auto 0;
   width: 50%;
   height: 40%;
   border: 1px solid ${COLORS.light_gray};
-  border-radius: 15px;
+  border-radius: 10px;
 `;
 
 const Input = styled.input`
@@ -177,6 +176,7 @@ const Label = styled.label`
   img {
     width: 100%;
     height: 100%;
+    border-radius: 10px;
   }
 `;
 
@@ -217,18 +217,18 @@ const Explain = styled.textarea`
   border-radius: 5px;
   border-color: ${COLORS.light_gray};
   resize: none;
-  z-index: 100;
+  z-index: 40;
 `;
 
 const Create = styled.button`
   display: block;
-  color: white;
   margin: 0 auto;
   margin-top: 20px;
   width: 90%;
   height: 8%;
   border-radius: 5px;
   background-color: ${COLORS.blue};
+  color: white;
   line-height: 2.5rem;
   text-align: center;
   cursor: pointer;

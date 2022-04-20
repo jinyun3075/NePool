@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { COLORS, API } from "../../constants/index";
 import styled from "styled-components";
 import axios from "axios";
+import { COLORS, API } from "../../constants/index";
 
 export default function MyWorkbook() {
-  const token = sessionStorage.getItem("token");
   const username = sessionStorage.getItem("user");
 
-  const [userinfo, setUserinfo] = useState([
+  const [userInfo, setUserInfo] = useState([
     {
       email: "",
       id: "",
@@ -25,7 +24,7 @@ export default function MyWorkbook() {
         "Content-type": "application/json",
       },
     });
-    setUserinfo(res.data);
+    setUserInfo(res.data);
   };
 
   useEffect(() => {
@@ -37,15 +36,17 @@ export default function MyWorkbook() {
       <Article>
         <Profile>
           <div>
-            <ProfileImage src={userinfo.image} alt="profile"></ProfileImage>
+            <ProfileImage src={userInfo.image} alt="profile"></ProfileImage>
           </div>
 
           <Info>
             <div>
-              <Name>{userinfo.name}</Name>
-              <InfoImg src="/img/profileupdate.png"></InfoImg>
+              <Name>{userInfo.name}</Name>
+              <Link to="/profile" state={{ userInfo: userInfo }}>
+                <InfoImg src="/img/profileupdate.png"></InfoImg>
+              </Link>
             </div>
-            <Email>{userinfo.email}</Email>
+            <Email>{userInfo.email}</Email>
           </Info>
         </Profile>
 
@@ -57,7 +58,7 @@ export default function MyWorkbook() {
             </WorkbookLi>
 
             <WorkbookLi>
-              <Link to="/sharepage" state={{ userid: userinfo.id }}>
+              <Link to="/sharepage" state={{ userid: userInfo.id }}>
                 <WorkbookImg src="/img/vector_gray.svg" alt="문제집" />
                 <WorkbookP>가져온 문제집</WorkbookP>
               </Link>
@@ -104,7 +105,7 @@ const Info = styled.div`
 `;
 
 const InfoImg = styled.img`
-  margin-left: 0.7em;
+  margin: 6px 0 0 6px;
   width: 1.1rem;
   height: 1.1rem;
   line-height: 1rem;
@@ -139,9 +140,6 @@ const WorkbookLi = styled.li`
 
   &:first-child {
     background-color: ${COLORS.blue};
-    .vector path {
-      fill: white;
-    }
     p {
       color: white;
     }
@@ -151,9 +149,6 @@ const WorkbookLi = styled.li`
 const WorkbookImg = styled.img`
   width: 1.1rem;
   height: 1.1rem;
-  path {
-    fill: #fff;
-  }
 `;
 
 const WorkbookP = styled.p`
