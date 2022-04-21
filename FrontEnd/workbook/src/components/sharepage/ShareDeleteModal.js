@@ -60,7 +60,7 @@ const Modal = styled.div`
   height: 26%;
   border: 1px solid ${COLORS.light_gray};
   border-radius: 5px;
-  background-color: #fff;
+  background-color: ${COLORS.white};
   z-index: 20;
 `;
 

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
@@ -191,7 +191,7 @@ const Input = styled.input`
   border-bottom: 1px solid ${COLORS.light_gray};
   background: none;
   &::placeholder {
-    color: #767676;
+    color: ${COLORS.gray};
   }
   &:focus {
     border-bottom: 1px solid ${COLORS.blue};
@@ -221,7 +221,7 @@ const InputNum = styled.input`
   border-radius: 5px;
   background: none;
   &::placeholder {
-    color: #767676;
+    color: ${COLORS.gray};
   }
   &:focus {
     outline: none;
@@ -243,7 +243,7 @@ const InputTxt = styled.textarea`
   background: none;
   resize: none;
   &::placeholder {
-    color: #767676;
+    color: ${COLORS.gray};
   }
   &:focus {
     outline: none;
@@ -254,7 +254,7 @@ const Btn = styled.button`
   margin-left: 40px;
   width: 80px;
   height: 40px;
-  color: white;
+  color: ${COLORS.white};
   border-radius: 6px;
   background-color: ${COLORS.blue};
 `;

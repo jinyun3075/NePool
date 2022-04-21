@@ -34,8 +34,7 @@ const Modal = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-  margin: 0 auto;
-  margin-top: 15px;
+  margin: 15px auto 0;
   width: 100%;
   height: 20%;
   border: 1px solid ${COLORS.light_gray};
@@ -49,15 +48,15 @@ const Modal = styled.div`
 const Try = styled.button`
   width: 27%;
   height: 40%;
-  color: white;
   background-color: ${COLORS.blue};
+  color: ${COLORS.white};
 `;
 
 const Delete = styled.button`
   width: 27%;
   height: 40%;
   background-color: ${COLORS.blue};
-  color: white;
+  color: ${COLORS.white};
 `;
 
 const Update = styled.button`
@@ -65,5 +64,5 @@ const Update = styled.button`
   height: 40%;
   border: 1px solid ${COLORS.light_gray};
   background-color: ${COLORS.blue};
-  color: white;
+  color: ${COLORS.white};
 `;

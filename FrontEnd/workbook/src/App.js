@@ -10,7 +10,7 @@ import AddPage from "./pages/Add";
 import Detail from "./pages/Detail";
 import Notice from "./pages/Notice";
 import Share from "./pages/Share";
-import UpdatePage from "./pages/Update";
+import Update from "./pages/Update";
 import NotFound from "./pages/NotFound";
 import UpdateWork from "./pages/Updatework";
 import Exam from "./pages/Exam";
@@ -37,7 +37,7 @@ function App() {
         <Route path="/notice/:id" element={<NoticeDetail />} />
         <Route path="/notice/editor" element={<NoticeEditor />} />
         <Route path="/notice/editor/:id" element={<NoticeEditor />} />
-        <Route path="/update" element={<UpdatePage />} />
+        <Route path="/update" element={<Update />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>

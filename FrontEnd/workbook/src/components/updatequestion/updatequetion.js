@@ -1,8 +1,7 @@
-import { useLocation } from "react-router-dom";
 import HeaderSignin from "../header/header";
-import UpdateCont from "./updateContent";
-import styled from "styled-components";
 import MyWorkbook from "../mypage/MyWorkbook";
+import UpdateCont from "./UpdateContent";
+import styled from "styled-components";
 
 export default function UpdateQuestion({ workbookid }) {
   return (

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { COLORS, API } from "../../constants/index";
 
 export default function ShareMyworkbook() {
+  const username = sessionStorage.getItem("user");
+
   const [userInfo, setUserInfo] = useState([
     {
       email: "",
@@ -17,8 +19,6 @@ export default function ShareMyworkbook() {
   ]);
 
   const mypageInfo = async () => {
-    const token = sessionStorage.getItem("token");
-    const username = sessionStorage.getItem("user");
     const res = await axios.get(`${API}/user/${username}`, {
       headers: {
         "Content-type": "application/json",
@@ -138,7 +138,7 @@ const WorkbookLi = styled.li`
   &:last-child {
     background-color: ${COLORS.blue};
     p {
-      color: white;
+      color: ${COLORS.white};
     }
   }
 `;

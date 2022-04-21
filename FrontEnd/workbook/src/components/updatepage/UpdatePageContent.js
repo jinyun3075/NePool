@@ -215,10 +215,10 @@ const Myworkbook = styled.div`
   height: 7%;
   border-bottom: 3px solid ${COLORS.light_gray};
   p {
+    margin-left: 20px;
     font-size: 1.1rem;
     font-weight: 700;
     line-height: 3rem;
-    margin-left: 20px;
   }
 `;
 
@@ -235,7 +235,7 @@ const ScrollbarSection = styled.section`
     background-color: ${COLORS.light_gray};
   }
   &::-webkit-scrollbar-track {
-    background-color: white;
+    background-color: ${COLORS.white};
   }
 `;
 const WorkbookForm = styled.form`
@@ -387,6 +387,6 @@ const CreateBtn = styled.img`
   right: 20px;
   width: 40px;
   height: 40px;
-  z-index: 2;
+  z-index: 20;
   cursor: pointer;
 `;
