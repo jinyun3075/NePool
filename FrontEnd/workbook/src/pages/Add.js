@@ -1,4 +1,4 @@
-import Add from "../components/add/add";
+import Add from "../components/add/Add";
 
 export default function AddPage() {
   return (
