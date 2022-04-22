@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import HeaderSignin from "../header/header";
+import HeaderSignin from "../header/Header";
 import UpdateCont from "./updateContent";
 import styled from "styled-components";
 import MyWorkbook from "../mypage/MyWorkbook";

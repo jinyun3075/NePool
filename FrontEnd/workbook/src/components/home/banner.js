@@ -7,6 +7,10 @@ import { API, COLORS } from "../../constants";
 export default function Banner({allUserCount}) {
   const user = sessionStorage.getItem("user");
 
+  const [allWorkBook, setAllWorkBook] = useState("");
+  const [userId, setUserId] = useState("");
+  const [notice, setNotice] = useState("")
+
   const getAllWorkbook = async () => {
     const res = await axios.get(`${API}/workbook/all`, {
       headers: {
@@ -32,16 +36,10 @@ export default function Banner({allUserCount}) {
     setNotice(res.data.dtoList[0])
   };
 
-  const [allWorkBook, setAllWorkBook] = useState("");
-  const [userId, setUserId] = useState("");
-  const [notice, setNotice] = useState("")
-
   useEffect(() => {
     getUser();
-  }, []);
-  useEffect(() => {
     getAllWorkbook();
-    getNotice()
+    getNotice();
   }, []);
 
   return (

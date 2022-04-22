@@ -34,7 +34,8 @@ export default function SetProfile() {
           Authorization: `Bearer ${token}`,
         },
       }
-    );
+      );
+      window.location.reload();
   };
   const UploadImg = async (e) => {
     const formData = new FormData();

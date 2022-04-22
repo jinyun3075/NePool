@@ -1,5 +1,5 @@
-import HeaderSignin from "../header/header";
-import SetProfile from "./setProfile";
+import HeaderSignin from "../header/Header";
+import SetProfile from "./SetProfile";
 
 
 export default function ProfilePage() {

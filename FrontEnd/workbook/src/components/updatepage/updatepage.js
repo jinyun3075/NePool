@@ -1,5 +1,5 @@
 import React from "react";
-import HeaderSignin from "../header/header";
+import HeaderSignin from "../header/Header";
 import styled from "styled-components";
 import MyWorkbook from "../mypage/MyWorkbook";
 import UpdatepageContent from "./updatepage_content";
