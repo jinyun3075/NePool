@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Slide from "./slide";
+import Slide from "./Slide";
 import styled from "styled-components";
 import axios from "axios";
 import { API } from "../../constants";
@@ -56,15 +56,15 @@ export default function Carousel({ allUserCount }) {
         <MainTitle>{allUserCount}명의 학생이 인정한 BEST 문제집</MainTitle>
         <CarouselBox>
           <BtnBox>
-            <button type="button" onClick={Prev}>
-              <img src="/img/prev.svg" alt="이전버튼" />
-            </button>
-            <button type="button" onClick={Next}>
-              <img src="/img/next.svg" alt="다음버튼" />
-            </button>
+            <img src="/img/prev.svg" alt="이전버튼" onClick={Prev} />
+            <img src="/img/next.svg" alt="다음버튼" onClick={Next}/>
           </BtnBox>
           <CarouselList>
-            <Slide get={get} getSlide={getSlide} currentSlide={currentSlide} />
+            <Slide 
+              get={get} 
+              getSlide={getSlide} 
+              currentSlide={currentSlide} 
+            />
           </CarouselList>
         </CarouselBox>
       </MainBox>
@@ -80,32 +80,37 @@ const MainBox = styled.div`
 `;
 
 const MainTitle = styled.h3`
-  color: #000000;
+  padding-top: 67px;
   font-size: 33px;
   font-weight: 500;
+  color: #000000;
   text-align: center;
-  padding-top: 67px;
 `;
 //캐러셀 슬라이드 구현
 const CarouselBox = styled.div`
   display: flex;
   justify-content: center;
   margin: 30px auto;
-  overflow: hidden;
   width: 830px;
+  overflow: hidden;
 `;
 
 const CarouselList = styled.ul`
   display: flex;
-  /* justify-content: center; */
   width: 850px;
   z-index: 1;
 `;
 
 const BtnBox = styled.div`
-  position: absolute;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
   width: 1060px;
   height: 300px;
-  justify-content: space-between;
+  img {
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+  }
 `;
