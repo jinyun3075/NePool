@@ -1,4 +1,3 @@
-import { useLocation } from "react-router-dom";
 import HeaderSignin from "../header/Header";
 import MyWorkbook from "../mypage/MyWorkbook";
 import UpdateCont from "./UpdateContent";

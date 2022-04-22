@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import UpdateQuestion from "../components/updatequestion/UpdateQuetion";
+import UpdateQuestion from "../components/updatequestion/UpdateQuestion";
 
 export default function UpdateWork() {
   const location = useLocation();
