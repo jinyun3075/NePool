@@ -80,12 +80,12 @@ export default function Post() {
               <li key={a.id}>
                 <Link to={`/detail/${a.id}`} state={{ username: a.username }}>
                   <ItemImg>
-                    <img src={a.image} alt="" />
+                    <img src={a.image} alt="문제집 이미지" />
                   </ItemImg>
                   <TextBox>
                     <ItemScr size="20px">{a.title}</ItemScr>
                     <ItemScr size="13px">만든이: {a.username}</ItemScr>
-                    <ItemTxt size="12px">{a.content}</ItemTxt>
+                    <ItemTxt>{a.content}</ItemTxt>
                   </TextBox>
                 </Link>
               </li>
@@ -142,7 +142,7 @@ const Items = styled.ul`
 const ItemImg = styled.div`
   width: 190px;
   height: 177px;
-  border-bottom: 1px solid #b6b6b6;
+  border-bottom: 1px solid ${COLORS.light_gray};
   background: url(/img/example.svg) no-repeat center/103%;
   img {
     width: 190px;
@@ -166,7 +166,7 @@ const ItemTxt = styled.p`
   display: inline-block;
   margin: 20px 10px 15px 0;
   width: 170px;
-  font-size: ${(props) => props.size};
+  font-size: 12px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -177,7 +177,7 @@ const MoreBtn = styled.a`
   margin: 35px auto 50px;
   width: 230px;
   height: 45px;
-  border: 0.5px solid #b6b6b6;
+  border: 0.5px solid ${COLORS.light_gray};
   font-size: 15px;
   text-align: center;
   line-height: 45px;

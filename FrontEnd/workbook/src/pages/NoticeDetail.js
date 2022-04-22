@@ -1,4 +1,4 @@
-import HeaderSignin from '../components/header/header';
+import HeaderSignin from '../components/header/Header';
 import NoticePost from '../components/notice/NoticePost';
 
 export default function NoticeDetail() {

@@ -6,10 +6,10 @@ import { API, COLORS } from "../../constants";
 
 export default function SetProfile() {
   const token = sessionStorage.getItem("token");
-  
+
   const location = useLocation();
   const userInfo = location.state.userInfo;
-  
+
   const [user, setUser] = useState({
     id: "",
     password: "",
@@ -34,7 +34,8 @@ export default function SetProfile() {
           Authorization: `Bearer ${token}`,
         },
       }
-    );
+      );
+      window.location.reload();
   };
   const UploadImg = async (e) => {
     const formData = new FormData();
@@ -57,7 +58,7 @@ export default function SetProfile() {
       },
     });
   };
-  
+
   const change = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -82,11 +83,7 @@ export default function SetProfile() {
               />
             </ProfileImg>
             <ImgBtn>
-              <InputImg
-                type="file" 
-                id="file" 
-                onChange={UploadImg} 
-              />
+              <InputImg type="file" id="file" onChange={UploadImg} />
               <label htmlFor="file">
                 <img src="/img/photo.svg" alt="이미지 변경 버튼" />
               </label>

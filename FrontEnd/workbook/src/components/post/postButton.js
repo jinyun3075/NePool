@@ -12,13 +12,13 @@ export default function PostBtn({page, onClickNum, next, prev, onClickNext, onCl
         </Button>
         {page.map((number)=>{
           return (
-        <Button 
-          key={number} 
-          value={number} 
-          onClick={onClickNum}
-          >
-          {number}
-        </Button>
+            <Button 
+              key={number} 
+              value={number} 
+              onClick={onClickNum}
+            >
+              {number}
+            </Button>
           )
         })}
         <Button onClick={onClickNext} disabled={next === false}>
@@ -56,10 +56,10 @@ const Nav = styled.nav`
     cursor: revert;
     transform: revert;
   }
-  &[aria-current] {
+  /* &[aria-current] {
     background: ${COLORS.blue};
     font-weight: bold;
     cursor: revert;
     transform: revert;
-  }
+  } */
 `;
