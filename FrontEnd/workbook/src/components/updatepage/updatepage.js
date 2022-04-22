@@ -1,10 +1,10 @@
 import React from "react";
 import HeaderSignin from "../header/Header";
-import styled from "styled-components";
 import MyWorkbook from "../mypage/MyWorkbook";
-import UpdatepageContent from "./updatepage_content";
+import UpdatepageContent from "./UpdatePageContent";
+import styled from "styled-components";
 
-export default function Update_page() {
+export default function UpdatePage() {
   return (
     <>
       <HeaderSignin />

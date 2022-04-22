@@ -137,7 +137,6 @@ export default function WorkbookContent() {
                 </Link>
                 {workbookdata.share === false ? (
                   <WhiteShare
-                    data-index={i}
                     onClick={(e) => {
                       workbookDataId(workbookdata.id);
                       shareWorkbook(workbookdata.id);
@@ -145,7 +144,6 @@ export default function WorkbookContent() {
                   />
                 ) : (
                   <BlueShare
-                    data-index={i}
                     onClick={(e) => {
                       workbookDataId(workbookdata.id);
                       shareWorkbook(workbookdata.id);

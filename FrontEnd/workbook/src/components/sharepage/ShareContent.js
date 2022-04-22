@@ -8,13 +8,8 @@ import axios from "axios";
 import { COLORS, API } from "../../constants/index";
 
 export default function ShareContent(props) {
+  const token = sessionStorage.getItem("token");
   const userId = props.userid;
-
-  let [shareUpdate, setShareUpdate] = useState(Array(100).fill(false));
-  let [shareDeleteModal, setShareDeleteModal] = useState(false);
-  let [shareModeModal, setShareModeModal] = useState(false);
-  let [shareWorkbookId, setShareWorkbookId] = useState("");
-  let [shareUsername, setShareUsername] = useState("");
 
   const [sharedWorkbook, setSharedWorkbook] = useState([
     {
@@ -41,8 +36,13 @@ export default function ShareContent(props) {
     },
   ]);
 
+  let [shareUpdate, setShareUpdate] = useState(Array(100).fill(false));
+  let [shareDeleteModal, setShareDeleteModal] = useState(false);
+  let [shareModeModal, setShareModeModal] = useState(false);
+  let [shareWorkbookId, setShareWorkbookId] = useState("");
+  let [shareUsername, setShareUsername] = useState("");
+
   const ReadShared = async () => {
-    const token = sessionStorage.getItem("token");
     const res = await axios.get(`${API}/share/${userId}`, {
       headers: {
         "Content-type": "application/json",
@@ -95,7 +95,6 @@ export default function ShareContent(props) {
             return (
               <ExampleLi
                 onClick={(e) => {
-                  console.log(workbookdata.workBook);
                   setShareUpdate(!shareUpdate);
                   shareUpdateBoolean(e);
                   workbookId(workbookdata.workBook.id);
@@ -111,7 +110,7 @@ export default function ShareContent(props) {
                 >
                   <ExampleP1>{workbookdata.workBook.title}</ExampleP1>
                   <ExampleP2>
-                    마지막 수정 일시 :{" "}
+                    마지막 수정 일시 :
                     {workbookdata.workBook.modDate.substring(0, 10)}
                   </ExampleP2>
                 </Link>
@@ -183,11 +182,11 @@ const Example = styled.ul`
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: ${COLORS.light_gray};
     border-radius: 15px;
+    background-color: ${COLORS.light_gray};
   }
   &::-webkit-scrollbar-track {
-    background-color: white;
+    background-color: ${COLORS.white};
   }
 `;
 
