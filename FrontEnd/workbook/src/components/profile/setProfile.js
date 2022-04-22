@@ -211,24 +211,32 @@ const BtnBox = styled.div`
 
 const SaveBtn = styled.button`
   margin: 15px 0 0;
-  width: 60px;
+  width: 70px;
   height: 30px;
   border: 1px solid ${COLORS.blue};
   border-radius: 5px;
   background-color: ${COLORS.white};
   color: ${COLORS.blue};
   font-size: 13px;
+  :hover {
+    background-color: ${COLORS.blue};
+    color: ${COLORS.white};
+  }
 `;
 
 const DelBtn = styled.button`
   margin: 15px 0 0;
-  width: 60px;
+  width: 70px;
   height: 30px;
   border: 1px solid ${COLORS.error};
   border-radius: 5px;
   background-color: #fff;
   color: ${COLORS.error};
   font-size: 13px;
+  :hover {
+    background-color: ${COLORS.error};
+    color: ${COLORS.white};
+  }
 `;
 
 const InputImg = styled.input`

@@ -80,7 +80,7 @@ export default function Post() {
               <li key={a.id}>
                 <Link to={`/detail/${a.id}`} state={{ username: a.username }}>
                   <ItemImg>
-                    <img src={a.image} alt="문제집 이미지" />
+                    {a.image ? (<img src={a.image} alt="문제집 이미지" />) : (<img src="img/basic.png" alt="기본 이미지"/>)}
                   </ItemImg>
                   <TextBox>
                     <ItemScr size="20px">{a.title}</ItemScr>
@@ -143,7 +143,7 @@ const ItemImg = styled.div`
   width: 190px;
   height: 177px;
   border-bottom: 1px solid ${COLORS.light_gray};
-  background: url(/img/example.svg) no-repeat center/103%;
+  /* background: url(/img/example.svg) no-repeat center/103%; */
   img {
     width: 190px;
     height: 177px;
