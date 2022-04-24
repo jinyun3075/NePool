@@ -40,8 +40,7 @@ const NoticeBox = styled.div`
   width: 360px;
   z-index: 3;
   div {
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding-top: 7px 0 7px 0;
     width: 360px;
     height: 210px;
     border: 2px solid ${COLORS.blue};

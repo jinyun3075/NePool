@@ -51,6 +51,6 @@ const NoticeCont = styled.li`
     top: 100px;
     right: -1px;
     width: 500px;
-    border-top: 1px solid #f5f5f5;
+    border-top: 1px solid ${COLORS.white_gray};
   }
 `;

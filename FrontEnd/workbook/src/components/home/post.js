@@ -143,7 +143,6 @@ const ItemImg = styled.div`
   width: 190px;
   height: 177px;
   border-bottom: 1px solid ${COLORS.light_gray};
-  /* background: url(/img/example.svg) no-repeat center/103%; */
   img {
     width: 190px;
     height: 177px;
