@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Slide from "./Slide";
 import styled from "styled-components";
 import axios from "axios";
-import { API } from "../../constants";
+import { API, COLORS } from "../../constants";
 
 export default function Carousel({ allUserCount }) {
   const totalSlide = 3;
@@ -83,7 +83,7 @@ const MainTitle = styled.h3`
   padding-top: 67px;
   font-size: 33px;
   font-weight: 500;
-  color: #000000;
+  color: ${COLORS.black};
   text-align: center;
 `;
 //캐러셀 슬라이드 구현

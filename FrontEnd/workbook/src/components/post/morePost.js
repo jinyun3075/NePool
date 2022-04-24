@@ -98,7 +98,7 @@ export default function MorePost() {
                 <li key={postData.id}>
                   <Link to={`/detail/${postData.id}`} state={{username: postData.username}}>
                     <ItemImg>
-                      <img src={postData.image} alt="문제집 이미지" />
+                      {postData.image ? (<img src={postData.image} alt="문제집 이미지" />) :(<img src="img/basic.png" alt="기본이미지" />)}
                     </ItemImg>
                     <TextBox>
                       <ItemScr size="20px">{postData.title}</ItemScr>

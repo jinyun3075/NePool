@@ -60,8 +60,7 @@ export default function StatusModal() {
 
 const ProfileStatus = styled.div`
   position: absolute;
-  margin-top: 46px;
-  margin-right: 5px;
+  margin: 46px 5px 0 0;
   width: 280px;
   height: 220px;
   border: 1px solid ${COLORS.light_gray};
