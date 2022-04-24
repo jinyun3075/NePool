@@ -36,8 +36,6 @@ public class UploadServiceImpl implements UploadService {
         List<UploadResultDTO> resultDTOList = new ArrayList<>();
         for (MultipartFile file : uploadFiles) {
             if (file.getContentType().startsWith("image") == false) {
-                log.warn("이미지가 아닙니다.");
-                log.info(file.getContentType());
                 throw new Exception("이미지가 아닙니다.");
             }
 

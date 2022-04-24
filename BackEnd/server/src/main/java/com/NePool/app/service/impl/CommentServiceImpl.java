@@ -73,9 +73,7 @@ public class CommentServiceImpl implements CommentService {
         if (!workBook.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
-        log.info(workBook);
         List<Comment> list = commentRepository.findByWorkbookWno(work_book_id);
-        log.info(list);
         int allLike=0;
         for(Comment data:list) {
             allLike+=data.getComLike();

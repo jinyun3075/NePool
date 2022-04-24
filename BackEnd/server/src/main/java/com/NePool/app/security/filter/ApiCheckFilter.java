@@ -30,7 +30,6 @@ public class ApiCheckFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.info("APICheckFilter.......................");
         List<String> checkUrl = checkUrl();
         for (String pattern: checkUrl) {
             if(antPathMatcher.match(pattern,request.getRequestURI())){
@@ -40,7 +39,6 @@ public class ApiCheckFilter extends OncePerRequestFilter {
         }
         if(antPathMatcher.match("/announcement/*",request.getRequestURI())) {
             String user_id = request.getRequestURI().split("/")[2];
-            log.info(user_id);
             if(user_id.equals("NEPOOLADMIN")){
                 filterChain.doFilter(request, response);
                 return;

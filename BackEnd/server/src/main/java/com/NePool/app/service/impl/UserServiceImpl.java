@@ -77,7 +77,6 @@ public class UserServiceImpl implements UserService {
         if (!entity.isPresent()) {
             throw new Exception("존재하지 않는 ID입니다.");
         }
-        log.info(pw.matches(dto.getPassword(), entity.get().getPassword()));
         if (pw.matches(dto.getPassword(), entity.get().getPassword())) {
             entity.get().update(dto.getName(), dto.getImage());
             return entityToDto(repository.save(entity.get()));
