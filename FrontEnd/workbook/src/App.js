@@ -12,7 +12,7 @@ import Notice from "./pages/Notice";
 import Share from "./pages/Share";
 import Update from "./pages/Update";
 import NotFound from "./pages/NotFound";
-import UpdateWork from "./pages/Updatework";
+import UpdateWork from "./pages/UpdateWork";
 import Exam from "./pages/Exam";
 import NoticeEditor from "./pages/NoticeEditor";
 import NoticeDetail from "./pages/NoticeDetail";
