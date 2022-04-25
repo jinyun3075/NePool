@@ -23,7 +23,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private final AnnouncementRepository repository;
 
     @Override
-    public AnnouncementDTO insertAnnouncement(AnnouncementDTO dto){
+    public AnnouncementDTO insertAnnouncement(AnnouncementDTO dto) {
         return entityToDto(repository.save(dtoToEntity(dto)));
     }
 
@@ -33,27 +33,32 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public PageResultDTO<AnnouncementDTO, Announcement> selectAnnouncementList(PageRequestDTO dto) {
-        Page<Announcement> entity = repository.findAll(dto.getPageable(Sort.by("modDate").descending()));
-        Function<Announcement,AnnouncementDTO> fn = (data->entityToDto(data));
-        return new PageResultDTO<>(entity,fn);
+    public PageResultDTO<AnnouncementDTO, Announcement> selectAnnouncementList(Integer page, Integer size) {
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+        if (page != null && size != null) {
+            pageRequestDTO.setSize(size);
+            pageRequestDTO.setPage(page);
+        }
+        Page<Announcement> entity = repository.findAll(pageRequestDTO.getPageable(Sort.by("modDate").descending()));
+        Function<Announcement, AnnouncementDTO> fn = (data -> entityToDto(data));
+        return new PageResultDTO<>(entity, fn);
     }
 
     @Override
-    public AnnouncementDTO updateAnnouncement(AnnouncementDTO dto){
+    public AnnouncementDTO updateAnnouncement(AnnouncementDTO dto) {
 
         Optional<Announcement> entity = repository.findById(dto.getId());
-        entity.get().update(dto.getTitle(),dto.getContents());
+        entity.get().update(dto.getTitle(), dto.getContents());
         return entityToDto(repository.save(entity.get()));
     }
 
     @Override
-    public Long deleteAnnouncement(Long id) throws Exception {
+    public String deleteAnnouncement(Long id) throws Exception {
         Optional<Announcement> entity = repository.findById(id);
-        if(!entity.isPresent()) {
+        if (!entity.isPresent()) {
             throw new Exception("없는 id 값 입니다.");
         }
         repository.deleteById(id);
-        return 1l;
+        return "삭제 완료";
     }
 }

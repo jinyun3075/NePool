@@ -31,19 +31,20 @@ public class WorkServiceImpl implements WorkService {
     private Random random;
     @Autowired
     private PasswordEncoder pw;
+
     @Override
-    public WorkDTO insertWork(WorkDTO dto,String username,String work_book_id) throws Exception {
-        if(dto.getAnswer_a().equals("")||dto.getAnswer_b().equals("")||dto.getAnswer_c().equals("")||dto.getAnswer_d().equals("")||dto.getAnswer_e().equals("")||dto.getQuestion().equals("")||dto.getCorrect().equals("")){
+    public WorkDTO insertWork(WorkDTO dto, String username, String work_book_id) throws Exception {
+        if (dto.getAnswer_a().equals("") || dto.getAnswer_b().equals("") || dto.getAnswer_c().equals("") || dto.getAnswer_d().equals("") || dto.getAnswer_e().equals("") || dto.getQuestion().equals("") || dto.getCorrect().equals("")) {
             throw new Exception("모든 요구사항을 입력해주세요.");
         }
-        WorkBook workBook = check(username,work_book_id);
-        return entityToDto(workRepository.save(dtoToEntity(dto,workBook,pw.encode(random.nextInt(600)+"").replace("/",""))));
+        WorkBook workBook = check(username, work_book_id);
+        return entityToDto(workRepository.save(dtoToEntity(dto, workBook, pw.encode(random.nextInt(600) + "").replace("/", ""))));
     }
 
     @Override
     public WorkDTO selectWork(String username, String work_book_id, String work_id) throws Exception {
-        check(username,work_book_id);
-        Optional<Work> work = workRepository.findByQnoAndWorkBookWno(work_id,work_book_id);
+        check(username, work_book_id);
+        Optional<Work> work = workRepository.findByQnoAndWorkBookWno(work_id, work_book_id);
         if (!work.isPresent()) {
             throw new Exception("존재하지 않는 문제입니다.");
         }
@@ -52,7 +53,7 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public List<WorkDTO> selectWorkList(String username, String work_book_id) throws Exception {
-        check(username,work_book_id);
+        check(username, work_book_id);
         List<Work> res = workRepository.findByWorkBookWno(work_book_id);
         Collections.shuffle(res);
         return res.stream().map(work -> entityToDto(work)).collect(Collectors.toList());
@@ -61,25 +62,25 @@ public class WorkServiceImpl implements WorkService {
     @Override
     public WorkResultRealResponseDTO selectWorkResult(List<WorkResultRequestDTO> result, String work_book_id) throws Exception {
         List<Work> work = workRepository.findByWorkBookWno(work_book_id);
-        if(work.size()==0) {
+        if (work.size() == 0) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
-        if(result.size() != work.size()){
+        if (result.size() != work.size()) {
             throw new Exception("존재하는 문제 수에 맞게 데이터를 보내주세요.");
         }
 
-        Map<String,Work> map = new HashMap<>();
-        for(Work w : work) {
-            map.put(w.getQno(),w);
+        Map<String, Work> map = new HashMap<>();
+        for (Work w : work) {
+            map.put(w.getQno(), w);
         }
-        int score=0;
+        int score = 0;
         List<WorkResultResponseDTO> res = new ArrayList<>();
-        for(WorkResultRequestDTO check: result) {
+        for (WorkResultRequestDTO check : result) {
             Work value = map.get(check.getId());
             boolean bool = false;
-            if(value.getCorrect().equals(check.getCorrect())){
+            if (value.getCorrect().equals(check.getCorrect())) {
                 score++;
-                bool=true;
+                bool = true;
             }
             res.add(WorkResultResponseDTO.builder()
                     .question(value.getQuestion())
@@ -101,31 +102,32 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public void deleteWork(String username, String work_book_id, String work_id) throws Exception {
-        check(username,work_book_id);
-        Long res = workRepository.deleteByQnoAndWorkBookWno(work_id,work_book_id);
+    public String deleteWork(String username, String work_book_id, String work_id) throws Exception {
+        check(username, work_book_id);
+        Long res = workRepository.deleteByQnoAndWorkBookWno(work_id, work_book_id);
         if (res == 0) {
             throw new Exception("존재하지 않는 문제입니다.");
         }
+        return "삭제 완료";
     }
 
     @Override
     public WorkDTO updateWork(String username, String work_book_id, String work_id, WorkDTO dto) throws Exception {
-        check(username,work_book_id);
-        Optional<Work> work = workRepository.findByQnoAndWorkBookWno(work_id,work_book_id);
-        if(!work.isPresent()){
+        check(username, work_book_id);
+        Optional<Work> work = workRepository.findByQnoAndWorkBookWno(work_id, work_book_id);
+        if (!work.isPresent()) {
             throw new Exception("존재하지 않는 문제입니다.");
         }
         work.get().updateWork(dto);
         return entityToDto(workRepository.save(work.get()));
     }
 
-    private WorkBook check(String username, String work_book_id) throws Exception{
+    private WorkBook check(String username, String work_book_id) throws Exception {
         Optional<NePoolUser> user = userRepository.findByUsername(username);
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
         }
-        Optional<WorkBook> workBook = workBookRepository.findByWnoAndWriterUno(work_book_id,user.get().getUno());
+        Optional<WorkBook> workBook = workBookRepository.findByWnoAndWriterUno(work_book_id, user.get().getUno());
         if (!workBook.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }

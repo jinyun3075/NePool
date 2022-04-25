@@ -10,11 +10,11 @@ public interface AnnouncementService {
 
     AnnouncementDTO selectAnnouncement(Long announcement_id);
 
-    PageResultDTO<AnnouncementDTO, Announcement> selectAnnouncementList(PageRequestDTO dto);
+    PageResultDTO<AnnouncementDTO, Announcement> selectAnnouncementList(Integer page, Integer size);
 
     AnnouncementDTO updateAnnouncement(AnnouncementDTO dto);
 
-    Long deleteAnnouncement(Long id) throws Exception;
+    String deleteAnnouncement(Long id) throws Exception;
 
     default Announcement dtoToEntity(AnnouncementDTO dto) {
         return Announcement.builder()

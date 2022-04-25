@@ -1,6 +1,5 @@
 package com.NePool.app.controller;
 
-import com.NePool.app.util.dto.PageRequestDTO;
 import com.NePool.app.util.dto.PageResultDTO;
 import com.NePool.app.domain.shareworkbook.dto.ShareWorkBookDTO;
 import com.NePool.app.domain.shareworkbook.dto.ShareWorkBookResultDTO;
@@ -20,28 +19,22 @@ public class ShareWorkBookApiController {
     private final ShareWorkBookService service;
 
     @PostMapping("/register")
-    public ResponseEntity<ShareWorkBookResultDTO> insertShareWorkBook(@RequestBody ShareWorkBookDTO dto) throws Exception{
+    public ResponseEntity<ShareWorkBookResultDTO> insertShareWorkBook(@RequestBody ShareWorkBookDTO dto) throws Exception {
         return new ResponseEntity<>(service.insertShareWorkBook(dto), HttpStatus.OK);
     }
 
     @GetMapping("/{user_id}")
-    public ResponseEntity<PageResultDTO<ShareWorkBookResultDTO, ShareWorkBook>> selectShareWorkBookList(@PathVariable String user_id, @RequestParam(value = "page",required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) throws Exception{
-        PageRequestDTO req = new PageRequestDTO();
-        if(page!=null&&size!=null){
-            req.setSize(size);
-            req.setPage(page);
-        }
-        return new ResponseEntity<>(service.selectShareWorkBookList(user_id,req),HttpStatus.OK);
+    public ResponseEntity<PageResultDTO<ShareWorkBookResultDTO, ShareWorkBook>> selectShareWorkBookList(@PathVariable String user_id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) throws Exception {
+        return new ResponseEntity<>(service.selectShareWorkBookList(user_id, page, size), HttpStatus.OK);
     }
 
     @DeleteMapping("")
-    public String updateShareWorkBook(@RequestBody ShareWorkBookDTO dto) throws Exception {
-        service.deleteShareWorkBook(dto);
-        return "삭제 완료";
+    public ResponseEntity<String> updateShareWorkBook(@RequestBody ShareWorkBookDTO dto) throws Exception {
+        return new ResponseEntity<>(service.deleteShareWorkBook(dto), HttpStatus.OK);
     }
 
     @GetMapping("/count/{work_book_id}")
-    public Long countShareWorkBook(@PathVariable String work_book_id) throws Exception {
-        return service.selectShareWorkBookCount(work_book_id);
+    public ResponseEntity<Long> countShareWorkBook(@PathVariable String work_book_id) throws Exception {
+        return new ResponseEntity<>(service.selectShareWorkBookCount(work_book_id), HttpStatus.OK);
     }
 }

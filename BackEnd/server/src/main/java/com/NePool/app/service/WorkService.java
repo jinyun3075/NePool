@@ -17,7 +17,7 @@ public interface WorkService {
 
     WorkResultRealResponseDTO selectWorkResult(List<WorkResultRequestDTO> result, String work_id) throws Exception;
 
-    void deleteWork(String username, String work_book_id, String work_id) throws Exception;
+    String deleteWork(String username, String work_book_id, String work_id) throws Exception;
 
     WorkDTO updateWork(String username, String work_book_id, String work_id, WorkDTO dto) throws Exception;
 

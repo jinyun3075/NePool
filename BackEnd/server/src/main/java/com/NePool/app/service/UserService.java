@@ -12,7 +12,7 @@ public interface UserService {
 
     UserDTO selectUser(String dto);
 
-    PageResultDTO<UserDTO, NePoolUser> selectUserList(PageRequestDTO dto);
+    PageResultDTO<UserDTO, NePoolUser> selectUserList(Integer page, Integer size);
 
     UserDTO updateUser(UserDTO dto) throws Exception;
 

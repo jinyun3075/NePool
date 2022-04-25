@@ -38,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentRequestDTO insertComment(String user_id, String work_book_id, CommentRequestDTO dto) throws Exception {
-        if(dto.getContent().equals("")){
+        if (dto.getContent().equals("")) {
             throw new Exception("내용을 입력해 주세요");
         }
         Optional<NePoolUser> user = userRepository.findById(user_id);
@@ -49,18 +49,23 @@ public class CommentServiceImpl implements CommentService {
         if (!workBook.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
-        Comment entity = commentRepository.save(dtoToEntity(dto,work_book_id,user_id,(pw.encode(random.nextInt(600)+"").replace("/",""))));
+        Comment entity = commentRepository.save(dtoToEntity(dto, work_book_id, user_id, (pw.encode(random.nextInt(600) + "").replace("/", ""))));
         return entityToDto(entity);
     }
 
     @Override
-    public PageResultDTO<CommentRequestDTO, Comment> selectCommentList(String work_book_id, PageRequestDTO dto) throws Exception {
+    public PageResultDTO<CommentRequestDTO, Comment> selectCommentList(String work_book_id, Integer page, Integer size) throws Exception {
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+        if (page != null && size != null) {
+            pageRequestDTO.setSize(size);
+            pageRequestDTO.setPage(page);
+        }
         Optional<WorkBook> workBook = workBookRepository.findById(work_book_id);
         if (!workBook.isPresent()) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
-        Page<Comment> entity = commentRepository.findByWorkbookWno(work_book_id,dto.getPageable(Sort.by("modDate").descending()));
-        if(entity.getTotalElements()==0){
+        Page<Comment> entity = commentRepository.findByWorkbookWno(work_book_id, pageRequestDTO.getPageable(Sort.by("modDate").descending()));
+        if (entity.getTotalElements() == 0) {
             throw new Exception("만들어져있는 문제가 없습니다.");
         }
         Function<Comment, CommentRequestDTO> fn = (data -> entityToDto(data));
@@ -74,20 +79,20 @@ public class CommentServiceImpl implements CommentService {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
         List<Comment> list = commentRepository.findByWorkbookWno(work_book_id);
-        int allLike=0;
-        for(Comment data:list) {
-            allLike+=data.getComLike();
+        int allLike = 0;
+        for (Comment data : list) {
+            allLike += data.getComLike();
         }
-        return (Math.round((float)allLike/list.size())*10)/10.0;
+        return (Math.round((float) allLike / list.size()) * 10) / 10.0;
     }
 
     @Override
     public String deleteComment(String comment_id, String writer) throws Exception {
-        Optional<Comment> comments= commentRepository.findById(comment_id);
+        Optional<Comment> comments = commentRepository.findById(comment_id);
         if (!comments.isPresent()) {
             throw new Exception("존재하지 않는 리뷰입니다.");
         }
-        if(comments.get().getWriter().getName().equals(writer)){
+        if (comments.get().getWriter().getName().equals(writer)) {
             commentRepository.deleteById(comment_id);
             return "삭제 완료";
         }
