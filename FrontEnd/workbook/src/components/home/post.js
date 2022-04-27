@@ -51,7 +51,7 @@ export default function Post() {
             전체
           </button>
         </CategoryItem>
-        <CategoryItem >
+        <CategoryItem>
           <button
             onClick={onClickType}
             name="수능·내신"
@@ -105,7 +105,11 @@ export default function Post() {
               <li key={a.id}>
                 <Link to={`/detail/${a.id}`} state={{ username: a.username }}>
                   <ItemImg>
-                    {a.image ? (<img src={a.image} alt="문제집 이미지" />) : (<img src="img/basic.png" alt="기본 이미지"/>)}
+                    {a.image ? (
+                      <img src={a.image} alt="문제집 이미지" />
+                    ) : (
+                      <img src="img/basic.png" alt="기본 이미지" />
+                    )}
                   </ItemImg>
                   <TextBox>
                     <ItemScr size="20px">{a.title}</ItemScr>
@@ -121,46 +125,39 @@ export default function Post() {
       <Link to="/Allpost">
         <MoreBtn>더보기</MoreBtn>
       </Link>
-      
     </>
   );
 }
 
-
 const Title = styled.h2`
-  /* width: 650px; */
   margin: 20px auto 40px;
   font-family: "Montserrat Alternates";
   font-weight: 700;
   font-size: 45px;
   text-align: center;
   letter-spacing: -2px;
-`
+`;
 //네브바
 const Category = styled.ul`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80px;
-  /* width: 1200px; */
   margin: 0 auto;
-  min-width: 860px;
   width: 700px;
-  /* border-bottom: 1px solid ${COLORS.light_gray}; */
+  min-width: 860px;
+  height: 80px;
 `;
 
 const CategoryItem = styled.li`
   margin: 0 35px;
   button {
-    font-size: 17px;
     padding: 5px 10px;
+    font-size: 17px;
   }
   position: relative;
   .underLine {
     background: ${COLORS.blue};
     color: ${COLORS.white};
-    /* box-sizing: content-box; */
-    /* border-bottom: 5px solid ${COLORS.blue}; */
     transition: all 0.5s;
   }
 `;

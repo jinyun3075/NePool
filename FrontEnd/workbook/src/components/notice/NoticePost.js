@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import axios from 'axios';
-import { API, COLORS } from '../../constants'
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import axios from "axios";
+import { API, COLORS } from "../../constants";
 
 export default function NoticePost() {
   const token = sessionStorage.getItem("token");
@@ -23,11 +23,11 @@ export default function NoticePost() {
 
   const [loading, setLoading] = useState(false);
 
-  const getNotice = async() => {
+  const getNotice = async () => {
     setLoading(true);
-    const res = await axios.get(`${API}/announcement/show/${item.id}` , {
+    const res = await axios.get(`${API}/announcement/show/${item.id}`, {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
     setNotice(res.data);
@@ -38,18 +38,20 @@ export default function NoticePost() {
     await axios.delete(`${API}/announcement/${userId}`, {
       data: notice.id,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
-    navigate('/notice');
+    navigate("/notice");
   };
 
   useEffect(() => {
-    if(!token) {
-      navigate("/",  { replace: true })
+    if (!token) {
+      navigate("/", { replace: true });
     }
     getNotice();
-    return () => {setLoading(true)};
+    return () => {
+      setLoading(true);
+    };
   }, []);
 
   return (
@@ -68,7 +70,7 @@ export default function NoticePost() {
       </InputBox>
       {userId === "NEPOOLADMIN" && (
         <BtnBox>
-          <Link to={`/notice/editor/${notice.id}`} state={{notice: notice}} >
+          <Link to={`/notice/editor/${notice.id}`} state={{ notice: notice }}>
             <Btn type="submit">수정</Btn>
           </Link>
           <Btn onClick={deleteNotice}>삭제</Btn>
@@ -79,10 +81,10 @@ export default function NoticePost() {
 }
 
 const NoticeForm = styled.form`
+  padding: 0 15px;
   margin: 70px auto;
   width: 70%;
   min-width: 350px;
-  padding: 0 15px;
 `;
 
 const NoticeTitle = styled.h2`
@@ -130,11 +132,11 @@ const BtnBox = styled.div`
 const Btn = styled.button`
   margin: 10px 0 0;
   width: 100px;
-  height: 40px;  
+  height: 40px;
   border: 1px solid ${COLORS.light_gray};
   color: ${COLORS.light_gray};
   font-size: 14px;
-  &:hover{
+  &:hover {
     border: none;
     background: ${COLORS.blue};
     color: ${COLORS.white};

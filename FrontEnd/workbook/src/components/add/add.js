@@ -20,8 +20,8 @@ export default function Add() {
 }
 
 const Section = styled.article`
+  display: flex;
+  margin-top: 80px;
   width: 100%;
   height: 79vh;
-  margin-top: 80px;
-  display: flex;
 `;

@@ -1,23 +1,25 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import axios from 'axios';
-import { API, COLORS } from '../../constants'
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import axios from "axios";
+import { API, COLORS } from "../../constants";
 
-export default function NoticePage() {  
+export default function NoticePage() {
   const user = sessionStorage.getItem("user");
 
-  const [notice, setNotice] = useState([{
-    contents: "",
-    id: 0,
-    modDate: "",
-    regDate: "",
-    title: ""
-  }]);
-  
+  const [notice, setNotice] = useState([
+    {
+      contents: "",
+      id: 0,
+      modDate: "",
+      regDate: "",
+      title: "",
+    },
+  ]);
+
   const [userId, setUserId] = useState("");
 
-  const getUser = async() => {
+  const getUser = async () => {
     const res = await axios.get(`${API}/user/${user}`, {
       headers: {
         "Content-type": "application/json",
@@ -32,7 +34,7 @@ export default function NoticePage() {
         "Content-type": "application/json",
       },
     });
-      // window.location.reload()
+    // window.location.reload()
     setNotice(res.data.dtoList);
   };
 
@@ -51,17 +53,21 @@ export default function NoticePage() {
         </NoticeSection>
         <NoticeList>
           <colgroup>
-              <col className="number" />
-              {/* <col className="category" /> */}
-              <col className="title"/>
-              <col className="date" />
+            <col className="number" />
+            {/* <col className="category" /> */}
+            <col className="title" />
+            <col className="date" />
           </colgroup>
           <thead>
             <tr>
-              <th scope="col" className="delnum">번호</th>
+              <th scope="col" className="delnum">
+                번호
+              </th>
               {/* <th scope="col">분류</th> */}
               <th scope="col">제목</th>
-              <th scope="col" className="deldate">등록일</th>
+              <th scope="col" className="deldate">
+                등록일
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -70,39 +76,40 @@ export default function NoticePage() {
                 <tr key={item.id}>
                   <td className="delnum">{notice.length - i}</td>
                   {/* <td>서비스</td> */}
-                  <td className='title'>
-                    <Link to={`/notice/${item.id}`} state={{item: item, userId: userId}} >
+                  <td className="title">
+                    <Link
+                      to={`/notice/${item.id}`}
+                      state={{ item: item, userId: userId }}
+                    >
                       <span>{item.title}</span>
                     </Link>
                   </td>
                   <td className="deldate">{item.regDate.slice(0, 10)}</td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </NoticeList>
         {userId === "NEPOOLADMIN" && (
           <BtnBox>
-            <Link to='/notice/editor' state={{}}>
+            <Link to="/notice/editor" state={{}}>
               <Btn>작성</Btn>
             </Link>
           </BtnBox>
         )}
       </NoticeBoard>
     </main>
-  )
+  );
 }
 
 const NoticeBoard = styled.section`
   position: relative;
-  /* margin: 70px 200px; */
-  width: 80%;
   margin: 0 auto;
+  width: 80%;
   min-width: 830px;
   @media (max-width: 930px) {
-    min-width: 300px;
     padding: 0 15px;
-    /* transition: all 0.3s; */
+    min-width: 300px;
   }
 `;
 
@@ -163,7 +170,10 @@ const NoticeList = styled.table`
     }
   }
   @media (max-width: 930px) {
-    .number, .date, .delnum, .deldate {
+    .number,
+    .date,
+    .delnum,
+    .deldate {
       display: none;
     }
   }
@@ -179,11 +189,11 @@ const BtnBox = styled.div`
 const Btn = styled.button`
   margin: 10px 0 0;
   width: 100px;
-  height: 40px;  
+  height: 40px;
   border: 1px solid ${COLORS.light_gray};
   color: ${COLORS.light_gray};
   font-size: 14px;
-  &:hover{
+  &:hover {
     border: none;
     background: ${COLORS.blue};
     color: ${COLORS.white};
