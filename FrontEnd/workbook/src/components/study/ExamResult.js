@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import Answers from './Answers';
-import styled, { css } from 'styled-components';
-import { COLORS } from '../../constants';
+import { useEffect, useState } from "react";
+import Answers from "./Answers";
+import styled, { css } from "styled-components";
+import { COLORS } from "../../constants";
 
-export default function ExamResult({i, item}) {
+export default function ExamResult({ i, item }) {
   const [selectQuestion, setSelectQuestion] = useState(false);
   const [answerCheck, setAnswerCheck] = useState(false);
   const [error, setError] = useState(false);
@@ -23,9 +23,9 @@ export default function ExamResult({i, item}) {
     setError(false);
     setAnswerCheck(true);
   };
-  // let point = 0 
+  // let point = 0
   useEffect(() => {
-    if(item.choice === item.correct) {
+    if (item.choice === item.correct) {
       setError(false);
       setCorrect(true);
       // point = point + 1
@@ -37,7 +37,12 @@ export default function ExamResult({i, item}) {
 
   return (
     <>
-      <TestTit onClick={questionClick} className={item.result ? 'on' : 'off' || selectQuestion ? 'click' : ''}>{i+1}. {item.question}</TestTit>
+      <TestTit
+        onClick={questionClick}
+        className={item.result ? "on" : "off" || selectQuestion ? "click" : ""}
+      >
+        {i + 1}. {item.question}
+      </TestTit>
       {selectQuestion && (
         <>
           <Line />
@@ -60,7 +65,7 @@ export default function ExamResult({i, item}) {
         </>
       )}
     </>
-  )
+  );
 }
 
 const TestTit = styled.h3`
@@ -70,16 +75,19 @@ const TestTit = styled.h3`
   color: ${COLORS.white};
   font-size: 15px;
   word-wrap: break-word;
-  box-shadow: 0 0 0 1px rgb(34 36 38 / 15%) inset, 0 2px 3px 0 rgb(34 36 38 / 8%), 0 2px 8px 0 rgb(34 36 38 / 10%);
+  box-shadow: 0 0 0 1px rgb(34 36 38 / 15%) inset,
+    0 2px 3px 0 rgb(34 36 38 / 8%), 0 2px 8px 0 rgb(34 36 38 / 10%);
   cursor: pointer;
-  /* ${props => props.answerCheck && 
+  /* ${(props) =>
+    props.answerCheck &&
     css`
-      background: ${COLORS.alpha_blue} url('/img/QuestionCheck.svg') right 5% center no-repeat;
+      background: ${COLORS.alpha_blue} url("/img/QuestionCheck.svg") right 5%
+        center no-repeat;
     `} */
   &.on {
     background: ${COLORS.blue};
   }
-  &.off{
+  &.off {
     background: ${COLORS.error};
   }
   &.click {
@@ -123,5 +131,4 @@ const Explanation = styled.div`
     width: 75%;
     transition: all 0.3s;
   }
-
 `;

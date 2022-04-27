@@ -6,7 +6,6 @@ import { API, COLORS } from "../../constants";
 import SearchResult from "../header/Search";
 
 export default function Carousel({ allUserCount }) {
-
   const totalSlide = 3;
 
   const searchRef = useRef();
@@ -45,8 +44,8 @@ export default function Carousel({ allUserCount }) {
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const getResult = async() => {
-    if(keyUp) {
+  const getResult = async () => {
+    if (keyUp) {
       const res = await axios.get(`${API}/search/${keyUp}`, {
         headers: {
           "Content-type": "application/json",
@@ -70,7 +69,7 @@ export default function Carousel({ allUserCount }) {
   };
   const openSearch = (e) => {
     setSearchOn(true);
-    if(searchRef.current !==e.target) setSearchOn(false)
+    if (searchRef.current !== e.target) setSearchOn(false);
   };
 
   const Next = () => {
@@ -91,26 +90,27 @@ export default function Carousel({ allUserCount }) {
 
   useEffect(() => {
     getResult();
-  },[keyUp]);
+  }, [keyUp]);
 
-  useEffect(()=>{
-    window.addEventListener("click",openSearch);
-    return()=>{
-      window.removeEventListener("click",openSearch);
-    }
-  },[]);
-
+  useEffect(() => {
+    window.addEventListener("click", openSearch);
+    return () => {
+      window.removeEventListener("click", openSearch);
+    };
+  }, []);
 
   return (
     <>
       <MainBox>
-        <MainTit>You make <span>Workbook</span></MainTit>
+        <MainTit>
+          You make <span>Workbook</span>
+        </MainTit>
         <SearchBox>
           <SearchBtn>
             <img src="/img/search.svg" alt="돋보기" />
           </SearchBtn>
-          <SearchInp 
-            onFocus={openSearch} 
+          <SearchInp
+            onFocus={openSearch}
             onChange={onKeyUp}
             ref={searchRef}
             type="text"
@@ -121,21 +121,17 @@ export default function Carousel({ allUserCount }) {
               <img src="/img/close.svg" alt="지우기" />
             </CloseBtn>
           )}
-          {searchOn === true ?<SearchResult search={search}/> : null}
+          {searchOn === true ? <SearchResult search={search} /> : null}
         </SearchBox>
         <MainTitle>Best 4</MainTitle>
         {/* <MainTitle>{allUserCount}명의 학생이 인정한 BEST 문제집</MainTitle> */}
         <CarouselBox>
           <BtnBox>
             <img src="/img/prev.svg" alt="이전버튼" onClick={Prev} />
-            <img src="/img/next.svg" alt="다음버튼" onClick={Next}/>
+            <img src="/img/next.svg" alt="다음버튼" onClick={Next} />
           </BtnBox>
           <CarouselList>
-            <Slide 
-              get={get} 
-              getSlide={getSlide} 
-              currentSlide={currentSlide} 
-            />
+            <Slide get={get} getSlide={getSlide} currentSlide={currentSlide} />
           </CarouselList>
         </CarouselBox>
       </MainBox>
@@ -147,13 +143,11 @@ const MainBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* height: 1000px; */
-  /* background-color: rgba(47, 128, 237, 0.27); */
 `;
 
 const MainTit = styled.p`
-  width: 650px;
   margin: 70px 0 40px;
+  width: 650px;
   font-family: "Montserrat Alternates";
   font-style: bold;
   font-weight: 700;
@@ -163,7 +157,7 @@ const MainTit = styled.p`
   span {
     color: ${COLORS.blue};
   }
-`
+`;
 
 const SearchBox = styled.form`
   display: flex;
@@ -218,13 +212,8 @@ const SearchInp = styled.input`
 `;
 
 const MainTitle = styled.h3`
-  /* margin: 80px 0 0;
-  font-size: 26px;
-  font-weight: 500;
-  color: ${COLORS.black};
-  text-align: center; */
-  width: 650px;
   margin: 100px 0 20px;
+  width: 650px;
   font-family: "Montserrat Alternates";
   font-weight: 700;
   font-size: 45px;
@@ -245,7 +234,6 @@ const CarouselBox = styled.div`
 
 const CarouselList = styled.ul`
   display: flex;
-  /* width: 850px; */
   z-index: 1;
 `;
 

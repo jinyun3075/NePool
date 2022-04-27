@@ -8,13 +8,13 @@ import { useNavigate } from "react-router-dom";
 export default function MyPageContent() {
   const token = sessionStorage.getItem("token");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if(!token) {
-      navigate("/",  { replace: true })
+    if (!token) {
+      navigate("/", { replace: true });
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -32,9 +32,8 @@ const Section = styled.article`
   margin-top: 80px;
   width: 100%;
   height: 79vh;
-  @media (max-width: 420px) { 
-    border: none;
+  @media (max-width: 420px) {
     margin: 30px 0;
-    /* min-width: 340px; */
+    border: none;
   }
 `;

@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
-import Comments from './Comments';
-import Preview from './Preview';
-import Star from './Star';
-import styled from 'styled-components';
-import axios from 'axios';
-import { API, COLORS } from '../../constants'
+import { useEffect, useState } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
+import Comments from "./Comments";
+import Preview from "./Preview";
+import Star from "./Star";
+import styled from "styled-components";
+import axios from "axios";
+import { API, COLORS } from "../../constants";
 
 export default function DetailPage() {
   const token = sessionStorage.getItem("token");
@@ -21,7 +21,7 @@ export default function DetailPage() {
     {
       content: "",
       count: 0,
-      id: "", 
+      id: "",
       image: "",
       share: false,
       title: "",
@@ -30,11 +30,12 @@ export default function DetailPage() {
     },
   ]);
 
-  const {content, count, id, image, title, type, username, regDate} = workBook;
+  const { content, count, id, image, title, type, username, regDate } =
+    workBook;
 
   const [countUp, setCountUp] = useState(false);
   const [userData, setUserData] = useState("");
-  const [authorData, setAuthorData] = useState("")
+  const [authorData, setAuthorData] = useState("");
   const [userId, setUserId] = useState("");
   const [averageStar, setAverageStar] = useState(0);
   const [shareModal, setShareModal] = useState(false);
@@ -55,11 +56,14 @@ export default function DetailPage() {
   };
 
   const getWorkBook = async () => {
-    const res = await axios.get(`${API}/workbook/${userName}/${workbookId}?check=true`, {
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
+    const res = await axios.get(
+      `${API}/workbook/${userName}/${workbookId}?check=true`,
+      {
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    );
     setWorkBook(res.data);
   };
 
@@ -75,7 +79,7 @@ export default function DetailPage() {
   const getStar = async () => {
     const res = await axios.get(`${API}/comment/like/${workbookId}`, {
       headers: {
-        "Content-type" : "application/json",
+        "Content-type": "application/json",
       },
     });
     setAverageStar(res.data);
@@ -95,26 +99,28 @@ export default function DetailPage() {
     });
     setErr(res.data.message);
     setShareModal(true);
-    setTimeout(() => {setShareModal(false)}, 3000);
+    setTimeout(() => {
+      setShareModal(false);
+    }, 3000);
   };
 
-   const getShareCount = async () => {
+  const getShareCount = async () => {
     try {
       const res = await axios.get(`${API}/share/count/${workbookId}`, {
         headers: {
           "Content-type": "application/json",
-          Authorization : `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
       });
       setShareCount(res.data);
-    } catch(err) {
-
-    }
+    } catch (err) {}
   };
 
   useEffect(() => {
     getUser();
-    return () => {setLoading(false)};
+    return () => {
+      setLoading(false);
+    };
   }, []);
 
   useEffect(() => {
@@ -149,18 +155,26 @@ export default function DetailPage() {
             </DetailBox>
             {/* <span>별점: {averageStar}</span> */}
             <ButtonBox>
-              <Link to={`/studymode/${id}`} state={{username: username}}>
+              <Link to={`/studymode/${id}`} state={{ username: username }}>
                 <ModeBtn>공부모드</ModeBtn>
               </Link>
-              <Link to={`/exammode/${id}`} state={{username: username}}>
+              <Link to={`/exammode/${id}`} state={{ username: username }}>
                 <ModeBtn>시험모드</ModeBtn>
               </Link>
               <ModeBtn onClick={getShare}>스크랩</ModeBtn>
               {shareModal && (
                 <Modal>
-                  {!err ? <p>스크랩 되었습니다. 마이 페이지에서 확인해 주세요!</p> : <p>{err}</p>}
-                  <CloseSvg onClick={() => {setShareModal(false)}}/>
-                  <Link to={'/sharepage'} state={{userid: userId}}>
+                  {!err ? (
+                    <p>스크랩 되었습니다. 마이 페이지에서 확인해 주세요!</p>
+                  ) : (
+                    <p>{err}</p>
+                  )}
+                  <CloseSvg
+                    onClick={() => {
+                      setShareModal(false);
+                    }}
+                  />
+                  <Link to={"/sharepage"} state={{ userid: userId }}>
                     <Btn>마이 페이지에서 확인하기</Btn>
                   </Link>
                 </Modal>
@@ -176,20 +190,20 @@ export default function DetailPage() {
         averageStar={averageStar}
         shareCount={shareCount}
       />
-      <Comments workbookId={workbookId}/>
+      <Comments workbookId={workbookId} />
       {!token && (
         <>
           <Blur></Blur>
           <Modal>
             <p>로그인하시면 문제집의 상세 설명과 리뷰를 보실 수 있습니다!</p>
-            <Link to={'/login'}>
-              <Btn>로그인 하러 가기</Btn> 
+            <Link to={"/login"}>
+              <Btn>로그인 하러 가기</Btn>
             </Link>
           </Modal>
         </>
       )}
     </main>
-  )
+  );
 }
 
 const Modal = styled.div`
@@ -228,13 +242,13 @@ const Btn = styled.button`
 `;
 
 const CloseSvg = styled.div`
-  content: "";
   position: absolute;
+  content: "";
   top: 15px;
   right: 15px;
   width: 14px;
   height: 14px;
-  background: url('/img/x.svg') center no-repeat;
+  background: url("/img/x.svg") center no-repeat;
   cursor: pointer;
 `;
 
@@ -244,7 +258,7 @@ const Blur = styled.div`
   left: 0;
   width: 100vw;
   height: 100%;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(5px);
   overflow: hidden;
 `;
@@ -253,7 +267,7 @@ const DetailBoard = styled.section`
   display: flex;
   align-items: center;
   margin: 90px 0;
-  @media (max-width: 1024px) { 
+  @media (max-width: 1024px) {
     margin: 90px 0 60px;
   }
   /* height: 550px; */
@@ -266,7 +280,7 @@ const DetailInfo = styled.article`
   align-items: center;
   gap: 100px;
   background: rgba(255, 255, 255, 0.8);
-  @media (max-width: 1024px) { 
+  @media (max-width: 1024px) {
     flex-direction: column;
     gap: 60px;
     transition: all 0.4s;
@@ -279,7 +293,7 @@ const WorkBookImg = styled.img`
   border-radius: 5px;
   object-fit: cover;
   opacity: 92%;
-  @media (max-width: 520px) { 
+  @media (max-width: 520px) {
     width: 70%;
     height: 70%;
     min-width: 260px;
@@ -287,16 +301,16 @@ const WorkBookImg = styled.img`
     transition: all 0.3s;
   }
   /* box-shadow: 0 0 0 1px rgb(34 36 38 / 15%) inset, 0 2px 3px 0 rgb(34 36 38 / 4%); */
-`
+`;
 
 const Info = styled.div`
   display: flex;
   flex-direction: column;
   width: 450px;
   /* margin: 25px 50px; */
-  font-size: 16px;
   color: ${COLORS.text_gray};
-  @media (max-width: 520px) { 
+  font-size: 16px;
+  @media (max-width: 520px) {
     width: 70%;
     height: 70%;
     min-width: 260px;
@@ -319,7 +333,7 @@ const Tit = styled.strong`
   word-break: break-all;
   max-height: 120px;
   overflow-y: scroll;
-    &::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
@@ -345,7 +359,7 @@ const Explain = styled.p`
 const DetailBox = styled.div`
   display: flex;
   justify-content: space-between;
-`
+`;
 
 const AuthorBox = styled.div`
   display: flex;
@@ -357,7 +371,7 @@ const AuthorBox = styled.div`
     border: 0.5px solid ${COLORS.light_gray};
     border-radius: 15px;
   }
-`
+`;
 
 const ButtonBox = styled.div`
   display: flex;
@@ -372,7 +386,7 @@ const ModeBtn = styled.button`
   border-radius: 3px;
   font-size: 14px;
   box-shadow: 3px 3px 1px 1px rgb(34 36 38 / 15%);
-  @media (max-width: 520px) { 
+  @media (max-width: 520px) {
     width: 70px;
     min-width: 70px;
     transition: all 0.3s;

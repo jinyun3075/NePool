@@ -46,8 +46,8 @@ const NoticeCont = styled.li`
   margin-left: 20px;
   height: 100px;
   &::after {
-    content: "";
     position: absolute;
+    content: "";
     top: 100px;
     right: -1px;
     width: 500px;

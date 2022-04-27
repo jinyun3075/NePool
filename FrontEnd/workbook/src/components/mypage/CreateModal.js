@@ -90,11 +90,7 @@ export default function CreateModal(props) {
             type="text"
           ></TextInput>
 
-          <Select
-            onChange={change}
-            name="type"
-            value={postWorkbook.type}
-          >
+          <Select onChange={change} name="type" value={postWorkbook.type}>
             <option value="수능·내신">수능·내신</option>
             <option value="어학">어학</option>
             <option value="자격증">자격증</option>
@@ -130,7 +126,7 @@ const Modal = styled.form`
   background-color: white;
   box-sizing: border-box;
   z-index: 40;
-  @media (max-width: 420px) { 
+  @media (max-width: 420px) {
     width: 360px;
   }
 `;
@@ -155,7 +151,6 @@ const InputLabel = styled.div`
   height: 222px;
   border: 1px solid ${COLORS.light_gray};
   border-radius: 10px;
-  /* box-sizing: border-box; */
   padding: 5px;
   &:hover {
     outline: none;
@@ -196,24 +191,21 @@ const TextSelect = styled.div`
   align-items: center;
   gap: 20px;
   margin: 30px auto 0;
-  /* width: 75%;
-  height: 40%; */
 `;
 
 const TextInput = styled.input`
   width: 300px;
   height: 35px;
-  border: none;
   padding-left: 5px;
+  border: none;
   border-bottom: 1px solid ${COLORS.light_gray};
-  /* border-radius: 5px; */
   &:focus {
     outline: none;
     border-color: ${COLORS.blue};
   }
   &::placeholder {
-    font-size: 13px;
     color: ${COLORS.gray};
+    font-size: 13px;
   }
 `;
 
@@ -234,27 +226,25 @@ const Select = styled.select`
     color: ${COLORS.text_gray};
   }
   option[value="분류"][disabled] {
-    /* display: none; */
   }
 `;
 
 const Explain = styled.textarea`
-  margin: 10px 0 0;
   padding: 15px 10px;
+  margin: 10px 0 0;
   width: 290px;
   height: 40px;
-  /* border-radius: 5px; */
   border: 1px solid ${COLORS.light_gray};
   border-color: ${COLORS.light_gray};
   resize: none;
   z-index: 40;
   &::placeholder {
-    font-size: 13px;
     color: ${COLORS.gray};
+    font-size: 13px;
   }
   &:focus {
-    outline: none;
     border-color: ${COLORS.blue};
+    outline: none;
   }
 `;
 

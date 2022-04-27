@@ -51,10 +51,9 @@ export default function ShareContent(props) {
         },
       });
       setSharedWorkbook(res.data.dtoList);
-    } catch(err) {
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-    
   };
 
   // 클릭한 문제집만 모달 보이기
@@ -165,7 +164,7 @@ const Article = styled.article`
   border: 1px solid ${COLORS.light_gray};
   border-radius: 15px;
   min-width: 450px;
-  @media (max-width: 420px) { 
+  @media (max-width: 420px) {
     border: none;
     margin: 15px auto;
     min-width: 400px;
@@ -182,7 +181,7 @@ const Myworkbook = styled.div`
     /* font-weight: 700; */
     line-height: 50px;
   }
-  @media (max-width: 420px) { 
+  @media (max-width: 420px) {
     border: none;
     p {
       display: none;
@@ -199,7 +198,7 @@ const Example = styled.ul`
   max-height: 87%;
   overflow-x: auto;
   overflow-y: scroll;
-  @media (max-width: 420px) { 
+  @media (max-width: 420px) {
     max-height: 95%;
     margin: 0 0 15px;
     justify-content: center;
@@ -244,10 +243,10 @@ const ExampleLi = styled.li`
 `;
 
 const ExampleP1 = styled.p`
-  word-break: break-all;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  word-break: break-all;
   overflow: hidden;
   padding: 0 0.5em;
   margin-top: 60px;
