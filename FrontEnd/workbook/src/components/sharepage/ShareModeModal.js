@@ -10,13 +10,13 @@ export default function ShareModeModal(props) {
         <ImgDiv>
           <Img
             onClick={() => {
-              props.setShareModemodal(false);
+              props.setSharemodemodal(false);
             }}
             src="./img/x.svg"
             alt="x"
           />
         </ImgDiv>
-        <Text>예시 문제집을 푸시겠습니까?</Text>
+        <Text>문제집을 푸시겠습니까?</Text>
         <BtnDiv>
           <StudyMode>
             <Link
@@ -46,8 +46,8 @@ const Modal = styled.div`
   top: 50%;
   left: 50%;
   padding: 0 1em;
-  width: 30%;
-  height: 26%;
+  width: 350px;
+  height: 170px;
   border-radius: 5px;
   border: 1px solid ${COLORS.light_gray};
   background-color: ${COLORS.white};
@@ -69,8 +69,8 @@ const Img = styled.img`
 `;
 
 const Text = styled.p`
-  margin-top: 1em;
-  color: black;
+  margin: 20px 0 0;
+  color: ${COLORS.black};
   text-align: center;
   font-weight: 700;
   font-size: 1rem;

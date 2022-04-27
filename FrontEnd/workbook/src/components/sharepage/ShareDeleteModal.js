@@ -56,8 +56,8 @@ const Modal = styled.div`
   top: 50%;
   left: 50%;
   padding: 0 1em;
-  width: 30%;
-  height: 26%;
+  width: 350px;
+  height: 170px;
   border: 1px solid ${COLORS.light_gray};
   border-radius: 5px;
   background-color: ${COLORS.white};
@@ -78,7 +78,7 @@ const Img = styled.img`
 `;
 
 const Text = styled.p`
-  margin-top: 1em;
+  margin: 20px 0 0;
   color: black;
   font-weight: 700;
   text-align: center;
