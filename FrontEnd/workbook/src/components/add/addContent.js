@@ -57,7 +57,7 @@ export default function AddCont({workbookid}) {
     <Right>
       <Myworkbook>
         <button onClick={() => navigate(-1)}></button>
-        <p>문제 만들기</p>
+        <p>문제 추가</p>
       </Myworkbook>
       <MakeBox onSubmit={onSubmit} autoComplete="off">
         <Box>
@@ -158,7 +158,7 @@ export default function AddCont({workbookid}) {
               </InputBox>
             </div>
           </LeftBox>
-          <div>
+          <TxtAreaBox>
             <InputTxt 
               name="explanation"
               type="text"
@@ -171,7 +171,7 @@ export default function AddCont({workbookid}) {
               <span>{error}</span>
               <Btn>추가</Btn>
             </BtnBox>
-          </div>
+          </TxtAreaBox>
         </Box>
       </MakeBox>
     </Right>
@@ -182,7 +182,7 @@ const Myworkbook = styled.div`
   display: flex;
   align-items: center;
   height: 6%;
-  border-bottom: 2px solid ${COLORS.light_gray};
+  border-bottom: 1px solid ${COLORS.light_gray};
   button {
     margin-left: 15px;
     width: 24px;
@@ -191,9 +191,11 @@ const Myworkbook = styled.div`
   }
   p {
     margin-left: 10px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    line-height: 3rem;
+    font-size: 15px;
+    line-height: 50px;
+  }
+  @media (max-width: 420px) {
+    display: none;
   }
 `;
 
@@ -202,8 +204,13 @@ const Right = styled.article`
   position: relative;
   margin: 0 auto;
   min-height: 700px;
-  border: 2px solid ${COLORS.light_gray};
+  border: 1px solid ${COLORS.light_gray};
   border-radius: 15px;
+  @media (max-width: 420px) {
+    border: none;
+    margin: 30px 0 0;
+    transition: all 0.3s;
+  }
 `;
 
 const MakeBox = styled.form`
@@ -212,11 +219,38 @@ const MakeBox = styled.form`
   gap: 10px;
   margin: 80px 0px 0;
   min-width: 1000px;
+  @media (max-width: 1380px) {
+    min-width: 80%;
+    padding: 50px 0;
+    margin: 0;
+    height: 580px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 15px;
+      background-color: ${COLORS.light_gray};
+    }
+    &::-webkit-scrollbar-track {
+      background-color: white;
+    }
+  }
+  @media (max-width: 420px) {
+    padding: 10px 0;
+    height: 100%;
+    transition: all 0.3s;
+  }
 `;
 
 const Box = styled.div`
   display: flex;
   justify-content: space-around;
+  @media (max-width: 1380px) {
+    flex-direction: column;
+    align-items: center;
+    /* overflow: hidden; */
+  }
 `;
 
 const Input = styled.input`
@@ -230,11 +264,14 @@ const Input = styled.input`
   color: ${COLORS.black};
   font-size: 15px;
   &::placeholder {
-    color: #767676;
+    color: ${COLORS.gray};
   }
   &:focus {
     border-bottom: 1px solid ${COLORS.blue};
     outline: none;
+  }
+  @media (max-width: 1380px) {
+    width: 100%;
   }
 `;
 
@@ -243,6 +280,10 @@ const LeftBox = styled.div`
   flex-direction: column;
   div{
     margin: 20px 0 40px;
+  }
+  @media (max-width: 1380px) {
+    width: 80%;
+    /* transition: all 0.3s; */
   }
 `;
 
@@ -280,6 +321,12 @@ const InputNum = styled.input`
   }
 `;
 
+const TxtAreaBox = styled.div`
+  @media (max-width: 1380px) {
+    width: 80%;
+  }
+`
+
 const InputTxt = styled.textarea`
   display: block;
   padding: 15px;
@@ -289,7 +336,6 @@ const InputTxt = styled.textarea`
   border-radius: 5px;
   background: none;
   color: ${COLORS.black};
-  font-family: "Noto Sans KR";
   box-sizing: border-box;
   resize: none;
   &::placeholder {
@@ -298,6 +344,9 @@ const InputTxt = styled.textarea`
   &:focus {
     border: 2px solid ${COLORS.blue};
     outline: none;
+  }
+  @media (max-width: 1380px) {
+    width: 100%;
   }
 `;
 
