@@ -61,6 +61,13 @@ const SlideImg = styled.img`
   width: 830px;
   height: 280px;
   border-radius: 3px;
+  @media (max-width: 1060px) {
+    width: 700px;
+    height: 236px;
+  }
+  @media (max-width: 860px) {
+    display: none;
+  }
 `;
 
 const WhiteBox = styled.div`
@@ -69,10 +76,23 @@ const WhiteBox = styled.div`
   height: 280px;
   border-radius: 3px;
   background-color: rgba(0, 0, 0, 0.1);
+  @media (max-width: 1060px) {
+    width: 300px;
+    height: 236px;
+  }
+  @media (max-width: 860px) {
+    position: static;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+  }
 `;
 
 const BestCont = styled.div`
   margin: 30px 30px;
+  @media (max-width: 860px) {
+    padding: 40px 0px;
+  }
 `;
 
 const ItemTitle = styled.p`
@@ -82,6 +102,9 @@ const ItemTitle = styled.p`
   color: ${COLORS.black};
   font-size: 35px;
   font-weight: bold;
+  @media (max-width: 1060px) {
+    font-size: 30px;
+  }
 `;
 
 const FlexBox = styled.div`

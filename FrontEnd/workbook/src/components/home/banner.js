@@ -111,6 +111,10 @@ const TextBox = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  @media (max-width: 520px) {
+    width: 320px;
+    text-align: center;
+  }
 `;
 const BannerText = styled.span`
   font-size: ${(props) => props.size};
@@ -134,6 +138,9 @@ const Btn = styled.div`
   line-height: 50px;
   box-sizing: border-box;
   box-shadow: 3px 3px 1px 0px rgb(34 36 38 / 15%);
+  @media (max-width: 520px) {
+    width: 165px;
+  }
 `;
 
 const NotionBox = styled.div`
@@ -148,6 +155,10 @@ const Notion = styled.div`
   justify-content: center;
   align-items: center;
   gap: 50px;
+  @media (max-width: 520px) {
+    flex-direction: column;
+    width: 350px;
+  }
 `;
 
 const MainNotion = styled.span`

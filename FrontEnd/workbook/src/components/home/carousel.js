@@ -157,6 +157,9 @@ const MainTit = styled.p`
   span {
     color: ${COLORS.blue};
   }
+  @media (max-width: 520px) {
+    font-size: 61px;
+  }
 `;
 
 const SearchBox = styled.form`
@@ -230,6 +233,9 @@ const CarouselBox = styled.div`
   margin: 50px auto 120px;
   width: 830px;
   overflow: hidden;
+  @media (max-width: 860px) {
+    width: 300px;
+  }
 `;
 
 const CarouselList = styled.ul`
@@ -248,5 +254,19 @@ const BtnBox = styled.div`
     width: 35px;
     height: 35px;
     cursor: pointer;
+  }
+  @media (max-width: 1060px) {
+    width: 800px;
+    height: 236px;
+  }
+  @media (max-width: 860px) {
+    padding-top: 30px;
+    width: 470px;
+    height: 300px;
+  }
+  @media (max-width: 520px) {
+    padding-top: 30px;
+    width: 370px;
+    height: 300px;
   }
 `;
