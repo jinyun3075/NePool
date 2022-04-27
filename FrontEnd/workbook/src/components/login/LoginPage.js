@@ -41,7 +41,9 @@ export default function LoginPage() {
     <main className="container">
       <h1 className="blind">로그인 또는 회원가입</h1>
       <LoginBox>
-        <img src="/img/logo.svg" alt="logo" />
+        <Link to="/">
+          <img src="/img/logo.svg" alt="logo" />
+        </Link>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <label htmlFor="id"></label>
             <Input
@@ -97,12 +99,14 @@ export default function LoginPage() {
 const LoginBox = styled.article`
   padding: 40px 20px;
   margin: 110px auto 10px;
-  width: 100%;
   max-width: 450px;
   img {
     display: block;
     margin: 18px auto 60px;
     width: 250px;
+  }
+  @media (max-width: 580px) {
+    min-width: 320px;
   }
 `;
 
@@ -130,12 +134,20 @@ const Input = styled.input`
     border-bottom: 1px solid ${COLORS.blue};
     outline: none;
   }
+  @media (max-width: 560px) {
+    width: 320px;
+    transition: all 0.3s;
+  }
 `;
 
 const Err = styled.span`
   margin: 0 0 10px;
   width: 400px;
   color: ${COLORS.error};
+  @media (max-width: 560px) {
+    width: 320px;
+    transition: all 0.3s;
+  }
 `;
 
 const Btn = styled.button`
@@ -147,6 +159,10 @@ const Btn = styled.button`
   background: ${COLORS.blue};
   color: ${COLORS.white};
   font-size: 16px;
+  @media (max-width: 560px) {
+    width: 320px;
+    transition: all 0.3s;
+  }
 `;
 
 // const OrLine = styled.span`
@@ -209,6 +225,7 @@ const Signup = styled.ul`
     color: ${COLORS.gray};
     font-size: 13px;
   }
+  
   /* &::after {
     content: "";
     position: absolute;
