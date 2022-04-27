@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { FileUpload } from './FileUpload';
 import styled, { css } from 'styled-components';
@@ -17,7 +17,7 @@ export default function JoinPage() {
     watch,
     formState: { errors, isValid },
   } = useForm({ 
-    mode: 'onBlur',
+    mode: 'onChange',
   });
   
   const [error, setError] = useState("");
@@ -55,15 +55,17 @@ export default function JoinPage() {
     <main>
       <h1 className="blind">로그인 또는 회원가입</h1>
       <LoginBox>
-        <Logo src="/img/logo.svg" alt="logo" />
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Link to="/">
+          <Logo src="/img/logo.svg" alt="logo" />
+        </Link>
+        <Form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <FileUpload
             image={image}
             getImage={getImage}
             isImage={isImage}
             getIsImage={getIsImage}
           />
-          <label htmlFor="id">
+          <Label htmlFor="id">
             <Input
               id="id"
               name="id"
@@ -76,9 +78,9 @@ export default function JoinPage() {
                 pattern: /^[a-zA-Z0-9]*$/
               })}
             />
-          </label>
+          </Label>
           {errors.id && (errors.id.type === 'minLength' || errors.id.type === 'maxLength' || errors.id.type === 'pattern') && (<Err>2-15자의 영문, 숫자만 가능합니다.</Err>)}
-          <label htmlFor="password">
+          <Label htmlFor="password">
             <Input
               id="password"
               name="password"
@@ -92,9 +94,9 @@ export default function JoinPage() {
                 pattern: /^[-!@#a-z0-9]+$/gi,
               })}
             />
-          </label>
+          </Label>
           {errors.password && (errors.password.type === 'minLength' || errors.password.type === 'maxLength' || errors.password.type === 'pattern') && (<Err>6-16자의 영문, 숫자, @,#,! 만 가능합니다.</Err>)}
-          <label htmlFor="passwordCheck">
+          <Label htmlFor="passwordCheck">
             <Input
               id="passwordCheck"
               name="passwordCheck"
@@ -105,9 +107,9 @@ export default function JoinPage() {
                 validate: value => value === password.current
               })}
             />
-          </label>
+          </Label>
           {errors.passwordCheck && errors.passwordCheck.type === "validate" && (<Err>비밀번호가 일치하지 않습니다.</Err>)}
-          <label htmlFor="nickname">
+          <Label htmlFor="nickname">
             <Input
               id="nickname"
               name="nickname"
@@ -117,8 +119,8 @@ export default function JoinPage() {
                 required: true
               })}
             />
-          </label>
-          <label htmlFor="email">
+          </Label>
+          <Label htmlFor="email">
             <Input
               id="email"
               name="email"
@@ -129,7 +131,7 @@ export default function JoinPage() {
                 pattern: /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
               })}
             />
-          </label>
+          </Label>
           {errors.email && (errors.email.type === 'pattern') && (<Err>이메일 형식에 맞지 않습니다.</Err>)}
           {error && (<Err error={error}>{error}</Err>)}
           <Btn type="submit" disabled={!isValid}>가입하기</Btn>
@@ -142,7 +144,7 @@ export default function JoinPage() {
 const LoginBox = styled.article`
   padding: 40px 20px;
   margin: 50px auto 10px;
-  width: 100%;
+
   max-width: 450px;
   border-radius: 10px;
 `;
@@ -163,33 +165,47 @@ const Form = styled.form`
   }
 `;
 
+const Label = styled.label`
+  display: flex;
+  flex-direction: column;
+`
+
 const Input = styled.input`
-  padding: 3px 16px;
-  margin: 14px 0 12px;
-  width: 368px;
+  padding: 3px 5px;
+  margin: 12px;
+  width: 390px;
   height: 40px;
-  border: 1px solid ${COLORS.light_gray};
-  border-radius: 5px;
+  border: none;
+  border-bottom: 1px solid ${COLORS.light_gray};
+  /* border-radius: 5px; */
   background: none;
   color: ${COLORS.black};
   &::placeholder {
     color: ${COLORS.gray};
   }
   &:focus {
-    border: 1px solid ${COLORS.blue};
+    border-bottom: 1px solid ${COLORS.blue};
     outline: none;
+  }
+  @media (max-width: 580px) {
+    width: 320px;
+    transition: all 0.3s;
   }
 `;
 
 const Err = styled.span`
-  margin: 0 0 0 10px;
+  margin: 0 0 10px;
   width: 400px;
   color: ${COLORS.error};
   ${props => props.error &&
     css`
-    margin: 0;
-    width: inherit;
+      margin: 0;
+      width: inherit;
   `}
+  @media (max-width: 560px) {
+    width: 320px;
+    transition: all 0.3s;
+  }
 `;
 
 const Btn = styled.button`
@@ -203,5 +219,9 @@ const Btn = styled.button`
   font-size: 16px;
   &:disabled {
     opacity: 0.5;
+  }
+  @media (max-width: 560px) {
+    width: 320px;
+    transition: all 0.3s;
   }
 `;

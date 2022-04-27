@@ -7,7 +7,7 @@ export default function Star({count, averageStar, shareCount}) {
       <Item>
         <Icon src={'/img/person.svg'}></Icon>
         <TextBox>
-          <Num>{count}</Num>
+          {count && <Num>{parseInt(count/2)}</Num>}
           <Tit>조회수</Tit>
         </TextBox>
       </Item>
@@ -32,8 +32,16 @@ export default function Star({count, averageStar, shareCount}) {
 const ViewBoard = styled.section`
   display: flex;
   gap: 30px;
-  margin: 50px auto;
+  margin: 50px auto 80px;
   width: 800px;
+  @media (max-width: 900px) { 
+    width: 500px;
+  
+  }
+  @media (max-width: 520px) {
+    width: 90%;
+    gap: 0;
+  }
 `;
 
 const Item = styled.article`
@@ -42,21 +50,33 @@ const Item = styled.article`
   gap: 20px;
   padding: 15px 30px;
   width: 300px;
-  border-radius: 10px;
-  box-shadow: 0 0 0 1px rgb(34 36 38 / 15%) inset, 0 2px 3px 0 rgb(34 36 38 / 4%);
-`;
+  border-radius: 3px;
+  @media (max-width: 900px) { 
+    /* width: 500px; */
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s;
+  }
+
+  /* @media (max-width: 860px) { 
+    width: 200px;
+  } */
+  `;
 
 const Icon = styled.div`
   padding: 15px;
   width: 24px;
   height: 24px;
-  border-radius: 30px;
-  background: ${COLORS.alpha_blue} url(${props => props.src}) no-repeat center;
+  /* border-radius: 30px; */
+  border: 0.5px solid ${COLORS.blue};
+  box-shadow: 3px 3px 1px 1px rgb(153 178 246 / 35%);
+  background: url(${props => props.src}) no-repeat center;
 `;
 
 const TextBox = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const Num = styled.span`

@@ -1,11 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Slide from "./Slide";
 import styled from "styled-components";
 import axios from "axios";
 import { API, COLORS } from "../../constants";
+import SearchResult from "../header/Search";
 
 export default function Carousel({ allUserCount }) {
+
   const totalSlide = 3;
+
+  const searchRef = useRef();
+
+  const [search, setSearch] = useState([
+    {
+      content: "",
+      count: 0,
+      id: "",
+      mogDate: "",
+      regDate: "",
+      share: false,
+      title: "",
+      type: "",
+      username: "",
+    },
+  ]);
 
   const [get, setGet] = useState([
     {
@@ -22,7 +40,21 @@ export default function Carousel({ allUserCount }) {
     },
   ]);
 
+  const [keyUp, setKeyUp] = useState();
+  const [searchOn, setSearchOn] = useState(false);
+
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  const getResult = async() => {
+    if(keyUp) {
+      const res = await axios.get(`${API}/search/${keyUp}`, {
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+      setSearch(res.data.workBook);
+    }
+  };
 
   const getUser = async () => {
     const res = await axios.get(`${API}/workbook/best4`, {
@@ -31,6 +63,14 @@ export default function Carousel({ allUserCount }) {
       },
     });
     setGet(res.data);
+  };
+
+  const onKeyUp = (e) => {
+    setKeyUp(e.target.value);
+  };
+  const openSearch = (e) => {
+    setSearchOn(true);
+    if(searchRef.current !==e.target) setSearchOn(false)
   };
 
   const Next = () => {
@@ -49,11 +89,42 @@ export default function Carousel({ allUserCount }) {
     getUser();
   }, []);
 
+  useEffect(() => {
+    getResult();
+  },[keyUp]);
+
+  useEffect(()=>{
+    window.addEventListener("click",openSearch);
+    return()=>{
+      window.removeEventListener("click",openSearch);
+    }
+  },[]);
+
 
   return (
     <>
       <MainBox>
-        <MainTitle>{allUserCount}명의 학생이 인정한 BEST 문제집</MainTitle>
+        <MainTit>You make <span>Workbook</span></MainTit>
+        <SearchBox>
+          <SearchBtn>
+            <img src="/img/search.svg" alt="돋보기" />
+          </SearchBtn>
+          <SearchInp 
+            onFocus={openSearch} 
+            onChange={onKeyUp}
+            ref={searchRef}
+            type="text"
+            placeholder="문제집을 검색해 보세요!"
+          />
+          {searchOn && (
+            <CloseBtn type="reset">
+              <img src="/img/close.svg" alt="지우기" />
+            </CloseBtn>
+          )}
+          {searchOn === true ?<SearchResult search={search}/> : null}
+        </SearchBox>
+        <MainTitle>Best 4</MainTitle>
+        {/* <MainTitle>{allUserCount}명의 학생이 인정한 BEST 문제집</MainTitle> */}
         <CarouselBox>
           <BtnBox>
             <img src="/img/prev.svg" alt="이전버튼" onClick={Prev} />
@@ -75,29 +146,106 @@ export default function Carousel({ allUserCount }) {
 const MainBox = styled.div`
   display: flex;
   flex-direction: column;
-  height: 500px;
-  background-color: rgba(47, 128, 237, 0.27);
+  align-items: center;
+  /* height: 1000px; */
+  /* background-color: rgba(47, 128, 237, 0.27); */
+`;
+
+const MainTit = styled.p`
+  width: 650px;
+  margin: 70px 0 40px;
+  font-family: "Montserrat Alternates";
+  font-style: bold;
+  font-weight: 700;
+  font-size: 80px;
+  text-align: center;
+  letter-spacing: -2px;
+  span {
+    color: ${COLORS.blue};
+  }
+`
+
+const SearchBox = styled.form`
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 15px 0 0;
+  width: 360px;
+`;
+
+const SearchBtn = styled.button`
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  z-index: 20;
+  img {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+const CloseBtn = styled.button`
+  position: absolute;
+  margin-left: 321px;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  img {
+    width: 15px;
+    height: 15px;
+  }
+`;
+
+const SearchInp = styled.input`
+  position: absolute;
+  padding: 0 40px 0 40px;
+  width: 280px;
+  height: 40px;
+  border: 0.5px solid ${COLORS.light_gray};
+  border-radius: 3px;
+  font-size: 15px;
+  transition: 500ms width ease-in-out;
+  ::placeholder {
+    color: ${COLORS.light_gray};
+    font-size: 14px;
+    line-height: 40px;
+  }
+  :focus {
+    border: 2px solid ${COLORS.blue};
+    outline: none;
+  }
 `;
 
 const MainTitle = styled.h3`
-  padding-top: 67px;
-  font-size: 33px;
+  /* margin: 80px 0 0;
+  font-size: 26px;
   font-weight: 500;
   color: ${COLORS.black};
+  text-align: center; */
+  width: 650px;
+  margin: 100px 0 20px;
+  font-family: "Montserrat Alternates";
+  font-weight: 700;
+  font-size: 45px;
   text-align: center;
+  letter-spacing: -2px;
+  span {
+    color: ${COLORS.blue};
+  }
 `;
 //캐러셀 슬라이드 구현
 const CarouselBox = styled.div`
   display: flex;
   justify-content: center;
-  margin: 30px auto;
+  margin: 50px auto 120px;
   width: 830px;
   overflow: hidden;
 `;
 
 const CarouselList = styled.ul`
   display: flex;
-  width: 850px;
+  /* width: 850px; */
   z-index: 1;
 `;
 

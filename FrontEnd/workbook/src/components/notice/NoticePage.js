@@ -58,24 +58,24 @@ export default function NoticePage() {
           </colgroup>
           <thead>
             <tr>
-              <th scope="col">번호</th>
+              <th scope="col" className="delnum">번호</th>
               {/* <th scope="col">분류</th> */}
               <th scope="col">제목</th>
-              <th scope="col">등록일</th>
+              <th scope="col" className="deldate">등록일</th>
             </tr>
           </thead>
           <tbody>
             {notice.map((item, i) => {
               return (
                 <tr key={item.id}>
-                  <td>{notice.length - i}</td>
+                  <td className="delnum">{notice.length - i}</td>
                   {/* <td>서비스</td> */}
                   <td className='title'>
                     <Link to={`/notice/${item.id}`} state={{item: item, userId: userId}} >
                       <span>{item.title}</span>
                     </Link>
                   </td>
-                  <td>{item.regDate.slice(0, 10)}</td>
+                  <td className="deldate">{item.regDate.slice(0, 10)}</td>
                 </tr>
               )
             })}
@@ -95,8 +95,15 @@ export default function NoticePage() {
 
 const NoticeBoard = styled.section`
   position: relative;
-  margin: 70px 200px;
+  /* margin: 70px 200px; */
+  width: 80%;
+  margin: 0 auto;
   min-width: 830px;
+  @media (max-width: 930px) {
+    min-width: 300px;
+    padding: 0 15px;
+    /* transition: all 0.3s; */
+  }
 `;
 
 const NoticeSection = styled.div`
@@ -150,6 +157,14 @@ const NoticeList = styled.table`
     &.title {
       padding-left: 40px;
       text-align: left;
+      @media (max-width: 930px) {
+        padding-left: 15px;
+      }
+    }
+  }
+  @media (max-width: 930px) {
+    .number, .date, .delnum, .deldate {
+      display: none;
     }
   }
 `;

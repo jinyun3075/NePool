@@ -40,34 +40,59 @@ export default function Post() {
 
   return (
     <>
+      <Title>Latest Workbook</Title>
       <Category>
         <CategoryItem>
-          <button onClick={onClickType} name="all">
+          <button
+            onClick={onClickType}
+            name="all"
+            className={`${clickType === "all" && "underLine"}`}
+          >
             전체
           </button>
         </CategoryItem>
-        <CategoryItem>
-          <button onClick={onClickType} name="수능·내신">
+        <CategoryItem >
+          <button
+            onClick={onClickType}
+            name="수능·내신"
+            className={`${clickType === "수능·내신" && "underLine"}`}
+          >
             수능·내신
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClickType} name="어학">
+          <button
+            onClick={onClickType}
+            name="어학"
+            className={`${clickType === "어학" && "underLine"}`}
+          >
             어학
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClickType} name="자격증">
+          <button
+            onClick={onClickType}
+            name="자격증"
+            className={`${clickType === "자격증" && "underLine"}`}
+          >
             자격증
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClickType} name="시사·상식">
+          <button
+            onClick={onClickType}
+            name="시사·상식"
+            className={`${clickType === "시사·상식" && "underLine"}`}
+          >
             시사·상식
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button onClick={onClickType} name="기타">
+          <button
+            onClick={onClickType}
+            name="기타"
+            className={`${clickType === "기타" && "underLine"}`}
+          >
             기타
           </button>
         </CategoryItem>
@@ -93,31 +118,57 @@ export default function Post() {
           })}
         </Items>
       </ItemBox>
-      <MoreBtn href="/Allpost">더보기</MoreBtn>
+      <Link to="/Allpost">
+        <MoreBtn>더보기</MoreBtn>
+      </Link>
+      
     </>
   );
 }
 
+
+const Title = styled.h2`
+  /* width: 650px; */
+  margin: 20px auto 40px;
+  font-family: "Montserrat Alternates";
+  font-weight: 700;
+  font-size: 45px;
+  text-align: center;
+  letter-spacing: -2px;
+`
 //네브바
 const Category = styled.ul`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 80px;
-  border-bottom: 1px solid ${COLORS.light_gray};
+  /* width: 1200px; */
+  margin: 0 auto;
+  min-width: 860px;
+  width: 700px;
+  /* border-bottom: 1px solid ${COLORS.light_gray}; */
 `;
 
 const CategoryItem = styled.li`
-  margin: 0 40px;
+  margin: 0 35px;
   button {
     font-size: 17px;
+    padding: 5px 10px;
+  }
+  position: relative;
+  .underLine {
+    background: ${COLORS.blue};
+    color: ${COLORS.white};
+    /* box-sizing: content-box; */
+    /* border-bottom: 5px solid ${COLORS.blue}; */
+    transition: all 0.5s;
   }
 `;
 //리스트
 const ItemBox = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 20px;
 `;
 
 const Items = styled.ul`
@@ -125,7 +176,7 @@ const Items = styled.ul`
   flex-wrap: wrap;
   width: 1010px;
   li {
-    margin: 0 5px 10px;
+    margin: 0 5px 20px;
     width: 190px;
     height: 290px;
     border: 1px solid ${COLORS.light_gray};
@@ -137,6 +188,9 @@ const Items = styled.ul`
       height: 290px;
     }
   }
+  @media (max-width: 1024px) {
+    justify-content: center;
+  }
 `;
 
 const ItemImg = styled.div`
@@ -146,6 +200,7 @@ const ItemImg = styled.div`
   img {
     width: 190px;
     height: 177px;
+    object-fit: cover;
   }
 `;
 
@@ -171,13 +226,13 @@ const ItemTxt = styled.p`
   overflow: hidden;
 `;
 //더보기 버튼
-const MoreBtn = styled.a`
+const MoreBtn = styled.div`
   display: block;
-  margin: 35px auto 50px;
-  width: 230px;
-  height: 45px;
+  margin: 35px auto 60px;
+  width: 150px;
+  height: 40px;
   border: 0.5px solid ${COLORS.light_gray};
   font-size: 15px;
   text-align: center;
-  line-height: 45px;
+  line-height: 40px;
 `;

@@ -18,7 +18,10 @@ export default function ShareMyworkbook() {
     },
   ]);
 
+  const [loading, setLoading] = useState(false);
+
   const mypageInfo = async () => {
+    setLoading(true);
     const res = await axios.get(`${API}/user/${username}`, {
       headers: {
         "Content-type": "application/json",
@@ -29,19 +32,22 @@ export default function ShareMyworkbook() {
 
   useEffect(() => {
     mypageInfo();
+    return () => {setLoading(true)};
   }, []);
 
   return (
     <>
       <Article>
         <Profile>
-          <div>
+          <div className="img">
             <ProfileImage src={userInfo.image} alt="profile"></ProfileImage>
           </div>
           <Info>
-            <div>
+            <div className="info">
               <Name>{userInfo.name}</Name>
-              <InfoImg src="/img/profileupdate.png"></InfoImg>
+              {/* <Link to="/profile" state={{ userInfo: userInfo }}>
+                <InfoImg src="/img/profileupdate.png"></InfoImg>
+              </Link> */}
             </div>
             <Email>{userInfo.email}</Email>
           </Info>
@@ -69,21 +75,33 @@ export default function ShareMyworkbook() {
 
 const Article = styled.article`
   flex-basis: 25%;
+  @media (max-width: 420px) { 
+    flex-basis: 0%;
+  }
 `;
 
 const Profile = styled.div`
   display: flex;
-  div {
+  @media (max-width: 1370px) { 
+    flex-direction: column;
+    gap: 20px;
+  }
+  @media (max-width: 420px) { 
+    display: none;
+  }
+  .img {
     display: flex;
     margin-left: 2em;
-    width: 100%;
+    /* width: 100%; */
   }
 `;
 
 const ProfileImage = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 150px;
+  height: 150px;
+  border: 0.5px solid ${COLORS.light_gray};
   border-radius: 10px;
+  box-sizing: border-box;
 `;
 
 const Info = styled.div`
@@ -91,8 +109,9 @@ const Info = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: start;
-  margin-left: 3px;
-  div {
+    gap: 4px;
+  margin-left: 2em;
+  .info {
     display: flex;
     justify-content: start;
     align-items: center;
@@ -103,8 +122,8 @@ const Info = styled.div`
 
 const InfoImg = styled.img`
   margin-left: 0.7em;
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 17px;
+  height: 17px;
   line-height: 1rem;
   cursor: pointer;
 `;
@@ -112,28 +131,39 @@ const InfoImg = styled.img`
 const Name = styled.p`
   font-size: 1.3rem;
   font-weight: 700;
+  color: ${COLORS.text_gray};
 `;
 
 const Email = styled.p`
-  font-size: 1rem;
+  color: ${COLORS.gray};
+  font-family: 'Noto Sans KR';
+  font-size: 14px;
 `;
 
 const Workbook = styled.div`
   margin-top: 30px;
+  min-width: 250px;
+  @media (max-width: 420px) { 
+    position: absolute;
+    width: 100px;
+    top: 60px;
+    z-index: 20;
+  }
   cursor: pointer;
 `;
 
 const WorkbookLi = styled.li`
-  display: flex;
-  align-items: center;
-  padding: 0.5em 3em;
-  margin-top: 1.5em;
-  width: 45%;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
   a {
     display: flex;
   }
+  display: flex;
+  align-items: center;
+  padding: 0.7em 2em;
+  margin-top: 1em;
+  width: 160px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  cursor: pointer;
 
   &:last-child {
     background-color: ${COLORS.blue};
@@ -141,11 +171,21 @@ const WorkbookLi = styled.li`
       color: ${COLORS.white};
     }
   }
+  @media (max-width: 420px) { 
+    padding: 5px 15px;
+    font-size: 14px;
+    width: 100px;
+    margin-top: 5px;
+    transition: all 0.3s;
+  }
 `;
 
 const WorkbookImg = styled.img`
   width: 1.1rem;
   height: 1.1rem;
+  @media (max-width: 420px) { 
+    display: none;
+  }
 `;
 
 const WorkbookP = styled.p`

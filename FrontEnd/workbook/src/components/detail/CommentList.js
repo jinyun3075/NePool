@@ -23,13 +23,20 @@ export default function CommentList({comment, user}) {
   const [rating, setRating] = useState(0);
   const stars = Array(5).fill(0);
 
+  const [loading, setLoading] = useState(false);
+
   const getAllUser = async () => {
-    const res = await axios.get(`${API}/user`, {
-      headers: {
-        "Content-type" : "application/json",
-      },
-    });
-    setAllUser(res.data.dtoList);
+    setLoading(true);
+    try {
+      const res = await axios.get(`${API}/user`, {
+        headers: {
+          "Content-type" : "application/json",
+        },
+      });
+      setAllUser(res.data.dtoList);
+    } catch(err) {
+      console.log(err);
+    }
   };
 
   const userFind = () => {
@@ -77,15 +84,13 @@ export default function CommentList({comment, user}) {
 
   useEffect(() => {
     getAllUser();
+    setRating(like);
+    return () => { setLoading(false) }
   }, []);
 
   useEffect(() => {
     userFind();
-  }, [allUser, writerImg]);
-
-  useEffect(() => {
-    setRating(like);
-  }, []);
+  }, [allUser]);
 
   return (
     <CommentBox>
@@ -149,8 +154,8 @@ const AuthorImg = styled.img`
 `;
 
 const ReviewBox = styled.div`
-display: flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 
 const StarBox = styled.div`

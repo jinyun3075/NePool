@@ -30,7 +30,7 @@ export default function DeleteModal(props) {
             alt="x"
           />
         </ImgDiv>
-        <Text>예시 문제집을 삭제하시겠습니까?</Text>
+        <Text>문제집을 삭제하시겠습니까?</Text>
         <BtnDiv>
           <NoBtn
             onClick={() => {
@@ -52,8 +52,8 @@ const Modal = styled.div`
   top: 50%;
   left: 50%;
   padding: 0 1em;
-  width: 30%;
-  height: 26%;
+  width: 310px;
+  height: 170px;
   border: 1px solid ${COLORS.light_gray};
   border-radius: 5px;
   background-color: ${COLORS.white};
@@ -69,12 +69,12 @@ const ImgDiv = styled.div`
 const Img = styled.img`
   width: 14px;
   height: 14px;
-  cursor: pointer;
   pointer-events: auto;
+  cursor: pointer;
 `;
 
 const Text = styled.p`
-  margin-top: 1em;
+  margin: 20px 0 0;
   color: black;
   font-weight: 700;
   font-size: 1rem;

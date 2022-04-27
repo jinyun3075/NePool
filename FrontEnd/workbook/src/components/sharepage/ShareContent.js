@@ -43,13 +43,18 @@ export default function ShareContent(props) {
   let [shareUsername, setShareUsername] = useState("");
 
   const ReadShared = async () => {
-    const res = await axios.get(`${API}/share/${userId}`, {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setSharedWorkbook(res.data.dtoList);
+    try {
+      const res = await axios.get(`${API}/share/${userId}`, {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setSharedWorkbook(res.data.dtoList);
+    } catch(err) {
+      console.log(err)
+    }
+    
   };
 
   // 클릭한 문제집만 모달 보이기
@@ -152,32 +157,54 @@ export default function ShareContent(props) {
 }
 
 const Article = styled.article`
-  flex-basis: 70%;
   position: relative;
+  flex-basis: 70%;
   margin: 0 auto;
-  border: 3px solid ${COLORS.light_gray};
+  margin-right: 4%;
+  min-height: 700px;
+  border: 1px solid ${COLORS.light_gray};
   border-radius: 15px;
+  min-width: 450px;
+  @media (max-width: 420px) { 
+    border: none;
+    margin: 15px auto;
+    min-width: 400px;
+  }
 `;
 
 const Myworkbook = styled.div`
-  height: 7%;
-  border-bottom: 3px solid ${COLORS.light_gray};
+  height: 50px;
+  border-bottom: 1px solid ${COLORS.light_gray};
+
   p {
     margin-left: 20px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    line-height: 3rem;
+    font-size: 15px;
+    /* font-weight: 700; */
+    line-height: 50px;
+  }
+  @media (max-width: 420px) { 
+    border: none;
+    p {
+      display: none;
+    }
   }
 `;
 
 const Example = styled.ul`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, 230px);
   column-gap: 25px;
+  grid-row-gap: wrap;
   padding: 1em 3em;
-  max-height: 85%;
+  max-height: 87%;
   overflow-x: auto;
   overflow-y: scroll;
+  @media (max-width: 420px) { 
+    max-height: 95%;
+    margin: 0 0 15px;
+    justify-content: center;
+    transition: all 0.2s;
+  }
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -186,7 +213,7 @@ const Example = styled.ul`
     background-color: ${COLORS.light_gray};
   }
   &::-webkit-scrollbar-track {
-    background-color: ${COLORS.white};
+    background-color: white;
   }
 `;
 
@@ -202,11 +229,11 @@ const ExampleLi = styled.li`
     left: 0;
     width: 100%;
     height: 100%;
+    border: 1px solid ${COLORS.light_gray};
     border-radius: 6px;
     background: url(/img/basic.png) no-repeat center center/cover;
     z-index: -10;
     opacity: 0.6;
-
     ${(props) =>
       props.imageurl &&
       css`
@@ -217,11 +244,16 @@ const ExampleLi = styled.li`
 `;
 
 const ExampleP1 = styled.p`
-  margin-top: 25%;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  padding: 0 0.5em;
+  margin-top: 60px;
   font-size: 1.6rem;
-  font-weight: 550;
   text-align: center;
-  z-index: 20;
+  z-index: 2;
   cursor: pointer;
 `;
 

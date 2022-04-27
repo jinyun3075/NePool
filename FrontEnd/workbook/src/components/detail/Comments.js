@@ -139,7 +139,7 @@ export default function Comments({workbookId}) {
         </BtnBox>
       </Form>
       {comments !== undefined && (
-        <article>
+        <CommentBox>
           <ReviewTit>리뷰({comments.length})</ReviewTit>
           <Comment>
             {comments.map(comment => {
@@ -154,7 +154,7 @@ export default function Comments({workbookId}) {
               )
             })}
           </Comment>
-        </article>
+        </CommentBox>
       )}
     </CommentBoard>
   )
@@ -174,6 +174,11 @@ const Form = styled.form`
   width: 800px;
   border: 1px solid ${COLORS.light_gray};
   border-radius: 5px;
+  @media (max-width: 900px) { 
+    width: 80%;
+    min-width: 260px;
+    transition: all 0.3s;
+  }
 `;
 
 const StarDiv = styled.div`
@@ -211,6 +216,11 @@ const Textarea = styled.textarea`
   line-height: 18px;
   outline: none;
   resize: none;
+  @media (max-width: 900px) { 
+    width: 90%;
+    min-width: 260px;
+    transition: all 0.3s;
+  }
   &::placeholder {
     color: ${COLORS.light_gray};
   }
@@ -238,6 +248,12 @@ const BtnBox = styled.div`
   gap: 10px;
   color: ${COLORS.light_gray};
   font-size: 14px;
+  @media (max-width: 520px) { 
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    transition: all 0.3s;
+  }
 `;
 
 const ReviewTit = styled.strong`
@@ -250,19 +266,26 @@ const Comment = styled.ul`
   flex-direction: column;
   padding: 0px 10px 40px;
   margin: 16px auto;
-  width: 850px;
 `;
+
+const CommentBox = styled.article`
+  width: 850px;
+  @media (max-width: 900px) { 
+    width: 90%;
+    min-width: 330px;
+    transition: all 0.3s;
+  }
+`
 
 const Btn = styled.button`
   margin: 0 10px;
   width: 100px;
   height: 45px;
   border-radius: 6px;
-  background: ${COLORS.blue};
-  color: ${COLORS.white};
+  color: ${COLORS.blue};
   font-size: 14px;
   text-align: center;
   &:disabled {
-    background: ${COLORS.alpha_blue};
+    color: ${COLORS.light_gray};
   }
 `;

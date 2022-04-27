@@ -32,7 +32,7 @@ const Modal = styled.div`
   justify-content: space-evenly;
   align-items: center;
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
   margin: 15px auto 0;
   width: 100%;
@@ -41,8 +41,7 @@ const Modal = styled.div`
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
   background-color: rgba(255, 255, 255);
-  box-sizing: border-box;
-  z-index: 2;
+  z-index: 20;
 `;
 
 const Try = styled.button`

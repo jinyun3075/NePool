@@ -61,32 +61,56 @@ export default function MorePost() {
     <>
      <Category>
         <CategoryItem>
-          <button name="all" onClick={onClickType}>
+          <button
+            onClick={onClickType}
+            name="all"
+            className={`${clickType === "all" && "underLine"}`}
+          >
             전체
           </button>
         </CategoryItem>
-        <CategoryItem>
-          <button name="수능·내신" onClick={onClickType}>
+        <CategoryItem >
+          <button
+            onClick={onClickType}
+            name="수능·내신"
+            className={`${clickType === "수능·내신" && "underLine"}`}
+          >
             수능·내신
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button name="어학" onClick={onClickType}>
+          <button
+            onClick={onClickType}
+            name="어학"
+            className={`${clickType === "어학" && "underLine"}`}
+          >
             어학
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button name="자격증" onClick={onClickType}>
+          <button
+            onClick={onClickType}
+            name="자격증"
+            className={`${clickType === "자격증" && "underLine"}`}
+          >
             자격증
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button name="시사·상식" onClick={onClickType}>
+          <button
+            onClick={onClickType}
+            name="시사·상식"
+            className={`${clickType === "시사·상식" && "underLine"}`}
+          >
             시사·상식
           </button>
         </CategoryItem>
         <CategoryItem>
-          <button name="기타" onClick={onClickType}>
+          <button
+            onClick={onClickType}
+            name="기타"
+            className={`${clickType === "기타" && "underLine"}`}
+          >
             기타
           </button>
         </CategoryItem>
@@ -128,13 +152,50 @@ const Category = styled.ul`
   justify-content: center;
   align-items: center;
   height: 80px;
-  border-bottom: 1px solid ${COLORS.light_gray};
+  margin: 0 auto;
+  @media (max-width: 900px) {
+    flex-wrap: wrap;
+    padding: 20px;
+  }
+  @media (max-width: 520px) {
+    width: 360px;
+    height: 30px;
+    margin: 0 0 30px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow: hidden;
+    overflow-x: scroll;
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 15px;
+      background-color: ${COLORS.light_gray};
+    }
+    &::-webkit-scrollbar-track {
+      background-color: ${COLORS.white};
+    }
+  }
 `;
 
 const CategoryItem = styled.li`
-  margin: 0 40px;
+  margin: 0 35px;
   button {
     font-size: 17px;
+    padding: 5px 10px;
+  }
+  .underLine {
+    background: ${COLORS.blue};
+    color: ${COLORS.white};
+    transition: all 0.5s;
+  }
+  @media (max-width: 520px) {
+    margin: 0 20px;
+    button {
+      font-size: 14px;
+      padding: 5px 7px;
+      width: 70px;
+    }
   }
 `;
 //리스트
@@ -149,7 +210,7 @@ const Items = styled.ul`
   flex-wrap: wrap;
   width: 1010px;
   li {
-    margin: 0 5px 10px;
+    margin: 0 5px 20px;
     width: 190px;
     height: 290px;
     border: 1px solid ${COLORS.light_gray};
@@ -161,16 +222,36 @@ const Items = styled.ul`
       height: 290px;
     }
   }
+  @media (max-width: 1024px) {
+    justify-content: center;
+  }
+  @media (max-width: 420px) {
+    li {
+      width: 250px;
+      height: 350px;
+      transition: all 0.2s;
+    }
+  }
 `;
 
 const ItemImg = styled.div`
   width: 190px;
   height: 177px;
   border-bottom: 1px solid ${COLORS.light_gray};
-  background: url(/img/example.svg) no-repeat center/103% ;
+  /* background: url(/img/example.svg) no-repeat center/103%; */
   img{
     width: 190px;
     height: 177px;
+    object-fit: cover;
+  }
+  @media (max-width: 420px) {
+    width: 250px;
+    height: 230px;
+    img {
+      width: 250px;
+      height: 230px;
+      transition: all 0.2s;
+    }
   }
 `
 
