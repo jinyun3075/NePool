@@ -55,11 +55,14 @@ export default function ExamPage() {
   const [score, setScore] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
 
+  const [loading, setLoading] = useState(false);
+
   const percent = (score/totalScore * 100).toFixed(1);
 
   const mode = "exam";
 
   const getTest = async () => {
+    setLoading(true);
     const res = await axios.get(`${API}/work/${userName}/${workBookId}`, {
       headers: {
         "Content-type": "application/json",
@@ -68,7 +71,7 @@ export default function ExamPage() {
     setQuestionsData(res.data);
   };
 
-  const answerCheck = async() => {  
+  const answerCheck = async() => {
     const result = answerArray.reverse().filter((v, i, c) => i === c.findIndex(t => t.id === v.id));
 
     if(result.length !== questionsData.length) {
@@ -102,7 +105,11 @@ export default function ExamPage() {
   };
 
   useEffect(() => {
+    if(!token) {
+      navigate("/",  { replace: true })
+    }
     getTest();
+    return () => {setLoading(true)};
   }, []);
 
   if(questionsData.length === 0) {
@@ -126,6 +133,7 @@ export default function ExamPage() {
               total={questionsData.length}
               currentQuestion={currentQuestion}
             />
+            <ClickP>#문제를 클릭해주세요</ClickP>
             <ResultBox>
               <p>{percent} 점</p>
               <span>{score} / {totalScore}</span>
@@ -153,6 +161,7 @@ export default function ExamPage() {
           <h1 className="blind">시험 모드</h1>
           <TestBoard>
             <Progress total={questionsData.length} currentQuestion={currentQuestion}/>
+            <ClickP>#문제를 클릭해주세요</ClickP>
             <Test>
               {questionsData.map((question, i) => {
                 return (
@@ -198,6 +207,11 @@ const Modal = styled.div`
   p {
     margin: 0 0 15px;
   }
+  @media (max-width: 750px) {
+    width: 200px;
+    margin: 0 auto;
+    transition: all 0.3s;
+  }
 `;
 
 const BackBtn = styled.button`
@@ -232,6 +246,13 @@ const TestBoard = styled.section`
   border: 1.5px solid ${COLORS.light_gray};
   border-radius: 7px;
   overflow: hidden;
+  p {
+    margin: 25px 15px 0;
+    color: ${COLORS.light_gray};
+    font-size: 12px;
+    font-style: italic;
+    text-align: end;
+  }
   &::after {
     content: '';
     position: absolute;
@@ -240,14 +261,23 @@ const TestBoard = styled.section`
     width: 100%;
     border-bottom: 1.5px solid ${COLORS.light_gray};
   }
+  @media (max-width: 640px) { 
+    border: none;
+    min-width: 400px;
+    margin: 0 auto;
+    transition: all 0.4s;
+    &::after {
+      border: none;
+    }
+  }
 `;
 
 const ResultBoard = styled.section`
   position: relative;
   padding: 0 0 30px;
-  margin: 40px auto;
+  margin: 50px auto;
   width: 70%;
-  min-width: 1000px;
+  /* min-width: 1000px; */
   border: 1.5px solid ${COLORS.light_gray};
   border-radius: 7px;
   &::after {
@@ -258,17 +288,34 @@ const ResultBoard = styled.section`
     width: 100%;
     border-bottom: 1.5px solid ${COLORS.light_gray};
   }
+
+  @media (max-width: 640px) {
+    min-width: 400px;
+    border: none;
+    transition: all 0.3s;
+    &::after {
+      border: none;
+    }
+  }
 `;
 
+const ClickP = styled.p`
+  margin: 25px 15px 0;
+  color: ${COLORS.light_gray};
+  font-size: 12px;
+  font-style: italic;
+  text-align: end;
+`
+
 const Test = styled.article`
-  padding: 50px 0 0;
+  padding: 30px 0 0;
   margin: 0 20px;
 `;
 
 const ResultBox = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 45px 55px 0;
+  margin: 30px 55px 0;
   span {
     display: block;
     color: ${COLORS.light_gray};
@@ -300,15 +347,20 @@ const BtnBox = styled.div`
 
 const Btn = styled.button`
   margin: 20px 30px 0px 0px;
-  width: 100px;
-  height: 50px;  
+  width: 80px;
+  height: 35px;
   border: none;
-  border-radius: 4px;
-  background: ${COLORS.blue};
-  color: ${COLORS.white};
+  border-radius: 2px;
+  /* background: ${COLORS.blue};
+  color: ${COLORS.white}; */
   font-size: 14px;
   &:disabled {
     opacity: 0.5;
+  }
+  &:hover {
+    background: ${COLORS.blue};
+    color: ${COLORS.white};
+    transition: all 0.2s;
   }
 `;
 

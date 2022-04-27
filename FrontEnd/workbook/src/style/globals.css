@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import "./reset.css";
 
 @font-face {
@@ -25,3 +26,43 @@ button,
 input {
   font-family: "Noto Sans KR";
 }
+=======
+@import "./reset.css";
+
+@font-face {
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: bold;
+  font-weight: 700;
+  src: url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap")
+    format("woff2");
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@700&display=swap');
+
+@font-face {
+  font-family: 'MinSans-Medium';
+  font-weight: normal;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+}
+
+html,
+body {
+  font-family: "MinSans-Medium";
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: "MinSans-Medium";
+}
+>>>>>>> 06f68097701e569c9cf3517a15b981fdce0f81e4

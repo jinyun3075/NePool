@@ -41,7 +41,7 @@ export const FileUpload = ({image, getImage, getIsImage}) => {
 const ImgLabel = styled.label`
   display: block;
   position: relative;
-  margin: 18px auto 30px;
+  margin: 18px auto 35px;
   width: 180px;
   height: 180px;
   border: 0.5 solid ${COLORS.gray};
@@ -67,6 +67,8 @@ const Img = styled.img `
   height: 100%;
   border-radius: 10px;
   background: url('${props => props.src}');
+  border: 0.5px solid ${COLORS.light_gray};
+  box-sizing: border-box;
   object-fit: cover;
   &.upload {
     display: block

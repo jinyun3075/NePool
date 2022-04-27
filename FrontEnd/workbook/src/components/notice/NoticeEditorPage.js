@@ -24,8 +24,11 @@ export default function NoticeEditorPage() {
   const [title, setTitle] = useState(notice !== undefined ? `${notice.title}` : "");
   const [isTitle, setIsTitle] = useState(false);
   const [htmlStr, setHtmlStr] = useState(notice !== undefined ? `${notice.contents}` : "");
-    
+  
+  const [loading, setLoading] = useState(false);
+  
   const getUser = async () => {
+    setLoading(true);
     const res = await axios.get(`${API}/user/${user}`, {
       headers: {
         "Content-type": "application/json",
@@ -87,11 +90,15 @@ export default function NoticeEditorPage() {
   };
 
   useEffect(() => {
+    if(!token) {
+      navigate("/",  { replace: true })
+    }
     getUser();
     if(editorRef.current) {
       editorRef.current.getInstance().setHTML(htmlStr);
       editorRef.current.getInstance().removeHook('addImageBlobHook');
     }
+    return () => {setLoading(true)};
   }, []);
 
   return (
@@ -141,6 +148,8 @@ export default function NoticeEditorPage() {
 const NoticeForm = styled.form`
   margin: 50px auto;
   width: 70%;
+  min-width: 350px;
+  padding: 0 15px;
 `;
 
 const NoticeTitle = styled.h2`

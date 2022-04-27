@@ -1,15 +1,19 @@
-import { API, COLORS } from "../../constants/index";
 import styled from "styled-components";
 import axios from "axios";
+import { API, COLORS } from "../../constants/index";
 
-export default function DeleteModal(props) {
-  const username = sessionStorage.getItem("user");
+export default function ShareDeleteModal(props) {
   const token = sessionStorage.getItem("token");
 
-  const workbookid = props.workbookid;
+  const workbookId = props.workbookid;
+  const userId = props.userid;
 
-  const DeleteWorkbook = async (props) => {
-    await axios.delete(`${API}/workbook/delete/${username}/${workbookid}`, {
+  const shareDeleteWorkbook = async () => {
+    await axios.delete(`${API}/share`, {
+      data: {
+        work_book_id: workbookId,
+        user_id: userId,
+      },
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -24,22 +28,22 @@ export default function DeleteModal(props) {
         <ImgDiv>
           <Img
             onClick={() => {
-              props.setDeletemodal(false);
+              props.setSharedeletemodal(false);
             }}
             src="/img/x.svg"
             alt="x"
           />
         </ImgDiv>
-        <Text>예시 문제집을 삭제하시겠습니까?</Text>
+        <Text>가져오기를 해제 하시겠습니까?</Text>
         <BtnDiv>
           <NoBtn
             onClick={() => {
-              props.setDeletemodal(false);
+              props.setSharedeletemodal(false);
             }}
           >
             아니오
           </NoBtn>
-          <YesBtn onClick={DeleteWorkbook}>예</YesBtn>
+          <YesBtn onClick={shareDeleteWorkbook}>예</YesBtn>
         </BtnDiv>
       </Modal>
     </>
@@ -52,12 +56,12 @@ const Modal = styled.div`
   top: 50%;
   left: 50%;
   padding: 0 1em;
-  width: 30%;
-  height: 26%;
+  width: 350px;
+  height: 170px;
   border: 1px solid ${COLORS.light_gray};
   border-radius: 5px;
-  background-color: #fff;
-  z-index: 3;
+  background-color: ${COLORS.white};
+  z-index: 20;
 `;
 
 const ImgDiv = styled.div`
@@ -69,16 +73,16 @@ const ImgDiv = styled.div`
 const Img = styled.img`
   width: 14px;
   height: 14px;
-  cursor: pointer;
   pointer-events: auto;
+  cursor: pointer;
 `;
 
 const Text = styled.p`
-  margin-top: 1em;
-  font-weight: 700;
-  font-size: 1rem;
-  text-align: center;
+  margin: 20px 0 0;
   color: black;
+  font-weight: 700;
+  text-align: center;
+  font-size: 1rem;
 `;
 
 const BtnDiv = styled.div`
@@ -94,9 +98,9 @@ const NoBtn = styled.div`
   border: 1px solid ${COLORS.light_gray};
   border-radius: 5px;
   color: ${COLORS.gray};
-  text-align: center;
   font-size: 1rem;
   line-height: 2.5rem;
+  text-align: center;
   cursor: pointer;
 `;
 
@@ -106,7 +110,7 @@ const YesBtn = styled.div`
   height: 2.5em;
   border-radius: 5px;
   background-color: ${COLORS.blue};
-  color: #fff;
+  color: ${COLORS.white};
   font-size: 1rem;
   text-align: center;
   line-height: 2.5rem;

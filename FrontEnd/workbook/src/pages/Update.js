@@ -1,9 +1,9 @@
-import Update_page from "../components/updatepage/updatepage";
+import UpdatePage from "../components/updatepage/UpdatePage";
 
-export default function UpdatePage() {
+export default function Update() {
   return (
     <>
-      <Update_page /> 
+      <UpdatePage />
     </>
-    )
+  );
 }

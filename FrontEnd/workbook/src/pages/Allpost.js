@@ -1,4 +1,4 @@
-import AllPost from "../components/post/allPost";
+import AllPost from "../components/post/AllPost";
 
 export default function PostPage() {
   return (

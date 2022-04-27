@@ -1,15 +1,12 @@
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import HeaderSignin from "../header/Header";
-import ShareMyworkbook from "./ShareMyWorkbook";
-import ShareContent from "./ShareContent";
+import MyWorkbook from "./MyWorkbook";
+import WorkbookContent from "./WorkbookContent";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
-export default function SharePage() {
+export default function MyPageContent() {
   const token = sessionStorage.getItem("token");
-
-  const location = useLocation();
-  const userid = location.state.userid;
 
   const navigate = useNavigate()
 
@@ -23,8 +20,8 @@ export default function SharePage() {
     <>
       <HeaderSignin />
       <Section>
-        <ShareMyworkbook />
-        <ShareContent userid={userid} />
+        <MyWorkbook />
+        <WorkbookContent />
       </Section>
     </>
   );

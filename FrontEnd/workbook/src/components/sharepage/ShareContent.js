@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import ShareDeleteModal from "./share_deletemodal";
-import ShareModeModal from "./share_modemodal";
-import ShareUpdateModal from "./share_updatemodal";
+import ShareDeleteModal from "./ShareDeleteModal";
+import ShareModeModal from "./ShareModeModal";
+import ShareUpdateModal from "./ShareUpdateModal";
 import styled, { css } from "styled-components";
 import axios from "axios";
 import { COLORS, API } from "../../constants/index";
 
 export default function ShareContent(props) {
-  const userid = props.userid;
+  const token = sessionStorage.getItem("token");
+  const userId = props.userid;
 
-  let [shareupdate, setShareupdate] = useState(Array(100).fill(false));
-  let [sharedeletemodal, setSharedeletemodal] = useState(false);
-  let [sharemodemodal, setSharemodemodal] = useState(false);
-  let [shareworkbookid, setShareworkbookid] = useState("");
-  let [shareusername, setShareusername] = useState("");
-
-  const [sharedworkbook, setSharedworkbook] = useState([
+  const [sharedWorkbook, setSharedWorkbook] = useState([
     {
       workBook: {
         id: "",
@@ -41,25 +36,35 @@ export default function ShareContent(props) {
     },
   ]);
 
+  let [shareUpdate, setShareUpdate] = useState(Array(100).fill(false));
+  let [shareDeleteModal, setShareDeleteModal] = useState(false);
+  let [shareModeModal, setShareModeModal] = useState(false);
+  let [shareWorkbookId, setShareWorkbookId] = useState("");
+  let [shareUsername, setShareUsername] = useState("");
+
   const ReadShared = async () => {
-    const token = sessionStorage.getItem("token");
-    const res = await axios.get(`${API}/share/${userid}`, {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setSharedworkbook(res.data.dtoList);
+    try {
+      const res = await axios.get(`${API}/share/${userId}`, {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setSharedWorkbook(res.data.dtoList);
+    } catch(err) {
+      console.log(err)
+    }
+    
   };
 
   // 클릭한 문제집만 모달 보이기
-  const shareupdateboolean = (e) => {
-    if (shareupdate[e.target.value] === true) {
-      const newarray = [...shareupdate];
+  const shareUpdateBoolean = (e) => {
+    if (shareUpdate[e.target.value] === true) {
+      const newarray = [...shareUpdate];
       newarray[e.target.value] = false;
-      setShareupdate(newarray);
+      setShareUpdate(newarray);
     } else {
-      const newarray = [...shareupdate];
+      const newarray = [...shareUpdate];
       for (let i = 0; i < newarray.length; i++) {
         if (i === e.target.value) {
           newarray[i] = true;
@@ -67,16 +72,16 @@ export default function ShareContent(props) {
           newarray[i] = false;
         }
       }
-      setShareupdate(newarray);
+      setShareUpdate(newarray);
     }
   };
 
   const workbookId = (id) => {
-    setShareworkbookid(id);
+    setShareWorkbookId(id);
   };
 
   const username = (username) => {
-    setShareusername(username);
+    setShareUsername(username);
   };
 
   useEffect(() => {
@@ -91,13 +96,12 @@ export default function ShareContent(props) {
         </Myworkbook>
 
         <Example>
-          {sharedworkbook.map((workbookdata, i) => {
+          {sharedWorkbook.map((workbookdata, i) => {
             return (
               <ExampleLi
                 onClick={(e) => {
-                  console.log(workbookdata.workBook);
-                  setShareupdate(!shareupdate);
-                  shareupdateboolean(e);
+                  setShareUpdate(!shareUpdate);
+                  shareUpdateBoolean(e);
                   workbookId(workbookdata.workBook.id);
                   username(workbookdata.workBook.username);
                 }}
@@ -111,39 +115,39 @@ export default function ShareContent(props) {
                 >
                   <ExampleP1>{workbookdata.workBook.title}</ExampleP1>
                   <ExampleP2>
-                    마지막 수정 일시 :{" "}
+                    마지막 수정 일시 :
                     {workbookdata.workBook.modDate.substring(0, 10)}
                   </ExampleP2>
                 </Link>
-                {shareupdate[i] === true ? (
+                {shareUpdate[i] === true ? (
                   <ShareUpdateModal
                     workbookId={workbookdata.id}
-                    setSharedWorkbook={setSharedworkbook}
-                    setSharedeletemodal={setSharedeletemodal}
-                    sharedeletemodal={sharedeletemodal}
-                    sharemodemodal={sharemodemodal}
-                    setSharemodemodal={setSharemodemodal}
+                    setSharedWorkbook={setSharedWorkbook}
+                    setSharedeletemodal={setShareDeleteModal}
+                    sharedeletemodal={shareDeleteModal}
+                    sharemodemodal={shareModeModal}
+                    setSharemodemodal={setShareModeModal}
                   />
                 ) : null}
               </ExampleLi>
             );
           })}
 
-          {sharedeletemodal === true ? (
+          {shareDeleteModal === true ? (
             <ShareDeleteModal
-              workbookid={shareworkbookid}
-              userid={userid}
-              sharedeletemodal={sharedeletemodal}
-              setSharedeletemodal={setSharedeletemodal}
+              workbookid={shareWorkbookId}
+              userid={userId}
+              sharedeletemodal={shareDeleteModal}
+              setSharedeletemodal={setShareDeleteModal}
             />
           ) : null}
 
-          {sharemodemodal === true ? (
+          {shareModeModal === true ? (
             <ShareModeModal
-              shareusername={shareusername}
-              shareworkbookid={shareworkbookid}
-              sharemodemodal={sharemodemodal}
-              setSharemodemodal={setSharemodemodal}
+              shareusername={shareUsername}
+              shareworkbookid={shareWorkbookId}
+              sharemodemodal={shareModeModal}
+              setSharemodemodal={setShareModeModal}
             />
           ) : null}
         </Example>
@@ -153,38 +157,60 @@ export default function ShareContent(props) {
 }
 
 const Article = styled.article`
-  flex-basis: 70%;
   position: relative;
+  flex-basis: 70%;
   margin: 0 auto;
-  border: 3px solid ${COLORS.light_gray};
+  margin-right: 4%;
+  min-height: 700px;
+  border: 1px solid ${COLORS.light_gray};
   border-radius: 15px;
+  min-width: 450px;
+  @media (max-width: 420px) { 
+    border: none;
+    margin: 15px auto;
+    min-width: 400px;
+  }
 `;
 
 const Myworkbook = styled.div`
-  height: 7%;
-  border-bottom: 3px solid ${COLORS.light_gray};
+  height: 50px;
+  border-bottom: 1px solid ${COLORS.light_gray};
+
   p {
     margin-left: 20px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    line-height: 3rem;
+    font-size: 15px;
+    /* font-weight: 700; */
+    line-height: 50px;
+  }
+  @media (max-width: 420px) { 
+    border: none;
+    p {
+      display: none;
+    }
   }
 `;
 
 const Example = styled.ul`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, 230px);
   column-gap: 25px;
+  grid-row-gap: wrap;
   padding: 1em 3em;
-  max-height: 85%;
+  max-height: 87%;
   overflow-x: auto;
   overflow-y: scroll;
+  @media (max-width: 420px) { 
+    max-height: 95%;
+    margin: 0 0 15px;
+    justify-content: center;
+    transition: all 0.2s;
+  }
   &::-webkit-scrollbar {
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: ${COLORS.light_gray};
     border-radius: 15px;
+    background-color: ${COLORS.light_gray};
   }
   &::-webkit-scrollbar-track {
     background-color: white;
@@ -193,8 +219,7 @@ const Example = styled.ul`
 
 const ExampleLi = styled.li`
   position: relative;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px 0;
   height: 20rem;
   cursor: pointer;
   &:after {
@@ -204,11 +229,11 @@ const ExampleLi = styled.li`
     left: 0;
     width: 100%;
     height: 100%;
+    border: 1px solid ${COLORS.light_gray};
     border-radius: 6px;
     background: url(/img/basic.png) no-repeat center center/cover;
-    z-index: -1;
+    z-index: -10;
     opacity: 0.6;
-
     ${(props) =>
       props.imageurl &&
       css`
@@ -219,9 +244,14 @@ const ExampleLi = styled.li`
 `;
 
 const ExampleP1 = styled.p`
-  margin-top: 25%;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  padding: 0 0.5em;
+  margin-top: 60px;
   font-size: 1.6rem;
-  font-weight: 550;
   text-align: center;
   z-index: 2;
   cursor: pointer;
@@ -234,5 +264,5 @@ const ExampleP2 = styled.p`
   font-weight: 500;
   text-align: center;
   cursor: pointer;
-  z-index: 2;
+  z-index: 20;
 `;

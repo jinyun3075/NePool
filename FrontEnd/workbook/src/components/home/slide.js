@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
-import { API } from "../../constants";
+import { API, COLORS } from "../../constants";
 
 export default function Slide({ getSlide, currentSlide }) {
+  const workBookId = getSlide.id;
+  
   const [star, setStar] = useState(0);
 
-  const workBookId = getSlide.id;
   const starView = parseInt(star * 15);
 
   const getStar = async () => {
@@ -29,12 +30,14 @@ export default function Slide({ getSlide, currentSlide }) {
         <CarouselItem>
           <WhiteBox>
             <BestCont>
+              <FlexBox>
               <ItemTitle size="30px">{getSlide.title}</ItemTitle>
-              <ItemUser size="16px">만든이:{getSlide.username}</ItemUser>
               <Star>
                 {star > 0 && <StarBox style={{ width: starView }}></StarBox>}
               </Star>
+              </FlexBox>
               <ItemCont size="16px">{getSlide.content}</ItemCont>
+              <ItemUser size="16px">만든이:{getSlide.username}</ItemUser>
             </BestCont>
           </WhiteBox>
           <SlideImg src={`/img/slide${currentSlide + 1}.svg`} alt="문제집 이미지"/>
@@ -51,14 +54,14 @@ const CarouselItem = styled.li`
 const SlideImg = styled.img`
   width: 830px;
   height: 280px;
-  border-radius: 6px;
+  border-radius: 3px;
 `;
 
 const WhiteBox = styled.div`
   position: absolute;
   width: 415px;
   height: 280px;
-  border-radius: 6px;
+  border-radius: 3px;
   background-color: rgba(0, 0, 0, 0.1);
 `;
 
@@ -67,11 +70,24 @@ const BestCont = styled.div`
 `;
 
 const ItemTitle = styled.p`
-  font-size: 30px;
+  padding: 0 0 10px;
+  margin: 0 0 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  color: ${COLORS.black};
+  font-size: 35px;
+  font-weight: bold;
 `;
 
+const FlexBox = styled.div`
+  /* display: flex;
+  align-items: center;
+  justify-content: space-between;
+   margin: 8px 0 15px; */
+   margin: 8px 0;
+`
 const ItemUser = styled.p`
-  margin: 15px 0;
+  font-size: 14px;
+  text-align: end;
 `;
 
 const Star = styled.div`
@@ -90,7 +106,8 @@ const StarBox = styled.div`
 `;
 
 const ItemCont = styled.p`
-  margin-top: 50px;
+  margin: 0 0 50px;
+  font-size: 15px;
   text-overflow: ellipsis;
   overflow: hidden;
 `;
