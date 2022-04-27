@@ -1,7 +1,7 @@
 # <span id="top">📘NEPOOL</span>
-[🔗 배포 URL](http://www.nepool.co.kr)
+[🔗 www.nepool.co.kr](http://www.nepool.co.kr)
 
-[🔗 서버 리포](https://github.com/jinyun3075/NePool/tree/server)
+[🔗 API 명세](https://github.com/jinyun3075/NePool/tree/main/BackEnd)
 
 
 ## 팀원 구성
