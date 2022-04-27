@@ -1,6 +1,5 @@
 package com.NePool.app.controller;
 
-import com.NePool.app.util.dto.PageRequestDTO;
 import com.NePool.app.util.dto.PageResultDTO;
 import com.NePool.app.domain.workbook.dto.WorkBookRequestDTO;
 import com.NePool.app.domain.workbook.entity.WorkBook;
@@ -28,69 +27,46 @@ public class WorkBookApiController {
 
     @GetMapping("/{username}/{work_book_id}")
     public ResponseEntity<WorkBookRequestDTO> selectWorkBook(@PathVariable("username") String username, @PathVariable("work_book_id") String work_book_id, @RequestParam(value = "check", required = false) Boolean check) throws Exception {
-        if(check==null) {
-            check=false;
-        }
         return new ResponseEntity<>(service.selectWorkBook(username, work_book_id, check), HttpStatus.OK);
     }
 
     @GetMapping("/{username}")
     public ResponseEntity<PageResultDTO<WorkBookRequestDTO, WorkBook>> selectWorkBookMyList(@PathVariable String username, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) throws Exception {
-        PageRequestDTO req = new PageRequestDTO();
-        if (page != null && size != null) {
-            req.setSize(size);
-            req.setPage(page);
-        }
-        return new ResponseEntity<>(service.selectWorkBookMyList(username, req), HttpStatus.OK);
+        return new ResponseEntity<>(service.selectWorkBookMyList(username, page, size), HttpStatus.OK);
     }
 
     @GetMapping("/page")
-    public ResponseEntity<PageResultDTO<WorkBookRequestDTO, WorkBook>> selectWorkBookPageList(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "type", required = false) String type) throws Exception{
-        PageRequestDTO req = new PageRequestDTO();
-        if (page != null && size != null) {
-            req.setSize(size);
-            req.setPage(page);
-        }
-        if (type!=null && type.equals("all")){
-            type = null;
-        }
-        return new ResponseEntity<>(service.selectWorkBookPageList(req,type),HttpStatus.OK);
+    public ResponseEntity<PageResultDTO<WorkBookRequestDTO, WorkBook>> selectWorkBookPageList(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "type", required = false) String type) throws Exception {
+        return new ResponseEntity<>(service.selectWorkBookPageList(type, page, size), HttpStatus.OK);
     }
+
     @GetMapping("")
-    public ResponseEntity<List<WorkBookRequestDTO>> selectWorkBookList(@RequestParam(value = "type", required = false) String type) throws Exception{
-        if (type!=null &&type.equals("all")){
-            type = null;
-        }
-        return new ResponseEntity<>(service.selectWorkBookList(type),HttpStatus.OK);
+    public ResponseEntity<List<WorkBookRequestDTO>> selectWorkBookList(@RequestParam(value = "type", required = false) String type) throws Exception {
+        return new ResponseEntity<>(service.selectWorkBookList(type), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{username}/{work_book_id}")
-    public String deleteWorkBook(@PathVariable String username, @PathVariable String work_book_id) throws Exception{
-        service.deleteWorkBook(username,work_book_id);
-        return "삭제완료";
+    public ResponseEntity<String> deleteWorkBook(@PathVariable String username, @PathVariable String work_book_id) throws Exception {
+        return new ResponseEntity<String>(service.deleteWorkBook(username, work_book_id), HttpStatus.OK);
     }
 
     @PutMapping("/share/{username}/{work_book_id}")
-    public ResponseEntity<String> updateWorkBookShare(@PathVariable String username, @PathVariable String work_book_id) throws Exception{
-        String res = "";
-        if(service.updateWorkBookShare(username,work_book_id)) {
-            res = "공유 성공";
-        }else {
-            res = "공유 해제";
-        }
-        return new ResponseEntity<>(res,HttpStatus.OK);
+    public ResponseEntity<String> updateWorkBookShare(@PathVariable String username, @PathVariable String work_book_id) throws Exception {
+        return new ResponseEntity<>(service.updateWorkBookShare(username, work_book_id), HttpStatus.OK);
     }
+
     @PutMapping("/update/{username}/{work_book_id}")
-    public ResponseEntity<WorkBookRequestDTO> updateWorkBook(@PathVariable String username, @PathVariable String work_book_id, @RequestBody WorkBookRequestDTO req) throws Exception{
-        return new ResponseEntity<>(service.updateWorkBook(username,work_book_id,req),HttpStatus.OK);
+    public ResponseEntity<WorkBookRequestDTO> updateWorkBook(@PathVariable String username, @PathVariable String work_book_id, @RequestBody WorkBookRequestDTO req) throws Exception {
+        return new ResponseEntity<>(service.updateWorkBook(username, work_book_id, req), HttpStatus.OK);
     }
 
     @GetMapping("/best4")
-    public ResponseEntity<List<WorkBookRequestDTO>> selectWorkBookBest4() throws Exception{
-        return new ResponseEntity<>(service.selectWorkBookBest4(),HttpStatus.OK);
+    public ResponseEntity<List<WorkBookRequestDTO>> selectWorkBookBest4() throws Exception {
+        return new ResponseEntity<>(service.selectWorkBookBest4(), HttpStatus.OK);
     }
 
-    @GetMapping("/all") Long selectWorkBookCount() {
-        return service.selectWorkBookCount();
+    @GetMapping("/all")
+    public ResponseEntity<Long> selectWorkBookCount() {
+        return new ResponseEntity<>(service.selectWorkBookCount(), HttpStatus.OK);
     }
 }

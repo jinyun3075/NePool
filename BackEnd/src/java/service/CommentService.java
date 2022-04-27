@@ -10,7 +10,7 @@ import com.NePool.app.domain.workbook.entity.WorkBook;
 public interface CommentService {
     CommentRequestDTO insertComment(String username, String work_book_id, CommentRequestDTO dto) throws Exception;
 
-    PageResultDTO<CommentRequestDTO, Comment> selectCommentList(String work_book_id, PageRequestDTO dto) throws Exception;
+    PageResultDTO<CommentRequestDTO, Comment> selectCommentList(String work_book_id, Integer page, Integer size) throws Exception;
 
     Double selectCommentLikeCount(String work_book_id) throws Exception;
 

@@ -62,8 +62,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageResultDTO<UserDTO, NePoolUser> selectUserList(PageRequestDTO dto) {
-        Page<NePoolUser> entity = repository.findAll(dto.getPageable(Sort.by("uno").ascending()));
+    public PageResultDTO<UserDTO, NePoolUser> selectUserList(Integer page, Integer size) {
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+        if (page != null && size != null) {
+            pageRequestDTO.setSize(size);
+            pageRequestDTO.setPage(page);
+        }
+        Page<NePoolUser> entity = repository.findAll(pageRequestDTO.getPageable(Sort.by("uno").ascending()));
         Function<NePoolUser, UserDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
     }
@@ -77,7 +82,6 @@ public class UserServiceImpl implements UserService {
         if (!entity.isPresent()) {
             throw new Exception("존재하지 않는 ID입니다.");
         }
-        log.info(pw.matches(dto.getPassword(), entity.get().getPassword()));
         if (pw.matches(dto.getPassword(), entity.get().getPassword())) {
             entity.get().update(dto.getName(), dto.getImage());
             return entityToDto(repository.save(entity.get()));

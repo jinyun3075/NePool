@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class SearchApiController {
 
     private final SearchService service;
+
     @GetMapping("/{keyword}")
-    public ResponseEntity<SearchDTO> selectUserAndWorkBook(@PathVariable(value="keyword",required = false) String keyword) {
+    public ResponseEntity<SearchDTO> selectUserAndWorkBook(@PathVariable(value = "keyword", required = false) String keyword) {
         return new ResponseEntity<>(service.selectUserAndWorkBook(keyword), HttpStatus.OK);
     }
 }

@@ -30,7 +30,6 @@ public class ApiCheckFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.info("APICheckFilter.......................");
         List<String> checkUrl = checkUrl();
 <<<<<<< HEAD:BackEnd/server/src/main/java/com/NePool/app/security/filter/ApiCheckFilter.java
 =======
@@ -45,7 +44,6 @@ public class ApiCheckFilter extends OncePerRequestFilter {
 <<<<<<< HEAD:BackEnd/server/src/main/java/com/NePool/app/security/filter/ApiCheckFilter.java
         if(antPathMatcher.match("/announcement/*",request.getRequestURI())) {
             String user_id = request.getRequestURI().split("/")[2];
-            log.info(user_id);
             if(user_id.equals("NEPOOLADMIN")){
                 filterChain.doFilter(request, response);
                 return;

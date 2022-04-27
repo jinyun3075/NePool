@@ -2,7 +2,6 @@ package com.NePool.app.controller;
 
 
 import com.NePool.app.domain.comment.dto.CommentRequestDTO;
-import com.NePool.app.util.dto.PageRequestDTO;
 import com.NePool.app.util.dto.PageResultDTO;
 import com.NePool.app.domain.comment.entity.Comment;
 import com.NePool.app.service.CommentService;
@@ -26,23 +25,18 @@ public class CommentApiController {
     }
 
     @GetMapping("/{work_book_id}")
-    public ResponseEntity<PageResultDTO<CommentRequestDTO, Comment>> selectCommentList(@PathVariable String work_book_id, @RequestParam(value = "page",required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) throws Exception {
-        PageRequestDTO req = new PageRequestDTO();
-        if(page!=null&&size!=null){
-            req.setSize(size);
-            req.setPage(page);
-        }
-        return new ResponseEntity<>(service.selectCommentList(work_book_id,req),HttpStatus.OK);
+    public ResponseEntity<PageResultDTO<CommentRequestDTO, Comment>> selectCommentList(@PathVariable String work_book_id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) throws Exception {
+        return new ResponseEntity<>(service.selectCommentList(work_book_id, page, size), HttpStatus.OK);
     }
 
     @DeleteMapping("/{comment_id}/{writer}")
-    public ResponseEntity<String> deleteComment(@PathVariable String comment_id, @PathVariable String writer) throws Exception{
-        return new ResponseEntity<>(service.deleteComment(comment_id,writer),HttpStatus.OK);
+    public ResponseEntity<String> deleteComment(@PathVariable String comment_id, @PathVariable String writer) throws Exception {
+        return new ResponseEntity<>(service.deleteComment(comment_id, writer), HttpStatus.OK);
     }
 
     @GetMapping("/like/{work_book_id}")
     public ResponseEntity<Double> selectCommentLikeCount(@PathVariable String work_book_id) throws Exception {
-        return new ResponseEntity<>(service.selectCommentLikeCount(work_book_id),HttpStatus.OK);
+        return new ResponseEntity<>(service.selectCommentLikeCount(work_book_id), HttpStatus.OK);
     }
 
 }

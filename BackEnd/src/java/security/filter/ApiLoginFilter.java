@@ -33,8 +33,6 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        log.info("-------------------------ApiLoginFilter------------------");
-        log.info("attemptAuthentication");
         UserLoginRequestDTO body = new ObjectMapper().readValue(request.getInputStream(),UserLoginRequestDTO.class);
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(body.getUsername(),body.getPassword());
         return getAuthenticationManager().authenticate(authToken);
@@ -42,10 +40,6 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        log.info("-----------------ApiLoginFilter-----------------");
-        log.info("successfulAuthentication: " + authResult);
-        log.info(authResult.getPrincipal());
-        log.info(((NePoolAuthDTO)authResult.getPrincipal()));
 
         NePoolAuthDTO principal = ((NePoolAuthDTO)authResult.getPrincipal());
 
@@ -66,7 +60,7 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        log.info("unsuccessful");
+
         throw new IOException("아이디 혹은 비밀번호를 다시 확인 해주세요.");
     }
 }

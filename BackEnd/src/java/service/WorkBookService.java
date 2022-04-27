@@ -15,15 +15,15 @@ public interface WorkBookService {
 
     WorkBookRequestDTO selectWorkBook(String username, String work_book_id, Boolean check) throws Exception;
 
-    PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookMyList(String username, PageRequestDTO page) throws Exception;
+    PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookMyList(String username, Integer page, Integer size) throws Exception;
 
-    PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookPageList(PageRequestDTO page, String type) throws Exception;
+    PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookPageList(String type, Integer page, Integer size) throws Exception;
 
     List<WorkBookRequestDTO> selectWorkBookList(String type) throws Exception;
 
-    void deleteWorkBook(String username, String work_book_id) throws Exception;
+    String deleteWorkBook(String username, String work_book_id) throws Exception;
 
-    boolean updateWorkBookShare(String username, String work_book_id) throws Exception;
+    String updateWorkBookShare(String username, String work_book_id) throws Exception;
 
     WorkBookRequestDTO updateWorkBook(String username, String work_book_id, WorkBookRequestDTO dto) throws Exception;
 

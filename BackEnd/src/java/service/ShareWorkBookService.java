@@ -12,15 +12,20 @@ import com.NePool.app.util.dto.PageResultDTO;
 
 public interface ShareWorkBookService {
     ShareWorkBookResultDTO insertShareWorkBook(ShareWorkBookDTO dto) throws Exception;
-    PageResultDTO<ShareWorkBookResultDTO, ShareWorkBook> selectShareWorkBookList(String user_id, PageRequestDTO req) throws Exception;
-    void deleteShareWorkBook(ShareWorkBookDTO dto) throws Exception;
-    Long selectShareWorkBookCount (String work_book_id)throws Exception;
+
+    PageResultDTO<ShareWorkBookResultDTO, ShareWorkBook> selectShareWorkBookList(String user_id, Integer page, Integer size) throws Exception;
+
+    String deleteShareWorkBook(ShareWorkBookDTO dto) throws Exception;
+
+    Long selectShareWorkBookCount(String work_book_id) throws Exception;
+
     default ShareWorkBook dtoToEntity(WorkBook workBook, NePoolUser user) {
         return ShareWorkBook.builder()
                 .workBook(workBook)
                 .nePoolUser(user)
                 .build();
     }
+
     default ShareWorkBookResultDTO entityToDto(ShareWorkBook entity) {
         return ShareWorkBookResultDTO.builder()
                 .workBook(WorkBookRequestDTO.builder()

@@ -55,6 +55,10 @@ public class WorkBookServiceImpl implements WorkBookService {
 
     @Override
     public WorkBookRequestDTO selectWorkBook(String username, String work_book_id, Boolean check) throws Exception {
+        if (check == null) {
+            check = false;
+        }
+
         WorkBook workBook = check(username, work_book_id);
 
         if (check) {
@@ -65,24 +69,38 @@ public class WorkBookServiceImpl implements WorkBookService {
     }
 
     @Override
-    public PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookMyList(String username, PageRequestDTO page) throws Exception {
+    public PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookMyList(String username, Integer page, Integer size) throws Exception {
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+        if (page != null && size != null) {
+            pageRequestDTO.setSize(size);
+            pageRequestDTO.setPage(page);
+        }
+
         Optional<NePoolUser> user = userRepository.findByUsername(username);
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
         }
-        Page<WorkBook> entity = workBookRepository.findByWriterUno(user.get().getUno(), page.getPageable(Sort.by("modDate").ascending()));
+
+        Page<WorkBook> entity = workBookRepository.findByWriterUno(user.get().getUno(), pageRequestDTO.getPageable(Sort.by("modDate").ascending()));
         Function<WorkBook, WorkBookRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
     }
 
     @Override
-    public PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookPageList(PageRequestDTO page, String type) throws Exception {
-
+    public PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookPageList(String type, Integer page, Integer size) throws Exception {
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+        if (page != null && size != null) {
+            pageRequestDTO.setSize(size);
+            pageRequestDTO.setPage(page);
+        }
+        if (type != null && type.equals("all")) {
+            type = null;
+        }
         Page<WorkBook> entity;
-        if(type==null) {
-            entity = workBookRepository.findByShare(true,page.getPageable(Sort.by("modDate").descending()));
-        }else {
-            entity = workBookRepository.findByTypeAndShare(type,true,page.getPageable(Sort.by("modDate").descending()));
+        if (type == null) {
+            entity = workBookRepository.findByShare(true, pageRequestDTO.getPageable(Sort.by("modDate").descending()));
+        } else {
+            entity = workBookRepository.findByTypeAndShare(type, true, pageRequestDTO.getPageable(Sort.by("modDate").descending()));
         }
         Function<WorkBook, WorkBookRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
@@ -91,18 +109,21 @@ public class WorkBookServiceImpl implements WorkBookService {
     @Override
     public List<WorkBookRequestDTO> selectWorkBookList(String type) throws Exception {
 
-        List<WorkBook> entity;
-        if(type==null) {
-            entity = workBookRepository.findByShare(true);
-        }else {
-            entity = workBookRepository.findByTypeAndShare(type,true);
+        if (type != null && type.equals("all")) {
+            type = null;
         }
-        return entity.stream().map(data->entityToDto(data)).collect(Collectors.toList());
+
+        List<WorkBook> entity;
+        if (type == null) {
+            entity = workBookRepository.findByShare(true);
+        } else {
+            entity = workBookRepository.findByTypeAndShare(type, true);
+        }
+        return entity.stream().map(data -> entityToDto(data)).collect(Collectors.toList());
     }
 
     @Override
-    public void deleteWorkBook(String username, String work_book_id) throws Exception {
-
+    public String deleteWorkBook(String username, String work_book_id) throws Exception {
         Optional<NePoolUser> user = userRepository.findByUsername(username);
         if (!user.isPresent()) {
             throw new Exception("존재하지 않는 아이디입니다.");
@@ -111,36 +132,37 @@ public class WorkBookServiceImpl implements WorkBookService {
         if (res == 0) {
             throw new Exception("존재하지 않는 문제집입니다.");
         }
+        return "삭제 완료";
     }
 
     @Override
-    public boolean updateWorkBookShare(String username, String work_book_id) throws Exception {
+    public String updateWorkBookShare(String username, String work_book_id) throws Exception {
         WorkBook workBook = check(username, work_book_id);
         if (workBook.getShare() == false) {
             workBook.setShare(true);
             workBookRepository.save(workBook);
-            return true;
+            return "공유 성공";
         }
         workBook.setShare(false);
         workBookRepository.save(workBook);
-        return false;
+        return "공유 해제";
     }
 
     @Override
     public WorkBookRequestDTO updateWorkBook(String username, String work_book_id, WorkBookRequestDTO dto) throws Exception {
-        if (dto.getTitle().equals("") || dto.getContent().equals("")||dto.getType().equals("")) {
+        if (dto.getTitle().equals("") || dto.getContent().equals("") || dto.getType().equals("")) {
             throw new Exception("제목,설명, 타입 을 입력해주세요.");
         }
         WorkBook workBook = check(username, work_book_id);
 
-        workBook.update(dto.getTitle(), dto.getContent(),dto.getType(),dto.getImage());
+        workBook.update(dto.getTitle(), dto.getContent(), dto.getType(), dto.getImage());
         return entityToDto(workBookRepository.save(workBook));
     }
 
     @Override
     public List<WorkBookRequestDTO> selectWorkBookBest4() throws Exception {
-        Pageable pageable = PageRequest.of(0, 4,Sort.by("count").descending());
-        Page<WorkBook> res = workBookRepository.findByShare(true,pageable);
+        Pageable pageable = PageRequest.of(0, 4, Sort.by("count").descending());
+        Page<WorkBook> res = workBookRepository.findByShare(true, pageable);
         return res.stream().map(workBook -> entityToDto(workBook)).collect(Collectors.toList());
     }
 
