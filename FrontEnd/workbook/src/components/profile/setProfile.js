@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { API, COLORS } from "../../constants";
@@ -10,6 +10,8 @@ export default function SetProfile() {
   const location = useLocation();
   const userInfo = location.state.userInfo;
 
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
     id: "",
     password: "",
@@ -17,7 +19,7 @@ export default function SetProfile() {
     image: userInfo.image,
   });
 
-  const [files, setFiles] = useState("");
+  const [files, setFiles] = useState(`${user.image}`);
 
   const getUser = async () => {
     await axios.put(
@@ -35,7 +37,7 @@ export default function SetProfile() {
         },
       }
       );
-      window.location.reload();
+      navigate(-1)
   };
   const UploadImg = async (e) => {
     const formData = new FormData();
@@ -62,6 +64,12 @@ export default function SetProfile() {
   const change = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    if(!token) {
+      navigate("/",  { replace: true })
+    }
+  }, []);
 
   return (
     <ProfileBoard>
@@ -101,6 +109,7 @@ export default function SetProfile() {
           <Input
             id="password"
             name="password"
+            type="password"
             value={user.password}
             placeholder="비밀번호를 입력해 주세요"
             onChange={change}
@@ -120,12 +129,12 @@ const ProfileBoard = styled.section`
   padding: 0 0 30px;
   margin: 40px auto;
   width: 70%;
-  min-width: 600px;
+  min-width: 550px;
   border: 1.5px solid ${COLORS.light_gray};
   border-radius: 7px;
   h1 {
     margin: 9px 20px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
   }
   &::after {
@@ -135,6 +144,10 @@ const ProfileBoard = styled.section`
     left: 0;
     width: 100%;
     border-bottom: 1.5px solid ${COLORS.light_gray};
+  }
+  @media (max-width: 570px) {
+    min-width: 380px;
+    transition: all 0.3s;
   }
 `;
 
@@ -156,10 +169,13 @@ const CurrentProfile = styled.div`
 
 const ProfileImg = styled.div`
   width: 150px;
-  border: 4px solid ${COLORS.alpha_blue};
+  height: 150px;
+  border: 0.5px solid ${COLORS.light_gray};
   border-radius: 6px;
   img {
+    width: 150px;
     height: 150px;
+    object-fit: cover;
     border-radius: 6px;
   }
 `;
@@ -175,12 +191,17 @@ const ImgBtn = styled.div`
 const InputForm = styled.form`
   margin: 0 auto;
   width: 400px;
+  @media (max-width: 570px) {
+    width: 350px;
+    transition: all 0.3s;
+  }
 `;
 
 const Label = styled.label`
   display: block;
-  color: ${COLORS.gray};
-  font-size: 15px;
+  color: ${COLORS.text_gray};
+  font-size: 14px;
+  margin: 5px 0;
 `;
 
 const Input = styled.input`
@@ -194,19 +215,27 @@ const Input = styled.input`
   color: ${COLORS.black};
   font-size: 15px;
   &::placeholder {
-    color: ${COLORS.gray};
+    color: ${COLORS.light_gray};
+    font-size: 13px;
   }
   &:focus {
     border-bottom: 1px solid ${COLORS.blue};
     outline: none;
+  }
+  @media (max-width: 570px) {
+    width: 330px;
+    transition: all 0.3s;
   }
 `;
 
 const BtnBox = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 0 auto;
   width: 400px;
+  @media (max-width: 570px) {
+    width: 330px;
+    transition: all 0.3s;
+  }
 `;
 
 const SaveBtn = styled.button`
