@@ -36,7 +36,7 @@ export default function SearchResult({ search }) {
 
 const NoticeBox = styled.div`
   position: absolute;
-  top: 55px;
+  top: 35px;
   width: 360px;
   z-index: 3;
   div {
@@ -45,8 +45,8 @@ const NoticeBox = styled.div`
     height: 210px;
     border: 2px solid ${COLORS.blue};
     border-top: none;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
     background-color: white;
     color: ${COLORS.gray};
     &::after {

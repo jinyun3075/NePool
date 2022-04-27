@@ -18,7 +18,10 @@ export default function StatusModal() {
     }
   );
 
+  const [loading, setLoading] = useState(false);
+
   const getUser = async () => {
+    setLoading(true);
     const res = await axios.get(`${API}/user/${user}`, {
       headers: {
         "Content-type": "application/json",
@@ -35,6 +38,7 @@ export default function StatusModal() {
 
   useEffect(() => {
     getUser();
+    return () => {setLoading(false)};
   }, []);
   
   return (
