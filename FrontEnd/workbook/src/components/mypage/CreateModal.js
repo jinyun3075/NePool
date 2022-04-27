@@ -77,7 +77,7 @@ export default function CreateModal(props) {
         <InputLabel>
           <Input type="file" id="input" name="image" onChange={changeImg} />
           <Label htmlFor="input">
-            <img src={imageUrl ? imageUrl : "./img/basic.png"}></img>
+            <img src={imageUrl ? imageUrl : "./img/basic_ful.png"}></img>
           </Label>
         </InputLabel>
 
@@ -91,7 +91,6 @@ export default function CreateModal(props) {
           ></TextInput>
 
           <Select
-            defaultValue="수능·내신"
             onChange={change}
             name="type"
             value={postWorkbook.type}
@@ -107,7 +106,7 @@ export default function CreateModal(props) {
             onChange={change}
             name="content"
             value={postWorkbook.content}
-            rows="5"
+            rows="3"
             placeholder="문제집 설명"
           ></Explain>
         </TextSelect>
@@ -124,13 +123,16 @@ const Modal = styled.form`
   top: 52%;
   left: 50%;
   padding: 1em;
-  width: 35%;
-  height: 85%;
+  width: 400px;
+  height: 615px;
   border: 1px solid ${COLORS.light_gray};
   border-radius: 8px;
   background-color: white;
   box-sizing: border-box;
   z-index: 40;
+  @media (max-width: 420px) { 
+    width: 360px;
+  }
 `;
 
 const ImgDiv = styled.div`
@@ -149,16 +151,20 @@ const InputLabel = styled.div`
   align-items: center;
   position: relative;
   margin: 1em auto 0;
-  width: 50%;
-  height: 40%;
+  width: 160px;
+  height: 222px;
   border: 1px solid ${COLORS.light_gray};
   border-radius: 10px;
+  /* box-sizing: border-box; */
+  padding: 5px;
+  &:hover {
+    outline: none;
+    border-color: ${COLORS.blue};
+  }
 `;
 
 const Input = styled.input`
   display: none;
-  width: 100%;
-  height: 100;
 `;
 
 const Label = styled.label`
@@ -169,14 +175,17 @@ const Label = styled.label`
   transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
-  width: 100%;
-  height: 100%;
+  width: 160px;
+  height: 222px;
   color: ${COLORS.light_gray};
   cursor: pointer;
+
   img {
-    width: 100%;
-    height: 100%;
+    width: 160px;
+    height: 222px;
+    object-fit: cover;
     border-radius: 10px;
+    box-sizing: border-box;
   }
 `;
 
@@ -185,50 +194,78 @@ const TextSelect = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
-  width: 75%;
-  height: 40%;
+  gap: 20px;
+  margin: 30px auto 0;
+  /* width: 75%;
+  height: 40%; */
 `;
 
 const TextInput = styled.input`
-  margin-top: 36px;
-  width: 97%;
-  height: 20%;
-  border: 1px solid ${COLORS.light_gray};
-  border-radius: 5px;
+  width: 300px;
+  height: 35px;
+  border: none;
+  padding-left: 5px;
+  border-bottom: 1px solid ${COLORS.light_gray};
+  /* border-radius: 5px; */
   &:focus {
+    outline: none;
     border-color: ${COLORS.blue};
+  }
+  &::placeholder {
+    font-size: 13px;
+    color: ${COLORS.gray};
   }
 `;
 
 const Select = styled.select`
-  margin-top: 20px;
-  width: 100%;
-  height: 20%;
-  border-radius: 5px;
+  width: 310px;
+  height: 40px;
+  padding-left: 5px;
+  border: none;
+  border-bottom: 1px solid ${COLORS.light_gray};
   border-color: ${COLORS.light_gray};
-  color: ${COLORS.light_gray};
+  color: ${COLORS.gray};
+  &:focus {
+    outline: none;
+    border-color: ${COLORS.blue};
+  }
+  option {
+    line-height: 18px;
+    color: ${COLORS.text_gray};
+  }
+  option[value="분류"][disabled] {
+    /* display: none; */
+  }
 `;
 
 const Explain = styled.textarea`
-  padding: 3%;
-  margin-top: 20px;
-  width: 93%;
-  border-radius: 5px;
+  margin: 10px 0 0;
+  padding: 15px 10px;
+  width: 290px;
+  height: 40px;
+  /* border-radius: 5px; */
+  border: 1px solid ${COLORS.light_gray};
   border-color: ${COLORS.light_gray};
   resize: none;
   z-index: 40;
+  &::placeholder {
+    font-size: 13px;
+    color: ${COLORS.gray};
+  }
+  &:focus {
+    outline: none;
+    border-color: ${COLORS.blue};
+  }
 `;
 
 const Create = styled.button`
   display: block;
-  margin: 0 auto;
-  margin-top: 20px;
+  margin: 20px auto 0;
   width: 90%;
   height: 8%;
   border-radius: 5px;
   background-color: ${COLORS.blue};
-  color: white;
+  color: ${COLORS.white};
   line-height: 2.5rem;
   text-align: center;
   cursor: pointer;
