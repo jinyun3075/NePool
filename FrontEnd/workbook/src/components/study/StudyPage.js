@@ -10,6 +10,8 @@ import axios from 'axios';
 import { API, COLORS } from '../../constants'
 
 export default function StudyPage() {
+  const token = sessionStorage.getItem("token");
+
   const navigate = useNavigate();
 
   const params = useParams();
@@ -48,12 +50,15 @@ export default function StudyPage() {
   const [isAnswer, setIsAnswer] = useState(false);
   const [modal, setModal] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   const [shotAnswer, setShotAnswer] = useState([])
   const [oneShotAnswer, setOneShotAnswer] = useState([])
 
   const mode = "study"
 
   const getTest = async () => {
+    setLoading(true);
     const res = await axios.get(`${API}/work/${userName}/${workBookId}`, {
       headers: {
         "Content-type": "application/json",
@@ -63,17 +68,18 @@ export default function StudyPage() {
   };
  
   const click = e => {
-    const { value } = e.target;
     e.preventDefault();
-    setCurrentAnswer(value);
-    setCheck(false);
-    setError(false);
+    const { value } = e.target;
+    if(value !== undefined) {
+      setCurrentAnswer(value);
+      setCheck(false);
+      setError(false);
+    }
   };
 
   const answerCheck = () => {
     if(currentAnswer === "") {
       setCheck(true);
-      return
     }
 
     if(currentAnswer !== undefined) {
@@ -120,7 +126,11 @@ export default function StudyPage() {
   };
 
   useEffect(() => {
+    if(!token) {
+      navigate("/",  { replace: true })
+    }
     getTest();
+    return () => {setLoading(true)};
   }, []);
 
   if(questionsData.length === 0) {
@@ -199,6 +209,11 @@ const Modal = styled.div`
   p {
     margin: 0 0 15px;
   }
+  @media (max-width: 750px) {
+    width: 200px;
+    margin: 0 auto;
+    transition: all 0.3s;
+  }
 `;
 
 const BackBtn = styled.button`
@@ -240,11 +255,20 @@ const TestBoard = styled.section`
     width: 100%;
     border-bottom: 1.5px solid ${COLORS.light_gray};
   }
+  @media (max-width: 640px) { 
+    border: none;
+    min-width: 400px;
+    margin: 0 auto;
+    transition: all 0.4s;
+    &::after {
+      border: none;
+    }
+  }
 `;
 
 const ResultBoard = styled.section`
   position: relative;
-  padding: 0 0 30px;
+  padding: 0 10px 30px;
   margin: 40px auto;
   width: 70%;
   min-width: 600px;
@@ -257,6 +281,14 @@ const ResultBoard = styled.section`
     left: 0;
     width: 100%;
     border-bottom: 1.5px solid ${COLORS.light_gray};
+  }
+  @media (max-width: 640px) {
+    min-width: 400px;
+    border: none;
+    transition: all 0.3s;
+    &::after {
+      border: none;
+    }
   }
 `;
 
@@ -272,21 +304,27 @@ const Line = styled.div`
 
 const BtnBox = styled.div`
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
+  /* gap: 25px; */
   margin: 0 20px;
 `;
 
 const Btn = styled.button`
   margin: 20px 30px 0px 0px;
-  width: 100px;
-  height: 50px;
+  width: 80px;
+  height: 35px;
   border: none;
-  border-radius: 4px;
-  background: ${COLORS.blue};
-  color: ${COLORS.white};
+  border-radius: 2px;
+  /* background: ${COLORS.blue};
+  color: ${COLORS.white}; */
   font-size: 14px;
   &:disabled {
     opacity: 0.5;
+  }
+  &:hover {
+    background: ${COLORS.blue};
+    color: ${COLORS.white};
+    transition: all 0.2s;
   }
 `;
 

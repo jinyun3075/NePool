@@ -65,4 +65,8 @@ const Form = styled.form`
   gap: 15px;
   margin: 25px 30px;
   width: ${props => props.mode === "exam" && `70%`};
+  @media (max-width: 1024px) {
+    width: ${props => props.mode === "exam" && `90%`};
+    transition: all 0.3s;
+  }
 `;
