@@ -21,11 +21,13 @@ export default function ExamQuestion({i, question, getAnswerArray, resultErr}) {
 
   const click = (e) => {
     e.preventDefault()
-    const { value } = e.target
-    setCurrentAnswer(value)
-    setCheck(false)
-    setError(false)
-    setAnswerCheck(true) 
+    const { value } = e.target;
+    if(value !== undefined) {
+      setCurrentAnswer(value);
+      setCheck(false);
+      setError(false);
+      setAnswerCheck(true);
+    }
   }
 
   const answer = {id: question.id, correct: currentAnswer}
@@ -33,7 +35,6 @@ export default function ExamQuestion({i, question, getAnswerArray, resultErr}) {
   useEffect(() => {
     getAnswerArray(answer)
   }, [currentAnswer])
-
 
   return (
     <>
@@ -56,6 +57,8 @@ const TestTit = styled.h3`
   padding: 30px 75px 30px 30px;
   box-shadow: 0 0 0 1px rgb(34 36 38 / 15%) inset, 0 2px 3px 0 rgb(34 36 38 / 8%), 0 2px 8px 0 rgb(34 36 38 / 10%);
   border-radius: 3px;
+  cursor: pointer;
+  word-wrap: break-word;
   ${props => props.answerCheck && 
     css`
       background: ${COLORS.alpha_blue} url('/img/QuestionCheck.svg') right 5% center no-repeat;

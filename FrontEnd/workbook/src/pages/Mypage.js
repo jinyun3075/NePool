@@ -1,9 +1,9 @@
-import My_page from '../components/mypage/mypage';
+import MyPageContent from "../components/mypage/MyPageContent";
 
 export default function Mypage() {
   return (
     <>
-        <My_page />
+      <MyPageContent />
     </>
-    )
-} 
+  );
+}

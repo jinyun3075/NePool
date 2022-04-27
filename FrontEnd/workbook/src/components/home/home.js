@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Banner from "./banner";
-import Carousel from "./carousel";
-import Footer from "./footer";
-import HeaderSignin from "../header/header";
-import Post from "./post";
+import Banner from "./Banner";
+import Carousel from "./Carousel";
+import Footer from "./Footer";
+import HeaderSignin from "../header/Header";
+import Post from "./Post";
 import styled from "styled-components";
 import axios from "axios";
 import { API } from "../../constants";
@@ -80,8 +80,6 @@ export default function Home() {
 
   useEffect(() => {
     getUser();
-  }, []);
-  useEffect(() => {
     getPost();
   }, []);
   useEffect(() => {

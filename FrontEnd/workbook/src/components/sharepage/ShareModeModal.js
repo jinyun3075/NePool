@@ -16,7 +16,7 @@ export default function ShareModeModal(props) {
             alt="x"
           />
         </ImgDiv>
-        <Text>예시 문제집을 푸시겠습니까?</Text>
+        <Text>문제집을 푸시겠습니까?</Text>
         <BtnDiv>
           <StudyMode>
             <Link
@@ -46,19 +46,18 @@ const Modal = styled.div`
   top: 50%;
   left: 50%;
   padding: 0 1em;
-  width: 30%;
-  height: 26%;
+  width: 350px;
+  height: 170px;
   border-radius: 5px;
   border: 1px solid ${COLORS.light_gray};
-  background-color: #fff;
-  z-index: 2;
+  background-color: ${COLORS.white};
+  z-index: 20;
 `;
 
 const ImgDiv = styled.div`
   display: flex;
   justify-content: end;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin: 1em auto;
   border-bottom: none;
 `;
 
@@ -70,11 +69,11 @@ const Img = styled.img`
 `;
 
 const Text = styled.p`
-  margin-top: 1em;
+  margin: 20px 0 0;
+  color: ${COLORS.black};
   text-align: center;
   font-weight: 700;
   font-size: 1rem;
-  color: black;
 `;
 
 const BtnDiv = styled.div`
@@ -87,12 +86,12 @@ const StudyMode = styled.div`
   margin-right: 0.3em;
   width: 28%;
   height: 2.5em;
+  border: 1px solid ${COLORS.light_gray};
+  border-radius: 5px;
+  color: ${COLORS.gray};
   font-size: 1rem;
   text-align: center;
   line-height: 2.5rem;
-  color: ${COLORS.gray};
-  border: 1px solid ${COLORS.light_gray};
-  border-radius: 5px;
   cursor: pointer;
 `;
 
@@ -100,11 +99,11 @@ const TestMode = styled.div`
   margin-left: 0.3em;
   width: 28%;
   height: 2.5em;
-  color: #fff;
+  border-radius: 5px;
+  background-color: ${COLORS.blue};
+  color: ${COLORS.white};
   font-size: 1rem;
   text-align: center;
   line-height: 2.5rem;
-  border-radius: 5px;
-  background-color: ${COLORS.blue};
   cursor: pointer;
 `;

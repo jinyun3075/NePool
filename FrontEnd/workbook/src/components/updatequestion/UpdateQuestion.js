@@ -1,16 +1,15 @@
-import React from "react";
-import HeaderSignin from "../header/header";
-import WorkbookContent from "./workbookcontent";
+import HeaderSignin from "../header/Header";
+import MyWorkbook from "../mypage/MyWorkbook";
+import UpdateCont from "./UpdateContent";
 import styled from "styled-components";
-import MyWorkbook from "./myworkbook";
 
-export default function My_page() {
+export default function UpdateQuestion({ workbookid }) {
   return (
     <>
       <HeaderSignin />
       <Section>
         <MyWorkbook />
-        <WorkbookContent />
+        <UpdateCont workbookid={workbookid} />
       </Section>
     </>
   );

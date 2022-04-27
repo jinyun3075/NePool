@@ -11,7 +11,7 @@ export default function Result({questionsData, oneShotAnswer}) {
   }
 
   const next = () => {
-    if (resultIndex === questionsData.length - 1) return;
+    if (resultIndex === questionsData.length - 3) return;
     setResultIndex(resultIndex + 1);
   }
 
@@ -33,14 +33,18 @@ export default function Result({questionsData, oneShotAnswer}) {
             </Card>
           )
         })}
-        {resultIndex !== 0 && <Prev onClick={prev}><span>prev</span></Prev>}
-        {resultIndex !== questionsData.length - 1 && <Next onClick={next}><span>next</span></Next>}
+        {/* <Div>
+          <Prev onClick={prev}><span>prev</span></Prev>
+          <Next onClick={next}><span>next</span></Next>
+        </Div> */}
+        {/* {resultIndex !== 0 && <Prev onClick={prev}><span>prev</span></Prev>}
+        {resultIndex !== questionsData.length - 1 && <Next onClick={next}><span>next</span></Next>} */}
       </QuizList>
-      <ul>
+      <BoxDiv>
         <Box>전체 문제: {questionsData.length}</Box>
         <Box>한 번에 맞춘 문제: {count}</Box>
         {/* <Box>점수: 50</Box> */}
-      </ul>
+      </BoxDiv>
     </>
   )
 }
@@ -48,12 +52,26 @@ export default function Result({questionsData, oneShotAnswer}) {
 const QuizList = styled.article`
   display: flex;
   position: relative;
-  margin: 60px auto 30px;
-  width: 320px;
+  margin: 60px auto;
+  padding: 0 0 10px;
   color: ${COLORS.gray};
   font-size: 14px;
   text-align: center;
   overflow: hidden;
+  @media (max-width: 640px) { 
+    width: 320px;
+  }
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 15px;
+    background-color: ${COLORS.light_gray};
+  }
+  &::-webkit-scrollbar-track {
+    background-color: white;
+  }
 `;
 
 const Card = styled.article`
@@ -62,7 +80,8 @@ const Card = styled.article`
   gap: 15px;
   position: relative;
   transform: translateX(${props => -320 * (props.index)}px);
-  padding: 50px 10px;
+  padding: 50px 0;
+  margin: 10px;
   width: 300px;
   min-width: 300px;
   height: 250px;
@@ -73,6 +92,7 @@ const Card = styled.article`
     color: ${COLORS.light_gray};
   }
 `;
+
 
 const Strong = styled.strong`
   padding: 0 30px;
@@ -87,13 +107,22 @@ const Calc = styled.p`
   display: none;
 `;
 
-const Prev = styled.div`
+const Div = styled.div`
   position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 45%;
-  height: 30%;
+  /* top: 0; */
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -50px;
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+`
+
+const Prev = styled.div`
+  left: 50px;
+  bottom: -50px;
   cursor: pointer;
+  /* background: url('/img/next.svg'); */
   span {
     display: block;
     margin: 50px 0;
@@ -102,11 +131,8 @@ const Prev = styled.div`
 `;
 
 const Next = styled.div`
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 45%;
-  height: 30%;
+  right: 50px;
+  bottom: -50px;
   cursor: pointer;
   span {
     display: block;
@@ -115,11 +141,17 @@ const Next = styled.div`
   }
 `;
 
+const BoxDiv = styled.ul`
+  margin: 15px 0;
+`
 const Box = styled.li`
-  padding: 20px 30px;
-  margin: 20px auto;
-  width: 70%;
-  font-size: 15px;
+  /* border: 1px solid; */
+  padding: 5px;
+  margin: 0px auto;
+  width: 30%;
+  font-size: 16px;
   text-align: center;
-  box-shadow: 0 0 0 1px rgb(34 36 38 / 15%) inset, 0 2px 3px 0 rgb(34 36 38 / 4%);
+  @media (max-width: 640px) { 
+    font-size: 14px;
+  }
 `;

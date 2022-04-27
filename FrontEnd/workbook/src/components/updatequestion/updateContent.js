@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
@@ -25,7 +25,6 @@ export default function UpdateCont({ workbookid }) {
   });
 
   const [error, setError] = useState("");
-  const [selected, setSelected] = useState(false);
 
   // 문제수정 API
   const onSubmit = async (e) => {
@@ -62,14 +61,14 @@ export default function UpdateCont({ workbookid }) {
   const onClick = (e) => {
     const { value } = e.target;
     setAnswer({ ...answer, correct: value });
-    setSelected(!selected);
   };
 
   return (
     <>
       <Right>
         <Myworkbook>
-          <p>문제집 만들기</p>
+          <button onClick={() => navigate(-1)}></button>
+          <p>문제 수정</p>
         </Myworkbook>
         <MakeBox onSubmit={onSubmit} autoComplete="off">
           <Box>
@@ -83,51 +82,94 @@ export default function UpdateCont({ workbookid }) {
                 placeholder={question.question}
               />
               <div>
-                <InputNum
-                  name="answerA"
-                  type="text"
-                  id="answerA"
-                  value={answer.answerA}
-                  onClick={onClick}
-                  onChange={onChange}
-                  // className={!selected ? 'selected' : ""}
-                />
-                <InputNum
-                  name="answerB"
-                  type="text"
-                  id="answerB"
-                  value={answer.answerB}
-                  onClick={onClick}
-                  onChange={onChange}
-                />
-                <InputNum
-                  name="answerC"
-                  type="text"
-                  id="answerC"
-                  value={answer.answerC}
-                  onClick={onClick}
-                  onChange={onChange}
-                />
-                <InputNum
-                  name="answerD"
-                  type="text"
-                  id="answerD"
-                  value={answer.answerD}
-                  onClick={onClick}
-                  onChange={onChange}
-                />
-                <InputNum
-                  name="answerE"
-                  type="text"
-                  id="answerE"
-                  value={answer.answerE}
-                  onClick={onClick}
-                  onChange={onChange}
-                ></InputNum>
+                <InputBox htmlFor="answerA">
+                  <input
+                    name="answer"
+                    type="radio"
+                    id="answerA"
+                    value={answer.answerA}
+                    checked={answer.answerA === answer.correct}
+                    onClick={onClick}
+                  />
+                  <InputNum
+                    name="answerA"
+                    type="text"
+                    id="answerA"
+                    value={answer.answerA}
+                    onChange={onChange}
+                  />
+                </InputBox>
+                <InputBox htmlFor="answerB">
+                  <input
+                    name="answer"
+                    type="radio"
+                    id="answerB"
+                    value={answer.answerB}
+                    checked={answer.answerB === answer.correct}
+                    onClick={onClick}
+                  />
+                  <InputNum
+                    name="answerB"
+                    type="text"
+                    id="answerB"
+                    value={answer.answerB}
+                    onChange={onChange}
+                  />
+                </InputBox>
+                <InputBox htmlFor="answerC">
+                  <input
+                    name="answer"
+                    type="radio"
+                    id="answerC"
+                    value={answer.answerC}
+                    checked={answer.answerC === answer.correct}
+                    onClick={onClick}
+                  />
+                  <InputNum
+                    name="answerC"
+                    type="text"
+                    id="answerC"
+                    value={answer.answerC}
+                    onChange={onChange}
+                  />
+                </InputBox>
+                <InputBox htmlFor="answerD">
+                  <input
+                    name="answer"
+                    type="radio"
+                    id="answerD"
+                    value={answer.answerD}
+                    checked={answer.answerD === answer.correct}
+                    onClick={onClick}
+                  />
+                  <InputNum
+                    name="answerD"
+                    type="text"
+                    id="answerD"
+                    value={answer.answerD}
+                    onChange={onChange}
+                  />
+                </InputBox>
+                <InputBox htmlFor="answerE">
+                  <input
+                    name="answer"
+                    type="radio"
+                    id="answerE"
+                    value={answer.answerE}
+                    checked={answer.answerE === answer.correct}
+                    onClick={onClick}
+                  />
+                  <InputNum
+                    name="answerE"
+                    type="text"
+                    id="answerE"
+                    value={answer.answerE}
+                    onChange={onChange}
+                  ></InputNum>
+                </InputBox>
               </div>
-              <div>정답: {answer.correct}</div>
             </LeftBox>
-            <RightBox>
+            <TxtAreaBox>
               <InputTxt
                 name="explanation"
                 type="text"
@@ -136,11 +178,12 @@ export default function UpdateCont({ workbookid }) {
                 onChange={onChange}
                 placeholder={question.explanation}
               />
-            </RightBox>
+              <BtnBox>
+                <span>{error}</span>
+                <Btn>수정</Btn>
+              </BtnBox>
+            </TxtAreaBox>
           </Box>
-          <span>{error}</span>
-
-          <Btn>수정</Btn>
         </MakeBox>
       </Right>
     </>
@@ -148,13 +191,23 @@ export default function UpdateCont({ workbookid }) {
 }
 
 const Myworkbook = styled.div`
+  display: flex;
+  align-items: center;
   height: 6%;
-  border-bottom: 3px solid ${COLORS.light_gray};
+  border-bottom: 1px solid ${COLORS.light_gray};
+  button {
+    margin-left: 15px;
+    width: 24px;
+    height: 24px;
+    background: url('/img/arrowBack.svg') center no-repeat;
+  }
   p {
-    margin-left: 20px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    line-height: 3rem;
+    margin-left: 10px;
+    font-size: 15px;
+    line-height: 50px;
+  }
+  @media (max-width: 420px) {
+    display: none;
   }
 `;
 
@@ -162,8 +215,14 @@ const Right = styled.article`
   flex-basis: 70%;
   position: relative;
   margin: 0 auto;
-  border: 3px solid ${COLORS.light_gray};
+  min-height: 700px;
+  border: 1px solid ${COLORS.light_gray};
   border-radius: 15px;
+  @media (max-width: 420px) {
+    border: none;
+    margin: 30px 0 0;
+    transition: all 0.3s;
+  }
 `;
 
 //내부내용
@@ -171,90 +230,150 @@ const MakeBox = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin: 50px 0px;
-  span {
-    margin: 0 15px;
-    color: ${COLORS.error};
+  margin: 80px 0px 0;
+  min-width: 1000px;
+  @media (max-width: 1380px) {
+    min-width: 80%;
+    padding: 50px 0;
+    margin: 0;
+    height: 580px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 15px;
+      background-color: ${COLORS.light_gray};
+    }
+    &::-webkit-scrollbar-track {
+      background-color: white;
+    }
+  }
+  @media (max-width: 420px) {
+    padding: 10px 0;
+    height: 100%;
+    transition: all 0.3s;
   }
 `;
 
 const Box = styled.div`
   display: flex;
   justify-content: space-around;
+  @media (max-width: 1380px) {
+    flex-direction: column;
+    align-items: center;
+    /* overflow: hidden; */
+  }
 `;
 const Input = styled.input`
+  padding: 10px 5px;
   margin-bottom: 22px;
-  width: 450px;
+  width: 400px;
   height: 40px;
-  color: ${COLORS.black};
   border: none;
   border-bottom: 1px solid ${COLORS.light_gray};
   background: none;
+  color: ${COLORS.black};
+  font-size: 15px;
   &::placeholder {
-    color: #767676;
+    color: ${COLORS.gray};
   }
   &:focus {
     border-bottom: 1px solid ${COLORS.blue};
     outline: none;
   }
+  @media (max-width: 1380px) {
+    width: 100%;
+  }
 `;
 const LeftBox = styled.div`
   display: flex;
   flex-direction: column;
-  height: 525px;
   div {
     margin: 20px 0 40px;
   }
+  @media (max-width: 1380px) {
+    width: 80%;
+  }
 `;
-const RightBox = styled.div`
-  /* display: flex; */
+const InputBox = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  input[type="radio"] {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 const InputNum = styled.input`
   display: block;
-  padding: 3px 16px;
-  margin: 14px 0 12px;
-  width: 368px;
+  position: relative;
+  padding: 3px;
+  margin: 14px 0;
+  width: 370px;
   height: 40px;
-  color: ${COLORS.black};
-  border: 2px solid ${COLORS.light_gray};
-  border-radius: 5px;
+  border: none;
   background: none;
+  color: ${COLORS.black};
+  box-sizing: border-box;
+  transition: all;
   &::placeholder {
-    color: #767676;
+    color: ${COLORS.gray};
+  }
+  &:hover {
+    border-bottom: 1px solid ${COLORS.light_gray};
   }
   &:focus {
+    border-bottom: 2px solid ${COLORS.blue};
     outline: none;
-    border: 1px solid ${COLORS.blue};
-  }
-  &.selected {
-    background: ${COLORS.alpha_gray};
   }
 `;
+
+const TxtAreaBox = styled.div`
+  @media (max-width: 1380px) {
+    width: 80%;
+  }
+`
+
 const InputTxt = styled.textarea`
   display: block;
-  padding: 10px 10px;
-  /* margin: 14px 0 12px; */
+  padding: 15px;
   width: 450px;
-  height: 479px;
-  color: ${COLORS.black};
+  height: 450px;
   border: 1px solid ${COLORS.light_gray};
   border-radius: 5px;
   background: none;
+  color: ${COLORS.black};
+  box-sizing: border-box;
   resize: none;
   &::placeholder {
-    color: #767676;
+    color: ${COLORS.gray};
   }
   &:focus {
+    border: 2px solid ${COLORS.blue};
     outline: none;
-    border: 1px solid ${COLORS.blue};
+  }
+  @media (max-width: 1380px) {
+    width: 100%;
+  }
+`;
+
+const BtnBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+  span {
+    color: ${COLORS.error};
+    font-size: 14px;
   }
 `;
 const Btn = styled.button`
-  margin-left: 40px;
   width: 80px;
   height: 40px;
-  color: white;
   border-radius: 6px;
-  background-color: ${COLORS.blue};
+  background: ${COLORS.blue};
+  color: ${COLORS.white};
 `;

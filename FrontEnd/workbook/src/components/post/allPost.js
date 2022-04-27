@@ -1,6 +1,6 @@
 import React from "react";
-import HeaderSignin from "../header/header";
-import MorePost from "./morePost";
+import HeaderSignin from "../header/Header";
+import MorePost from "./MorePost";
 
 export default function AllPost() {
   return (

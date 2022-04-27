@@ -16,7 +16,7 @@ export default function ModeModal(props) {
             alt="x"
           />
         </ImgDiv>
-        <Text>예시 문제집을 푸시겠습니까?</Text>
+        <Text>문제집을 푸시겠습니까?</Text>
         <BtnDiv>
           <StudyMode>
             <Link
@@ -45,21 +45,19 @@ const Modal = styled.div`
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
-  width: 30%;
-  height: 26%;
   padding: 0 1em;
+  width: 310px;
+  height: 170px;
   border-radius: 5px;
   border: 1px solid ${COLORS.light_gray};
-  background-color: #fff;
-  z-index: 2;
+  background-color: ${COLORS.white};
+  z-index: 20;
 `;
 
 const ImgDiv = styled.div`
   display: flex;
   justify-content: end;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  border-bottom: none;
+  margin: 1em 0;
 `;
 
 const Img = styled.img`
@@ -70,41 +68,41 @@ const Img = styled.img`
 `;
 
 const Text = styled.p`
-  margin-top: 1em;
+  margin: 20px 0 0;
+  color: ${COLORS.black};
   font-weight: 700;
-  text-align: center;
   font-size: 1rem;
-  color: black;
+  text-align: center;
 `;
 
 const BtnDiv = styled.div`
-  margin-top: 1em;
   display: flex;
   justify-content: center;
+  margin-top: 1em;
 `;
 
 const StudyMode = styled.div`
-  cursor: pointer;
   width: 28%;
   height: 2.5em;
-  text-align: center;
-  font-size: 1rem;
-  border-radius: 5px;
-  line-height: 2.5rem;
   margin-right: 0.3em;
-  color: ${COLORS.gray};
+  border-radius: 5px;
   border: 1px solid ${COLORS.light_gray};
+  color: ${COLORS.gray};
+  font-size: 1rem;
+  text-align: center;
+  line-height: 2.5rem;
+  cursor: pointer;
 `;
 
 const TestMode = styled.div`
-  cursor: pointer;
+  margin-left: 0.3em;
   width: 28%;
   height: 2.5em;
-  text-align: center;
-  font-size: 1rem;
   border-radius: 5px;
-  line-height: 2.5rem;
-  margin-left: 0.3em;
-  color: #fff;
   background-color: ${COLORS.blue};
+  color: ${COLORS.white};
+  font-size: 1rem;
+  text-align: center;
+  line-height: 2.5rem;
+  cursor: pointer;
 `;

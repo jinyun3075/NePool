@@ -69,7 +69,9 @@ const TestTit = styled.h3`
   border-radius: 3px;
   color: ${COLORS.white};
   font-size: 15px;
+  word-wrap: break-word;
   box-shadow: 0 0 0 1px rgb(34 36 38 / 15%) inset, 0 2px 3px 0 rgb(34 36 38 / 8%), 0 2px 8px 0 rgb(34 36 38 / 10%);
+  cursor: pointer;
   /* ${props => props.answerCheck && 
     css`
       background: ${COLORS.alpha_blue} url('/img/QuestionCheck.svg') right 5% center no-repeat;
@@ -83,6 +85,11 @@ const TestTit = styled.h3`
   &.click {
     background: ${COLORS.light_gray};
   }
+  @media (max-width: 1024px) {
+    width: 80%;
+    margin: 0 auto;
+    transition: all 0.3s;
+  }
 `;
 
 const Line = styled.div`
@@ -94,6 +101,12 @@ const AnswersBox = styled.div`
   display: flex;
   justify-content: space-between;
   margin-right: 30px;
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    transition: all 0.3s;
+  }
 `;
 
 const Explanation = styled.div`
@@ -105,4 +118,10 @@ const Explanation = styled.div`
   color: ${COLORS.gray};
   font-size: 14px;
   line-height: 24px;
+  word-break: break-all;
+  @media (max-width: 1024px) {
+    width: 75%;
+    transition: all 0.3s;
+  }
+
 `;

@@ -20,6 +20,11 @@ const Container = styled.section`
   margin: 180px auto;
   width: 700px;
   border: 1px solid ${COLORS.light_gray};
+  @media (max-width: 720px) {
+    width: 70%;
+    min-width: 350px;
+    transition: all 0.3s;
+  }
 `;
 
 const Div = styled.div`
@@ -33,11 +38,26 @@ const Div = styled.div`
     color: ${COLORS.black};
     font-size: 15px;
   }
+  @media (max-width: 720px) {
+    div {
+      width: 80%;
+      font-size: 13px;
+      transition: all 0.3s;
+    }
+  }
 `;
 
 const Tit404 = styled.p`
   color: ${COLORS.black};
   font-size: 35px;
+  @media (max-width: 720px) {
+    font-size: 30px;
+    transition: all 0.3s;
+  }
+  @media (max-width: 520px) {
+    font-size: 25px;
+    transition: all 0.2s;
+  }
 `;
 
 const PrevBtn = styled.button`

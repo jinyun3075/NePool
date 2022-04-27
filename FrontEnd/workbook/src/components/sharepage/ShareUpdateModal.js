@@ -1,34 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { COLORS } from "../../constants";
 
-export default function UpdateModal(props) {
-  const workbookdata = props.workbookdata;
-
+export default function ShareUpdateModal(props) {
   return (
     <>
       <Modal className="updatemodal">
         <Try
           onClick={() => {
-            props.setModemodal(true);
-            props.setDeletemodal(false);
+            props.setSharemodemodal(true);
+            props.setSharedeletemodal(false);
           }}
         >
           풀기
         </Try>
-        <Update>
-          <Link
-            to="/update"
-            state={{ workbookdata: workbookdata, imageurl: props.imageurl }}
-          >
-            수정
-          </Link>
-        </Update>
         <Delete
           onClick={() => {
-            props.setDeletemodal(true);
-            props.setModemodal(false);
+            props.setSharedeletemodal(true);
+            props.setSharemodemodal(false);
           }}
         >
           삭제
@@ -43,32 +32,30 @@ const Modal = styled.div`
   justify-content: space-evenly;
   align-items: center;
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
-  margin: 0 auto;
-  margin-top: 15px;
+  margin: 15px auto 0;
   width: 100%;
   height: 20%;
   border: 1px solid ${COLORS.light_gray};
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
   background-color: rgba(255, 255, 255);
-  box-sizing: border-box;
-  z-index: 2;
+  z-index: 20;
 `;
 
 const Try = styled.button`
   width: 27%;
   height: 40%;
-  color: white;
   background-color: ${COLORS.blue};
+  color: ${COLORS.white};
 `;
 
 const Delete = styled.button`
   width: 27%;
   height: 40%;
-  color: white;
   background-color: ${COLORS.blue};
+  color: ${COLORS.white};
 `;
 
 const Update = styled.button`
@@ -76,5 +63,5 @@ const Update = styled.button`
   height: 40%;
   border: 1px solid ${COLORS.light_gray};
   background-color: ${COLORS.blue};
-  color: white;
+  color: ${COLORS.white};
 `;

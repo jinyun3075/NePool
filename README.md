@@ -46,6 +46,8 @@
 
 ## <span id="tree">3. 프로젝트 구조</span>
 
+<details>
+
 ```bash
 \---NePool
     |   .dockerignore
@@ -373,7 +375,7 @@
                         getLetter.js
                         shuffle.js
 ```
-
+</details>
 <p align="right"><a href="#top">(Top)</a></p>
 
 

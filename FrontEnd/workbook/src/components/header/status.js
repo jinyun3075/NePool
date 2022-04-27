@@ -5,6 +5,8 @@ import axios from "axios";
 import { API, COLORS } from "../../constants";
 
 export default function StatusModal() {
+  const user = sessionStorage.getItem("user");
+
   const [userName, setUserName] = useState(
     {
       id: "",
@@ -16,8 +18,10 @@ export default function StatusModal() {
     }
   );
 
+  const [loading, setLoading] = useState(false);
+
   const getUser = async () => {
-    const user = sessionStorage.getItem("user");
+    setLoading(true);
     const res = await axios.get(`${API}/user/${user}`, {
       headers: {
         "Content-type": "application/json",
@@ -34,6 +38,7 @@ export default function StatusModal() {
 
   useEffect(() => {
     getUser();
+    return () => {setLoading(false)};
   }, []);
   
   return (
@@ -45,12 +50,12 @@ export default function StatusModal() {
           </StatusImg>
           <StatusProfile>
             <p>{userName.name}</p>
-           <Link to="/profile" state={{userInfo : userName}}> <button>프로필 변경하기</button></Link>
+            <Link to="/profile" state={{userInfo : userName}}> <button>프로필 변경하기</button></Link>
           </StatusProfile>
         </StatusBox>
         <StatusMenu>
-          <a href="/mypage">마이페이지</a>
-          <a onClick={logout}>로그아웃</a>
+          <Link to="/mypage">마이페이지</Link>
+          <p onClick={logout}>로그아웃</p>
         </StatusMenu>
       </ProfileStatus>
     </>
@@ -59,8 +64,7 @@ export default function StatusModal() {
 
 const ProfileStatus = styled.div`
   position: absolute;
-  margin-top: 46px;
-  margin-right: 5px;
+  margin: 46px 5px 0 0;
   width: 280px;
   height: 220px;
   border: 1px solid ${COLORS.light_gray};
@@ -75,7 +79,7 @@ const StatusBox = styled.div`
   justify-content: space-evenly;
   padding: 0 25px;
   height: 110px;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid ${COLORS.white_gray};
 `;
 
 const StatusImg = styled.div`
@@ -111,8 +115,8 @@ const StatusMenu = styled.div`
   justify-content: space-evenly;
   align-items: center;
   height: 110px;
-  a {
-    color: ${COLORS.gray};
+  color: ${COLORS.gray};
+  p {
     cursor: pointer;
   }
 `;

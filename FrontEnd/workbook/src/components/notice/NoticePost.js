@@ -5,6 +5,8 @@ import axios from 'axios';
 import { API, COLORS } from '../../constants'
 
 export default function NoticePost() {
+  const token = sessionStorage.getItem("token");
+
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -19,7 +21,10 @@ export default function NoticePost() {
     title: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const getNotice = async() => {
+    setLoading(true);
     const res = await axios.get(`${API}/announcement/show/${item.id}` , {
       headers: {
         'Content-Type': 'application/json',
@@ -27,10 +32,6 @@ export default function NoticePost() {
     });
     setNotice(res.data);
   };
-
-  useEffect(() => {
-    getNotice();
-  }, []);
 
   const deleteNotice = async (e) => {
     e.preventDefault();
@@ -42,6 +43,14 @@ export default function NoticePost() {
     });
     navigate('/notice');
   };
+
+  useEffect(() => {
+    if(!token) {
+      navigate("/",  { replace: true })
+    }
+    getNotice();
+    return () => {setLoading(true)};
+  }, []);
 
   return (
     <NoticeForm>
@@ -72,6 +81,8 @@ export default function NoticePost() {
 const NoticeForm = styled.form`
   margin: 70px auto;
   width: 70%;
+  min-width: 350px;
+  padding: 0 15px;
 `;
 
 const NoticeTitle = styled.h2`

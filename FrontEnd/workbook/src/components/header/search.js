@@ -13,12 +13,15 @@ export default function SearchResult({ search }) {
               <>
                 {search.map((data) => {
                   return (
-                      <Link to={`/detail/${data.id}`}
-                      state={{username: data.username}}>
-                          <NoticeCont key={data.id}>
-                            <p>만든이: {data.username}</p>
-                            <p>{data.title}</p>
-                          </NoticeCont>
+                      <Link 
+                      to={`/detail/${data.id}`}
+                      state={{username: data.username}}
+                      key={data.id}
+                      >
+                        <NoticeCont >
+                          <p>만든이: {data.username}</p>
+                          <p>{data.title}</p>
+                        </NoticeCont>
                       </Link>
                   );
                 })}
@@ -33,18 +36,17 @@ export default function SearchResult({ search }) {
 
 const NoticeBox = styled.div`
   position: absolute;
-  top: 55px;
+  top: 35px;
   width: 360px;
   z-index: 3;
   div {
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding-top: 7px 0 7px 0;
     width: 360px;
     height: 210px;
     border: 2px solid ${COLORS.blue};
     border-top: none;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
     background-color: white;
     color: ${COLORS.gray};
     &::after {
