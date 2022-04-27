@@ -41,7 +41,7 @@ export default function Preview({workBook}) {
         <Icon>📖</Icon>
         <Tit>문제 미리보기</Tit>
         <List>
-          {quiz.length > 0 && (
+          {quiz.length > 0 ? (
             <>
               {quiz.slice(0, 3).map((q, index) => {
                 return (
@@ -51,6 +51,8 @@ export default function Preview({workBook}) {
                 );
               })}
             </>
+            ) : (
+              <Item><strong>아직 문제가 없어요 😥</strong></Item>
             )
           }
         </List>
@@ -61,9 +63,12 @@ export default function Preview({workBook}) {
 
 const PrivewBoard = styled.section`
   margin: 50px auto;
-  width: 800px;
-  border: 1px solid ${COLORS.light_gray};
+  max-width: 800px;
+  /* border: 1px solid ${COLORS.light_gray}; */
   border-radius: 5px;
+  @media (max-width: 1024px) { 
+    margin: 15px auto;
+  }
 `;
 
 const TestPreview = styled.article`
@@ -71,6 +76,13 @@ const TestPreview = styled.article`
   align-items: center;
   flex-direction: column;
   padding: 20px 30px 35px;
+  @media (max-width: 1024px) { 
+    margin: 15px 50px;
+    min-width: 300px;
+  }
+  @media (max-width: 520px) {
+    margin: 0;
+  }
 `;
 
 const Icon = styled.span`
@@ -91,9 +103,16 @@ const List = styled.ul`
   justify-content: flex-start;
   gap: 25px;
   padding: 30px 15px;
-  width: 700px;
+  max-width: 700px;
   border-radius: 3px;
   background: ${COLORS.alpha_blue};
+  @media (max-width: 900px) { 
+    margin: 0 50px;
+    width: 90%;
+    min-width: 300px;
+    transition: all 0.3s;
+  }
+
 `;
 
 const Item = styled.li`
@@ -105,4 +124,9 @@ const Item = styled.li`
   word-wrap: break-word;
   white-space: nowrap;
   text-overflow: ellipsis;
+  @media (max-width: 900px) { 
+    width: 100%;
+    min-width: 300px;
+    transition: all 0.5s;
+  }
 `;
