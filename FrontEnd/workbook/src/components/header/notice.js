@@ -28,6 +28,12 @@ const NoticeBox = styled.div`
   width: 500px;
   margin: 46px 60px 0 0;
   z-index: 100;
+  @media (max-width: 860px) {
+    width: 350px;
+  }
+  @media (max-width: 520px) {
+    width: 280px;
+  }
   ul {
     width: 500px;
     height: 200px;
@@ -35,6 +41,12 @@ const NoticeBox = styled.div`
     border-radius: 6px;
     background-color: white;
     color: ${COLORS.gray};
+    @media (max-width: 860px) {
+      width: 350px;
+  }
+    @media (max-width: 520px) {
+      width: 280px;
+  }
   }
 `;
 
@@ -45,12 +57,21 @@ const NoticeCont = styled.li`
   align-items: flex-start;
   margin-left: 20px;
   height: 100px;
+  @media (max-width: 520px) {
+    margin: 0 20px;
+  }
   &::after {
-    content: "";
     position: absolute;
+    content: "";
     top: 100px;
     right: -1px;
     width: 500px;
     border-top: 1px solid ${COLORS.white_gray};
+    @media (max-width: 860px) {
+    width: 350px;
+  }
+    @media (max-width: 520px) {
+    width: 280px;
+  }
   }
 `;

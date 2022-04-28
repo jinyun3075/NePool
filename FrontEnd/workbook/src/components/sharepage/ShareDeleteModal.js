@@ -81,8 +81,8 @@ const Text = styled.p`
   margin: 20px 0 0;
   color: black;
   font-weight: 700;
-  text-align: center;
   font-size: 1rem;
+  text-align: center;
 `;
 
 const BtnDiv = styled.div`

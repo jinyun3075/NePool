@@ -116,7 +116,11 @@ export default function UpdatepageContent() {
 
         <ClickP>#플러스 버튼을 눌러 문제를 추가해 주세요</ClickP>
         <ScrollbarSection>
-          <EditWorkBookView onClick={() => {setViewBtn(!viewBtn)}}>
+          <EditWorkBookView
+            onClick={() => {
+              setViewBtn(!viewBtn);
+            }}
+          >
             {viewBtn ? "문제 수정" : "문제집 표지 수정"}
           </EditWorkBookView>
           <WorkbookForm
@@ -168,7 +172,6 @@ export default function UpdatepageContent() {
               </Workbookupdate>
             </TextSelect>
           </WorkbookForm>
-          
 
           <QuestionUl>
             {question.map((questiondata, i) => {
@@ -199,7 +202,6 @@ export default function UpdatepageContent() {
                       </Delete>
                     </ButtonDiv>
                   </QuestionBox>
-                  
                 </QuestionLi>
               );
             })}
@@ -211,9 +213,7 @@ export default function UpdatepageContent() {
                 <Link to="/add" state={{ workbookid: workbookData.id }}>
                   <CreateBtn src="/img/plus.svg"></CreateBtn>
                 </Link>
-                <>
-                  {question.length < 4 && <span>문제 추가하기</span>}
-                </>
+                <>{question.length < 4 && <span>문제 추가하기</span>}</>
               </>
             )}
           </BtnBox>
@@ -244,9 +244,9 @@ const Article = styled.article`
     transition: all 0.3s;
   }
   @media (max-width: 420px) {
-    border: none;
-    min-width: 400px;
     margin: 0 auto;
+    min-width: 400px;
+    border: none;
     transition: all 0.3s;
   }
 `;
@@ -260,7 +260,7 @@ const Myworkbook = styled.div`
     margin-left: 15px;
     width: 24px;
     height: 24px;
-    background: url('/img/arrowBack.svg') center no-repeat;
+    background: url("/img/arrowBack.svg") center no-repeat;
   }
   p {
     margin-left: 10px;
@@ -282,23 +282,10 @@ const ScrollbarSection = styled.section`
     align-items: center;
     transition: all 0.3s;
   }
-  
-  /* overflow-x: auto;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 15px;
-    background-color: ${COLORS.light_gray};
-  }
-  &::-webkit-scrollbar-track {
-    background-color: ${COLORS.white};
-  } */
 `;
+
 const WorkbookForm = styled.form`
   display: flex;
-  /* flex-basis: 25%; */
   flex-direction: column;
   align-items: center;
   margin: 40px auto;
@@ -306,11 +293,11 @@ const WorkbookForm = styled.form`
   height: 550px;
   @media (max-width: 1370px) {
     display: none;
-    ${props => props.viewBtn && (
+    ${(props) =>
+      props.viewBtn &&
       css`
         display: flex;
-      `
-    )}
+      `}
   }
   @media (max-width: 420px) {
     min-width: 300px;
@@ -332,14 +319,14 @@ const ClickP = styled.p`
     width: 90px;
     font-size: 10px;
   }
-`
+`;
 
 const EditWorkBookView = styled.strong`
   display: none;
-  margin: 35px 0 0;
-  font-size: 13px;
   padding: 10px 15px;
+  margin: 35px 0 0;
   border: 1px solid ${COLORS.gray};
+  font-size: 13px;
   box-shadow: 3px 3px 1px 1px rgb(34 36 38 / 15%);
   cursor: pointer;
   &:hover {
@@ -352,7 +339,7 @@ const EditWorkBookView = styled.strong`
   @media (max-width: 1370px) {
     display: block;
   }
-`
+`;
 
 const Input = styled.input`
   display: none;
@@ -361,7 +348,6 @@ const Input = styled.input`
   border-radius: 10px;
 `;
 const Label = styled.label`
-  /* margin: 0 50px 0 250px; */
   width: 180px;
   height: 250px;
   border-radius: 10px;
@@ -383,33 +369,30 @@ const TextSelect = styled.div`
   align-items: center;
   gap: 20px;
   margin: 30px auto 0;
-  /* width: 30%;
-  height: 80%; */
 `;
 
 const TextInput = styled.input`
+  padding-left: 5px;
   width: 300px;
   height: 35px;
   border: none;
-  padding-left: 5px;
   border-bottom: 1px solid ${COLORS.light_gray};
   color: ${COLORS.text_gray};
   font-size: 14px;
-  /* font-weight: 700; */
   &:focus {
     outline: none;
     border-color: ${COLORS.blue};
   }
   &::placeholder {
-    font-size: 13px;
     color: ${COLORS.gray};
+    font-size: 13px;
   }
 `;
 
 const Select = styled.select`
+  padding-left: 5px;
   width: 310px;
   height: 40px;
-  padding-left: 5px;
   border: none;
   border-bottom: 1px solid ${COLORS.light_gray};
   border-color: ${COLORS.light_gray};
@@ -424,16 +407,14 @@ const Select = styled.select`
     color: ${COLORS.text_gray};
   }
   option[value="분류"][disabled] {
-    /* display: none; */
   }
 `;
 
 const Explain = styled.textarea`
-  margin: 10px 0 0;
   padding: 15px 10px;
+  margin: 10px 0 0;
   width: 290px;
   height: 40px;
-  /* border-radius: 5px; */
   border: 1px solid ${COLORS.light_gray};
   border-color: ${COLORS.light_gray};
   color: ${COLORS.text_gray};
@@ -441,8 +422,8 @@ const Explain = styled.textarea`
   resize: none;
   z-index: 40;
   &::placeholder {
-    font-size: 13px;
     color: ${COLORS.gray};
+    font-size: 13px;
   }
   &:focus {
     outline: none;
@@ -451,22 +432,19 @@ const Explain = styled.textarea`
 `;
 
 const Workbookupdate = styled.button`
+  padding: 12px 0;
   margin: 20px auto 0;
   width: 90%;
-  /* height: 32px; */
   border: none;
-  padding: 12px 0;
   border-radius: 5px;
   background-color: ${COLORS.blue};
   color: ${COLORS.white};
   font-size: 14px;
 `;
 const QuestionUl = styled.ul`
-  width: 100%;
-  /* flex-basis: 55%; */
   margin: 40px 0;
+  width: 100%;
   height: 550px;
-  /* overflow-x: auto; */
   overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 6px;
@@ -488,12 +466,6 @@ const QuestionLi = styled.li`
   @media (max-width: 420px) {
     padding: 0;
   }
-  /* min-width: 650px; */
-  /* @media (max-width: 1670px) {
-    min-width: 400px;
-    padding: 14px 0 0 0;
-    transition: all 0.3s;
-  } */
 `;
 
 const QuestionBox = styled.div`
@@ -504,10 +476,10 @@ const QuestionBox = styled.div`
     transition: all 0.3s;
   }
   @media (max-width: 420px) {
-    width: 90%;
     margin: 0 auto;
+    width: 90%;
   }
-`
+`;
 
 const Question = styled.p`
   width: 580px;
@@ -572,8 +544,8 @@ const Update = styled.button`
   color: ${COLORS.text_gray};
   font-size: 13px;
   &:hover {
-    color: ${COLORS.blue};
     border-bottom: 2px solid ${COLORS.blue};
+    color: ${COLORS.blue};
   }
 `;
 
@@ -601,13 +573,13 @@ const BtnBox = styled.div`
     color: ${COLORS.light_gray};
     font-size: 13px;
     &::after {
-      content: '';
       position: absolute;
+      content: "";
       top: -19px;
       left: -9px;
-      background: url('/img/showPlus.svg') no-repeat center;
       width: 40px;
       height: 40px;
+      background: url("/img/showPlus.svg") no-repeat center;
     }
   }
 `;

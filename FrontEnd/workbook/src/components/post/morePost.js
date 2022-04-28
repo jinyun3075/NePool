@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import PostBtn from "./PostButton";
 import styled from "styled-components";
 import axios from "axios";
@@ -20,19 +20,21 @@ export default function MorePost() {
     },
   ]);
 
-  const [page, setPage] = useState([])
-  const [number, setNumber] = useState(1)
+  const [page, setPage] = useState([]);
+  const [number, setNumber] = useState(1);
   const [next, setNext] = useState(false);
   const [prev, setPrev] = useState(false);
   const [clickType, setClickType] = useState("all");
-  
 
   const getUser = async () => {
-    const res = await axios.get(`${API}/workbook/page?page=${number}&size=10&type=${clickType}`, {
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
+    const res = await axios.get(
+      `${API}/workbook/page?page=${number}&size=10&type=${clickType}`,
+      {
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    );
     setPost(res.data.dtoList);
     setPage(res.data.pageList);
     setNext(res.data.next);
@@ -40,26 +42,26 @@ export default function MorePost() {
   };
 
   const onClickNum = (e) => {
-    setNumber(e.target.value)
+    setNumber(e.target.value);
   };
   const onClickType = (e) => {
-    setClickType(e.target.name)
-    setNumber(1)
+    setClickType(e.target.name);
+    setNumber(1);
   };
   const onClickNext = () => {
-    setNumber(parseInt((number-1)/5)*5+6);
+    setNumber(parseInt((number - 1) / 5) * 5 + 6);
   };
   const onClickPrev = () => {
-    setNumber(parseInt((number-1)/5)*5-4);
+    setNumber(parseInt((number - 1) / 5) * 5 - 4);
   };
 
   useEffect(() => {
     getUser();
-  }, [clickType,number]);
-  
+  }, [clickType, number]);
+
   return (
     <>
-     <Category>
+      <Category>
         <CategoryItem>
           <button
             onClick={onClickType}
@@ -69,7 +71,7 @@ export default function MorePost() {
             전체
           </button>
         </CategoryItem>
-        <CategoryItem >
+        <CategoryItem>
           <button
             onClick={onClickType}
             name="수능·내신"
@@ -117,32 +119,39 @@ export default function MorePost() {
       </Category>
       <ItemBox>
         <Items>
-            {post.map((postData) => {
-              return (
-                <li key={postData.id}>
-                  <Link to={`/detail/${postData.id}`} state={{username: postData.username}}>
-                    <ItemImg>
-                      {postData.image ? (<img src={postData.image} alt="문제집 이미지" />) :(<img src="img/basic.png" alt="기본이미지" />)}
-                    </ItemImg>
-                    <TextBox>
-                      <ItemScr size="20px">{postData.title}</ItemScr>
-                      <ItemScr size="13px">만든이: {postData.username}</ItemScr>
-                      <ItemTxt size="12px">{postData.content}</ItemTxt>
-                    </TextBox>
-                  </Link>
-                </li>
-              );
-            })}
+          {post.map((postData) => {
+            return (
+              <li key={postData.id}>
+                <Link
+                  to={`/detail/${postData.id}`}
+                  state={{ username: postData.username }}
+                >
+                  <ItemImg>
+                    {postData.image ? (
+                      <img src={postData.image} alt="문제집 이미지" />
+                    ) : (
+                      <img src="img/basic.png" alt="기본이미지" />
+                    )}
+                  </ItemImg>
+                  <TextBox>
+                    <ItemScr size="20px">{postData.title}</ItemScr>
+                    <ItemScr size="13px">만든이: {postData.username}</ItemScr>
+                    <ItemTxt size="12px">{postData.content}</ItemTxt>
+                  </TextBox>
+                </Link>
+              </li>
+            );
+          })}
         </Items>
       </ItemBox>
-      <PostBtn 
-        page={page} 
-        onClickNum={onClickNum} 
+      <PostBtn
+        page={page}
+        onClickNum={onClickNum}
         next={next}
-        prev={prev} 
-        onClickNext={onClickNext} 
+        prev={prev}
+        onClickNext={onClickNext}
         onClickPrev={onClickPrev}
-        />
+      />
     </>
   );
 }
@@ -151,18 +160,18 @@ const Category = styled.ul`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80px;
   margin: 0 auto;
+  height: 80px;
   @media (max-width: 900px) {
     flex-wrap: wrap;
     padding: 20px;
   }
   @media (max-width: 520px) {
-    width: 360px;
-    height: 30px;
-    margin: 0 0 30px;
     flex-wrap: nowrap;
     justify-content: flex-start;
+    margin: 0 0 30px;
+    width: 360px;
+    height: 30px;
     overflow: hidden;
     overflow-x: scroll;
     &::-webkit-scrollbar {
@@ -181,8 +190,8 @@ const Category = styled.ul`
 const CategoryItem = styled.li`
   margin: 0 35px;
   button {
-    font-size: 17px;
     padding: 5px 10px;
+    font-size: 17px;
   }
   .underLine {
     background: ${COLORS.blue};
@@ -192,9 +201,9 @@ const CategoryItem = styled.li`
   @media (max-width: 520px) {
     margin: 0 20px;
     button {
-      font-size: 14px;
       padding: 5px 7px;
       width: 70px;
+      font-size: 14px;
     }
   }
 `;
@@ -238,8 +247,7 @@ const ItemImg = styled.div`
   width: 190px;
   height: 177px;
   border-bottom: 1px solid ${COLORS.light_gray};
-  /* background: url(/img/example.svg) no-repeat center/103%; */
-  img{
+  img {
     width: 190px;
     height: 177px;
     object-fit: cover;
@@ -253,7 +261,7 @@ const ItemImg = styled.div`
       transition: all 0.2s;
     }
   }
-`
+`;
 
 const TextBox = styled.div`
   margin: 10px 10px;

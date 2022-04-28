@@ -36,8 +36,8 @@ export default function SetProfile() {
           Authorization: `Bearer ${token}`,
         },
       }
-      );
-      navigate(-1)
+    );
+    navigate(-1);
   };
   const UploadImg = async (e) => {
     const formData = new FormData();
@@ -66,8 +66,8 @@ export default function SetProfile() {
   };
 
   useEffect(() => {
-    if(!token) {
-      navigate("/",  { replace: true })
+    if (!token) {
+      navigate("/", { replace: true });
     }
   }, []);
 
@@ -138,8 +138,8 @@ const ProfileBoard = styled.section`
     font-weight: 500;
   }
   &::after {
-    content: "";
     position: absolute;
+    content: "";
     top: 35px;
     left: 0;
     width: 100%;
@@ -175,8 +175,8 @@ const ProfileImg = styled.div`
   img {
     width: 150px;
     height: 150px;
-    object-fit: cover;
     border-radius: 6px;
+    object-fit: cover;
   }
 `;
 
@@ -199,9 +199,9 @@ const InputForm = styled.form`
 
 const Label = styled.label`
   display: block;
+  margin: 5px 0;
   color: ${COLORS.text_gray};
   font-size: 14px;
-  margin: 5px 0;
 `;
 
 const Input = styled.input`
@@ -209,9 +209,9 @@ const Input = styled.input`
   margin-bottom: 22px;
   width: 400px;
   height: 35px;
-  background: none;
   border: none;
   border-bottom: 1px solid ${COLORS.light_gray};
+  background: none;
   color: ${COLORS.black};
   font-size: 15px;
   &::placeholder {

@@ -1,24 +1,24 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { API, COLORS } from "../../constants/index";
 
-export default function AddCont({workbookid}) {
-  const username = sessionStorage.getItem('user');
+export default function AddCont({ workbookid }) {
+  const username = sessionStorage.getItem("user");
 
   const navigate = useNavigate();
-  
+
   const [answer, setAnswer] = useState({
-      question: "",
-      answerA: "",
-      answerB: "",
-      answerC: "",
-      answerD: "",
-      answerE: "",
-      correct: "",
-      explanation: ""
-    });
+    question: "",
+    answerA: "",
+    answerB: "",
+    answerC: "",
+    answerD: "",
+    answerE: "",
+    correct: "",
+    explanation: "",
+  });
 
   const [error, setError] = useState("");
 
@@ -32,25 +32,29 @@ export default function AddCont({workbookid}) {
       answer_d: answer.answerD,
       answer_e: answer.answerE,
       correct: answer.correct,
-      explanation: answer.explanation
+      explanation: answer.explanation,
     };
-    const res = await axios.post(`${API}/work/${username}/${workbookid}`, QuestionData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if(res.data.message) setError(res.data.message);
+    const res = await axios.post(
+      `${API}/work/${username}/${workbookid}`,
+      QuestionData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (res.data.message) setError(res.data.message);
     else navigate(-1);
   };
 
   const onChange = (e) => {
     const { name, value } = e.target;
-    setAnswer({...answer, [name]: value});
+    setAnswer({ ...answer, [name]: value });
   };
 
   const onClick = (e) => {
-    const {value} = e.target;
-    setAnswer({...answer, correct: value});
+    const { value } = e.target;
+    setAnswer({ ...answer, correct: value });
   };
 
   return (
@@ -67,8 +71,8 @@ export default function AddCont({workbookid}) {
               type="text"
               id="question"
               value={answer.question}
-              onChange={onChange} 
-              placeholder="문제 입력" 
+              onChange={onChange}
+              placeholder="문제 입력"
             />
             <div>
               <InputBox htmlFor="answerA">
@@ -112,15 +116,15 @@ export default function AddCont({workbookid}) {
                   id="answerC"
                   value={answer.answerC}
                   onClick={onClick}
-                /> 
+                />
                 <InputNum
                   name="answerC"
                   type="text"
                   id="answerC"
                   placeholder="보기3"
                   value={answer.answerC}
-                  onChange={onChange} 
-                /> 
+                  onChange={onChange}
+                />
               </InputBox>
               <InputBox htmlFor="answerD">
                 <input
@@ -129,15 +133,15 @@ export default function AddCont({workbookid}) {
                   id="answerD"
                   value={answer.answerD}
                   onClick={onClick}
-                /> 
+                />
                 <InputNum
                   name="answerD"
                   type="text"
                   id="answerD"
                   placeholder="보기4"
                   value={answer.answerD}
-                  onChange={onChange} 
-                /> 
+                  onChange={onChange}
+                />
               </InputBox>
               <InputBox htmlFor="answerE">
                 <input
@@ -146,25 +150,25 @@ export default function AddCont({workbookid}) {
                   id="answerE"
                   value={answer.answerE}
                   onClick={onClick}
-                /> 
+                />
                 <InputNum
                   name="answerE"
                   type="text"
                   id="answerE"
                   placeholder="보기5"
                   value={answer.answerE}
-                  onChange={onChange} 
-                /> 
+                  onChange={onChange}
+                />
               </InputBox>
             </div>
           </LeftBox>
           <TxtAreaBox>
-            <InputTxt 
+            <InputTxt
               name="explanation"
               type="text"
               id="explanation"
               value={answer.explanation}
-              onChange={onChange} 
+              onChange={onChange}
               placeholder="설명 추가(선택)"
             />
             <BtnBox>
@@ -175,9 +179,9 @@ export default function AddCont({workbookid}) {
         </Box>
       </MakeBox>
     </Right>
-  )
+  );
 }
-  
+
 const Myworkbook = styled.div`
   display: flex;
   align-items: center;
@@ -187,7 +191,7 @@ const Myworkbook = styled.div`
     margin-left: 15px;
     width: 24px;
     height: 24px;
-    background: url('/img/arrowBack.svg') center no-repeat;
+    background: url("/img/arrowBack.svg") center no-repeat;
   }
   p {
     margin-left: 10px;
@@ -207,8 +211,8 @@ const Right = styled.article`
   border: 1px solid ${COLORS.light_gray};
   border-radius: 15px;
   @media (max-width: 420px) {
-    border: none;
     margin: 30px 0 0;
+    border: none;
     transition: all 0.3s;
   }
 `;
@@ -220,9 +224,9 @@ const MakeBox = styled.form`
   margin: 80px 0px 0;
   min-width: 1000px;
   @media (max-width: 1380px) {
-    min-width: 80%;
     padding: 50px 0;
     margin: 0;
+    min-width: 80%;
     height: 580px;
     overflow-y: scroll;
     &::-webkit-scrollbar {
@@ -249,7 +253,6 @@ const Box = styled.div`
   @media (max-width: 1380px) {
     flex-direction: column;
     align-items: center;
-    /* overflow: hidden; */
   }
 `;
 
@@ -278,7 +281,7 @@ const Input = styled.input`
 const LeftBox = styled.div`
   display: flex;
   flex-direction: column;
-  div{
+  div {
     margin: 20px 0 40px;
   }
   @media (max-width: 1380px) {
@@ -325,7 +328,7 @@ const TxtAreaBox = styled.div`
   @media (max-width: 1380px) {
     width: 80%;
   }
-`
+`;
 
 const InputTxt = styled.textarea`
   display: block;

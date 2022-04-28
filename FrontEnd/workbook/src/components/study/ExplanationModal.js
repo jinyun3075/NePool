@@ -1,7 +1,7 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 import { COLORS } from "../../constants";
 
-export const ExplanationModal = ({modal, question}) => {
+export const ExplanationModal = ({ modal, question }) => {
   return (
     <>
       {modal && (
@@ -36,23 +36,22 @@ const Container = styled.article`
   border-radius: 3px;
   background: ${COLORS.white};
   overflow: hidden;
-  /* overflow-y: scroll; */
   animation: ${fade} 0.3s ease-in-out forwards;
   z-index: 10;
   word-break: break-all;
-  @media (max-width: 640px) { 
+  @media (max-width: 640px) {
     min-width: 360px;
     max-height: 300px;
     overflow-y: scroll;
     &::-webkit-scrollbar {
-    width: 6px;
+      width: 6px;
     }
     &::-webkit-scrollbar-thumb {
-    border-radius: 15px;
-    background-color: ${COLORS.light_gray};
+      border-radius: 15px;
+      background-color: ${COLORS.light_gray};
     }
     &::-webkit-scrollbar-track {
-    background-color: white;
+      background-color: white;
     }
     transition: all 0.2s;
   }
@@ -61,10 +60,9 @@ const Container = styled.article`
 const Div = styled.div`
   padding: 20px 10px;
   margin: 15px 50px;
-  /* border: 1px solid ${COLORS.light_gray}; */
   color: ${COLORS.gray};
   font-size: 14px;
-  @media (max-width: 640px) { 
+  @media (max-width: 640px) {
     font-size: 13px;
   }
 `;

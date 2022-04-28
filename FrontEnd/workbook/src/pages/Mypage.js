@@ -5,10 +5,5 @@ export default function Mypage() {
     <>
       <MyPageContent />
     </>
-<<<<<<< HEAD
-    )
-} 
-=======
   );
 }
->>>>>>> 06f68097701e569c9cf3517a15b981fdce0f81e4
