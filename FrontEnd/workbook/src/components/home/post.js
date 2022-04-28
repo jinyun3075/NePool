@@ -146,6 +146,16 @@ const Category = styled.ul`
   width: 700px;
   min-width: 860px;
   height: 80px;
+  @media (max-width: 860px) {
+    flex-wrap: wrap;
+    width: 100%;
+    min-width: 0;
+  }
+  @media (max-width: 520px) {
+    flex-wrap: wrap;
+    width: 250px;
+    min-width: 0;
+  }
 `;
 
 const CategoryItem = styled.li`
@@ -159,6 +169,9 @@ const CategoryItem = styled.li`
     background: ${COLORS.blue};
     color: ${COLORS.white};
     transition: all 0.5s;
+  }
+  @media (max-width: 860px) {
+    margin: 0;
   }
 `;
 //리스트
