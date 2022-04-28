@@ -32,7 +32,9 @@ export default function MyWorkbook() {
 
   useEffect(() => {
     Mypageinfo();
-    return () => {setLoading(true)};
+    return () => {
+      setLoading(true);
+    };
   }, []);
 
   return (
@@ -76,25 +78,23 @@ export default function MyWorkbook() {
 
 const Article = styled.article`
   flex-basis: 25%;
-  @media (max-width: 420px) { 
+  @media (max-width: 420px) {
     flex-basis: 0%;
   }
 `;
 
 const Profile = styled.div`
   display: flex;
-  @media (max-width: 1370px) { 
+  @media (max-width: 1370px) {
     flex-direction: column;
     gap: 20px;
-    
   }
-  @media (max-width: 420px) { 
+  @media (max-width: 420px) {
     display: none;
   }
   .img {
     display: flex;
     margin-left: 2em;
-    /* width: 100%; */
   }
 `;
 
@@ -131,6 +131,7 @@ const InfoImg = styled.img`
 `;
 
 const Name = styled.p`
+  color: ${COLORS.text_gray};
   font-size: 1.3rem;
   font-weight: 700;
   color: ${COLORS.text_gray};
@@ -138,20 +139,18 @@ const Name = styled.p`
 
 const Email = styled.p`
   color: ${COLORS.gray};
-  font-family: 'Noto Sans KR';
+  font-family: "Noto Sans KR";
   font-size: 14px;
 `;
 
 const Workbook = styled.div`
   margin-top: 30px;
   min-width: 250px;
-  @media (max-width: 420px) { 
-    /* display: none; */
+  @media (max-width: 420px) {
     position: absolute;
-    width: 100px;
     top: 60px;
+    width: 100px;
     z-index: 20;
-    /* transform: rotate(90deg); */
   }
 `;
 
@@ -174,11 +173,11 @@ const WorkbookLi = styled.li`
       color: white;
     }
   }
-  @media (max-width: 420px) { 
+  @media (max-width: 420px) {
     padding: 5px 15px;
-    font-size: 14px;
-    width: 100px;
     margin-top: 5px;
+    width: 100px;
+    font-size: 14px;
     transition: all 0.3s;
   }
 `;
@@ -186,7 +185,7 @@ const WorkbookLi = styled.li`
 const WorkbookImg = styled.img`
   width: 1.1rem;
   height: 1.1rem;
-  @media (max-width: 420px) { 
+  @media (max-width: 420px) {
     display: none;
   }
 `;

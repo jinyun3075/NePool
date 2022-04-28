@@ -199,7 +199,7 @@ const Myworkbook = styled.div`
     margin-left: 15px;
     width: 24px;
     height: 24px;
-    background: url('/img/arrowBack.svg') center no-repeat;
+    background: url("/img/arrowBack.svg") center no-repeat;
   }
   p {
     margin-left: 10px;
@@ -219,8 +219,8 @@ const Right = styled.article`
   border: 1px solid ${COLORS.light_gray};
   border-radius: 15px;
   @media (max-width: 420px) {
-    border: none;
     margin: 30px 0 0;
+    border: none;
     transition: all 0.3s;
   }
 `;
@@ -233,9 +233,9 @@ const MakeBox = styled.form`
   margin: 80px 0px 0;
   min-width: 1000px;
   @media (max-width: 1380px) {
-    min-width: 80%;
     padding: 50px 0;
     margin: 0;
+    min-width: 80%;
     height: 580px;
     overflow-y: scroll;
     &::-webkit-scrollbar {
@@ -262,7 +262,6 @@ const Box = styled.div`
   @media (max-width: 1380px) {
     flex-direction: column;
     align-items: center;
-    /* overflow: hidden; */
   }
 `;
 const Input = styled.input`
@@ -334,7 +333,7 @@ const TxtAreaBox = styled.div`
   @media (max-width: 1380px) {
     width: 80%;
   }
-`
+`;
 
 const InputTxt = styled.textarea`
   display: block;

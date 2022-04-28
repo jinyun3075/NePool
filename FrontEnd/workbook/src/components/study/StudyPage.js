@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
-import Answers from './Answers';
-import { ExplanationModal } from './ExplanationModal';
-import Progress from './Progress';
-import Question from './Question';
-import Result from './Result';
-import styled from 'styled-components';
-import axios from 'axios';
-import { API, COLORS } from '../../constants'
+import { useEffect, useState } from "react";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
+import Answers from "./Answers";
+import { ExplanationModal } from "./ExplanationModal";
+import Progress from "./Progress";
+import Question from "./Question";
+import Result from "./Result";
+import styled from "styled-components";
+import axios from "axios";
+import { API, COLORS } from "../../constants";
 
 export default function StudyPage() {
   const token = sessionStorage.getItem("token");
@@ -22,16 +22,16 @@ export default function StudyPage() {
 
   const [questionsData, setQuestionsData] = useState([
     {
-      id: '',
-      question: '',
-      answer_a: '',
-      answer_b: '',
-      answer_c: '',
-      answer_d: '',
-      answer_e: '',
-      correct: '',
-      explanation: '',
-    }
+      id: "",
+      question: "",
+      answer_a: "",
+      answer_b: "",
+      answer_c: "",
+      answer_d: "",
+      answer_e: "",
+      correct: "",
+      explanation: "",
+    },
   ]);
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -52,10 +52,10 @@ export default function StudyPage() {
 
   const [loading, setLoading] = useState(false);
 
-  const [shotAnswer, setShotAnswer] = useState([])
-  const [oneShotAnswer, setOneShotAnswer] = useState([])
+  const [shotAnswer, setShotAnswer] = useState([]);
+  const [oneShotAnswer, setOneShotAnswer] = useState([]);
 
-  const mode = "study"
+  const mode = "study";
 
   const getTest = async () => {
     setLoading(true);
@@ -66,11 +66,11 @@ export default function StudyPage() {
     });
     setQuestionsData(res.data);
   };
- 
-  const click = e => {
+
+  const click = (e) => {
     e.preventDefault();
     const { value } = e.target;
-    if(value !== undefined) {
+    if (value !== undefined) {
       setCurrentAnswer(value);
       setCheck(false);
       setError(false);
@@ -78,15 +78,15 @@ export default function StudyPage() {
   };
 
   const answerCheck = () => {
-    if(currentAnswer === "") {
+    if (currentAnswer === "") {
       setCheck(true);
     }
 
-    if(currentAnswer !== undefined) {
+    if (currentAnswer !== undefined) {
       setShotAnswer([...shotAnswer, currentAnswer]);
     }
 
-    if(currentAnswer === question.correct) {
+    if (currentAnswer === question.correct) {
       setBtnVisible(true);
       setError(false);
       setCorrect(true);
@@ -98,22 +98,22 @@ export default function StudyPage() {
   };
 
   const nextQuestion = () => {
-    const answer = {questionId: question.id, answer: currentAnswer};
+    const answer = { questionId: question.id, answer: currentAnswer };
 
     setOneShotAnswer([...oneShotAnswer, shotAnswer[0]]);
     setShotAnswer([]);
 
     answers.push(answer);
     setAnswers(answers);
-    setCurrentAnswer('');
+    setCurrentAnswer("");
 
     setCorrect(false);
     setBtnVisible(false);
     setIsAnswer(false);
 
-    if(currentQuestion + 1 < questionsData.length) {
+    if (currentQuestion + 1 < questionsData.length) {
       setCurrentQuestion(currentQuestion + 1);
-      return
+      return;
     }
     setIsResult(true);
   };
@@ -126,46 +126,66 @@ export default function StudyPage() {
   };
 
   useEffect(() => {
-    if(!token) {
-      navigate("/",  { replace: true })
+    if (!token) {
+      navigate("/", { replace: true });
     }
     getTest();
-    return () => {setLoading(true)};
+    return () => {
+      setLoading(true);
+    };
   }, []);
 
-  if(questionsData.length === 0) {
+  if (questionsData.length === 0) {
     return (
       <>
         <Blur></Blur>
         <Modal>
           <p>아직 문제가 없어요 😥😥😥</p>
-          <BackBtn onClick={() => {navigate(-1)}}>돌아가기</BackBtn>
+          <BackBtn
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            돌아가기
+          </BackBtn>
         </Modal>
       </>
-    )
+    );
   } else {
-    if(isResult) {
+    if (isResult) {
       return (
         <main className="container">
           <h1 className="blind">공부 모드 결과</h1>
           <ResultBoard>
-            <Result questionsData={questionsData} oneShotAnswer={oneShotAnswer}/>
+            <Result
+              questionsData={questionsData}
+              oneShotAnswer={oneShotAnswer}
+            />
             <BtnBox>
-              <Btn onClick={() => {window.location.reload()}}>다시 풀기</Btn>
-              <Btn onClick={() =>  navigate(-1)}>완료</Btn>
+              <Btn
+                onClick={() => {
+                  window.location.reload();
+                }}
+              >
+                다시 풀기
+              </Btn>
+              <Btn onClick={() => navigate(-1)}>완료</Btn>
             </BtnBox>
           </ResultBoard>
         </main>
-      )
+      );
     } else {
       return (
         <main className="container">
           <h1 className="blind">공부 모드</h1>
           <TestBoard>
-            <Progress total={questionsData.length} currentQuestion={currentQuestion}/>
+            <Progress
+              total={questionsData.length}
+              currentQuestion={currentQuestion}
+            />
             <Test>
               <div>
-                <Question question={question.question}/>
+                <Question question={question.question} />
                 <Line />
                 {check && <Err>✅ 답을 선택해주세요</Err>}
                 <Answers
@@ -181,13 +201,17 @@ export default function StudyPage() {
             </Test>
             <BtnBox>
               {btnVisible && <Btn onClick={openExModal}>정답 해설</Btn>}
-              {!btnVisible ? <Btn onClick={answerCheck}>정답 확인</Btn> : <Btn onClick={nextQuestion}>다음 문제</Btn> }
+              {!btnVisible ? (
+                <Btn onClick={answerCheck}>정답 확인</Btn>
+              ) : (
+                <Btn onClick={nextQuestion}>다음 문제</Btn>
+              )}
             </BtnBox>
             <Background className={`${modal}`} onClick={closeExModal} />
             <ExplanationModal modal={modal} question={question} />
           </TestBoard>
         </main>
-      )
+      );
     }
   }
 }
@@ -197,9 +221,9 @@ const Modal = styled.div`
   flex-direction: column;
   align-items: center;
   position: absolute;
+  transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   padding: 50px 40px;
   margin: 15px 50px;
   border: 1px solid ${COLORS.light_gray};
@@ -210,14 +234,14 @@ const Modal = styled.div`
     margin: 0 0 15px;
   }
   @media (max-width: 750px) {
-    width: 200px;
     margin: 0 auto;
+    width: 200px;
     transition: all 0.3s;
   }
 `;
 
 const BackBtn = styled.button`
-  margin: 0 10px; 
+  margin: 0 10px;
   width: 150px;
   height: 45px;
   border: 0.5px solid ${COLORS.light_gray};
@@ -234,7 +258,7 @@ const Blur = styled.div`
   left: 0;
   width: 100vw;
   height: 100%;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(5px);
   overflow: hidden;
 `;
@@ -248,17 +272,17 @@ const TestBoard = styled.section`
   border: 1.5px solid ${COLORS.light_gray};
   border-radius: 7px;
   &::after {
-    content: '';
     position: absolute;
+    content: "";
     top: 35px;
     left: 0;
     width: 100%;
     border-bottom: 1.5px solid ${COLORS.light_gray};
   }
-  @media (max-width: 640px) { 
-    border: none;
-    min-width: 400px;
+  @media (max-width: 640px) {
     margin: 0 auto;
+    min-width: 400px;
+    border: none;
     transition: all 0.4s;
     &::after {
       border: none;
@@ -275,8 +299,8 @@ const ResultBoard = styled.section`
   border: 1.5px solid ${COLORS.light_gray};
   border-radius: 7px;
   &::after {
-    content: '';
     position: absolute;
+    content: "";
     top: 35px;
     left: 0;
     width: 100%;
@@ -298,14 +322,13 @@ const Test = styled.article`
 `;
 
 const Line = styled.div`
-  margin:  30px 30px 0;
+  margin: 30px 30px 0;
   border-bottom: 1px solid ${COLORS.white_gray};
 `;
 
 const BtnBox = styled.div`
   display: flex;
   justify-content: flex-end;
-  /* gap: 25px; */
   margin: 0 20px;
 `;
 
@@ -315,8 +338,6 @@ const Btn = styled.button`
   height: 35px;
   border: none;
   border-radius: 2px;
-  /* background: ${COLORS.blue};
-  color: ${COLORS.white}; */
   font-size: 14px;
   &:disabled {
     opacity: 0.5;

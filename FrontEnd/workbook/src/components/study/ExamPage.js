@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
-import ExamQuestion from './ExamQuestion';
-import ExamResult from './ExamResult';
-import Progress from './Progress';
-import styled from 'styled-components';
-import axios from 'axios';
-import { API, COLORS } from '../../constants'
+import { useEffect, useState } from "react";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
+import ExamQuestion from "./ExamQuestion";
+import ExamResult from "./ExamResult";
+import Progress from "./Progress";
+import styled from "styled-components";
+import axios from "axios";
+import { API, COLORS } from "../../constants";
 
 export default function ExamPage() {
   const token = sessionStorage.getItem("token");
@@ -20,30 +20,32 @@ export default function ExamPage() {
 
   const [questionsData, setQuestionsData] = useState([
     {
-      id: '',
-      question: '',
-      answer_a: '',
-      answer_b: '',
-      answer_c: '',
-      answer_d: '',
-      answer_e: '',
-      correct: '',
-      explanation: ''
-    }
+      id: "",
+      question: "",
+      answer_a: "",
+      answer_b: "",
+      answer_c: "",
+      answer_d: "",
+      answer_e: "",
+      correct: "",
+      explanation: "",
+    },
   ]);
 
-  const [resultData, setResultData] = useState([{
-    question: "",
-    answer_a: "",
-    answer_b: "",
-    answer_c: "",
-    answer_d: "",
-    answer_e: "",
-    choice: "",
-    correct: "",
-    explanation: "",
-    result: false,
-  }]);
+  const [resultData, setResultData] = useState([
+    {
+      question: "",
+      answer_a: "",
+      answer_b: "",
+      answer_c: "",
+      answer_d: "",
+      answer_e: "",
+      choice: "",
+      correct: "",
+      explanation: "",
+      result: false,
+    },
+  ]);
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [isResult, setIsResult] = useState(false);
@@ -57,7 +59,7 @@ export default function ExamPage() {
 
   const [loading, setLoading] = useState(false);
 
-  const percent = (score/totalScore * 100).toFixed(1);
+  const percent = ((score / totalScore) * 100).toFixed(1);
 
   const mode = "exam";
 
@@ -71,10 +73,12 @@ export default function ExamPage() {
     setQuestionsData(res.data);
   };
 
-  const answerCheck = async() => {
-    const result = answerArray.reverse().filter((v, i, c) => i === c.findIndex(t => t.id === v.id));
+  const answerCheck = async () => {
+    const result = answerArray
+      .reverse()
+      .filter((v, i, c) => i === c.findIndex((t) => t.id === v.id));
 
-    if(result.length !== questionsData.length) {
+    if (result.length !== questionsData.length) {
       setResultErr(true);
     } else {
       setResultErr(false);
@@ -84,46 +88,54 @@ export default function ExamPage() {
     const res = await axios.post(`${API}/work/${workBookId}`, result, {
       headers: {
         "Content-type": "application/json",
-        Authorization : `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
     setResultData(res.data.val);
     setScore(res.data.score);
     setTotalScore(res.data.totalScore);
-  }
+  };
 
   const getSelectQuestion = (selectQuestion) => {
     setSelectQuestion(selectQuestion);
   };
 
   const getAnswerArray = (v) => {
-    if(v !== undefined) {
-      if(v.correct !== "") {
-        setAnswerArray([...answerArray, v])
+    if (v !== undefined) {
+      if (v.correct !== "") {
+        setAnswerArray([...answerArray, v]);
       }
-    } 
+    }
   };
 
   useEffect(() => {
-    if(!token) {
-      navigate("/",  { replace: true })
+    if (!token) {
+      navigate("/", { replace: true });
     }
     getTest();
-    return () => {setLoading(true)};
+    return () => {
+      setLoading(true);
+    };
   }, []);
 
-  if(questionsData.length === 0) {
+  if (questionsData.length === 0) {
     return (
       <>
         <Blur></Blur>
         <Modal>
           <p>아직 문제가 없어요 😥😥😥</p>
-          <BackBtn onClick={() => {navigate(-1)}}>돌아가기</BackBtn>
+          <BackBtn
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            돌아가기
+          </BackBtn>
         </Modal>
       </>
-    )
+    );
   } else {
-    if(isResult) {
+    if (isResult) {
       return (
         <main className="container">
           <h1 className="blind">시험 모드 결과</h1>
@@ -136,31 +148,43 @@ export default function ExamPage() {
             <ClickP>#문제를 클릭해주세요</ClickP>
             <ResultBox>
               <p>{percent} 점</p>
-              <span>{score} / {totalScore}</span>
+              <span>
+                {score} / {totalScore}
+              </span>
               {/* <LineBox></LineBox> */}
             </ResultBox>
             <Test>
-            {resultData && resultData.reverse().map((item, i) => {
-              return(
-                <QuestionBox key={i}>
-                    <ExamResult i={i} item={item} />
-                </QuestionBox>
-              )
-            })}
+              {resultData &&
+                resultData.reverse().map((item, i) => {
+                  return (
+                    <QuestionBox key={i}>
+                      <ExamResult i={i} item={item} />
+                    </QuestionBox>
+                  );
+                })}
             </Test>
             <BtnBox>
-              <Btn onClick={() => {window.location.reload()}}>다시 풀기</Btn>
-              <Btn onClick={() =>  navigate(-1)}>완료</Btn>
+              <Btn
+                onClick={() => {
+                  window.location.reload();
+                }}
+              >
+                다시 풀기
+              </Btn>
+              <Btn onClick={() => navigate(-1)}>완료</Btn>
             </BtnBox>
           </ResultBoard>
         </main>
-      )
+      );
     } else {
       return (
         <main className="container">
           <h1 className="blind">시험 모드</h1>
           <TestBoard>
-            <Progress total={questionsData.length} currentQuestion={currentQuestion}/>
+            <Progress
+              total={questionsData.length}
+              currentQuestion={currentQuestion}
+            />
             <ClickP>#문제를 클릭해주세요</ClickP>
             <Test>
               {questionsData.map((question, i) => {
@@ -176,7 +200,7 @@ export default function ExamPage() {
                       userName={userName}
                     />
                   </QuestionBox>
-                )
+                );
               })}
             </Test>
             <BtnBox>
@@ -185,7 +209,7 @@ export default function ExamPage() {
             </BtnBox>
           </TestBoard>
         </main>
-      )
+      );
     }
   }
 }
@@ -195,9 +219,9 @@ const Modal = styled.div`
   flex-direction: column;
   align-items: center;
   position: absolute;
+  transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   padding: 50px 40px;
   margin: 15px 50px;
   border: 1px solid ${COLORS.light_gray};
@@ -208,14 +232,14 @@ const Modal = styled.div`
     margin: 0 0 15px;
   }
   @media (max-width: 750px) {
-    width: 200px;
     margin: 0 auto;
+    width: 200px;
     transition: all 0.3s;
   }
 `;
 
 const BackBtn = styled.button`
-  margin: 0 10px; 
+  margin: 0 10px;
   width: 150px;
   height: 45px;
   border: 0.5px solid ${COLORS.light_gray};
@@ -232,7 +256,7 @@ const Blur = styled.div`
   left: 0;
   width: 100vw;
   height: 100%;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(5px);
   overflow: hidden;
 `;
@@ -254,17 +278,17 @@ const TestBoard = styled.section`
     text-align: end;
   }
   &::after {
-    content: '';
     position: absolute;
+    content: "";
     top: 35px;
     left: 0;
     width: 100%;
     border-bottom: 1.5px solid ${COLORS.light_gray};
   }
-  @media (max-width: 640px) { 
-    border: none;
-    min-width: 400px;
+  @media (max-width: 640px) {
     margin: 0 auto;
+    min-width: 400px;
+    border: none;
     transition: all 0.4s;
     &::after {
       border: none;
@@ -277,12 +301,11 @@ const ResultBoard = styled.section`
   padding: 0 0 30px;
   margin: 50px auto;
   width: 70%;
-  /* min-width: 1000px; */
   border: 1.5px solid ${COLORS.light_gray};
   border-radius: 7px;
   &::after {
-    content: '';
     position: absolute;
+    content: "";
     top: 35px;
     left: 0;
     width: 100%;
@@ -305,7 +328,7 @@ const ClickP = styled.p`
   font-size: 12px;
   font-style: italic;
   text-align: end;
-`
+`;
 
 const Test = styled.article`
   padding: 30px 0 0;
@@ -328,12 +351,6 @@ const ResultBox = styled.div`
   }
 `;
 
-// const LineBox = styled.div`
-//   /* width: 50px; */
-//   height: 5px;
-//   background: ${COLORS.alpha_blue};
-// `;
-
 const QuestionBox = styled.div`
   margin-bottom: 50px;
 `;
@@ -351,8 +368,6 @@ const Btn = styled.button`
   height: 35px;
   border: none;
   border-radius: 2px;
-  /* background: ${COLORS.blue};
-  color: ${COLORS.white}; */
   font-size: 14px;
   &:disabled {
     opacity: 0.5;

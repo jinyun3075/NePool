@@ -1,15 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import axios from 'axios';
-import { Editor } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { API, COLORS } from '../../constants'
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import axios from "axios";
+import { Editor } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { API, COLORS } from "../../constants";
 
 export default function NoticeEditorPage() {
   const token = sessionStorage.getItem("token");
   const user = sessionStorage.getItem("user");
-  
+
   const editorRef = useRef();
 
   const navigate = useNavigate();
@@ -21,12 +21,16 @@ export default function NoticeEditorPage() {
   // const [isCategory, setIsCategory] = useState(false);
   // const [color, setColor] = useState(`${COLORS.light_gray}`);
   const [userId, setUserId] = useState("");
-  const [title, setTitle] = useState(notice !== undefined ? `${notice.title}` : "");
+  const [title, setTitle] = useState(
+    notice !== undefined ? `${notice.title}` : ""
+  );
   const [isTitle, setIsTitle] = useState(false);
-  const [htmlStr, setHtmlStr] = useState(notice !== undefined ? `${notice.contents}` : "");
-  
+  const [htmlStr, setHtmlStr] = useState(
+    notice !== undefined ? `${notice.contents}` : ""
+  );
+
   const [loading, setLoading] = useState(false);
-  
+
   const getUser = async () => {
     setLoading(true);
     const res = await axios.get(`${API}/user/${user}`, {
@@ -55,7 +59,7 @@ export default function NoticeEditorPage() {
   };
 
   const onChangeEditor = () => {
-    if(editorRef.current) {
+    if (editorRef.current) {
       setHtmlStr(editorRef.current.getInstance().getHTML());
     }
   };
@@ -68,18 +72,18 @@ export default function NoticeEditorPage() {
         title: title,
         contents: htmlStr,
       };
-      await axios.put(`${API}/announcement/${userId}` , noticeData, {
+      await axios.put(`${API}/announcement/${userId}`, noticeData, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
-      navigate('/notice');
+      navigate("/notice");
     } else {
-        const noticeData = {
-          title: title,
-          contents: htmlStr,
-        };
-        await axios.post(`${API}/announcement/${userId}`, noticeData, {
+      const noticeData = {
+        title: title,
+        contents: htmlStr,
+      };
+      await axios.post(`${API}/announcement/${userId}`, noticeData, {
         headers: {
           "Content-type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -90,19 +94,21 @@ export default function NoticeEditorPage() {
   };
 
   useEffect(() => {
-    if(!token) {
-      navigate("/",  { replace: true })
+    if (!token) {
+      navigate("/", { replace: true });
     }
     getUser();
-    if(editorRef.current) {
+    if (editorRef.current) {
       editorRef.current.getInstance().setHTML(htmlStr);
-      editorRef.current.getInstance().removeHook('addImageBlobHook');
+      editorRef.current.getInstance().removeHook("addImageBlobHook");
     }
-    return () => {setLoading(true)};
+    return () => {
+      setLoading(true);
+    };
   }, []);
 
   return (
-    <NoticeForm  onSubmit={onSubmit}>
+    <NoticeForm onSubmit={onSubmit}>
       <NoticeTitle>공지사항 작성</NoticeTitle>
       <Line></Line>
       <InputBox>
@@ -119,15 +125,15 @@ export default function NoticeEditorPage() {
           </Select>
         </label> */}
         <label htmlFor="title"></label>
-          <Input
-            id="title"
-            name="title"
-            placeholder="제목을 입력해 주세요."
-            value={title}
-            onChange={onChange} 
-          />
+        <Input
+          id="title"
+          name="title"
+          placeholder="제목을 입력해 주세요."
+          value={title}
+          onChange={onChange}
+        />
       </InputBox>
-      <Editor 
+      <Editor
         previewStyle="vertical"
         height="500px"
         useCommandShortcut={true}
@@ -136,20 +142,26 @@ export default function NoticeEditorPage() {
         onChange={onChangeEditor}
       />
       <BtnBox>
-        {notice !== undefined ? <Btn type="submit">수정</Btn> : <Btn type="submit" disabled={!isTitle}>등록</Btn>}
-        <Link to='/notice'>
+        {notice !== undefined ? (
+          <Btn type="submit">수정</Btn>
+        ) : (
+          <Btn type="submit" disabled={!isTitle}>
+            등록
+          </Btn>
+        )}
+        <Link to="/notice">
           <Btn>취소</Btn>
         </Link>
       </BtnBox>
     </NoticeForm>
-  )
+  );
 }
 
 const NoticeForm = styled.form`
+  padding: 0 15px;
   margin: 50px auto;
   width: 70%;
   min-width: 350px;
-  padding: 0 15px;
 `;
 
 const NoticeTitle = styled.h2`
@@ -165,29 +177,6 @@ const InputBox = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
-// const Select = styled.select`
-//   position: relative;
-//   padding: 0 15px;
-//   width: 100px;
-//   height: 48px;
-//   border: 1px solid ${COLORS.light_gray};
-//   color: ${(props) => props.color};
-//   font-size: 13px;
-//   appearance: none;
-//   -o-appearance: none;
-//   -webkit-appearance: none;
-//   -moz-appearance: none;
-//   cursor: pointer;
-//   &:focus {
-//     border: 1px solid ${COLORS.blue};
-//     outline: none;
-//   }
-//   option {
-//     padding: 15px;
-//     color: ${COLORS.gray};
-//   }
-// `;
 
 const Input = styled.input`
   padding: 0 15px;
@@ -216,11 +205,11 @@ const BtnBox = styled.div`
 const Btn = styled.button`
   margin: 10px 0 0;
   width: 100px;
-  height: 40px;  
+  height: 40px;
   border: 1px solid ${COLORS.light_gray};
   color: ${COLORS.light_gray};
   font-size: 14px;
-  &:hover{
+  &:hover {
     border: none;
     background: ${COLORS.blue};
     color: ${COLORS.white};

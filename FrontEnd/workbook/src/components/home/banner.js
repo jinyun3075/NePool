@@ -4,12 +4,12 @@ import styled from "styled-components";
 import axios from "axios";
 import { API, COLORS } from "../../constants";
 
-export default function Banner({allUserCount}) {
+export default function Banner({ allUserCount }) {
   const user = sessionStorage.getItem("user");
 
   const [allWorkBook, setAllWorkBook] = useState("");
   const [userId, setUserId] = useState("");
-  const [notice, setNotice] = useState("")
+  const [notice, setNotice] = useState("");
 
   const getAllWorkbook = async () => {
     const res = await axios.get(`${API}/workbook/all`, {
@@ -32,8 +32,8 @@ export default function Banner({allUserCount}) {
       headers: {
         "Content-type": "application/json",
       },
-    })
-    setNotice(res.data.dtoList[0])
+    });
+    setNotice(res.data.dtoList[0]);
   };
 
   useEffect(() => {
@@ -46,15 +46,14 @@ export default function Banner({allUserCount}) {
     <>
       <BannerBox>
         <TextBox>
-       
           <BannerText size="25px">
             현재
             <BannerText size="36px" weight="bold">
               &nbsp;{allUserCount}명
             </BannerText>
             의 학생 분들이
-            </BannerText>
-            <BannerText size="25px">
+          </BannerText>
+          <BannerText size="25px">
             <BannerText size="36px" weight="bold">
               &nbsp;{allWorkBook}개
             </BannerText>
@@ -80,7 +79,10 @@ export default function Banner({allUserCount}) {
       <NotionBox>
         <Notion>
           {notice && (
-            <Link to={`/notice/${notice.id}`} state={{item: notice, userId: userId}}>
+            <Link
+              to={`/notice/${notice.id}`}
+              state={{ item: notice, userId: userId }}
+            >
               <MainNotion>{notice.title}</MainNotion>
             </Link>
           )}
@@ -98,11 +100,10 @@ const BannerBox = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  padding: 60px 0;
   margin: 80px 0 0;
   height: 300px;
-  background: #EDF3F7;
-  padding: 60px 0;
-  /* background: url(/img/background.svg) center/100% no-repeat; */
+  background: #edf3f7;
 `;
 
 const TextBox = styled.div`
@@ -110,7 +111,11 @@ const TextBox = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
-`
+  @media (max-width: 520px) {
+    width: 320px;
+    text-align: center;
+  }
+`;
 const BannerText = styled.span`
   font-size: ${(props) => props.size};
   font-weight: ${(props) => props.weight};
@@ -132,7 +137,11 @@ const Btn = styled.div`
   color: ${(props) => props.color};
   font-size: 15px;
   line-height: 50px;
+  box-sizing: border-box;
   box-shadow: 3px 3px 1px 0px rgb(34 36 38 / 15%);
+  @media (max-width: 520px) {
+    width: 165px;
+  }
 `;
 
 const NotionBox = styled.div`
@@ -144,15 +153,17 @@ const NotionBox = styled.div`
 
 const Notion = styled.div`
   display: flex;
-  /* flex-direction: column; */
   justify-content: center;
   align-items: center;
   gap: 50px;
+  @media (max-width: 520px) {
+    flex-direction: column;
+    width: 350px;
+  }
 `;
 
 const MainNotion = styled.span`
   display: inline-block;
-  /* font-size: 15px; */
   position: relative;
   &:hover {
     color: ${COLORS.blue};
@@ -160,10 +171,6 @@ const MainNotion = styled.span`
 `;
 
 const WholeBtn = styled.span`
-  font-size: 14px;
   color: ${COLORS.gray};
-  /* text-decoration: underline; */
-  /* &:hover {
-    color: ${COLORS.blue};
-  } */
+  font-size: 14px;
 `;

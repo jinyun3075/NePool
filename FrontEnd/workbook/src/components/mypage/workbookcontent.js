@@ -41,16 +41,17 @@ export default function WorkbookContent() {
   const ReadWorkbook = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API}/workbook/${username}?page=1&size=500`, {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        `${API}/workbook/${username}?page=1&size=500`,
+        {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setWorkbook(res.data.dtoList);
-    } catch(err) {
-
-    }
+    } catch (err) {}
     // console.log(res.data.dtoList);
   };
 
@@ -98,7 +99,9 @@ export default function WorkbookContent() {
 
   useEffect(() => {
     ReadWorkbook();
-    return () => { setLoading(false) }
+    return () => {
+      setLoading(false);
+    };
   }, [Workbook]);
 
   return (
@@ -206,18 +209,18 @@ export default function WorkbookContent() {
 }
 
 const Article = styled.article`
-  position: relative;
   flex-basis: 70%;
+  position: relative;
   margin: 0 auto;
   margin-right: 4%;
+  min-width: 450px;
   min-height: 700px;
   border: 1px solid ${COLORS.light_gray};
   border-radius: 15px;
-  min-width: 450px;
-  @media (max-width: 420px) { 
-    border: none;
+  @media (max-width: 420px) {
     margin: 15px auto;
     min-width: 400px;
+    border: none;
   }
 `;
 
@@ -227,14 +230,13 @@ const Myworkbook = styled.div`
   p {
     margin-left: 20px;
     font-size: 15px;
-    /* font-weight: 700; */
     line-height: 50px;
   }
-  @media (max-width: 420px) { 
+  @media (max-width: 420px) {
     border: none;
     p {
       display: none;
-    } 
+    }
   }
 `;
 
@@ -247,10 +249,10 @@ const Example = styled.ul`
   max-height: 87%;
   overflow-x: auto;
   overflow-y: scroll;
-  @media (max-width: 420px) { 
-    max-height: 95%;
-    margin: 0 0 15px;
+  @media (max-width: 420px) {
     justify-content: center;
+    margin: 0 0 15px;
+    max-height: 95%;
     transition: all 0.2s;
   }
   &::-webkit-scrollbar {
@@ -319,10 +321,10 @@ const BlueShare = styled.span`
 `;
 
 const ExampleP1 = styled.p`
-  word-break: break-all;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  word-break: break-all;
   overflow: hidden;
   padding: 0 0.5em;
   margin-top: 60px;
@@ -350,7 +352,7 @@ const BtnBox = styled.div`
   position: absolute;
   right: 30px;
   bottom: 30px;
-  @media (max-width: 420px) { 
+  @media (max-width: 420px) {
     right: 160px;
     bottom: -70px;
   }
@@ -358,32 +360,28 @@ const BtnBox = styled.div`
     color: ${COLORS.light_gray};
     font-size: 13px;
     &::after {
-      content: '';
       position: absolute;
+      content: "";
       top: -18px;
       left: -5px;
-      background: url('/img/showPlus.svg') no-repeat center;
       width: 40px;
       height: 40px;
+      background: url("/img/showPlus.svg") no-repeat center;
     }
-    @media (max-width: 420px) { 
+    @media (max-width: 420px) {
       &::after {
         background: none;
       }
     }
   }
-`
+`;
 
 const CreateBtn = styled.img`
   width: 50px;
   height: 50px;
-  /* color: #fff;
-  font-size: 30px;
-  border-radius: 50%;
-  background-color: ${COLORS.blue}; */
   z-index: 100;
   cursor: pointer;
-  @media (max-width: 420px) { 
+  @media (max-width: 420px) {
     width: 80px;
     height: 80px;
     transition: all 0.3s;
