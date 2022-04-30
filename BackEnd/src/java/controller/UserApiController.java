@@ -23,7 +23,7 @@ public class UserApiController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<UserDTO> selectUser(@PathVariable String username) {
+    public ResponseEntity<UserDTO> selectUser(@PathVariable String username) throws Exception {
         return new ResponseEntity<>(service.selectUser(username), HttpStatus.OK);
     }
 

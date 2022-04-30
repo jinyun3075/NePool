@@ -10,15 +10,13 @@ import com.nimbusds.jose.shaded.json.JSONObject;
 public interface UserService {
     UserDTO insertUser(UserDTO dto) throws Exception;
 
-    UserDTO selectUser(String dto);
+    UserDTO selectUser(String dto) throws Exception;
 
     PageResultDTO<UserDTO, NePoolUser> selectUserList(Integer page, Integer size);
 
     UserDTO updateUser(UserDTO dto) throws Exception;
 
     String deleteUser(String user_id) throws Exception;
-
-    UserLoginDTO googleLogin(JSONObject dto) throws Exception;
 
     default NePoolUser dtoToEntity(UserDTO dto, String id) {
         return NePoolUser.builder()

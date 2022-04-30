@@ -10,64 +10,58 @@ import com.NePool.app.domain.comment.repository.CommentRepository;
 import com.NePool.app.domain.user.repository.UserRepository;
 import com.NePool.app.domain.workbook.repository.WorkBookRepository;
 import com.NePool.app.service.CommentService;
+import com.NePool.app.util.exception.ServiceExceptionCheck;
+import com.NePool.app.util.module.PageModule;
+import com.NePool.app.util.module.BCryptModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.Function;
 
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class CommentServiceImpl implements CommentService {
+public class CommentServiceImpl extends ServiceExceptionCheck implements CommentService {
     private final UserRepository userRepository;
     private final WorkBookRepository workBookRepository;
     private final CommentRepository commentRepository;
 
-    @Autowired
-    private Random random;
-    @Autowired
-    private PasswordEncoder pw;
+    private final BCryptModule bCryptModule;
+
+    private final PageModule pageModule;
 
     @Override
     public CommentRequestDTO insertComment(String user_id, String work_book_id, CommentRequestDTO dto) throws Exception {
-        if (dto.getContent().equals("")) {
-            throw new Exception("내용을 입력해 주세요");
-        }
+
+        checkCommentDTO(dto);
+
         Optional<NePoolUser> user = userRepository.findById(user_id);
-        if (!user.isPresent()) {
-            throw new Exception("존재하지 않는 아이디입니다.");
-        }
+        checkUserEntity(user);
+
         Optional<WorkBook> workBook = workBookRepository.findById(work_book_id);
-        if (!workBook.isPresent()) {
-            throw new Exception("존재하지 않는 문제집입니다.");
-        }
-        Comment entity = commentRepository.save(dtoToEntity(dto, work_book_id, user_id, (pw.encode(random.nextInt(600) + "").replace("/", ""))));
+        checkWorkBookEntity(workBook);
+
+        Comment entity = commentRepository.save(dtoToEntity(dto, work_book_id, user_id, bCryptModule.makeId()));
+
         return entityToDto(entity);
     }
 
     @Override
     public PageResultDTO<CommentRequestDTO, Comment> selectCommentList(String work_book_id, Integer page, Integer size) throws Exception {
-        PageRequestDTO pageRequestDTO = new PageRequestDTO();
-        if (page != null && size != null) {
-            pageRequestDTO.setSize(size);
-            pageRequestDTO.setPage(page);
-        }
+        PageRequestDTO pageRequestDTO = pageModule.makePage(page,size);
+
         Optional<WorkBook> workBook = workBookRepository.findById(work_book_id);
-        if (!workBook.isPresent()) {
-            throw new Exception("존재하지 않는 문제집입니다.");
-        }
+        checkWorkBookEntity(workBook);
+
         Page<Comment> entity = commentRepository.findByWorkbookWno(work_book_id, pageRequestDTO.getPageable(Sort.by("modDate").descending()));
-        if (entity.getTotalElements() == 0) {
-            throw new Exception("만들어져있는 문제가 없습니다.");
-        }
+        checkCommentEntity(entity);
+
         Function<Comment, CommentRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
     }
@@ -75,9 +69,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Double selectCommentLikeCount(String work_book_id) throws Exception {
         Optional<WorkBook> workBook = workBookRepository.findById(work_book_id);
-        if (!workBook.isPresent()) {
-            throw new Exception("존재하지 않는 문제집입니다.");
-        }
+        checkWorkBookEntity(workBook);
+
         List<Comment> list = commentRepository.findByWorkbookWno(work_book_id);
         int allLike = 0;
         for (Comment data : list) {
@@ -88,11 +81,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public String deleteComment(String comment_id, String writer) throws Exception {
-        Optional<Comment> comments = commentRepository.findById(comment_id);
-        if (!comments.isPresent()) {
-            throw new Exception("존재하지 않는 리뷰입니다.");
-        }
-        if (comments.get().getWriter().getName().equals(writer)) {
+        Optional<Comment> entity = commentRepository.findById(comment_id);
+        checkCommentEntity(entity);
+
+        if (entity.get().getWriter().getName().equals(writer)) {
             commentRepository.deleteById(comment_id);
             return "삭제 완료";
         }
