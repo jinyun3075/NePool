@@ -80,7 +80,7 @@ public class WorkBookServiceImpl implements WorkBookService {
             throw new Exception("존재하지 않는 아이디입니다.");
         }
 
-        Page<WorkBook> entity = workBookRepository.findByWriterUno(user.get().getUno(), pageRequestDTO.getPageable(Sort.by("modDate").ascending()));
+        Page<WorkBook> entity = workBookRepository.findByWriterUno(user.get().getUno(), pageRequestDTO.getPageable(Sort.by("regDate").ascending()));
         Function<WorkBook, WorkBookRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);
     }
@@ -97,9 +97,9 @@ public class WorkBookServiceImpl implements WorkBookService {
         }
         Page<WorkBook> entity;
         if (type == null) {
-            entity = workBookRepository.findByShare(true, pageRequestDTO.getPageable(Sort.by("modDate").descending()));
+            entity = workBookRepository.findByShare(true, pageRequestDTO.getPageable(Sort.by("regDate").descending()));
         } else {
-            entity = workBookRepository.findByTypeAndShare(type, true, pageRequestDTO.getPageable(Sort.by("modDate").descending()));
+            entity = workBookRepository.findByTypeAndShare(type, true, pageRequestDTO.getPageable(Sort.by("regDate").descending()));
         }
         Function<WorkBook, WorkBookRequestDTO> fn = (data -> entityToDto(data));
         return new PageResultDTO<>(entity, fn);

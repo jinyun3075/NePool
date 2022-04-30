@@ -1,4 +1,4 @@
-package com.NePool.app.exception;
+package com.NePool.app.util.exception;
 
 import com.NePool.app.util.dto.ErrorResult;
 import lombok.extern.log4j.Log4j2;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 @Log4j2
 @RestControllerAdvice
-public class ErrorHandle {
+public class ExceptionHandle {
     @ExceptionHandler
     public ErrorResult Handle(Exception e) {
         if(e.getMessage()==null) {
