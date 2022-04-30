@@ -6,9 +6,12 @@ import com.NePool.app.util.dto.PageRequestDTO;
 import com.NePool.app.util.dto.PageResultDTO;
 import com.NePool.app.domain.announcement.entity.Announcement;
 import com.NePool.app.domain.announcement.repository.AnnouncementRepository;
+import com.NePool.app.util.exception.ServiceExceptionCheck;
+import com.NePool.app.util.module.BCryptModule;
 import com.NePool.app.util.module.PageModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -19,11 +22,11 @@ import java.util.function.Function;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class AnnouncementServiceImpl implements AnnouncementService {
+public class AnnouncementServiceImpl extends ServiceExceptionCheck implements AnnouncementService {
 
     private final AnnouncementRepository announcementRepository;
 
-    private PageModule pageModule;
+    private final PageModule pageModule;
 
     @Override
     public AnnouncementDTO insertAnnouncement(AnnouncementDTO dto) {
@@ -37,7 +40,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     public PageResultDTO<AnnouncementDTO, Announcement> selectAnnouncementList(Integer page, Integer size) {
-
         PageRequestDTO pageRequestDTO = pageModule.makePage(page, size);
 
         Page<Announcement> entity = announcementRepository.findAll(pageRequestDTO.getPageable(Sort.by("modDate").descending()));
@@ -55,9 +57,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public String deleteAnnouncement(Long id) throws Exception {
         Optional<Announcement> entity = announcementRepository.findById(id);
-        if (!entity.isPresent()) {
-            throw new Exception("없는 id 값 입니다.");
-        }
+        checkAnnouncement(entity);
+
         announcementRepository.deleteById(id);
         return "삭제 완료";
     }

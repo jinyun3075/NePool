@@ -12,17 +12,16 @@ import com.NePool.app.domain.workbook.repository.WorkBookRepository;
 import com.NePool.app.service.CommentService;
 import com.NePool.app.util.exception.ServiceExceptionCheck;
 import com.NePool.app.util.module.PageModule;
+import com.NePool.app.util.module.BCryptModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.Function;
 
 @Service
@@ -33,12 +32,9 @@ public class CommentServiceImpl extends ServiceExceptionCheck implements Comment
     private final WorkBookRepository workBookRepository;
     private final CommentRepository commentRepository;
 
-    private PageModule pageModule;
+    private final BCryptModule bCryptModule;
 
-    @Autowired
-    private Random random;
-    @Autowired
-    private PasswordEncoder pw;
+    private final PageModule pageModule;
 
     @Override
     public CommentRequestDTO insertComment(String user_id, String work_book_id, CommentRequestDTO dto) throws Exception {
@@ -51,7 +47,7 @@ public class CommentServiceImpl extends ServiceExceptionCheck implements Comment
         Optional<WorkBook> workBook = workBookRepository.findById(work_book_id);
         checkWorkBookEntity(workBook);
 
-        Comment entity = commentRepository.save(dtoToEntity(dto, work_book_id, user_id, (pw.encode(random.nextInt(600) + "").replace("/", ""))));
+        Comment entity = commentRepository.save(dtoToEntity(dto, work_book_id, user_id, bCryptModule.makeId()));
 
         return entityToDto(entity);
     }

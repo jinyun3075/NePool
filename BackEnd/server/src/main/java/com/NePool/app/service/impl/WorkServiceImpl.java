@@ -11,6 +11,9 @@ import com.NePool.app.domain.user.repository.UserRepository;
 import com.NePool.app.domain.workbook.repository.WorkBookRepository;
 import com.NePool.app.domain.work.repository.WorkRepository;
 import com.NePool.app.service.WorkService;
+import com.NePool.app.util.exception.ServiceExceptionCheck;
+import com.NePool.app.util.module.BCryptModule;
+import com.NePool.app.util.module.PageModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,64 +26,72 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class WorkServiceImpl implements WorkService {
+public class WorkServiceImpl extends ServiceExceptionCheck implements WorkService {
     private final WorkBookRepository workBookRepository;
     private final UserRepository userRepository;
     private final WorkRepository workRepository;
-    @Autowired
-    private Random random;
-    @Autowired
-    private PasswordEncoder pw;
+
+    private final BCryptModule bCryptModule;
 
     @Override
     public WorkDTO insertWork(WorkDTO dto, String username, String work_book_id) throws Exception {
-        if (dto.getAnswer_a().equals("") || dto.getAnswer_b().equals("") || dto.getAnswer_c().equals("") || dto.getAnswer_d().equals("") || dto.getAnswer_e().equals("") || dto.getQuestion().equals("") || dto.getCorrect().equals("")) {
-            throw new Exception("모든 요구사항을 입력해주세요.");
-        }
-        WorkBook workBook = check(username, work_book_id);
-        return entityToDto(workRepository.save(dtoToEntity(dto, workBook, pw.encode(random.nextInt(600) + "").replace("/", ""))));
+        checkWorkDTO(dto);
+
+        Optional<NePoolUser> user = userRepository.findByUsername(username);
+        checkUserEntity(user);
+
+        Optional<WorkBook> workBook = workBookRepository.findByWnoAndWriterUno(work_book_id, user.get().getUno());
+        checkWorkBookEntity(workBook);
+
+        return entityToDto(workRepository.save(dtoToEntity(dto, workBook.get(), bCryptModule.makeId())));
     }
 
     @Override
     public WorkDTO selectWork(String username, String work_book_id, String work_id) throws Exception {
-        check(username, work_book_id);
+        Optional<NePoolUser> user = userRepository.findByUsername(username);
+        checkUserEntity(user);
+
+        Optional<WorkBook> workBook = workBookRepository.findByWnoAndWriterUno(work_book_id, user.get().getUno());
+        checkWorkBookEntity(workBook);
+
         Optional<Work> work = workRepository.findByQnoAndWorkBookWno(work_id, work_book_id);
-        if (!work.isPresent()) {
-            throw new Exception("존재하지 않는 문제입니다.");
-        }
+        checkWorkEntity(work);
+
         return entityToDto(work.get());
     }
 
     @Override
     public List<WorkDTO> selectWorkList(String username, String work_book_id) throws Exception {
-        check(username, work_book_id);
-        List<Work> res = workRepository.findByWorkBookWno(work_book_id);
-        Collections.shuffle(res);
-        return res.stream().map(work -> entityToDto(work)).collect(Collectors.toList());
+        Optional<NePoolUser> user = userRepository.findByUsername(username);
+        checkUserEntity(user);
+
+        Optional<WorkBook> workBook = workBookRepository.findByWnoAndWriterUno(work_book_id, user.get().getUno());
+        checkWorkBookEntity(workBook);
+
+        List<Work> workList = workRepository.findByWorkBookWno(work_book_id);
+        Collections.shuffle(workList);
+
+        return workList.stream().map(work -> entityToDto(work)).collect(Collectors.toList());
     }
 
     @Override
     public WorkResultRealResponseDTO selectWorkResult(List<WorkResultRequestDTO> result, String work_book_id) throws Exception {
         List<Work> work = workRepository.findByWorkBookWno(work_book_id);
-        if (work.size() == 0) {
-            throw new Exception("존재하지 않는 문제집입니다.");
-        }
-        if (result.size() != work.size()) {
-            throw new Exception("존재하는 문제 수에 맞게 데이터를 보내주세요.");
+        checkResultWork(work,result);
+
+        Map<String, Work> resultCheck = new HashMap<>();
+        for (Work w : work) {
+            resultCheck.put(w.getQno(), w);
         }
 
-        Map<String, Work> map = new HashMap<>();
-        for (Work w : work) {
-            map.put(w.getQno(), w);
-        }
         int score = 0;
         List<WorkResultResponseDTO> res = new ArrayList<>();
         for (WorkResultRequestDTO check : result) {
-            Work value = map.get(check.getId());
-            boolean bool = false;
+            Work value = resultCheck.get(check.getId());
+            boolean workResult = false;
             if (value.getCorrect().equals(check.getCorrect())) {
                 score++;
-                bool = true;
+                workResult = true;
             }
             res.add(WorkResultResponseDTO.builder()
                     .question(value.getQuestion())
@@ -92,7 +103,7 @@ public class WorkServiceImpl implements WorkService {
                     .correct(value.getCorrect())
                     .explanation(value.getExplanation())
                     .choice(check.getCorrect())
-                    .result(bool).build());
+                    .result(workResult).build());
         }
         WorkResultRealResponseDTO realRes = new WorkResultRealResponseDTO();
         realRes.setVal(res);
@@ -103,34 +114,33 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public String deleteWork(String username, String work_book_id, String work_id) throws Exception {
-        check(username, work_book_id);
-        Long res = workRepository.deleteByQnoAndWorkBookWno(work_id, work_book_id);
-        if (res == 0) {
-            throw new Exception("존재하지 않는 문제입니다.");
-        }
+        Optional<NePoolUser> user = userRepository.findByUsername(username);
+        checkUserEntity(user);
+
+        Optional<WorkBook> workBook = workBookRepository.findByWnoAndWriterUno(work_book_id, user.get().getUno());
+        checkWorkBookEntity(workBook);
+
+        Long check = workRepository.deleteByQnoAndWorkBookWno(work_id, work_book_id);
+        checkDelete(check);
+
         return "삭제 완료";
     }
 
     @Override
     public WorkDTO updateWork(String username, String work_book_id, String work_id, WorkDTO dto) throws Exception {
-        check(username, work_book_id);
-        Optional<Work> work = workRepository.findByQnoAndWorkBookWno(work_id, work_book_id);
-        if (!work.isPresent()) {
-            throw new Exception("존재하지 않는 문제입니다.");
-        }
-        work.get().updateWork(dto);
-        return entityToDto(workRepository.save(work.get()));
-    }
+        checkWorkDTO(dto);
 
-    private WorkBook check(String username, String work_book_id) throws Exception {
         Optional<NePoolUser> user = userRepository.findByUsername(username);
-        if (!user.isPresent()) {
-            throw new Exception("존재하지 않는 아이디입니다.");
-        }
+        checkUserEntity(user);
+
         Optional<WorkBook> workBook = workBookRepository.findByWnoAndWriterUno(work_book_id, user.get().getUno());
-        if (!workBook.isPresent()) {
-            throw new Exception("존재하지 않는 문제집입니다.");
-        }
-        return workBook.get();
+        checkWorkBookEntity(workBook);
+
+        Optional<Work> work = workRepository.findByQnoAndWorkBookWno(work_id, work_book_id);
+        checkWorkEntity(work);
+
+        work.get().updateWork(dto);
+
+        return entityToDto(workRepository.save(work.get()));
     }
 }

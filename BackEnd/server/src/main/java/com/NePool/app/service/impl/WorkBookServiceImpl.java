@@ -10,6 +10,9 @@ import com.NePool.app.domain.user.repository.UserRepository;
 import com.NePool.app.domain.workbook.repository.WorkBookRepository;
 import com.NePool.app.domain.work.repository.WorkRepository;
 import com.NePool.app.service.WorkBookService;
+import com.NePool.app.util.exception.ServiceExceptionCheck;
+import com.NePool.app.util.module.BCryptModule;
+import com.NePool.app.util.module.PageModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,26 +32,24 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class WorkBookServiceImpl implements WorkBookService {
+public class WorkBookServiceImpl extends ServiceExceptionCheck implements WorkBookService {
     public final WorkBookRepository workBookRepository;
     public final UserRepository userRepository;
     public final WorkRepository workRepository;
     public final CommentRepository commentRepository;
-    @Autowired
-    private Random random;
-    @Autowired
-    private PasswordEncoder pw;
+
+    private final BCryptModule bCryptModule;
+
+    private final PageModule pageModule;
 
     @Override
     public WorkBookRequestDTO insertWorkBook(WorkBookRequestDTO dto) throws Exception {
-        if (dto.getTitle().equals("") || dto.getContent().equals("")) {
-            throw new Exception("제목과 설명을 입력해주세요.");
-        }
+        checkWorkBookDTO(dto);
+
         Optional<NePoolUser> user = userRepository.findByUsername(dto.getUsername());
-        if (!user.isPresent()) {
-            throw new Exception("존재하지 않는 아이디입니다.");
-        }
-        WorkBook res = workBookRepository.save(dtoToEntity(dto, user.get(), pw.encode(random.nextInt(600) + "").replace("/", "")));
+        checkUserEntity(user);
+
+        WorkBook res = workBookRepository.save(dtoToEntity(dto, user.get(), bCryptModule.makeId()));
         return entityToDto(res);
     }
 
@@ -58,27 +59,25 @@ public class WorkBookServiceImpl implements WorkBookService {
             check = false;
         }
 
-        WorkBook workBook = check(username, work_book_id);
+        Optional<NePoolUser> user = userRepository.findByUsername(username);
+        checkUserEntity(user);
+
+        Optional<WorkBook> workBook = workBookRepository.findByWnoAndWriterUno(work_book_id, user.get().getUno());
+        checkWorkBookEntity(workBook);
 
         if (check) {
-            workBook.upCount();
-            workBookRepository.save(workBook);
+            workBook.get().upCount();
+            workBookRepository.save(workBook.get());
         }
-        return entityToDto(workBook);
+        return entityToDto(workBook.get());
     }
 
     @Override
     public PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookMyList(String username, Integer page, Integer size) throws Exception {
-        PageRequestDTO pageRequestDTO = new PageRequestDTO();
-        if (page != null && size != null) {
-            pageRequestDTO.setSize(size);
-            pageRequestDTO.setPage(page);
-        }
+        PageRequestDTO pageRequestDTO = pageModule.makePage(page, size);
 
         Optional<NePoolUser> user = userRepository.findByUsername(username);
-        if (!user.isPresent()) {
-            throw new Exception("존재하지 않는 아이디입니다.");
-        }
+        checkUserEntity(user);
 
         Page<WorkBook> entity = workBookRepository.findByWriterUno(user.get().getUno(), pageRequestDTO.getPageable(Sort.by("regDate").ascending()));
         Function<WorkBook, WorkBookRequestDTO> fn = (data -> entityToDto(data));
@@ -87,14 +86,10 @@ public class WorkBookServiceImpl implements WorkBookService {
 
     @Override
     public PageResultDTO<WorkBookRequestDTO, WorkBook> selectWorkBookPageList(String type, Integer page, Integer size) throws Exception {
-        PageRequestDTO pageRequestDTO = new PageRequestDTO();
-        if (page != null && size != null) {
-            pageRequestDTO.setSize(size);
-            pageRequestDTO.setPage(page);
-        }
-        if (type != null && type.equals("all")) {
-            type = null;
-        }
+        PageRequestDTO pageRequestDTO = pageModule.makePage(page, size);
+
+        type = checkType(type);
+
         Page<WorkBook> entity;
         if (type == null) {
             entity = workBookRepository.findByShare(true, pageRequestDTO.getPageable(Sort.by("regDate").descending()));
@@ -107,10 +102,7 @@ public class WorkBookServiceImpl implements WorkBookService {
 
     @Override
     public List<WorkBookRequestDTO> selectWorkBookList(String type) throws Exception {
-
-        if (type != null && type.equals("all")) {
-            type = null;
-        }
+        type = checkType(type);
 
         List<WorkBook> entity;
         if (type == null) {
@@ -121,41 +113,54 @@ public class WorkBookServiceImpl implements WorkBookService {
         return entity.stream().map(data -> entityToDto(data)).collect(Collectors.toList());
     }
 
+    public String checkType(String type) {
+        if (type != null && type.equals("all")) {
+            type = null;
+        }
+        return type;
+    }
+
     @Override
     public String deleteWorkBook(String username, String work_book_id) throws Exception {
         Optional<NePoolUser> user = userRepository.findByUsername(username);
-        if (!user.isPresent()) {
-            throw new Exception("존재하지 않는 아이디입니다.");
-        }
-        Long res = workBookRepository.deleteByWnoAndWriterUno(work_book_id, user.get().getUno());
-        if (res == 0) {
-            throw new Exception("존재하지 않는 문제집입니다.");
-        }
+        checkUserEntity(user);
+
+        Long check = workBookRepository.deleteByWnoAndWriterUno(work_book_id, user.get().getUno());
+        checkDelete(check);
+
         return "삭제 완료";
     }
 
     @Override
     public String updateWorkBookShare(String username, String work_book_id) throws Exception {
-        WorkBook workBook = check(username, work_book_id);
-        if (workBook.getShare() == false) {
-            workBook.setShare(true);
-            workBookRepository.save(workBook);
+        Optional<NePoolUser> user = userRepository.findByUsername(username);
+        checkUserEntity(user);
+
+        Optional<WorkBook> workBook = workBookRepository.findByWnoAndWriterUno(work_book_id, user.get().getUno());
+        checkWorkBookEntity(workBook);
+
+        if (workBook.get().getShare() == false) {
+            workBook.get().setShare(true);
+            workBookRepository.save(workBook.get());
             return "공유 성공";
         }
-        workBook.setShare(false);
-        workBookRepository.save(workBook);
+        workBook.get().setShare(false);
+        workBookRepository.save(workBook.get());
         return "공유 해제";
     }
 
     @Override
     public WorkBookRequestDTO updateWorkBook(String username, String work_book_id, WorkBookRequestDTO dto) throws Exception {
-        if (dto.getTitle().equals("") || dto.getContent().equals("") || dto.getType().equals("")) {
-            throw new Exception("제목,설명, 타입 을 입력해주세요.");
-        }
-        WorkBook workBook = check(username, work_book_id);
+        checkWorkBookDTO(dto);
 
-        workBook.update(dto.getTitle(), dto.getContent(), dto.getType(), dto.getImage());
-        return entityToDto(workBookRepository.save(workBook));
+        Optional<NePoolUser> user = userRepository.findByUsername(username);
+        checkUserEntity(user);
+
+        Optional<WorkBook> workBook = workBookRepository.findByWnoAndWriterUno(work_book_id, user.get().getUno());
+        checkWorkBookEntity(workBook);
+
+        workBook.get().update(dto.getTitle(), dto.getContent(), dto.getType(), dto.getImage());
+        return entityToDto(workBookRepository.save(workBook.get()));
     }
 
     @Override
@@ -168,17 +173,5 @@ public class WorkBookServiceImpl implements WorkBookService {
     @Override
     public Long selectWorkBookCount() {
         return workBookRepository.count();
-    }
-
-    private WorkBook check(String username, String work_book_id) throws Exception {
-        Optional<NePoolUser> user = userRepository.findByUsername(username);
-        if (!user.isPresent()) {
-            throw new Exception("존재하지 않는 아이디입니다.");
-        }
-        Optional<WorkBook> workBook = workBookRepository.findByWnoAndWriterUno(work_book_id, user.get().getUno());
-        if (!workBook.isPresent()) {
-            throw new Exception("존재하지 않는 문제집입니다.");
-        }
-        return workBook.get();
     }
 }
