@@ -1,11 +1,14 @@
+
 FROM node:16.13.1
+
+EXPOSE 3000
+
 
 WORKDIR /usr/src/app
 
-RUN npm i yarn
-RUN yarn add serve --dev
-RUN mkdir build
 COPY ./build ./build/
 COPY ./package.json ./
 
-ENTRYPOINT [ "npx","serve","-s","build"] 
+RUN npm install -g serve
+
+CMD ["serve", "-s", "build", "-l", "3000"]
