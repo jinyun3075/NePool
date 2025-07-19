@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
-import { Editor } from "@toast-ui/react-editor";
-import "@toast-ui/editor/dist/toastui-editor.css";
+// import { Editor } from "@toast-ui/react-editor";
+// import "@toast-ui/editor/dist/toastui-editor.css";
 import { API, COLORS } from "../../constants";
 
 export default function NoticeEditorPage() {
@@ -133,14 +133,14 @@ export default function NoticeEditorPage() {
           onChange={onChange}
         />
       </InputBox>
-      <Editor
+      {/* <Editor
         previewStyle="vertical"
         height="500px"
         useCommandShortcut={true}
         initialEditType="wysiwyg"
         ref={editorRef}
         onChange={onChangeEditor}
-      />
+      /> */}
       <BtnBox>
         {notice !== undefined ? (
           <Btn type="submit">수정</Btn>

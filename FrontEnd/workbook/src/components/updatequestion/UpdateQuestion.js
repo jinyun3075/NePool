@@ -1,5 +1,5 @@
 import HeaderSignin from "../header/Header";
-import MyWorkbook from "../mypage/MyWorkbook";
+import MyWorkbook from "../mypage/Myworkbook";
 import UpdateCont from "./UpdateContent";
 import styled from "styled-components";
 

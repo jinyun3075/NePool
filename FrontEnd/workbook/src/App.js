@@ -12,7 +12,7 @@ import Notice from "./pages/Notice";
 import Share from "./pages/Share";
 import Update from "./pages/Update";
 import NotFound from "./pages/NotFound";
-import UpdateWork from "./pages/UpdateWork";
+// import UpdateWork from "./pages/UpdateWork";
 import Exam from "./pages/Exam";
 import NoticeEditor from "./pages/NoticeEditor";
 import NoticeDetail from "./pages/NoticeDetail";
@@ -31,7 +31,7 @@ function App() {
         <Route path="/Exammode/:id" element={<Exam />} />
         <Route path="/allpost" element={<AllPost />} />
         <Route path="/add" element={<AddPage />} />
-        <Route path="/updatequestion" element={<UpdateWork />} />
+        {/* <Route path="/updatequestion" element={<UpdateWork />} /> */}
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/notice/:id" element={<NoticeDetail />} />

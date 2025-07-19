@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import HeaderSignin from "../header/Header";
-import MyWorkbook from "./MyWorkbook";
-import WorkbookContent from "./WorkbookContent";
+import MyWorkbook from "./Myworkbook";
+import WorkbookContent from "./Workbookcontent";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 

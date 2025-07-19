@@ -1,4 +1,4 @@
-import UpdatePage from "../components/updatepage/UpdatePage";
+import UpdatePage from "../components/updatepage/Updatepage";
 
 export default function Update() {
   return (

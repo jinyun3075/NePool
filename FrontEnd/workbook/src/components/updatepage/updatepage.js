@@ -1,6 +1,6 @@
 import React from "react";
 import HeaderSignin from "../header/Header";
-import MyWorkbook from "../mypage/MyWorkbook";
+import MyWorkbook from "../mypage/Myworkbook";
 import UpdatepageContent from "./UpdatePageContent";
 import styled from "styled-components";
 

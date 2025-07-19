@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import HeaderSignin from "../header/Header";
 import AddCont from "./AddContent";
-import MyWorkbook from "../mypage/MyWorkbook";
+import MyWorkbook from "../mypage/Myworkbook";
 import styled from "styled-components";
 
 export default function Add() {
