@@ -27,7 +27,7 @@ export default function Carousel({ allUserCount }) {
 
   const [get, setGet] = useState([
     {
-      id: "",
+      id: "0",
       title: "",
       content: "",
       share: "",
@@ -62,7 +62,9 @@ export default function Carousel({ allUserCount }) {
         "Content-type": "application/json",
       },
     });
-    setGet(res.data);
+    if(res.data.length > 0) {
+      setGet(res.data);
+    }
   };
 
   const onKeyUp = (e) => {
@@ -84,6 +86,7 @@ export default function Carousel({ allUserCount }) {
       : setCurrentSlide(currentSlide - 1);
   };
   const getSlide = get[currentSlide];
+
 
   useEffect(() => {
     getUser();

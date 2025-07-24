@@ -9,8 +9,8 @@ import axios from "axios";
 import { API } from "../../constants";
 
 export default function Home() {
-  // const [scrollY, setScrollY] = useState(0);
-  // const [BtnOFF, setBtnOff] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [BtnOFF, setBtnOff] = useState(false);
 
   const [allUser, setAllUser] = useState([
     {
@@ -48,56 +48,56 @@ export default function Home() {
         "Content-type": "application/json",
       },
     });
-    setAllUser(res.data.dtoList);
+    setAllUser(res.data.dtoList || []);
   };
-  // const getPost = async () => {
-  //   const res = await axios.get(`${API}/workbook/page`, {
-  //     headers: {
-  //       "Content-type": "application/json",
-  //     },
-  //   });
-  //   setPost(res.data.dtoList);
-  // };
+  const getPost = async () => {
+    const res = await axios.get(`${API}/workbook/page`, {
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    setPost(res.data.dtoList || []);
+  };
 
-  const allUserCount = allUser.length;
-  // const allBookCount = post.length;
-  // const handleScroll = () => {
-  //   setScrollY(window.pageYOffset);
-  //   if (scrollY > 30) {
-  //     setBtnOff(true);
-  //   } else {
-  //     setBtnOff(false);
-  //   }
-  // };
-  // const scrollTop = () => {
-  //   window.scrollTo({
-  //     top: 0,
-  //     behavior: "smooth",
-  //   });
-  //   setScrollY(0);
-  //   setBtnOff(false);
-  // };
+  const allUserCount = allUser.length || 0;
+  const allBookCount = post.length || 0;
+  const handleScroll = () => {
+    setScrollY(window.pageYOffset);
+    if (scrollY > 30) {
+      setBtnOff(true);
+    } else {
+      setBtnOff(false);
+    }
+  };
+  const scrollTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    setScrollY(0);
+    setBtnOff(false);
+  };
 
-  // useEffect(() => {
-  //   getUser();
-  //   getPost();
-  // }, []);
-  // useEffect(() => {
-  //   const watch = () => {
-  //     window.addEventListener("scroll", handleScroll);
-  //   };
-  //   watch();
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // });
+  useEffect(() => {
+    getUser();
+    getPost();
+  }, []);
+  useEffect(() => {
+    const watch = () => {
+      window.addEventListener("scroll", handleScroll);
+    };
+    watch();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
 
   return (
     <>
       <HeaderSignin />
       <Carousel allUserCount={allUserCount} />
-      {/* <Post /> */}
-      {/* <Banner allUserCount={allUserCount} allBookCount={allBookCount} /> */}
+      <Post />
+      <Banner allUserCount={allUserCount} allBookCount={allBookCount} />
       {/* <Footer /> */}
       <TopBtn>
         {/* <button

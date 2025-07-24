@@ -1,54 +1,60 @@
 package com.nepool.app.security;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.Customizer;
+import org.springframework.context.annotation.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.*;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.nepool.app.security.filter.ApiCheckFilter;
-import com.nepool.app.security.filter.ApiLoginFilter;
+import com.nepool.app.security.filter.*;
 import com.nepool.app.security.handler.ApiLoginFailHandler;
 import com.nepool.app.util.jwt.JWTUtil;
 
-import java.util.List;
-import java.util.Random;
-
+@Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
-@Log4j2
 public class SecurityConfig {
 
     @Bean
     public JWTUtil jwtUtil(){
         return new JWTUtil();
     }
+
+    // AuthenticationManager Bean 등록 (Spring Security 6 이상)
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+    // ApiLoginFilter Bean (로그인 요청 처리)
+    @Bean
+    public ApiLoginFilter apiLoginFilter(AuthenticationManager authenticationManager) throws Exception {
+        ApiLoginFilter filter = new ApiLoginFilter("/user/login", jwtUtil());
+        filter.setAuthenticationManager(authenticationManager);
+        filter.setAuthenticationFailureHandler(new ApiLoginFailHandler());
+        return filter;
+    }
+
     @Bean
     public ApiCheckFilter apiCheckFilter() {
         return new ApiCheckFilter(jwtUtil());
     }
-    @Bean
-    public ApiLoginFilter apiLoginFilter() throws Exception {
-        ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/user/login",jwtUtil());
 
-        apiLoginFilter.setAuthenticationFailureHandler(new ApiLoginFailHandler());
-        return apiLoginFilter;
+    // SecurityFilterChain 등록
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http, ApiLoginFilter loginFilter, ApiCheckFilter checkFilter) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())
+            .cors(Customizer.withDefaults())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/user/login").permitAll()
+                .anyRequest().authenticated()
+            )
+            .addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(checkFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // http
-        //     .cors(Customizer.withDefaults()) // <-- 이게 핵심
-        //     .csrf().disable()
-        //     .authorizeHttpRequests(auth -> auth
-        //         .anyRequest().permitAll()
-        //     );
-    return http.build();
-}
 }

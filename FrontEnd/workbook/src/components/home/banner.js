@@ -17,7 +17,7 @@ export default function Banner({ allUserCount }) {
         "Content-type": "application/json",
       },
     });
-    setAllWorkBook(res.data);
+    setAllWorkBook(res.data || '0');
   };
   const getUser = async () => {
     const res = await axios.get(`${API}/user/${user}`, {
@@ -25,7 +25,7 @@ export default function Banner({ allUserCount }) {
         "Content-type": "application/json",
       },
     });
-    setUserId(res.data.id);
+    setUserId(res.data.id || '0');
   };
   const getNotice = async () => {
     const res = await axios.get(`${API}/announcement `, {
@@ -33,7 +33,8 @@ export default function Banner({ allUserCount }) {
         "Content-type": "application/json",
       },
     });
-    setNotice(res.data.dtoList[0]);
+    //setNotice(res.data.dtoList[0]);
+    
   };
 
   useEffect(() => {

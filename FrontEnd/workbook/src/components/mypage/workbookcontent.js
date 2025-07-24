@@ -50,7 +50,9 @@ export default function WorkbookContent() {
           },
         }
       );
-      setWorkbook(res.data.dtoList);
+      if(res.data.code === 200){
+        setWorkbook(res.data.dtoList);
+      }
     } catch (err) {}
     // console.log(res.data.dtoList);
   };

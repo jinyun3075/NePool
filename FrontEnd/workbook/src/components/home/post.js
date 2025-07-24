@@ -27,7 +27,7 @@ export default function Post() {
         "Content-type": "application/json",
       },
     });
-    setPost(res.data.dtoList);
+    setPost(res.data.dtoList || []);
   };
 
   const onClickType = (e) => {
