@@ -1,47 +1,38 @@
 package com.nepool.app.util.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.DefaultClaims;
-import io.jsonwebtoken.impl.DefaultJws;
-import lombok.extern.log4j.Log4j2;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 
-import java.time.ZonedDateTime;
-import java.util.Date;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.*;
 
-@Log4j2
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class JWTUtil {
-    private String secretKey = "123";
+    @Value("${jwt_key}")
+    private String jwtSecret;
+    private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
 
-    // 2Day
-    private long expire = 60*24*2;
-
-    public String generateToken(String content) throws Exception {
+    // 토큰 생성
+    public String generateToken(String username, List<String> roles, int minutes){
         return Jwts.builder()
+                .setSubject(username)
+                .claim(username, roles)
                 .setIssuedAt(new Date())
-                .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(expire).toInstant()))
-                .claim("sub", content)
-                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes("UTF-8"))
-                .compact();
+                .setExpiration(new Date(System.currentTimeMillis() + minutes *60 *1000))
+                .signWith(key) // 서명 알고리즘 및 키 지정
+                .compact();  // 실제 JWT 문자열 반환
     }
 
-    public String validateAndExtract(String tokenStr) throws Exception {
-        String contentValue = "";
-        try {
-            DefaultJws defaultJws = (DefaultJws) Jwts.parser()
-                    .setSigningKey(secretKey.getBytes("UTF-8"))
-                    .parseClaimsJws(tokenStr);
-
-            DefaultClaims claims = (DefaultClaims) defaultJws.getBody();
-
-            contentValue = claims.getSubject();
-        } catch(Exception e) {
-            e.printStackTrace();
-            log.error(e.getMessage());
-            contentValue = "";
-        }
-        return contentValue;
+    // 토큰 검증
+    public Claims validateToken(String token) throws JwtException{
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
-
 }

@@ -5,64 +5,65 @@ import com.nepool.app.domain.user.dto.UserLoginDTO;
 import com.nepool.app.domain.user.dto.UserLoginRequestDTO;
 import com.nepool.app.security.dto.NePoolAuthDTO;
 import com.nepool.app.util.jwt.JWTUtil;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.*;
+import org.springframework.security.web.authentication.*;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.*;
 
 
+public class ApiLoginFilter extends UsernamePasswordAuthenticationFilter {
+    
+    private final AuthenticationManager authenticationManager;
+    private final JWTUtil jwtUtil;
 
-@Log4j2
-public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
-    private JWTUtil jwtUtil;
-
-    @Autowired
-    private ApiCheckFilter apiCheckFilter;
-
-    public ApiLoginFilter(String defaultFilterProcessesUrl, JWTUtil jwtUtil) {
-        super(defaultFilterProcessesUrl);
+    public ApiLoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+        this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        setFilterProcessesUrl("/user/login"); // 로그인 요청 URI
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        UserLoginRequestDTO body = new ObjectMapper().readValue(request.getInputStream(),UserLoginRequestDTO.class);
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(body.getUsername(),body.getPassword());
-        return getAuthenticationManager().authenticate(authToken);
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException{
+        try{
+            Map<String, String> credentials = new ObjectMapper().readValue(request.getInputStream(), Map.class);
+            String username = credentials.get("username");
+            String password = credentials.get("password");
+
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
+
+            return authenticationManager.authenticate(authToken);
+        } catch(IOException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+     FilterChain chain, Authentication authResult) throws IOException{
         NePoolAuthDTO principal = ((NePoolAuthDTO)authResult.getPrincipal());
-
         try {
-            UserLoginDTO req = new UserLoginDTO();
-            req.setId(principal.getId());
-            req.setName(principal.getName());
-            req.setEmail(principal.getEmail());
-            req.setToken( jwtUtil.generateToken("123"));
-            req.setUsername(principal.getUsername());
+            List<String> roles = authResult.getAuthorities()
+                        .stream().map(GrantedAuthority::getAuthority).toList();
+            String token = jwtUtil.generateToken(principal.getUsername(), roles, 60);
+
+            UserLoginDTO req = UserLoginDTO.builder()
+                .id(principal.getId())
+                .name(principal.getName())
+                .email(principal.getEmail())
+                .Token(token)
+                .username(principal.getUsername())
+                .build();
+            
             response.setContentType("application/json;charset=utf-8");
             response.getWriter().write(new ObjectMapper().writeValueAsString(req));
 
         } catch(Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-
-        throw new IOException("아이디 혹은 비밀번호를 다시 확인 해주세요.");
     }
 }
