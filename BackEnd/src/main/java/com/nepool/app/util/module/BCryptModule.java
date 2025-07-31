@@ -13,6 +13,7 @@ public class BCryptModule {
         random.setSeed(System.currentTimeMillis());
         return random;
     }
+    
     private PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }

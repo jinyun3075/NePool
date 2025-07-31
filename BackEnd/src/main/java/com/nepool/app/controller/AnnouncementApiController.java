@@ -24,7 +24,7 @@ public class AnnouncementApiController {
     }
 
     @GetMapping("/show/{announcement_id}")
-    public ResponseEntity<AnnouncementDTO> selectAnnouncement(@PathVariable Long announcement_id) {
+    public ResponseEntity<AnnouncementDTO> selectAnnouncement(@PathVariable("announcement_id") Long announcement_id) {
         return new ResponseEntity<>(service.selectAnnouncement(announcement_id), HttpStatus.OK);
     }
 

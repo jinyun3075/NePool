@@ -1,10 +1,14 @@
 package com.nepool.app.security.filter;
 
 import com.nepool.app.util.jwt.JWTUtil;
+import com.nepool.app.util.module.BCryptModule;
+
 import io.jsonwebtoken.Claims;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
+import lombok.AllArgsConstructor;
+
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,14 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@AllArgsConstructor
 public class ApiCheckFilter extends GenericFilter {
 
-    private JWTUtil jwtUtil;
-
-    public ApiCheckFilter(JWTUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
-    }
+    private final JWTUtil jwtUtil;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

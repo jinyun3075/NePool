@@ -24,7 +24,7 @@ public class ShareWorkBookApiController {
     }
 
     @GetMapping("/{user_id}")
-    public ResponseEntity<PageResultDTO<ShareWorkBookResultDTO, ShareWorkBook>> selectShareWorkBookList(@PathVariable String user_id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) throws Exception {
+    public ResponseEntity<PageResultDTO<ShareWorkBookResultDTO, ShareWorkBook>> selectShareWorkBookList(@PathVariable("user_id") String user_id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) throws Exception {
         return new ResponseEntity<>(service.selectShareWorkBookList(user_id, page, size), HttpStatus.OK);
     }
 
@@ -34,7 +34,7 @@ public class ShareWorkBookApiController {
     }
 
     @GetMapping("/count/{work_book_id}")
-    public ResponseEntity<Long> countShareWorkBook(@PathVariable String work_book_id) throws Exception {
+    public ResponseEntity<Long> countShareWorkBook(@PathVariable("work_book_id") String work_book_id) throws Exception {
         return new ResponseEntity<>(service.selectShareWorkBookCount(work_book_id), HttpStatus.OK);
     }
 }

@@ -10,7 +10,7 @@ import com.nepool.app.util.dto.PageResultDTO;
 public interface UserService {
     UserDTO insertUser(UserDTO dto) throws Exception;
 
-    UserDTO selectUser(String dto) throws Exception;
+    UserDTO selectUser(String username) throws Exception;
 
     PageResultDTO<UserDTO, NePoolUser> selectUserList(Integer page, Integer size);
 

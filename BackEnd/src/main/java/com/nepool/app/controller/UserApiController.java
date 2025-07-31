@@ -27,7 +27,7 @@ public class UserApiController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<UserDTO> selectUser(@PathVariable String username) throws Exception {
+    public ResponseEntity<UserDTO> selectUser(@PathVariable("username") String username) throws Exception {
         return new ResponseEntity<>(service.selectUser(username), HttpStatus.OK);
     }
 
@@ -42,7 +42,7 @@ public class UserApiController {
     }
 
     @DeleteMapping("/delete/{user_id}")
-    public ResponseEntity<String> deleteUser(@PathVariable String user_id) throws Exception {
+    public ResponseEntity<String> deleteUser(@PathVariable("user_id") String user_id) throws Exception {
         return new ResponseEntity<>(service.deleteUser(user_id), HttpStatus.OK);
     }
 }

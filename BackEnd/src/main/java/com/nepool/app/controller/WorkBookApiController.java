@@ -32,7 +32,7 @@ public class WorkBookApiController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<PageResultDTO<WorkBookRequestDTO, WorkBook>> selectWorkBookMyList(@PathVariable String username, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) throws Exception {
+    public ResponseEntity<PageResultDTO<WorkBookRequestDTO, WorkBook>> selectWorkBookMyList(@PathVariable("username") String username, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) throws Exception {
         return new ResponseEntity<>(service.selectWorkBookMyList(username, page, size), HttpStatus.OK);
     }
 
@@ -47,17 +47,17 @@ public class WorkBookApiController {
     }
 
     @DeleteMapping("/delete/{username}/{work_book_id}")
-    public ResponseEntity<String> deleteWorkBook(@PathVariable String username, @PathVariable String work_book_id) throws Exception {
+    public ResponseEntity<String> deleteWorkBook(@PathVariable("username") String username, @PathVariable("work_book_id") String work_book_id) throws Exception {
         return new ResponseEntity<String>(service.deleteWorkBook(username, work_book_id), HttpStatus.OK);
     }
 
     @PutMapping("/share/{username}/{work_book_id}")
-    public ResponseEntity<String> updateWorkBookShare(@PathVariable String username, @PathVariable String work_book_id) throws Exception {
+    public ResponseEntity<String> updateWorkBookShare(@PathVariable("username") String username, @PathVariable("work_book_id") String work_book_id) throws Exception {
         return new ResponseEntity<>(service.updateWorkBookShare(username, work_book_id), HttpStatus.OK);
     }
 
     @PutMapping("/update/{username}/{work_book_id}")
-    public ResponseEntity<WorkBookRequestDTO> updateWorkBook(@PathVariable String username, @PathVariable String work_book_id, @RequestBody WorkBookRequestDTO req) throws Exception {
+    public ResponseEntity<WorkBookRequestDTO> updateWorkBook(@PathVariable("username") String username, @PathVariable("work_book_id") String work_book_id, @RequestBody WorkBookRequestDTO req) throws Exception {
         return new ResponseEntity<>(service.updateWorkBook(username, work_book_id, req), HttpStatus.OK);
     }
 
