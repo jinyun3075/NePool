@@ -8,7 +8,11 @@ import org.springframework.security.config.*;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import com.nepool.app.security.filter.*;
 import com.nepool.app.security.handler.ApiLoginFailHandler;
@@ -18,10 +22,10 @@ import com.nepool.app.util.jwt.JWTUtil;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // @Bean
-    // public JWTUtil jwtUtil(){
-    //     return new JWTUtil();
-    // }
+    @Bean
+    public JWTUtil jwtUtil(){
+        return new JWTUtil();
+    }
 
     // AuthenticationManager Bean 등록 (Spring Security 6 이상)
     @Bean
@@ -29,34 +33,31 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    // ApiLoginFilter Bean (로그인 요청 처리)
-    // @Bean
-    // public ApiLoginFilter apiLoginFilter(AuthenticationManager authenticationManager) throws Exception {
-    //     ApiLoginFilter filter = new ApiLoginFilter("/user/login", jwtUtil());
-    //     filter.setAuthenticationManager(authenticationManager);
-    //     filter.setAuthenticationFailureHandler(new ApiLoginFailHandler());
-    //     return filter;
-    // }
-
-    // @Bean
-    // public ApiCheckFilter apiCheckFilter() {
-    //     return new ApiCheckFilter(jwtUtil());
-    // }
-
     // SecurityFilterChain 등록
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager, JWTUtil jwtUtil) throws Exception {
-        ApiLoginFilter loginFilter = new ApiLoginFilter(authManager, jwtUtil);
+    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
+        ApiLoginFilter loginFilter = new ApiLoginFilter(authManager, jwtUtil());
+        ApiCheckFilter checkFilter = new ApiCheckFilter(jwtUtil());
         loginFilter.setAuthenticationFailureHandler(new ApiLoginFailHandler());
 
         http
+            .cors(cors -> cors.configurationSource(request -> {
+                CorsConfiguration config = new CorsConfiguration();
+                config.setAllowedOrigins(List.of("http://localhost:3000"));
+                config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                config.setAllowedHeaders(List.of("*"));
+                config.setAllowCredentials(true);
+                return config;
+            }))
             .csrf(csrf -> csrf.disable())
-            .cors(Customizer.withDefaults())
+            // .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> 
                     auth
                       .requestMatchers(checkUrl()).permitAll()
                       .anyRequest().authenticated()
-            );
+            )
+            .addFilterBefore(checkFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -67,12 +68,15 @@ public class SecurityConfig {
             ,"/workbook/best4"
             ,"/user"
             ,"/user/*"
+            ,"/user/login"
             ,"/workbook"
             ,"/workbook/page"
             ,"/workbook/all"
             ,"/workbook/*/*"
             ,"/comment/like/*"
             ,"/work/*/*"
+            ,"/announcement/show/*"
+            ,"/announcement"
         };        
         return arr;
     }
