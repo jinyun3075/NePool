@@ -15,7 +15,7 @@ import com.nepool.app.util.dto.PageResultDTO;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comment")
+@RequestMapping("/api/comment")
 @Log4j2
 public class CommentApiController {
     private final CommentService service;

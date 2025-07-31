@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/upload")
+@RequestMapping("/api/upload")
 @Log4j2
 @RequiredArgsConstructor
 public class UploadApiController {

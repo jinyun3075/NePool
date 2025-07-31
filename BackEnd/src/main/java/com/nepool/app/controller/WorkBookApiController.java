@@ -15,7 +15,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/workbook")
+@RequestMapping("/api/workbook")
 @Log4j2
 @RequiredArgsConstructor
 public class WorkBookApiController {

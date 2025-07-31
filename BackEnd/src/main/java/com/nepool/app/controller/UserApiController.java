@@ -14,7 +14,7 @@ import com.nepool.app.util.dto.PageResultDTO;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @Log4j2
 @RequiredArgsConstructor
 public class UserApiController {

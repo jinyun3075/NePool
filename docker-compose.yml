@@ -34,6 +34,28 @@ services:
     networks:
       - nepool-net
 
+  front:
+    build:
+      context: ./FrontEnd/workbook
+      dockerfile: Dockerfile
+    container_name: nepool-front
+    ports:
+      - "3000:80"
+    networks:
+      - nepool-net
+
+  nginx:
+    image: nginx:latest
+    container_name: nepool_proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - front
+      - server
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    networks:
+      - nepool-net
 
 volumes:
   mysql-data:

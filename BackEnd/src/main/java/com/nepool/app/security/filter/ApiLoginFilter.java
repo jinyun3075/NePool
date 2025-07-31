@@ -24,7 +24,7 @@ public class ApiLoginFilter extends UsernamePasswordAuthenticationFilter {
     public ApiLoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl("/user/login"); // 로그인 요청 URI
+        setFilterProcessesUrl("/api/user/login"); // 로그인 요청 URI
     }
 
     @Override

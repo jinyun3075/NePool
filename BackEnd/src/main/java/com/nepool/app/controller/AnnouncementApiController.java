@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Log4j2
-@RequestMapping("/announcement")
+@RequestMapping("/api/announcement")
 public class AnnouncementApiController {
 
     private final AnnouncementService service;

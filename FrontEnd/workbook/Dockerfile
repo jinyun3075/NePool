@@ -1,14 +1,13 @@
 
-FROM node:16.13.1
+FROM node:20 as builder
 
-EXPOSE 3000
+WORKDIR /app
+COPY ./package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
 
-
-WORKDIR /usr/src/app
-
-COPY ./build ./build/
-COPY ./package.json ./
-
-RUN npm install -g serve
-
-CMD ["serve", "-s", "build", "-l", "3000"]
+FROM nginx:alpine
+COPY --from=builder /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

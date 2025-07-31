@@ -14,7 +14,7 @@ import com.nepool.app.service.WorkService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/work")
+@RequestMapping("/api/work")
 @Log4j2
 @RequiredArgsConstructor
 public class WorkApiController {

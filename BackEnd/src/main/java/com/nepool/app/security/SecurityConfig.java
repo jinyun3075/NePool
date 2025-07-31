@@ -41,16 +41,16 @@ public class SecurityConfig {
         loginFilter.setAuthenticationFailureHandler(new ApiLoginFailHandler());
 
         http
-            .cors(cors -> cors.configurationSource(request -> {
-                CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(List.of("http://localhost:3000"));
-                config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                config.setAllowedHeaders(List.of("*"));
-                config.setAllowCredentials(true);
-                return config;
-            }))
+            // .cors(cors -> cors.configurationSource(request -> {
+            //     CorsConfiguration config = new CorsConfiguration();
+            //     config.setAllowedOrigins(List.of("*"));
+            //     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+            //     config.setAllowedHeaders(List.of("*"));
+            //     config.setAllowCredentials(true);
+            //     return config;
+            // }))
             .csrf(csrf -> csrf.disable())
-            // .cors(Customizer.withDefaults())
+            .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> 
                     auth
                       .requestMatchers(checkUrl()).permitAll()
@@ -64,19 +64,19 @@ public class SecurityConfig {
 
     private String[] checkUrl() {
         String[] arr = {
-            "/search/*"
-            ,"/workbook/best4"
-            ,"/user"
-            ,"/user/*"
-            ,"/user/login"
-            ,"/workbook"
-            ,"/workbook/page"
-            ,"/workbook/all"
-            ,"/workbook/*/*"
-            ,"/comment/like/*"
-            ,"/work/*/*"
-            ,"/announcement/show/*"
-            ,"/announcement"
+            "/api/search/*"
+            ,"/api/workbook/best4"
+            ,"/api/user"
+            ,"/api/user/*"
+            ,"/api/user/login"
+            ,"/api/workbook"
+            ,"/api/workbook/page"
+            ,"/api/workbook/all"
+            ,"/api/workbook/*/*"
+            ,"/api/comment/like/*"
+            ,"/api/work/*/*"
+            ,"/api/announcement/show/*"
+            ,"/api/announcement"
         };        
         return arr;
     }
