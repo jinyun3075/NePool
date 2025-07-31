@@ -98,12 +98,12 @@ export default function Home() {
       <Carousel allUserCount={allUserCount} />
       <Post />
       <Banner allUserCount={allUserCount} allBookCount={allBookCount} />
-      {/* <Footer /> */}
+      <Footer />
       <TopBtn>
-        {/* <button
+        <button
           className={BtnOFF ? "topOn" : "active"}
           onClick={scrollTop}
-        ></button> */}
+        ></button>
       </TopBtn>
     </>
   );

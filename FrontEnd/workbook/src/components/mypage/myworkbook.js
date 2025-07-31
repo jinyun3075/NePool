@@ -48,9 +48,9 @@ export default function MyWorkbook() {
           <Info>
             <div className="info">
               <Name>{userInfo.name}</Name>
-              {/* <Link to="/profile" state={{ userInfo: userInfo }}>
+              <Link to="/profile" state={{ userInfo: userInfo }}>
                 <InfoImg src="/img/profileupdate.png"></InfoImg>
-              </Link> */}
+              </Link>
             </div>
             <Email>{userInfo.email}</Email>
           </Info>

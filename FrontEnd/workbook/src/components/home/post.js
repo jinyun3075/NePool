@@ -27,6 +27,7 @@ export default function Post() {
         "Content-type": "application/json",
       },
     });
+    console.log(res)
     setPost(res.data.dtoList || []);
   };
 

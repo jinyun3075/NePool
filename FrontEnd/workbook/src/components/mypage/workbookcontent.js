@@ -50,7 +50,8 @@ export default function WorkbookContent() {
           },
         }
       );
-      if(res.data.code === 200){
+      console.log(res)
+      if(res.status === 200){
         setWorkbook(res.data.dtoList);
       }
     } catch (err) {}
@@ -104,7 +105,7 @@ export default function WorkbookContent() {
     return () => {
       setLoading(false);
     };
-  }, [Workbook]);
+  }, []);
 
   return (
     <>
@@ -145,7 +146,7 @@ export default function WorkbookContent() {
                 >
                   <ExampleP1>{workbookdata.title}</ExampleP1>
                   <ExampleP2>
-                    마지막 수정 일시 : {workbookdata.modDate.substring(0, 10)}
+                    {/* 마지막 수정 일시 : {workbookdata.modDate.substring(0, 10)} */}
                   </ExampleP2>
                 </Link>
                 {workbookdata.share === false ? (
