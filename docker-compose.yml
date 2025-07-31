@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: nepool-sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nepool
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL57Dialect
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - nepool-net
+
+  server:
+    build:
+      context: ./BackEnd
+      dockerfile: Dockerfile
+    container_name: nepool-server
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/nepool
+      SPRING_DATASOURCE_USERNAME: test
+      SPRING_DATASOURCE_PASSWORD: test
+    ports:
+      - "8080:8080"
+    networks:
+      - nepool-net
+
+
+volumes:
+  mysql-data:
+
+networks:
+  nepool-net:
