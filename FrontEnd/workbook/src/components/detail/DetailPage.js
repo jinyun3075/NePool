@@ -60,6 +60,7 @@ export default function DetailPage() {
         "Content-type": "application/json",
       },
     });
+    res.data.image = res.data.image ? `/${API}/upload/${res.data.image}` : '/img/basic_ful.png';
     setWorkBook(res.data);
   };
 

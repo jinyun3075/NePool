@@ -50,7 +50,6 @@ export default function WorkbookContent() {
           },
         }
       );
-      console.log(res)
       if(res.status === 200){
         setWorkbook(res.data.dtoList);
       }
