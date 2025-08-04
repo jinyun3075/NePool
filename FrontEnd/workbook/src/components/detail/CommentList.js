@@ -111,7 +111,7 @@ export default function CommentList({comment, user}) {
           <CommentText>{content}</CommentText>
         </ReviewBox>
         <AuthorBox>
-          <AuthorImg src={writerImg} alt="프로필사진" />
+          <AuthorImg src={`/${writerImg}`} alt="프로필사진" />
           <AuthorNickName>{writer}</AuthorNickName>
         </AuthorBox>
       </CommentInfo>
