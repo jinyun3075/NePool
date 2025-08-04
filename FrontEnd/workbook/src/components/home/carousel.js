@@ -76,14 +76,16 @@ export default function Carousel({ allUserCount }) {
   };
 
   const Next = () => {
-    currentSlide >= totalSlide
-      ? setCurrentSlide(0)
-      : setCurrentSlide(currentSlide + 1);
+    if(get.length < 2) return;
+    get[currentSlide + 1]
+      ? setCurrentSlide(currentSlide + 1)
+      : setCurrentSlide(0);
   };
   const Prev = () => {
-    currentSlide === 0
-      ? setCurrentSlide(totalSlide)
-      : setCurrentSlide(currentSlide - 1);
+    if(get.length < 2) return;
+    get[currentSlide - 1]
+      ? setCurrentSlide(currentSlide - 1)
+      : setCurrentSlide(get.length - 1);
   };
   const getSlide = get[currentSlide];
 

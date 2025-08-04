@@ -60,7 +60,7 @@ export default function DetailPage() {
         "Content-type": "application/json",
       },
     });
-    res.data.image = res.data.image ? `/${res.data.image}` : '/img/basic_ful.png';
+    res.data.image = res.data.image ? `${res.data.image}` : '/img/basic_ful.png';
     setWorkBook(res.data);
   };
 
@@ -136,14 +136,14 @@ export default function DetailPage() {
       <h1 className="blind">문제집 상세 페이지</h1>
       <DetailBoard>
         <DetailInfo>
-          <WorkBookImg src={image} />
+          <WorkBookImg src={`/${image}`} />
           <Info>
             <SubTit>{type}</SubTit>
             <Tit>{title}</Tit>
             <Explain>{content}</Explain>
             <DetailBox>
               <AuthorBox>
-                <img src={authorData.image} alt="작성자 프로필" />
+                <img src={`/${authorData.image}`} alt="작성자 프로필" />
                 <Author>{authorData.name}</Author>
               </AuthorBox>
               {regDate && <Author>{regDate.slice(0, 10)}</Author>}
