@@ -11,6 +11,11 @@ services:
       MYSQL_PASSWORD: test
       SPRING_JPA_HIBERNATE_DDL_AUTO: create
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL57Dialect
+
+    command: [
+      "--character-set-server=utf8mb4",
+      "--collation-server=utf8mb4_unicode_ci"
+    ]
     ports:
       - "3306:3306"
     volumes:
@@ -31,6 +36,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: test
     ports:
       - "8080:8080"
+    volumes:
+      - ./BackEnd/upload:/upload
     networks:
       - nepool-net
 
@@ -45,7 +52,9 @@ services:
       - nepool-net
 
   nginx:
-    image: nginx:latest
+    build:
+      context: ./FrontEnd/workbook
+      dockerfile: Dockerfile
     container_name: nepool_proxy
     ports:
       - "80:80"
@@ -53,7 +62,7 @@ services:
       - front
       - server
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./FrontEnd/workbook/default.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - nepool-net
 

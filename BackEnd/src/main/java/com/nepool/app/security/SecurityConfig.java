@@ -77,6 +77,8 @@ public class SecurityConfig {
             ,"/api/work/*/*"
             ,"/api/announcement/show/*"
             ,"/api/announcement"
+            ,"/api/upload"
+            ,"/api/image/**"
         };        
         return arr;
     }

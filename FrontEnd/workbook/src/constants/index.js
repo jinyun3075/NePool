@@ -1,4 +1,4 @@
-export const API = "http://ifut.ddns.net/api";
+export const API = "/api";
 
 export const COLORS = {
   blue: '#2f80ed',
