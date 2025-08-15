@@ -2,6 +2,7 @@
   "name": "workbook",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/nepool",
   "dependencies": {
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.3.1",
